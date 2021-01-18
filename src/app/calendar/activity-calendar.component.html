@@ -1,0 +1,41 @@
+<div class="gui-date-picker-container">
+
+	<act-calendar-top-interface [fabricCalendarView]="activityCalendarView"
+								[selectedDate]="selectedDate"
+								[selectedMonth]="selectedMonth"
+								[selectedYear]="selectedYear"
+								[years]="years">
+	</act-calendar-top-interface>
+
+	<ng-container [ngSwitch]="getCalendarView()">
+
+		<ng-container *ngSwitchCase="ActivityCalendarView.DAYS">
+
+			<act-days-container [selectedDate]="selectedDate"
+								[selectedMonth]="selectedMonth"
+								[weeks]="weeks"
+								[prevWeeks]="prevWeeks"
+								[nextWeeks]="nextWeeks">
+			</act-days-container>
+
+		</ng-container>
+
+		<ng-container *ngSwitchCase="ActivityCalendarView.MONTHS">
+
+			<act-calendar-months [selectedDate]="selectedDate"
+								 [selectedYear]="selectedYear">
+			</act-calendar-months>
+
+		</ng-container>
+
+		<ng-container *ngSwitchCase="ActivityCalendarView.YEARS">
+
+			<act-calendar-years [selectedDate]="selectedDate"
+								[years]="years">
+			</act-calendar-years>
+
+		</ng-container>
+
+	</ng-container>
+
+</div>

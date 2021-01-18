@@ -1,0 +1,210 @@
+@import "src/styles/variables";
+
+$currentDateBackground: #c7e2f6;
+$selectedDateBorderColor: $primary;
+
+$cell-size: 36px;
+$indicator-size: $cell-size - 4px;
+$arrow-hover-size: 24px;
+
+$border-color: $gray;
+$border-style: 1px solid $border-color;
+
+$header-divider-height: 6px;
+
+$horizontal-padding: 8px;
+
+.gui-date-picker-calendar {
+	box-sizing: border-box;
+	font-family: Roboto, "Helvetica Neue", sans-serif;
+	user-select: none;
+
+	.gui-date-picker-container {
+		display: flex;
+		flex-direction: column;
+		border-radius: 4px;
+		width: $cell-size * 7 + $horizontal-padding*2;
+		padding: 0 0 12px 0;
+
+
+		overflow: hidden;
+
+		act-days-container {
+			display: flex;
+		}
+
+		.gui-date-picker-interface {
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			padding: 16px 18px;
+
+			.gui-date-picker-interface-date {
+				margin: 0;
+				font-size: 14px;
+				font-weight: bold;
+				cursor: pointer;
+				pointer-events: auto;
+			}
+		}
+
+		table {
+			height: $cell-size * 7 + $header-divider-height;
+			width: $cell-size * 7;
+			border-collapse: collapse;
+			border-spacing: 0;
+			table-layout: fixed;
+
+			th {
+				font-size: 13px;
+				text-align: center;
+				font-weight: normal;
+				height: 31px;
+			}
+
+			td {
+				font-size: 13px;
+				text-align: center;
+				position: relative;
+				z-index: 0;
+
+				span {
+					border: {
+						style: solid;
+						width: 1px;
+						color: transparent;
+					};
+					border-radius: 4px;
+					padding: 2px 4px;
+				}
+
+				&::before { //todo mixin
+					content: "";
+					position: absolute;
+					display: none;
+					border: $border-style;
+					left: 50%;
+					top: 50%;
+					transform: translateX(-50%) translateY(-50%);
+					height: $indicator-size + 4px;
+					width: $indicator-size + 4px;
+					box-sizing: border-box;
+					border-radius: 50%;
+				}
+
+				&::after {
+					content: "";
+					position: absolute;
+					background: transparent;
+					display: block;
+					left: 50%;
+					top: 50%;
+					transform: translateX(-50%) translateY(-50%);
+					z-index: -1;
+					height: $indicator-size;
+					width: $indicator-size;
+					box-sizing: border-box;
+					border-radius: 50%;
+				}
+
+				&:hover {
+
+					&::after {
+						background: $gray-lightest;
+					}
+				}
+			}
+
+			.gui-date-picker-day {
+
+				span {
+					color: $black;
+					opacity: 0.2;
+					cursor: pointer;
+				}
+
+				&.gui-date-picker-selected-month {
+
+					span {
+						opacity: 1;
+					}
+				}
+			}
+
+			.gui-date-picker-month,
+			.gui-date-picker-year {
+				cursor: pointer;
+			}
+
+			.gui-date-picker-year {
+				span {
+					font-size: 13px;
+				}
+			}
+
+			.gui-date-picker-day.gui-date-picker-current-day,
+			.gui-date-picker-month.gui-date-picker-current-month,
+			.gui-date-picker-year.gui-date-picker-current-year {
+
+				&::before {
+					display: block;
+				}
+			}
+
+			.gui-date-picker-day.gui-date-picker-selected-day,
+			.gui-date-picker-month.gui-date-picker-selected-month,
+			.gui-date-picker-year.gui-date-picker-selected-year {
+
+				span {
+					color: $white;
+				}
+
+				&::after {
+					background: $selectedDateBorderColor;
+				}
+			}
+
+		}
+
+		.gui-arrow-icon {
+			z-index: 0;
+			position: relative;
+
+			&:hover {
+
+				&::after {
+					content: "";
+					position: absolute;
+					background: $gray-lightest;
+					display: block;
+					left: 50%;
+					top: 50%;
+					transform: translateX(-50%) translateY(-50%);
+					z-index: -1;
+					height: $arrow-hover-size;
+					width: $arrow-hover-size;
+					box-sizing: border-box;
+					border-radius: 50%;
+				}
+			}
+		}
+
+		.gui-date-picker-arrows {
+			display: flex;
+			justify-content: space-between;
+			width: $grid*4;
+		}
+
+		act-calendar-days,
+		act-calendar-years,
+		act-calendar-months {
+			padding: 0 $horizontal-padding;
+		}
+
+		act-calendar-years,
+		act-calendar-months {
+			border-top: $border-style;
+		}
+
+	}
+}

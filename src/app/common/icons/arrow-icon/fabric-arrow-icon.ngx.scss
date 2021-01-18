@@ -1,0 +1,20 @@
+@import "src/styles/variables";
+
+.gui-arrow-icon {
+	cursor: pointer;
+
+	svg {
+		path {
+			stroke: $icon-color;
+			transition: stroke 0.2s ease-in-out;
+		}
+	}
+
+	&:hover {
+		svg {
+			path {
+				stroke: $icon-color-hover;
+			}
+		}
+	}
+}
