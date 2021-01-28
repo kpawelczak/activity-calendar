@@ -32,7 +32,7 @@ import {
 })
 export class ActivityCalendarDaysContainerComponent implements AfterViewInit {
 
-	@ViewChild('activeWeeks', { static: false })
+	@ViewChild('activeWeeks')
 	activeWeeksRef: ElementRef;
 
 	@Input()
