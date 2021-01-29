@@ -1,9 +1,9 @@
 import { ChangeDetectionStrategy, Component, Input, ViewEncapsulation } from '@angular/core';
-import { quarters } from '../../data/quarters';
+import { quarters } from '../../common/data/quarters';
 import { ActivityCalendarViewService } from '../../activity-calendar-view.service';
 import { ActivityCalendarService } from '../../activity-calendar.service';
 import { FabricDateUtilService } from '../../../common/date-util/fabric-date-util.service';
-import { ActivityCalendarView } from '../../models/activity-calendar-view';
+import { ActivityCalendarView } from '../../common/models/activity-calendar-view';
 
 @Component({
 	selector: 'act-calendar-months',

@@ -1,12 +1,12 @@
 import { ChangeDetectionStrategy, Component, Input, ViewEncapsulation } from '@angular/core';
 import { ActivityCalendarViewService } from '../../activity-calendar-view.service';
-import { ActivityCalendarCardView } from '../../models/activity-calendar-card-view';
+import { ActivityCalendarCardView } from '../../common/models/activity-calendar-card-view';
 import { ActivityCalendarYears } from '../years/activity-calendar.years';
-import { months } from '../../data/months';
+import { months } from '../../common/data/months';
 import { ActivityCalendarService } from '../../activity-calendar.service';
 import { ActivityCalendarYearsService } from '../years/activity-calendar-years.service';
 import { Direction } from '../../../common/icons/arrow-icon/direction';
-import { ActivityCalendarView } from '../../models/activity-calendar-view';
+import { ActivityCalendarView } from '../../common/models/activity-calendar-view';
 
 @Component({
 	selector: 'act-calendar-top-interface',

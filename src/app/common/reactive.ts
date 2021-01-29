@@ -3,8 +3,8 @@ import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
 
-@Directive({ selector: 'fabric-reactive' })
-export abstract class FabricReactive implements OnDestroy {
+@Directive({ selector: 'reactive' })
+export abstract class Reactive implements OnDestroy {
 
 	private readonly unsubscribe$ = new Subject<void>();
 

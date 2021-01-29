@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, Input, ViewEncapsulation } from '@angular/core';
 import { ActivityCalendarService } from '../../activity-calendar.service';
 import { ActivityCalendarViewService } from '../../activity-calendar-view.service';
-import { ActivityCalendarView } from '../../models/activity-calendar-view';
+import { ActivityCalendarView } from '../../common/models/activity-calendar-view';
 
 @Component({
 	selector: 'act-calendar-years',

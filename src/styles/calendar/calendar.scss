@@ -23,37 +23,44 @@ $horizontal-padding: 8px;
 		display: flex;
 		flex-direction: column;
 		border-radius: 4px;
-		width: $cell-size * 7 + $horizontal-padding*2;
+		//width: $cell-size * 7 + $horizontal-padding*2;
+		width: inherit;
 		padding: 0 0 12px 0;
-
-
 		overflow: hidden;
 
 		act-days-container {
 			display: flex;
 		}
 
-		.gui-date-picker-interface {
-			display: flex;
-			align-items: center;
-			justify-content: space-between;
-			padding: 16px 18px;
+		act-calendar-top-interface {
+			width: inherit;
 
-			.gui-date-picker-interface-date {
-				margin: 0;
-				font-size: 14px;
-				font-weight: bold;
-				cursor: pointer;
-				pointer-events: auto;
+			.gui-date-picker-interface {
+				display: flex;
+				align-items: center;
+				justify-content: space-between;
+				padding: 16px $grid/2;
+
+				.gui-date-picker-interface-date {
+					margin: 0;
+					font-size: 14px;
+					font-weight: bold;
+					cursor: pointer;
+					pointer-events: auto;
+				}
 			}
 		}
 
 		table {
-			height: $cell-size * 7 + $header-divider-height;
-			width: $cell-size * 7;
-			border-collapse: collapse;
-			border-spacing: 0;
-			table-layout: fixed;
+			display: grid;
+			grid-row-gap: 3*$grid;
+			width: 360px;
+
+			tr {
+				display: grid;
+				grid-template-columns: repeat(7, 1fr);
+				grid-column-gap: $grid;
+			}
 
 			th {
 				font-size: 13px;
@@ -198,13 +205,12 @@ $horizontal-padding: 8px;
 		act-calendar-days,
 		act-calendar-years,
 		act-calendar-months {
-			padding: 0 $horizontal-padding;
+			//padding: 0 $horizontal-padding;
 		}
 
 		act-calendar-years,
 		act-calendar-months {
 			border-top: $border-style;
 		}
-
 	}
 }

@@ -5,24 +5,20 @@ import { ActivityCalendarYears } from './components/years/activity-calendar.year
 import { ActivityCalendarViewService } from './activity-calendar-view.service';
 import { ActivityCalendarService } from './activity-calendar.service';
 import { ActivityCalendarYearsService } from './components/years/activity-calendar-years.service';
-import { FabricReactive } from '../common/fabric-reactive';
-import { ActivityCalendarView } from './models/activity-calendar-view';
+import { Reactive } from '../common/reactive';
+import { ActivityCalendarView } from './common/models/activity-calendar-view';
 
 
 @Component({
 	selector: 'act-calendar',
 	templateUrl: 'activity-calendar.component.html',
-	styleUrls: [
-		'./activity-calendar.component.scss'
-	],
 	host: {
 		'[class.gui-date-picker-calendar]': 'true'
 	},
 	changeDetection: ChangeDetectionStrategy.OnPush,
 	encapsulation: ViewEncapsulation.None
 })
-export class ActivityCalendarComponent extends FabricReactive implements OnInit {
-
+export class ActivityCalendarComponent extends Reactive implements OnInit {
 
 	prevWeeks: Array<Array<Date>>;
 

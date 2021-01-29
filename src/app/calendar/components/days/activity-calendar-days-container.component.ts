@@ -1,20 +1,13 @@
-import {
-	AfterViewInit,
-	ChangeDetectionStrategy,
-	ChangeDetectorRef,
-	Component,
-	ElementRef,
-	Input,
-	ViewChild,
-	ViewEncapsulation
-} from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, Input, ViewEncapsulation } from '@angular/core';
+import { CalendarPartContainer } from '../../common/calendar-part-container';
 
 @Component({
 	selector: 'act-days-container',
 	template: `
-		<act-calendar-days [weeks]="prevWeeks"></act-calendar-days>
+		<act-calendar-days style="position: absolute;left: -100%"
+			[weeks]="prevWeeks"></act-calendar-days>
 
-		<div #activeWeeks>
+		<div #calendarPart>
 			<act-calendar-days (pan)="pan($event)"
 							   [selectedDate]="selectedDate"
 							   [selectedMonth]="selectedMonth"
@@ -22,7 +15,8 @@ import {
 			</act-calendar-days>
 		</div>
 
-		<act-calendar-days [weeks]="nextWeeks"></act-calendar-days>
+		<act-calendar-days style="position: absolute;left: 100%"
+			[weeks]="nextWeeks"></act-calendar-days>
 	`,
 	host: {
 		'[style.transform]': 'translateXValue'
@@ -30,10 +24,7 @@ import {
 	encapsulation: ViewEncapsulation.None,
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ActivityCalendarDaysContainerComponent implements AfterViewInit {
-
-	@ViewChild('activeWeeks')
-	activeWeeksRef: ElementRef;
+export class ActivityCalendarDaysContainerComponent extends CalendarPartContainer {
 
 	@Input()
 	weeks: Array<Array<Date>>;
@@ -50,31 +41,9 @@ export class ActivityCalendarDaysContainerComponent implements AfterViewInit {
 	@Input()
 	selectedMonth: number;
 
-	daysContainerWidth: number;
-
-	translateXValue: string = 'translateX(0)';
-
-	constructor(private readonly elementRef: ElementRef,
-				private readonly changeDetectorRef: ChangeDetectorRef) {
+	constructor(elementRef: ElementRef,
+				changeDetectorRef: ChangeDetectorRef) {
+		super(elementRef, changeDetectorRef);
 	}
 
-	ngAfterViewInit() {
-		this.scrollToActiveWeek();
-		this.daysContainerWidth = this.elementRef.nativeElement.offsetWidth;
-	}
-
-	pan(event): void {
-		const offsetPercentage = this.getOffsetPercentage(event.deltaX);
-		console.log(offsetPercentage);
-		this.translateXValue = `translateX(${offsetPercentage}%)`;
-		this.changeDetectorRef.detectChanges();
-	}
-
-	private scrollToActiveWeek(): void {
-		this.activeWeeksRef.nativeElement.scrollIntoView({ block: 'center' });
-	}
-
-	private getOffsetPercentage(offset: number): number {
-		return ((offset * 100) / this.daysContainerWidth);
-	}
 }

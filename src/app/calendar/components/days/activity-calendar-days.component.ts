@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, Input, ViewEncapsulation } from '@angular/core';
 
-import { daysOfTheWeek } from '../../data/days-of-the-week';
+import { daysOfTheWeek } from '../../common/data/days-of-the-week';
 import { ActiveDateService } from '../../active-date.service';
 import { FabricDateUtilService } from '../../../common/date-util/fabric-date-util.service';
 
