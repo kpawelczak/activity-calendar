@@ -1,13 +1,4 @@
-import {
-	AfterViewInit,
-	ChangeDetectionStrategy,
-	ChangeDetectorRef,
-	Component,
-	ElementRef,
-	OnInit,
-	ViewChild,
-	ViewEncapsulation
-} from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { ActiveDateService } from './active-date.service';
 import { ActivityCalendarWeeks } from './components/weeks/activity-calendar.weeks';
 import { ActivityCalendarYears } from './components/years/activity-calendar.years';
