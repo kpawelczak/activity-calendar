@@ -1,9 +1,7 @@
-import { AfterViewInit, ChangeDetectorRef, Directive, ElementRef, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Directive, ElementRef } from '@angular/core';
 
 @Directive({ selector: 'calendar-part-container' })
 export abstract class CalendarPartContainer implements AfterViewInit {
-	@ViewChild('calendarPart')
-	calendarPartRef: ElementRef;
 
 	translateXValue: string = 'translateX(0)';
 
@@ -14,19 +12,18 @@ export abstract class CalendarPartContainer implements AfterViewInit {
 	}
 
 	ngAfterViewInit() {
-		this.scrollToActiveWeek();
 		this.calendarPartWidth = this.elementRef.nativeElement.offsetWidth;
 	}
 
-	pan(event): void {
+	protected pan(event): void {
 		const offsetPercentage = this.getOffsetPercentage(event.deltaX);
 
 		this.translateXValue = `translateX(${offsetPercentage / 4}%)`;
-		this.changeDetectorRef.detectChanges();
+		this.detectChanges();
 	}
 
-	private scrollToActiveWeek(): void {
-		this.calendarPartRef.nativeElement.scrollIntoView({ block: 'center' });
+	protected detectChanges(): void {
+		this.changeDetectorRef.detectChanges();
 	}
 
 	private getOffsetPercentage(offset: number): number {

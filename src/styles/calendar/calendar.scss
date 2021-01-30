@@ -30,6 +30,20 @@ $horizontal-padding: 8px;
 
 		act-days-container {
 			display: flex;
+
+			act-calendar-days {
+				display: block;
+			}
+
+			> act-calendar-days:nth-of-type(1) {
+				position: absolute;
+				left: -100%;
+			}
+
+			> act-calendar-days:nth-of-type(3) {
+				position: absolute;
+				left: 100%;
+			}
 		}
 
 		act-calendar-top-interface {
@@ -173,6 +187,31 @@ $horizontal-padding: 8px;
 
 		}
 
+		act-calendar-years {
+			table {
+				tr {
+					grid-template-columns: repeat(5, 1fr);
+				}
+			}
+		}
+
+		act-calendar-months {
+			table {
+				tr {
+					grid-template-columns: repeat(3, 1fr);
+				}
+			}
+		}
+
+		act-calendar-years,
+		act-calendar-months {
+			padding-top: $grid*4;
+
+			table {
+				grid-row-gap: 5*$grid;
+			}
+		}
+
 		.gui-arrow-icon {
 			z-index: 0;
 			position: relative;
@@ -202,15 +241,5 @@ $horizontal-padding: 8px;
 			width: $grid*4;
 		}
 
-		act-calendar-days,
-		act-calendar-years,
-		act-calendar-months {
-			//padding: 0 $horizontal-padding;
-		}
-
-		act-calendar-years,
-		act-calendar-months {
-			border-top: $border-style;
-		}
 	}
 }

@@ -15,6 +15,7 @@ import { FabricArrowIconModule } from '../common/icons/arrow-icon/fabric-arrow-i
 import { FabricDateUtilModule } from '../common/date-util/fabric-date-util.module';
 import { ActivityCalendarDaysContainerComponent } from './components/days/activity-calendar-days-container.component';
 
+
 @NgModule({
 	imports: [
 		CommonModule,

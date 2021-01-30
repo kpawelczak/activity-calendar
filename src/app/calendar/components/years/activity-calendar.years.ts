@@ -17,8 +17,8 @@ export class ActivityCalendarYears {
 		this.minYear = selectedYear - 50;
 		this.maxYear = selectedYear + 50;
 
-		let yearsRange: number = this.maxYear - this.minYear,
-			years: Array<number> = [],
+		const yearsRange: number = this.maxYear - this.minYear;
+		let years: Array<number> = [],
 			rows: Array<Array<number>> = [];
 
 		years = this.createYearsPool(this.minYear, yearsRange, years);

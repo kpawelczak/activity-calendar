@@ -1,12 +1,13 @@
-import { ChangeDetectionStrategy, Component, Input, ViewEncapsulation } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, Input, ViewEncapsulation } from '@angular/core';
 import { ActivityCalendarService } from '../../activity-calendar.service';
 import { ActivityCalendarViewService } from '../../activity-calendar-view.service';
 import { ActivityCalendarView } from '../../common/models/activity-calendar-view';
+import { CalendarPartContainer } from '../../common/calendar-part-container';
 
 @Component({
 	selector: 'act-calendar-years',
 	template: `
-		<table>
+		<table (pan)="onPan($event)">
 			<tr *ngFor="let yearsChunk of years">
 				<td (click)="selectYear(year)"
 					*ngFor="let year of yearsChunk"
@@ -20,10 +21,13 @@ import { ActivityCalendarView } from '../../common/models/activity-calendar-view
 			</tr>
 		</table>
 	`,
+	host: {
+		'[style.transform]': 'translateXValue'
+	},
 	encapsulation: ViewEncapsulation.None,
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ActivityCalendarYearsComponent {
+export class ActivityCalendarYearsComponent extends CalendarPartContainer {
 
 	@Input()
 	selectedDate: Date;
@@ -34,7 +38,10 @@ export class ActivityCalendarYearsComponent {
 	currentDay: Date = new Date();
 
 	constructor(private readonly calendarService: ActivityCalendarService,
-				private readonly calendarViewService: ActivityCalendarViewService) {
+				private readonly calendarViewService: ActivityCalendarViewService,
+				elementRef: ElementRef,
+				changeDetectorRef: ChangeDetectorRef) {
+		super(elementRef, changeDetectorRef);
 	}
 
 	selectYear(year: number): void {
@@ -46,5 +53,9 @@ export class ActivityCalendarYearsComponent {
 		if (date) {
 			return date.getFullYear() === year;
 		}
+	}
+
+	onPan(event: any): void {
+		this.pan(event);
 	}
 }
