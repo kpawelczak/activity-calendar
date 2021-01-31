@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input, ViewEncapsulation } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
 import { ActivityCalendarViewService } from '../../activity-calendar-view.service';
 import { ActivityCalendarCardView } from '../../common/models/activity-calendar-card-view';
 import { ActivityCalendarYears } from '../years/activity-calendar.years';
@@ -7,9 +7,11 @@ import { ActivityCalendarService } from '../../activity-calendar.service';
 import { ActivityCalendarYearsService } from '../years/activity-calendar-years.service';
 import { Direction } from '../../../common/icons/arrow-icon/direction';
 import { ActivityCalendarView } from '../../common/models/activity-calendar-view';
+import { Reactive } from '../../../common/reactive';
+import { ActivityCalendarInterfaceService } from './activity-calendar-interface.service';
 
 @Component({
-	selector: 'act-calendar-top-interface',
+	selector: 'act-calendar-interface',
 	template: `
 		<div class="gui-date-picker-interface">
 
@@ -30,7 +32,7 @@ import { ActivityCalendarView } from '../../common/models/activity-calendar-view
 	encapsulation: ViewEncapsulation.None,
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ActivityCalendarTopInterfaceComponent {
+export class ActivityCalendarInterfaceComponent extends Reactive implements OnInit {
 
 	@Input()
 	fabricCalendarView: ActivityCalendarView;
@@ -54,8 +56,18 @@ export class ActivityCalendarTopInterfaceComponent {
 	constructor(private readonly calendarViewService: ActivityCalendarViewService,
 				private readonly calendarService: ActivityCalendarService,
 				private readonly datePickerYearsService: ActivityCalendarYearsService,
-				private readonly datePickerYears: ActivityCalendarYears) {
+				private readonly datePickerYears: ActivityCalendarYears,
+				private readonly interfaceService: ActivityCalendarInterfaceService) {
+		super();
+	}
 
+	ngOnInit() {
+		this.interfaceService
+			.onCardSwitch()
+			.pipe(this.takeUntil())
+			.subscribe((cardView: ActivityCalendarCardView) => {
+				this.switchCard(cardView);
+			});
 	}
 
 	getDisplayedDate(): string {

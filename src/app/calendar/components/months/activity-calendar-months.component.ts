@@ -1,15 +1,17 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, Input, ViewEncapsulation } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, Input, Renderer2, ViewEncapsulation } from '@angular/core';
 import { quarters } from '../../common/data/quarters';
 import { ActivityCalendarViewService } from '../../activity-calendar-view.service';
 import { ActivityCalendarService } from '../../activity-calendar.service';
 import { FabricDateUtilService } from '../../../common/date-util/fabric-date-util.service';
 import { ActivityCalendarView } from '../../common/models/activity-calendar-view';
 import { CalendarPartContainer } from '../../common/calendar-part-container';
+import { ActivityCalendarInterfaceService } from '../top-interface/activity-calendar-interface.service';
 
 @Component({
 	selector: 'act-calendar-months',
 	template: `
-		<table (pan)="onPan($event)">
+		<table (pan)="onPan($event)"
+			   (panend)="onPanEnd()">
 			<tr *ngFor="let quarter of quarters">
 				<td (click)="selectMonth(month.nr)"
 					*ngFor="let month of quarter"
@@ -23,9 +25,6 @@ import { CalendarPartContainer } from '../../common/calendar-part-container';
 			</tr>
 		</table>
 	`,
-	host: {
-		'[style.transform]': 'translateXValue'
-	},
 	encapsulation: ViewEncapsulation.None,
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
@@ -44,9 +43,11 @@ export class ActivityCalendarMonthsComponent extends CalendarPartContainer {
 	constructor(private readonly dateUtilsService: FabricDateUtilService,
 				private readonly calendarService: ActivityCalendarService,
 				private readonly calendarViewService: ActivityCalendarViewService,
+				interfaceService: ActivityCalendarInterfaceService,
+				renderer: Renderer2,
 				elementRef: ElementRef,
 				changeDetectorRef: ChangeDetectorRef) {
-		super(elementRef, changeDetectorRef);
+		super(interfaceService, renderer, elementRef, changeDetectorRef);
 	}
 
 	isMonth(date: Date, month: number): boolean {
@@ -58,9 +59,5 @@ export class ActivityCalendarMonthsComponent extends CalendarPartContainer {
 	selectMonth(month: number): void {
 		this.calendarService.selectMonth(month);
 		this.calendarViewService.switchView(ActivityCalendarView.DAYS);
-	}
-
-	onPan(event: any): void {
-		this.pan(event);
 	}
 }

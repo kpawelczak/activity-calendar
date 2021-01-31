@@ -1,5 +1,6 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, Input, ViewEncapsulation } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, Input, Renderer2, ViewEncapsulation } from '@angular/core';
 import { CalendarPartContainer } from '../../common/calendar-part-container';
+import { ActivityCalendarInterfaceService } from '../top-interface/activity-calendar-interface.service';
 
 @Component({
 	selector: 'act-days-container',
@@ -7,6 +8,7 @@ import { CalendarPartContainer } from '../../common/calendar-part-container';
 		<act-calendar-days [weeks]="prevWeeks"></act-calendar-days>
 
 		<act-calendar-days (pan)="onPan($event)"
+						   (panend)="onPanEnd()"
 						   [selectedDate]="selectedDate"
 						   [selectedMonth]="selectedMonth"
 						   [weeks]="weeks">
@@ -14,9 +16,6 @@ import { CalendarPartContainer } from '../../common/calendar-part-container';
 
 		<act-calendar-days [weeks]="nextWeeks"></act-calendar-days>
 	`,
-	host: {
-		'[style.transform]': 'translateXValue'
-	},
 	encapsulation: ViewEncapsulation.None,
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
@@ -37,13 +36,10 @@ export class ActivityCalendarDaysContainerComponent extends CalendarPartContaine
 	@Input()
 	selectedMonth: number;
 
-	constructor(elementRef: ElementRef,
+	constructor(interfaceService: ActivityCalendarInterfaceService,
+				renderer: Renderer2,
+				elementRef: ElementRef,
 				changeDetectorRef: ChangeDetectorRef) {
-		super(elementRef, changeDetectorRef);
+		super(interfaceService, renderer, elementRef, changeDetectorRef);
 	}
-
-	onPan(event: any): void {
-		this.pan(event);
-	}
-
 }

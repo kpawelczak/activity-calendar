@@ -23,7 +23,6 @@ $horizontal-padding: 8px;
 		display: flex;
 		flex-direction: column;
 		border-radius: 4px;
-		//width: $cell-size * 7 + $horizontal-padding*2;
 		width: inherit;
 		padding: 0 0 12px 0;
 		overflow: hidden;
@@ -46,7 +45,7 @@ $horizontal-padding: 8px;
 			}
 		}
 
-		act-calendar-top-interface {
+		act-calendar-interface {
 			width: inherit;
 
 			.gui-date-picker-interface {

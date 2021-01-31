@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivityCalendarComponent } from './activity-calendar.component';
-import { ActivityCalendarTopInterfaceComponent } from './components/top-interface/activity-calendar-top-interface.component';
+import { ActivityCalendarInterfaceComponent } from './components/top-interface/activity-calendar-interface.component';
 import { ActivityCalendarYearsComponent } from './components/years/activity-calendar-years.component';
 import { ActivityCalendarMonthsComponent } from './components/months/activity-calendar-months.component';
 import { ActivityCalendarDaysComponent } from './components/days/activity-calendar-days.component';
@@ -14,6 +14,7 @@ import { ActivityCalendarYears } from './components/years/activity-calendar.year
 import { FabricArrowIconModule } from '../common/icons/arrow-icon/fabric-arrow-icon.module';
 import { FabricDateUtilModule } from '../common/date-util/fabric-date-util.module';
 import { ActivityCalendarDaysContainerComponent } from './components/days/activity-calendar-days-container.component';
+import { ActivityCalendarInterfaceService } from './components/top-interface/activity-calendar-interface.service';
 
 
 @NgModule({
@@ -28,7 +29,7 @@ import { ActivityCalendarDaysContainerComponent } from './components/days/activi
 		ActivityCalendarDaysContainerComponent,
 		ActivityCalendarMonthsComponent,
 		ActivityCalendarYearsComponent,
-		ActivityCalendarTopInterfaceComponent
+		ActivityCalendarInterfaceComponent
 	],
 	exports: [
 		ActivityCalendarComponent
@@ -39,7 +40,8 @@ import { ActivityCalendarDaysContainerComponent } from './components/days/activi
 		ActivityCalendarViewService,
 		ActivityCalendarYearsService,
 		ActivityCalendarWeeks,
-		ActivityCalendarYears
+		ActivityCalendarYears,
+		ActivityCalendarInterfaceService
 	]
 })
 export class ActivityCalendarModule {

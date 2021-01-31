@@ -1,11 +1,11 @@
 <div class="gui-date-picker-container">
 
-	<act-calendar-top-interface [fabricCalendarView]="activityCalendarView"
-								[selectedDate]="selectedDate"
-								[selectedMonth]="selectedMonth"
-								[selectedYear]="selectedYear"
-								[years]="years">
-	</act-calendar-top-interface>
+	<act-calendar-interface [fabricCalendarView]="activityCalendarView"
+							[selectedDate]="selectedDate"
+							[selectedMonth]="selectedMonth"
+							[selectedYear]="selectedYear"
+							[years]="years">
+	</act-calendar-interface>
 
 	<ng-container [ngSwitch]="getCalendarView()">
 
