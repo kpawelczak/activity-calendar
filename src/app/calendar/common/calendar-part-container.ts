@@ -3,11 +3,10 @@ import { ActivityCalendarInterfaceService } from '../components/top-interface/ac
 import { ActivityCalendarCardView } from './models/activity-calendar-card-view';
 import { Reactive } from '../../common/reactive';
 import { timer } from 'rxjs';
+import { calendarAnimationTimer } from './calendar-animation-timer';
 
 @Directive({ selector: 'calendar-part-container' })
 export abstract class CalendarPartContainer extends Reactive implements AfterViewInit {
-
-	private static readonly TRANSITION_MILLISECONDS = 200;
 
 	private offsetPercentage: number;
 
@@ -25,16 +24,26 @@ export abstract class CalendarPartContainer extends Reactive implements AfterVie
 	}
 
 	onPanEnd(): void {
-		this.addTransitionClass();
-		if (this.offsetPercentage > 80) {
-			this.interfaceService.next(ActivityCalendarCardView.PREV);
-			this.setOffset(-50);
+		this.addTransitionStyle();
+
+		switch (true) {
+
+			case this.offsetPercentage > 80: {
+				this.interfaceService.next(ActivityCalendarCardView.PREV);
+				this.setOffset(this.calendarPartWidth, true);
+				break;
+			}
+
+			case this.offsetPercentage < -80: {
+				this.interfaceService.next(ActivityCalendarCardView.NEXT);
+				this.setOffset(-this.calendarPartWidth, true);
+				break;
+			}
+
+			default:
+				this.setOffset(0);
 		}
 
-		if (this.offsetPercentage < -80) {
-			this.interfaceService.next(ActivityCalendarCardView.NEXT);
-			this.setOffset(50);
-		}
 	}
 
 	onPan(event): void {
@@ -56,16 +65,17 @@ export abstract class CalendarPartContainer extends Reactive implements AfterVie
 		return ((offset * 100) / this.calendarPartWidth);
 	}
 
-	private setOffset(offset: number): void {
-		this.renderer.setStyle(this.elementRef.nativeElement, 'transform', `translateX(${offset}%)`);
+	private setOffset(offset: number, pixels?: boolean): void {
+		const offsetValueType = pixels ? 'px' : '%';
+		this.renderer.setStyle(this.elementRef.nativeElement, 'transform', `translateX(${offset + offsetValueType})`);
 	}
 
-	private addTransitionClass(): void {
+	private addTransitionStyle(): void {
 		this.renderer.setStyle(this.elementRef.nativeElement,
 			'transition',
-			`transform ${CalendarPartContainer.TRANSITION_MILLISECONDS}ms ease-in-out`);
+			`transform ${calendarAnimationTimer}ms ease-in-out`);
 
-		timer(CalendarPartContainer.TRANSITION_MILLISECONDS)
+		timer(calendarAnimationTimer)
 			.pipe(this.takeUntil())
 			.subscribe(() => {
 				this.renderer.removeStyle(this.elementRef.nativeElement, 'transition');

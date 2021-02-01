@@ -9,6 +9,9 @@ import { Direction } from '../../../common/icons/arrow-icon/direction';
 import { ActivityCalendarView } from '../../common/models/activity-calendar-view';
 import { Reactive } from '../../../common/reactive';
 import { ActivityCalendarInterfaceService } from './activity-calendar-interface.service';
+import { delay } from 'rxjs/operators';
+import { calendarAnimationTimer } from '../../common/calendar-animation-timer';
+
 
 @Component({
 	selector: 'act-calendar-interface',
@@ -64,7 +67,10 @@ export class ActivityCalendarInterfaceComponent extends Reactive implements OnIn
 	ngOnInit() {
 		this.interfaceService
 			.onCardSwitch()
-			.pipe(this.takeUntil())
+			.pipe(
+				delay(calendarAnimationTimer),
+				this.takeUntil()
+			)
 			.subscribe((cardView: ActivityCalendarCardView) => {
 				this.switchCard(cardView);
 			});
@@ -82,7 +88,6 @@ export class ActivityCalendarInterfaceComponent extends Reactive implements OnIn
 			case ActivityCalendarView.YEARS:
 				return `${this.getDisplayedYearRange()}`;
 		}
-
 	}
 
 	switchCalendarView(): void {

@@ -1,5 +1,3 @@
-@import "src/styles/variables";
-
 $currentDateBackground: #c7e2f6;
 $selectedDateBorderColor: $primary;
 
@@ -29,6 +27,7 @@ $horizontal-padding: 8px;
 
 		act-days-container {
 			display: flex;
+			transform: translateX(0);
 
 			act-calendar-days {
 				display: block;
@@ -98,39 +97,55 @@ $horizontal-padding: 8px;
 					padding: 2px 4px;
 				}
 
-				&::before { //todo mixin
-					content: "";
-					position: absolute;
+				&::before {
+					@include calendarItemHover($indicator-size + 4px, $indicator-size + 4px);
 					display: none;
 					border: $border-style;
-					left: 50%;
-					top: 50%;
-					transform: translateX(-50%) translateY(-50%);
-					height: $indicator-size + 4px;
-					width: $indicator-size + 4px;
-					box-sizing: border-box;
-					border-radius: 50%;
 				}
 
 				&::after {
-					content: "";
-					position: absolute;
+					@include calendarItemHover($indicator-size, $indicator-size);
 					background: transparent;
 					display: block;
-					left: 50%;
-					top: 50%;
-					transform: translateX(-50%) translateY(-50%);
-					z-index: -1;
-					height: $indicator-size;
-					width: $indicator-size;
-					box-sizing: border-box;
-					border-radius: 50%;
 				}
 
 				&:hover {
 
 					&::after {
 						background: $gray-lightest;
+					}
+				}
+
+				&.gui-date-picker-year {
+
+					&::before {
+						height: $indicator-size + 8px;
+						width: $indicator-size + 8px;
+					}
+
+					&::after {
+						height: $indicator-size + 4px;
+						width: $indicator-size + 4px;
+					}
+				}
+
+				&.gui-date-picker-month {
+
+					&::before,
+					&::after {
+						border-radius: $grid;
+					}
+
+					&::before {
+						height: calc(100% + #{$grid/2});
+						width: calc(100% + #{$grid/2});
+						max-width: 80px + $grid/2;
+					}
+
+					&::after {
+						height: 100%;
+						width: 100%;
+						max-width: 80px;
 					}
 				}
 			}
@@ -169,6 +184,10 @@ $horizontal-padding: 8px;
 				&::before {
 					display: block;
 				}
+			}
+
+			.gui-date-picker-day.gui-date-picker-selected-day {
+				pointer-events: none;
 			}
 
 			.gui-date-picker-day.gui-date-picker-selected-day,
