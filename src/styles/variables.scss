@@ -2,7 +2,7 @@
  * Colors
  */
 $white: #ffffff;
-$white-gray: #fafafa;
+$white-gray: #BDBDBD;
 $black: #333;
 $black-tans: rgba(0, 0, 0, 0.8);
 $black-light: lighten($black, 15);
@@ -28,8 +28,12 @@ $blue-darker: darken($blue, 10);
 $blue-light: lighten($blue, 10);
 $blue-lightest: lighten($blue, 20);
 
+$purple: #CE93D8;
+$purple-darker: darken($purple, 15);
+$purple-lightest: lighten($purple, 10);
+
 // Primary
-$primary: $blue;
+$primary: $purple;
 $primary-light: $blue-light;
 $primary-lightest: $blue-lightest;
 $primary-hover: $blue-dark;

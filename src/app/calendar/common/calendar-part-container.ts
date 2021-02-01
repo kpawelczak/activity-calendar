@@ -73,7 +73,7 @@ export abstract class CalendarPartContainer extends Reactive implements AfterVie
 	private addTransitionStyle(): void {
 		this.renderer.setStyle(this.elementRef.nativeElement,
 			'transition',
-			`transform ${calendarAnimationTimer}ms ease-in-out`);
+			`transform ${calendarAnimationTimer}ms ease-out`);
 
 		timer(calendarAnimationTimer)
 			.pipe(this.takeUntil())
