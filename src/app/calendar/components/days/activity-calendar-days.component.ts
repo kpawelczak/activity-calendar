@@ -19,6 +19,7 @@ import { FabricDateUtilService } from '../../../common/date-util/fabric-date-uti
 			<tr *ngFor="let week of weeks">
 
 				<td *ngFor="let day of week"
+					[class.disabled]="isDisabled(day)"
 					[class.gui-date-picker-current-day]="isDate(currentDay, day)"
 					[class.gui-date-picker-selected-day]="isDate(selectedDate, day)"
 					[class.gui-date-picker-selected-month]="displayMonthDays(day.getMonth())"
@@ -51,6 +52,10 @@ export class ActivityCalendarDaysComponent {
 
 	constructor(private readonly dateUtilsService: FabricDateUtilService,
 				private readonly datePickerService: ActiveDateService) {
+	}
+
+	isDisabled(day: Date): boolean {
+		return this.dateUtilsService.isFuture(day);
 	}
 
 	selectDate(date: Date): void {

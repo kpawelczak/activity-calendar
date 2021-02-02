@@ -15,6 +15,7 @@ import { ActivityCalendarInterfaceService } from '../top-interface/activity-cale
 			<tr *ngFor="let quarter of quarters">
 				<td (click)="selectMonth(month.nr)"
 					*ngFor="let month of quarter"
+					[class.disabled]="isDisabled(month.nr)"
 					[class.gui-date-picker-current-month]="isMonth(currentDay, month.nr)"
 					[class.gui-date-picker-selected-month]="isMonth(selectedDate, month.nr)"
 					class="gui-date-picker-month">
@@ -48,6 +49,15 @@ export class ActivityCalendarMonthsComponent extends CalendarPartContainer {
 				elementRef: ElementRef,
 				changeDetectorRef: ChangeDetectorRef) {
 		super(interfaceService, renderer, elementRef, changeDetectorRef);
+	}
+
+	isDisabled(month: number): boolean {
+		const currentYear = this.currentDay.getFullYear(),
+			isYearHigher = this.selectedYear > currentYear,
+			isYearSame = this.selectedYear === this.currentDay.getFullYear(),
+			isMonthHigher = month > this.currentDay.getMonth();
+
+		return isYearSame ? isMonthHigher : isYearHigher;
 	}
 
 	isMonth(date: Date, month: number): boolean {

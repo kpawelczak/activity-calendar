@@ -14,4 +14,10 @@ export class FabricDateUtilService {
 			date.getFullYear() === year;
 	}
 
+	isFuture(date: Date): boolean {
+		const currentDateString = new Date().getTime(),
+			dateString = date.getTime();
+
+		return dateString > currentDateString;
+	}
 }

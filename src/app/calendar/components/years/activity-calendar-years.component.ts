@@ -13,6 +13,7 @@ import { ActivityCalendarInterfaceService } from '../top-interface/activity-cale
 			<tr *ngFor="let yearsChunk of years">
 				<td (click)="selectYear(year)"
 					*ngFor="let year of yearsChunk"
+					[class.disabled]="isDisabled(year)"
 					[class.gui-date-picker-current-year]="isYear(currentDay, year)"
 					[class.gui-date-picker-selected-year]="isYear(selectedDate, year)"
 					class="gui-date-picker-year">
@@ -54,6 +55,10 @@ export class ActivityCalendarYearsComponent extends CalendarPartContainer {
 		if (date) {
 			return date.getFullYear() === year;
 		}
+	}
+
+	isDisabled(year: number): boolean {
+		return year > this.currentDay.getFullYear();
 	}
 
 }
