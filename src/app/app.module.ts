@@ -6,6 +6,8 @@ import { AppComponent } from './app.component';
 import { ActivityCalendarModule } from './calendar/activity-calendar.module';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
+import { SelectedDayModule } from './selected-day/selected-day.module';
+
 
 @NgModule({
 	declarations: [
@@ -16,6 +18,7 @@ import { environment } from '../environments/environment';
 		AppRoutingModule,
 		HammerModule,
 		ActivityCalendarModule,
+		SelectedDayModule,
 		ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
 	],
 	providers: [],

@@ -6,8 +6,6 @@ export class ActiveDateService {
 
 	private initialDate = new Date();
 
-	private selectedDate: Date;
-
 	private readonly selectedDate$ = new BehaviorSubject(this.initialDate);
 
 	observeSelectedDate(): Observable<Date> {
@@ -15,7 +13,6 @@ export class ActiveDateService {
 	}
 
 	dateSelected(date: Date): void {
-		this.selectedDate = new Date(date.getTime());
-		this.selectedDate$.next(this.selectedDate);
+		this.selectedDate$.next(date);
 	}
 }
