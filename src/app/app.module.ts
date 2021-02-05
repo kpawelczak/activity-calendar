@@ -7,21 +7,26 @@ import { ActivityCalendarModule } from './calendar/activity-calendar.module';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
 import { SelectedDayModule } from './selected-day/selected-day.module';
+import { CalendarFirebaseModule } from './firebase/calendar-firebase.module';
+import { AngularFireModule } from '@angular/fire';
+import { AngularFirestoreModule } from '@angular/fire/firestore';
 
 
 @NgModule({
-	declarations: [
-		AppComponent
-	],
 	imports: [
 		BrowserModule,
 		AppRoutingModule,
 		HammerModule,
 		ActivityCalendarModule,
 		SelectedDayModule,
-		ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
+		ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
+		CalendarFirebaseModule,
+		AngularFireModule.initializeApp(environment.firebase),
+		AngularFirestoreModule
 	],
-	providers: [],
+	declarations: [
+		AppComponent
+	],
 	bootstrap: [AppComponent]
 })
 export class AppModule {

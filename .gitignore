@@ -47,3 +47,4 @@ Thumbs.db
 /firestore.indexes.json
 /firestore.rules
 *.cache
+src/environments/firebase.ts
