@@ -23,6 +23,7 @@ import { FabricDateUtilService } from '../../../common/date-util/fabric-date-uti
 					[class.gui-date-picker-current-day]="isDate(currentDay, day)"
 					[class.gui-date-picker-selected-day]="isDate(selectedDate, day)"
 					[class.gui-date-picker-selected-month]="displayMonthDays(day.getMonth())"
+					[class.has-activity]="hasActivity(day)"
 					class="gui-date-picker-day">
 					<span (click)="selectDate(day)">
 						{{day.getDate()}}
@@ -36,6 +37,9 @@ import { FabricDateUtilService } from '../../../common/date-util/fabric-date-uti
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ActivityCalendarDaysComponent {
+
+	@Input()
+	monthActivities: Array<any>;
 
 	@Input()
 	selectedDate: Date;
@@ -70,5 +74,18 @@ export class ActivityCalendarDaysComponent {
 
 	displayMonthDays(day: number): boolean {
 		return day === this.selectedMonth;
+	}
+
+	hasActivity(day: Date): boolean {
+		const dayInMilliSeconds = day.getTime();
+		let hasActivity = false;
+
+		this.monthActivities?.forEach((activity: any) => {
+			if (activity.day === dayInMilliSeconds) {
+				hasActivity = true;
+			}
+		});
+
+		return hasActivity;
 	}
 }

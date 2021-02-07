@@ -7,6 +7,8 @@ import { ActivityCalendarService } from './activity-calendar.service';
 import { ActivityCalendarYearsService } from './components/years/activity-calendar-years.service';
 import { Reactive } from '../common/reactive';
 import { ActivityCalendarView } from './common/models/activity-calendar-view';
+import { FirestoreMonthActivitiesRepository } from '../firebase/month-activities/firestore-month-activities.repository';
+import { FirestoreMonthActivitiesService } from '../firebase/month-activities/firestore-month-activities.service';
 
 
 @Component({
@@ -32,11 +34,13 @@ export class ActivityCalendarComponent extends Reactive implements OnInit {
 
 	selectedMonth: number = new Date().getMonth() + 1;
 
-	selectedYear: number;
+	selectedYear: number = new Date().getFullYear();
 
 	ActivityCalendarView = ActivityCalendarView;
 
 	activityCalendarView: ActivityCalendarView = ActivityCalendarView.DAYS;
+
+	monthActivities: Array<any>;
 
 	constructor(private readonly datePickerService: ActiveDateService,
 				private readonly datePickerWeeks: ActivityCalendarWeeks,
@@ -44,6 +48,8 @@ export class ActivityCalendarComponent extends Reactive implements OnInit {
 				private readonly datePickerYearsService: ActivityCalendarYearsService,
 				private readonly calendarService: ActivityCalendarService,
 				private readonly calendarViewService: ActivityCalendarViewService,
+				private readonly firestoreMonthActivitiesService: FirestoreMonthActivitiesService,
+				private readonly firestoreMonthActivitiesRepository: FirestoreMonthActivitiesRepository,
 				private readonly changeDetectorRef: ChangeDetectorRef) {
 		super();
 	}
@@ -54,6 +60,9 @@ export class ActivityCalendarComponent extends Reactive implements OnInit {
 			.pipe(this.takeUntil())
 			.subscribe((month: number) => {
 				this.selectedMonth = month;
+
+				this.firestoreMonthActivitiesService.getMonthActivities(this.selectedYear, this.selectedMonth);
+
 				this.calculateDatePickerData();
 				this.changeDetectorRef.detectChanges();
 			});
@@ -91,6 +100,16 @@ export class ActivityCalendarComponent extends Reactive implements OnInit {
 				this.activityCalendarView = fabricCalendarView;
 				this.changeDetectorRef.detectChanges();
 			});
+
+		this.firestoreMonthActivitiesRepository
+			.onMonthActivities()
+			.pipe(this.takeUntil())
+			.subscribe((monthActivities: Array<any>) => {
+				this.monthActivities = monthActivities;
+				this.changeDetectorRef.detectChanges();
+			});
+
+		this.firestoreMonthActivitiesService.getMonthActivities(this.selectedYear, this.selectedMonth);
 
 		this.calculateDatePickerData();
 	}

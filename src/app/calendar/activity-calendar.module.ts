@@ -15,13 +15,15 @@ import { FabricArrowIconModule } from '../common/icons/arrow-icon/fabric-arrow-i
 import { FabricDateUtilModule } from '../common/date-util/fabric-date-util.module';
 import { ActivityCalendarDaysContainerComponent } from './components/days/activity-calendar-days-container.component';
 import { ActivityCalendarInterfaceService } from './components/top-interface/activity-calendar-interface.service';
+import { FirestoreMonthActivitiesModule } from '../firebase/month-activities/firestore-month-activities.module';
 
 
 @NgModule({
 	imports: [
 		CommonModule,
 		FabricArrowIconModule,
-		FabricDateUtilModule
+		FabricDateUtilModule,
+		FirestoreMonthActivitiesModule
 	],
 	declarations: [
 		ActivityCalendarComponent,

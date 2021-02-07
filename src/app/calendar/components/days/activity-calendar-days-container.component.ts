@@ -11,6 +11,7 @@ import { ActivityCalendarInterfaceService } from '../top-interface/activity-cale
 						   (panend)="onPanEnd()"
 						   [selectedDate]="selectedDate"
 						   [selectedMonth]="selectedMonth"
+						   [monthActivities]="monthActivities"
 						   [weeks]="weeks">
 		</act-calendar-days>
 
@@ -35,6 +36,9 @@ export class ActivityCalendarDaysContainerComponent extends CalendarPartContaine
 
 	@Input()
 	selectedMonth: number;
+
+	@Input()
+	monthActivities: Array<any>;
 
 	constructor(interfaceService: ActivityCalendarInterfaceService,
 				renderer: Renderer2,

@@ -179,6 +179,10 @@ act-calendar {
 						opacity: 1;
 					}
 				}
+
+				&.has-activity {
+					background: $green-dark;
+				}
 			}
 
 			.gui-date-picker-month,

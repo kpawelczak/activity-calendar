@@ -9,7 +9,7 @@ import { take } from 'rxjs/operators';
 	template: `
 		<ng-container *ngIf="selectedDay">
 			Selected Date: {{selectedDay | date:'EEEE, MMMM d, y'}}
-
+			<button (click)="check()">check</button>
 			<button (click)="addActivity()">add</button>
 		</ng-container>
 	`,
@@ -37,6 +37,10 @@ export class SelectedDayComponent extends Reactive implements OnInit {
 	}
 
 	addActivity(): void {
+		this.calendarFirebaseService.addActivity(this.selectedDay);
+	}
+
+	check() {
 		this.calendarFirebaseService
 			.getPublic()
 			.pipe(take(1))
