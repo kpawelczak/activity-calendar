@@ -181,7 +181,8 @@ act-calendar {
 				}
 
 				&.has-activity {
-					background: $green-dark;
+					color: $primary;
+					font-weight: bold;
 				}
 			}
 

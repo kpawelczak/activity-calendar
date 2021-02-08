@@ -7,6 +7,7 @@ import Database = firebase.database.Database;
 
 @Injectable()
 export class FirestoreMonthActivitiesService {
+	private static readonly MILLI_SECONDS_IN_WEEK = 604800000;
 
 	constructor(private readonly firestore: AngularFirestore,
 				private readonly monthActivitiesRepository: FirestoreMonthActivitiesRepository) {
@@ -17,8 +18,11 @@ export class FirestoreMonthActivitiesService {
 			.collection('public')
 			.doc('activities')
 			.collection('days', (ref: CollectionReference<Database>) => {
-				return ref.where('day', '>=', this.getStartOfTheMonth(year, month))
-						  .where('day', '<', this.getStartOfTheMonth(year, month + 1));
+				const statAt = this.getStartOfTheMonth(year, month) - FirestoreMonthActivitiesService.MILLI_SECONDS_IN_WEEK,
+					endAt = this.getStartOfTheMonth(year, month + 1) + FirestoreMonthActivitiesService.MILLI_SECONDS_IN_WEEK;
+
+				return ref.where('day', '>=', statAt)
+						  .where('day', '<', endAt);
 			})
 			.valueChanges()
 			.pipe(take(1))
