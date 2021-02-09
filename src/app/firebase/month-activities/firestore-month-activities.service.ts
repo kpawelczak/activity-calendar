@@ -18,10 +18,10 @@ export class FirestoreMonthActivitiesService {
 			.collection('public')
 			.doc('activities')
 			.collection('days', (ref: CollectionReference<Database>) => {
-				const statAt = this.getStartOfTheMonth(year, month) - FirestoreMonthActivitiesService.MILLI_SECONDS_IN_WEEK,
+				const startAt = this.getStartOfTheMonth(year, month) - FirestoreMonthActivitiesService.MILLI_SECONDS_IN_WEEK,
 					endAt = this.getStartOfTheMonth(year, month + 1) + FirestoreMonthActivitiesService.MILLI_SECONDS_IN_WEEK;
 
-				return ref.where('day', '>=', statAt)
+				return ref.where('day', '>=', startAt)
 						  .where('day', '<', endAt);
 			})
 			.valueChanges()

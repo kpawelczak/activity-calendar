@@ -1,9 +1,24 @@
 act-selected-day {
 	display: block;
-
+	box-sizing: border-box;
 	max-width: 576px;
-
 	margin: $grid*4 auto;
-
+	padding: $grid*3 $grid*2;
 	color: $white-gray;
+	background: $dark-element-background;
+
+	form {
+		display: flex;
+		flex-direction: column;
+
+		mat-form-field {
+			margin: $grid*2 0;
+		}
+
+		button.mat-raised-button {
+			width: 200px;
+			margin: $grid*2 0;
+			align-self: flex-end;
+		}
+	}
 }

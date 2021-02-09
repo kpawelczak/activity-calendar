@@ -81,6 +81,7 @@ export class ActivityCalendarDaysComponent {
 		let hasActivity = false;
 
 		this.monthActivities?.forEach((activity: any) => {
+
 			if (activity.day === dayInMilliSeconds) {
 				hasActivity = true;
 			}

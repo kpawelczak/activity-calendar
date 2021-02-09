@@ -14,8 +14,9 @@ $horizontal-padding: 8px;
 
 act-calendar {
 	display: block;
-	margin: 0 auto;
+	margin: $grid*3 auto 0 auto;
 	max-width: 576px;
+	background: $dark-element-background;
 }
 
 .gui-date-picker-calendar {
@@ -59,7 +60,7 @@ act-calendar {
 				display: flex;
 				align-items: center;
 				justify-content: space-between;
-				padding: 16px $grid/2;
+				padding: 16px $grid/2 16px $grid*2;
 
 				.gui-date-picker-interface-date {
 					margin: 0;

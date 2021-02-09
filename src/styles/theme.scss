@@ -1,0 +1,12 @@
+@import '~@angular/material/theming';
+
+@include mat-core();
+
+$ac-primary: mat-palette($mat-purple, 200);
+$ac-accent: mat-palette($mat-purple, A100);
+$ac-light: mat-palette($mat-purple, 100);
+$ac-warn: mat-palette($mat-red);
+
+$ac-theme: mat-dark-theme($ac-primary, $ac-accent, $ac-warn);
+
+@include angular-material-theme($ac-theme)
