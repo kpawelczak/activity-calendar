@@ -1,10 +1,14 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
+import { FabricDateUtilService } from '../common/date-util/fabric-date-util.service';
 
 @Injectable()
 export class ActiveDateService {
 
 	private readonly selectedDate$ = new BehaviorSubject(this.getInitialDate());
+
+	constructor(private readonly dateUtilService: FabricDateUtilService) {
+	}
 
 	observeSelectedDate(): Observable<Date> {
 		return this.selectedDate$.asObservable();
@@ -15,7 +19,6 @@ export class ActiveDateService {
 	}
 
 	private getInitialDate(): Date {
-		const date = new Date();
-		return new Date(date.getFullYear(), date.getMonth(), date.getDate(), 0, 0, 0);
+		return this.dateUtilService.getDayStart();
 	}
 }

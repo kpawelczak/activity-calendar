@@ -3,6 +3,7 @@ import { FirestoreMonthActivitiesRepository } from './firestore-month-activities
 import firebase from 'firebase';
 import { AngularFirestore, CollectionReference } from '@angular/fire/firestore';
 import { take } from 'rxjs/operators';
+import { CalendarActivity } from './calendar-activity';
 import Database = firebase.database.Database;
 
 @Injectable()
@@ -26,7 +27,7 @@ export class FirestoreMonthActivitiesService {
 			})
 			.valueChanges()
 			.pipe(take(1))
-			.subscribe((response) => {
+			.subscribe((response: Array<CalendarActivity>) => {
 				this.monthActivitiesRepository.next(response);
 			});
 	}

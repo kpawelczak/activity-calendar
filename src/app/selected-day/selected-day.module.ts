@@ -8,6 +8,9 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { SelectedDateActivitiesComponent } from './selected-date-activities.component';
+import { SelectedDateActivityComponent } from './selected-date-activity.component';
+import { FabricDateUtilModule } from '../common/date-util/fabric-date-util.module';
+import { SelectedDateActivityService } from './selected-date-activity.service';
 
 
 @NgModule({
@@ -19,14 +22,19 @@ import { SelectedDateActivitiesComponent } from './selected-date-activities.comp
 		MatFormFieldModule,
 		MatInputModule,
 		MatButtonModule,
-		MatIconModule
+		MatIconModule,
+		FabricDateUtilModule
 	],
 	declarations: [
 		SelectedDayComponent,
+		SelectedDateActivityComponent,
 		SelectedDateActivitiesComponent
 	],
 	exports: [
 		SelectedDayComponent
+	],
+	providers: [
+		SelectedDateActivityService
 	]
 })
 export class SelectedDayModule {

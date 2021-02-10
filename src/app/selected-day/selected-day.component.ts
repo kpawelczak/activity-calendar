@@ -2,8 +2,9 @@ import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, ViewEnca
 import { ActiveDateService } from '../calendar/active-date.service';
 import { Reactive } from '../common/reactive';
 import { CalendarFirebaseService } from '../firebase/calendar-firebase.service';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { switchMap } from 'rxjs/operators';
+import { FabricDateUtilService } from '../common/date-util/fabric-date-util.service';
+import { CalendarActivity } from '../firebase/month-activities/calendar-activity';
 
 @Component({
 	selector: 'act-selected-day',
@@ -11,38 +12,12 @@ import { switchMap } from 'rxjs/operators';
 		<ng-container *ngIf="selectedDay">
 			Selected Date: {{selectedDay | date:'EEEE, MMMM d, y, hh,mm,ss'}}
 
-			<ac-selected-date-activities [activities]="activities"></ac-selected-date-activities>
+			<ac-selected-date-activities [activities]="activities">
+			</ac-selected-date-activities>
 
-			<form [formGroup]="form">
-
-				<mat-form-field class="example-form-field">
-
-					<mat-label>Activity</mat-label>
-					<input matInput type="text" formControlName="activityName">
-
-					<button *ngIf="hasValue('activityName')"
-							mat-button matSuffix mat-icon-button aria-label="Clear">
-						<mat-icon>close</mat-icon>
-					</button>
-
-				</mat-form-field>
-
-				<mat-form-field class="example-form-field">
-
-					<mat-label>Reps</mat-label>
-
-					<input matInput type="number" formControlName="activityReps">
-
-					<button *ngIf="hasValue('activityReps')"
-							mat-button matSuffix mat-icon-button aria-label="Clear">
-						<mat-icon>close</mat-icon>
-					</button>
-
-				</mat-form-field>
-
-				<button mat-raised-button color="primary" (click)="addActivity()">add</button>
-
-			</form>
+			<ac-selected-day-activity *ngIf="showActivityForm()"
+									  [selectedDay]="selectedDay">
+			</ac-selected-day-activity>
 
 		</ng-container>
 	`,
@@ -53,19 +28,13 @@ export class SelectedDayComponent extends Reactive implements OnInit {
 
 	selectedDay: Date;
 
-	form: FormGroup;
+	activities: Array<CalendarActivity>;
 
-	activities: Array<any>;
-
-	constructor(private readonly formBuilder: FormBuilder,
-				private readonly selectedDayService: ActiveDateService,
+	constructor(private readonly selectedDayService: ActiveDateService,
 				private readonly calendarFirebaseService: CalendarFirebaseService,
+				private readonly dateUtilService: FabricDateUtilService,
 				private readonly changeDetectorRef: ChangeDetectorRef) {
 		super();
-		this.form = this.formBuilder.group({
-			activityName: ['', Validators.required],
-			activityReps: ['', Validators.required]
-		});
 	}
 
 	ngOnInit() {
@@ -78,20 +47,13 @@ export class SelectedDayComponent extends Reactive implements OnInit {
 							   .getActivities(selectedDate);
 				}),
 				this.takeUntil())
-			.subscribe((activities: any) => {
+			.subscribe((activities: Array<CalendarActivity>) => {
 				this.activities = activities;
 				this.changeDetectorRef.detectChanges();
 			});
 	}
 
-	addActivity(): void {
-		if (this.form.valid) {
-			this.calendarFirebaseService.addActivity(this.selectedDay, this.form.value);
-		}
+	showActivityForm(): boolean {
+		return this.dateUtilService.areDatesSame(this.selectedDay, new Date());
 	}
-
-	hasValue(formControlName: string): boolean {
-		return !!this.form.controls[formControlName].value;
-	}
-
 }
