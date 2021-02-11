@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, Input, ViewEncapsulation } from '@angular/core';
-import { CalendarActivity } from '../firebase/month-activities/calendar-activity';
 import { SelectedDateActivityService } from './selected-date-activity.service';
+import { CalendarActivity } from '../../firebase/activities/month-activities/calendar-activity';
 
 @Component({
 	selector: 'ac-selected-date-activities',
