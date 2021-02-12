@@ -1,0 +1,19 @@
+ac-login,
+ac-registration {
+
+	h1 {
+		text-align: center;
+	}
+
+	form {
+		display: flex;
+		flex-direction: column;
+		color: $white;
+
+		button.mat-raised-button {
+			width: 200px;
+			margin: $grid*2 0;
+			align-self: center;
+		}
+	}
+}

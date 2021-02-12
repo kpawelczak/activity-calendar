@@ -4,6 +4,15 @@ body {
 	padding: 0
 }
 
+.container {
+	margin: $grid*3 auto;
+	max-width: 576px;
+}
+
+h1 {
+	color: $white;
+}
+
 /* Chrome, Safari, Edge, Opera */
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {

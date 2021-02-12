@@ -6,17 +6,24 @@ import { FirebaseAuthenticationService } from '../../firebase/entry/firebase-aut
 @Component({
 	selector: 'ac-login',
 	template: `
-		<div [routerLink]="'../' + RouteNames.CLIENT" style="color: red">calendar</div>
-		<div [routerLink]="'./' + RouteNames.REGISTRATION" style="color: red">registration</div>
+		<h1>LOGIN</h1>
+
 		<form [formGroup]="form">
+
 			<mat-form-field class="example-form-field">
 
 				<mat-label>Email</mat-label>
-				<input matInput type="text" formControlName="email">
+
+				<input matInput
+					   type="text"
+					   formControlName="email">
 
 				<button *ngIf="hasValue('email')"
-						(click)="clearFormItem('email')"
-						mat-button matSuffix mat-icon-button aria-label="Clear">
+						mat-button
+						matSuffix
+						mat-icon-button
+						aria-label="Clear"
+						(click)="clearFormItem('email')">
 					<mat-icon>close</mat-icon>
 				</button>
 
@@ -26,22 +33,26 @@ import { FirebaseAuthenticationService } from '../../firebase/entry/firebase-aut
 
 				<mat-label>Password</mat-label>
 
-				<input matInput formControlName="password">
+				<input matInput
+					   formControlName="password"
+					   type="password">
 
 				<button *ngIf="hasValue('password')"
-						(click)="clearFormItem('password')"
-						mat-button matSuffix mat-icon-button aria-label="Clear">
+						mat-button matSuffix
+						mat-icon-button
+						aria-label="Clear"
+						(click)="clearFormItem('password')">
 					<mat-icon>close</mat-icon>
 				</button>
 
 			</mat-form-field>
 
-			<button mat-raised-button color="primary"
+			<button mat-raised-button
+					color="primary"
 					(click)="login()">login
 			</button>
-		</form>
 
-		<button (click)="logout()"> logout</button>
+		</form>
 	`,
 	encapsulation: ViewEncapsulation.None,
 	changeDetection: ChangeDetectionStrategy.OnPush

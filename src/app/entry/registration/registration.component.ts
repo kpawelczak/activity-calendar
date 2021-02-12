@@ -4,13 +4,14 @@ import { AngularFireAuth } from '@angular/fire/auth';
 import { AngularFirestore } from '@angular/fire/firestore';
 
 @Component({
+	selector: 'ac-registration',
 	template: `
-		<h1 style="color: white">REGISTRATION</h1>
+		<h1>REGISTRATION</h1>
 		<form [formGroup]="form">
 			<mat-form-field class="example-form-field">
 
 				<mat-label>Email</mat-label>
-				<input matInput type="text" formControlName="email" style="color: white">
+				<input matInput type="text" formControlName="email">
 
 				<button *ngIf="hasValue('email')"
 						(click)="clearFormItem('email')"
@@ -24,7 +25,7 @@ import { AngularFirestore } from '@angular/fire/firestore';
 
 				<mat-label>Password</mat-label>
 
-				<input matInput type="password" formControlName="password" style="color: white">
+				<input matInput type="password" formControlName="password">
 
 				<button *ngIf="hasValue('password')"
 						(click)="clearFormItem('password')"
