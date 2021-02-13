@@ -10,8 +10,6 @@ export class FirebaseRegistrationService {
 	registerNewUser(email: string, password: string): void {
 		this.fireAuth
 			.createUserWithEmailAndPassword(email, password)
-			.then(() => {
-
-			});
+			.then();
 	}
 }

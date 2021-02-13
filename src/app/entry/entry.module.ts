@@ -9,7 +9,6 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RegistrationComponent } from './registration/registration.component';
-import { FirebaseEntryModule } from '../firebase/entry/firebase-entry.module';
 
 
 @NgModule({
@@ -18,7 +17,6 @@ import { FirebaseEntryModule } from '../firebase/entry/firebase-entry.module';
 		EntryRoutingModule,
 		FormsModule,
 		ReactiveFormsModule,
-		FirebaseEntryModule,
 		MatFormFieldModule,
 		MatInputModule,
 		MatButtonModule,

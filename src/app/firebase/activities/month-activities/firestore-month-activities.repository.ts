@@ -7,7 +7,6 @@ export class FirestoreMonthActivitiesRepository {
 
 	private readonly monthActivities$ = new ReplaySubject<Array<CalendarActivity>>(1);
 
-
 	onMonthActivities(): Observable<Array<CalendarActivity>> {
 		return this.monthActivities$.asObservable();
 	}

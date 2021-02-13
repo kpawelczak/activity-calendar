@@ -70,9 +70,7 @@ export class RegistrationComponent {
 
 			this.fireAuth
 				.createUserWithEmailAndPassword(email, password)
-				.then(() => {
-
-				});
+				.then();
 		}
 	}
 }

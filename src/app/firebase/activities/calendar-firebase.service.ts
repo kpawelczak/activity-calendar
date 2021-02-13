@@ -4,17 +4,20 @@ import { Observable } from 'rxjs';
 import firebase from 'firebase';
 import { take } from 'rxjs/operators';
 import { CalendarActivity } from './month-activities/calendar-activity';
+import { ProfileCollection } from '../profile/firebase-profile';
+import { FirebaseProfileService } from '../profile/firebase-profile.service';
 import Database = firebase.database.Database;
 
 @Injectable()
-export class CalendarFirebaseService {
+export class CalendarFirebaseService extends ProfileCollection {
 
-	constructor(private readonly firestore: AngularFirestore) {
+	constructor(firestore: AngularFirestore,
+				firebaseProfileService: FirebaseProfileService) {
+		super(firebaseProfileService, firestore);
 	}
 
 	getActivities(selectedDate: Date): Observable<any> { // todo values from calendar
-		return this.firestore
-				   .collection('public')
+		return this.profileCollection()
 				   .doc('activities')
 				   .collection('days', (ref: CollectionReference<Database>) => {
 					   return ref.where('day', '==', selectedDate.getTime());
@@ -24,11 +27,9 @@ export class CalendarFirebaseService {
 	}
 
 	addActivity(selectedDate: Date, formValues: CalendarActivity): void {
-		const account = 'public', // todo
-			dayInSeconds = selectedDate.getTime();
+		const dayInSeconds = selectedDate.getTime();
 
-		this.firestore
-			.collection(account)
+		this.profileCollection()
 			.doc('activities')
 			.collection('days')
 			.doc(dayInSeconds.toString())
@@ -40,8 +41,7 @@ export class CalendarFirebaseService {
 	}
 
 	updateActivity(selectedDate: Date, activity: CalendarActivity): void {
-		this.firestore
-			.collection('public')
+		this.profileCollection()
 			.doc('activities')
 			.collection('days')
 			.doc(selectedDate.getTime().toString())

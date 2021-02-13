@@ -4,19 +4,23 @@ import firebase from 'firebase';
 import { AngularFirestore, CollectionReference } from '@angular/fire/firestore';
 import { take } from 'rxjs/operators';
 import { CalendarActivity } from './calendar-activity';
+import { ProfileCollection } from '../../profile/firebase-profile';
+import { FirebaseProfileService } from '../../profile/firebase-profile.service';
 import Database = firebase.database.Database;
 
 @Injectable()
-export class FirestoreMonthActivitiesService {
+export class FirestoreMonthActivitiesService extends ProfileCollection {
 	private static readonly MILLI_SECONDS_IN_WEEK = 604800000;
 
-	constructor(private readonly firestore: AngularFirestore,
-				private readonly monthActivitiesRepository: FirestoreMonthActivitiesRepository) {
+	constructor(
+		private readonly monthActivitiesRepository: FirestoreMonthActivitiesRepository,
+		firebaseProfileService: FirebaseProfileService,
+		firestore: AngularFirestore) {
+		super(firebaseProfileService, firestore);
 	}
 
 	getMonthActivities(year: number, month: number): void {
-		this.firestore
-			.collection('public')
+		this.profileCollection()
 			.doc('activities')
 			.collection('days', (ref: CollectionReference<Database>) => {
 				const startAt = this.getStartOfTheMonth(year, month) - FirestoreMonthActivitiesService.MILLI_SECONDS_IN_WEEK,

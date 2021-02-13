@@ -6,7 +6,6 @@ import { CalendarFirebaseModule } from '../firebase/activities/calendar-firebase
 import { ClientRootComponent } from './client-root.component';
 import { ClientRoutingModule } from './client-routing.module';
 import { MatButtonModule } from '@angular/material/button';
-import { FirebaseEntryModule } from '../firebase/entry/firebase-entry.module';
 
 
 @NgModule({
@@ -16,8 +15,7 @@ import { FirebaseEntryModule } from '../firebase/entry/firebase-entry.module';
 		ActivityCalendarModule,
 		SelectedDayModule,
 		CalendarFirebaseModule,
-		MatButtonModule,
-		FirebaseEntryModule
+		MatButtonModule
 	],
 	declarations: [
 		ClientRootComponent

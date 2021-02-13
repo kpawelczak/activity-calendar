@@ -8,6 +8,9 @@ import { environment } from '../environments/environment';
 import { AngularFireModule } from '@angular/fire';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { AuthenticationModule } from './firebase/authentication/authentication.module';
+import { FirebaseEntryModule } from './firebase/entry/firebase-entry.module';
+import { FirebaseProfileModule } from './firebase/profile/firebase-profile.module';
 
 
 @NgModule({
@@ -18,6 +21,9 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 		ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
 		AngularFireModule.initializeApp(environment.firebase),
 		AngularFirestoreModule,
+		AuthenticationModule,
+		FirebaseProfileModule,
+		FirebaseEntryModule,
 		BrowserAnimationsModule
 	],
 	declarations: [
@@ -26,4 +32,5 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 	bootstrap: [AppComponent]
 })
 export class AppModule {
+
 }

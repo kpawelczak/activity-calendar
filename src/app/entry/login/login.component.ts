@@ -49,7 +49,14 @@ import { FirebaseAuthenticationService } from '../../firebase/entry/firebase-aut
 
 			<button mat-raised-button
 					color="primary"
-					(click)="login()">login
+					(click)="login()">
+				login
+			</button>
+
+			<button mat-raised-button
+					color="primary"
+					(click)="loginAnonymously()">
+				Login anonymously
 			</button>
 
 		</form>
@@ -58,11 +65,13 @@ import { FirebaseAuthenticationService } from '../../firebase/entry/firebase-aut
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class LoginComponent {
+
 	RouteNames = RouteNames;
+
 	form: FormGroup;
 
 	constructor(private readonly formBuilder: FormBuilder,
-				private readonly authenticationService: FirebaseAuthenticationService) {
+				private readonly firebaseService: FirebaseAuthenticationService) {
 		this.form = this.formBuilder.group({
 			email: ['', Validators.required],
 			password: ['', Validators.required]
@@ -81,10 +90,14 @@ export class LoginComponent {
 		const email = this.form.controls['email'].value,
 			password = this.form.controls['password'].value;
 
-		this.authenticationService.login({ email, password });
+		this.firebaseService.login({ email, password });
+	}
+
+	loginAnonymously(): void {
+		this.firebaseService.loginAnonymously();
 	}
 
 	logout(): void {
-		this.authenticationService.logout();
+		this.firebaseService.logout();
 	}
 }
