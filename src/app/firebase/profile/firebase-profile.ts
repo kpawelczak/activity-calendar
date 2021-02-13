@@ -1,4 +1,4 @@
-import { Reactive } from '../../client/common/reactive';
+import { Reactive } from '../../common/reactive';
 import { FirebaseProfileService } from './firebase-profile.service';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { AngularFirestoreCollection } from '@angular/fire/firestore/collection/collection';

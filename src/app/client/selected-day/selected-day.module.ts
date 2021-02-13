@@ -9,7 +9,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { SelectedDateActivitiesComponent } from './selected-date-activities.component';
 import { SelectedDateActivityComponent } from './selected-date-activity.component';
-import { FabricDateUtilModule } from '../common/date-util/fabric-date-util.module';
+import { FabricDateUtilModule } from '../../common/date-util/fabric-date-util.module';
 import { SelectedDateActivityService } from './selected-date-activity.service';
 
 

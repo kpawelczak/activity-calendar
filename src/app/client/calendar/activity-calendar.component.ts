@@ -5,7 +5,7 @@ import { ActivityCalendarYears } from './components/years/activity-calendar.year
 import { ActivityCalendarViewService } from './activity-calendar-view.service';
 import { ActivityCalendarService } from './activity-calendar.service';
 import { ActivityCalendarYearsService } from './components/years/activity-calendar-years.service';
-import { Reactive } from '../common/reactive';
+import { Reactive } from '../../common/reactive';
 import { ActivityCalendarView } from './common/models/activity-calendar-view';
 import { FirestoreMonthActivitiesService } from '../../firebase/activities/month-activities/firestore-month-activities.service';
 import { FirestoreMonthActivitiesRepository } from '../../firebase/activities/month-activities/firestore-month-activities.repository';

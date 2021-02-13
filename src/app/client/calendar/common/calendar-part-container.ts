@@ -1,7 +1,7 @@
 import { AfterViewInit, ChangeDetectorRef, Directive, ElementRef, Renderer2 } from '@angular/core';
 import { ActivityCalendarInterfaceService } from '../components/top-interface/activity-calendar-interface.service';
 import { ActivityCalendarCardView } from './models/activity-calendar-card-view';
-import { Reactive } from '../../common/reactive';
+import { Reactive } from '../../../common/reactive';
 import { timer } from 'rxjs';
 import { calendarAnimationTimer } from './calendar-animation-timer';
 
@@ -28,13 +28,13 @@ export abstract class CalendarPartContainer extends Reactive implements AfterVie
 
 		switch (true) {
 
-			case this.offsetPercentage > 80: {
+			case this.offsetPercentage > 40: {
 				this.interfaceService.next(ActivityCalendarCardView.PREV);
 				this.setOffset(this.calendarPartWidth, true);
 				break;
 			}
 
-			case this.offsetPercentage < -80: {
+			case this.offsetPercentage < -40: {
 				this.interfaceService.next(ActivityCalendarCardView.NEXT);
 				this.setOffset(-this.calendarPartWidth, true);
 				break;

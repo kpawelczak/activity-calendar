@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Reactive } from '../common/reactive';
+import { Reactive } from '../../common/reactive';
 import { SelectedDateActivityService } from './selected-date-activity.service';
 import { CalendarFirebaseService } from '../../firebase/activities/calendar-firebase.service';
 import { CalendarActivity } from '../../firebase/activities/month-activities/calendar-activity';

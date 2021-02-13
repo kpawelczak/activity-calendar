@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { Reactive } from './client/common/reactive';
+import { Reactive } from './common/reactive';
 import { AngularFireAuth } from '@angular/fire/auth';
 import firebase from 'firebase';
 import { AuthenticationService } from './firebase/authentication/authentication.service';

@@ -1,8 +1,8 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { ActiveDateService } from '../calendar/active-date.service';
-import { Reactive } from '../common/reactive';
+import { Reactive } from '../../common/reactive';
 import { switchMap } from 'rxjs/operators';
-import { FabricDateUtilService } from '../common/date-util/fabric-date-util.service';
+import { FabricDateUtilService } from '../../common/date-util/fabric-date-util.service';
 import { CalendarActivity } from '../../firebase/activities/month-activities/calendar-activity';
 import { CalendarFirebaseService } from '../../firebase/activities/calendar-firebase.service';
 

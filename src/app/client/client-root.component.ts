@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { FirebaseAuthenticationService } from '../firebase/entry/firebase-authentication.service';
-import { Reactive } from './common/reactive';
+import { Reactive } from '../common/reactive';
 import { FirebaseProfileService } from '../firebase/profile/firebase-profile.service';
 
 @Component({
