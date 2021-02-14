@@ -23,6 +23,7 @@ import { FirebaseAuthenticationService } from '../../firebase/entry/firebase-aut
 						matSuffix
 						mat-icon-button
 						aria-label="Clear"
+						type="button"
 						(click)="clearFormItem('email')">
 					<mat-icon>close</mat-icon>
 				</button>
@@ -41,6 +42,7 @@ import { FirebaseAuthenticationService } from '../../firebase/entry/firebase-aut
 						mat-button matSuffix
 						mat-icon-button
 						aria-label="Clear"
+						type="button"
 						(click)="clearFormItem('password')">
 					<mat-icon>close</mat-icon>
 				</button>
@@ -49,16 +51,17 @@ import { FirebaseAuthenticationService } from '../../firebase/entry/firebase-aut
 
 			<button mat-raised-button
 					color="primary"
+					type="submit"
 					(click)="login()">
 				login
 			</button>
 
 			<button mat-raised-button
 					color="primary"
+					type="button"
 					(click)="loginAnonymously()">
 				Login anonymously
 			</button>
-
 		</form>
 	`,
 	encapsulation: ViewEncapsulation.None,
@@ -87,10 +90,12 @@ export class LoginComponent {
 	}
 
 	login(): void {
-		const email = this.form.controls['email'].value,
-			password = this.form.controls['password'].value;
+		if (this.form.valid) {
+			const email = this.form.controls['email'].value,
+				password = this.form.controls['password'].value;
 
-		this.firebaseService.login({ email, password });
+			this.firebaseService.login({ email, password });
+		}
 	}
 
 	loginAnonymously(): void {
