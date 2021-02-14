@@ -20,7 +20,11 @@ export abstract class CalendarPartContainer extends Reactive implements AfterVie
 	}
 
 	ngAfterViewInit() {
-		this.calendarPartWidth = this.elementRef.nativeElement.offsetWidth;
+		timer(500)
+			.pipe(this.takeUntil())
+			.subscribe(() => {
+				this.calendarPartWidth = this.elementRef.nativeElement.offsetWidth;
+			});
 	}
 
 	onPanEnd(): void {
@@ -47,6 +51,7 @@ export abstract class CalendarPartContainer extends Reactive implements AfterVie
 	}
 
 	onPan(event): void {
+
 		this.offsetPercentage = this.getOffsetPercentage(event.deltaX);
 
 		if (Math.abs(this.offsetPercentage) > 150) {
