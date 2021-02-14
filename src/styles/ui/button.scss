@@ -1,0 +1,11 @@
+.ac-button {
+	box-sizing: border-box;
+
+	mat-progress-spinner {
+		margin: 0 auto;
+	}
+
+	span {
+		color: mat-color($ac-accent);
+	}
+}

@@ -75,12 +75,11 @@ act-calendar {
 			display: grid;
 			grid-row-gap: 3*$grid;
 			width: 100%;
-			//width: 360px;
 
 			tr {
 				display: grid;
 				grid-template-columns: repeat(7, 1fr);
-				grid-column-gap: $grid;
+				justify-items: center;
 			}
 
 			th {
@@ -129,6 +128,15 @@ act-calendar {
 					span {
 						color: $black;
 					}
+				}
+
+				&.gui-date-picker-day {
+					box-sizing: border-box;
+					height: $indicator-size;
+					width: $indicator-size;
+					display: flex;
+					justify-content: center;
+					align-items: center;
 				}
 
 				&.gui-date-picker-year {

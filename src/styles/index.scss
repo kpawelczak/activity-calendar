@@ -4,5 +4,8 @@
 
 @import "styles";
 @import "entry/entry";
-@import "calendar/calendar";
-@import "selected-date/selected-date";
+@import "client/calendar";
+@import "client/selected-date";
+@import "client/shell";
+
+@import "ui/button";

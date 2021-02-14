@@ -1,5 +1,4 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { FirebaseAuthenticationService } from '../firebase/entry/firebase-authentication.service';
 import { Reactive } from '../common/reactive';
 import { FirebaseProfileService } from '../firebase/profile/firebase-profile.service';
 
@@ -7,11 +6,11 @@ import { FirebaseProfileService } from '../firebase/profile/firebase-profile.ser
 	template: `
 		<ng-container *ngIf="profileLoaded">
 
+			<ac-header></ac-header>
+
 			<act-calendar></act-calendar>
 
 			<act-selected-day></act-selected-day>
-
-			<button mat-raised-button color="primary" (click)="logout()">logout</button>
 
 		</ng-container>
 	`,
@@ -22,8 +21,7 @@ export class ClientRootComponent extends Reactive implements OnInit {
 
 	profileLoaded: boolean = false;
 
-	constructor(private readonly authService: FirebaseAuthenticationService,
-				private readonly firebaseProfileService: FirebaseProfileService,
+	constructor(private readonly firebaseProfileService: FirebaseProfileService,
 				private readonly changeDetectorRef: ChangeDetectorRef) {
 		super();
 	}
@@ -35,9 +33,5 @@ export class ClientRootComponent extends Reactive implements OnInit {
 				this.profileLoaded = !!profile;
 				this.changeDetectorRef.detectChanges();
 			});
-	}
-
-	logout() {
-		this.authService.logout();
 	}
 }

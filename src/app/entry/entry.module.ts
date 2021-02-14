@@ -9,6 +9,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RegistrationComponent } from './registration/registration.component';
+import { ActivityCalendarButtonModule } from '../common/ui/activity-calendar-button/activity-calendar-button.module';
 
 
 @NgModule({
@@ -20,7 +21,8 @@ import { RegistrationComponent } from './registration/registration.component';
 		MatFormFieldModule,
 		MatInputModule,
 		MatButtonModule,
-		MatIconModule
+		MatIconModule,
+		ActivityCalendarButtonModule
 	],
 	declarations: [
 		EntryRootComponent,

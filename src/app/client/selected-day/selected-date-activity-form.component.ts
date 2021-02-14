@@ -1,12 +1,12 @@
-import { ChangeDetectionStrategy, Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Reactive } from '../../common/reactive';
 import { SelectedDateActivityService } from './selected-date-activity.service';
-import { CalendarFirebaseService } from '../../firebase/activities/calendar-firebase.service';
+import { FirestoreSelectedDayActivitiesService } from '../../firebase/activities/selected-day-activities/firestore-selected-day-activities.service';
 import { CalendarActivity } from '../../firebase/activities/month-activities/calendar-activity';
 
 @Component({
-	selector: 'ac-selected-day-activity',
+	selector: 'ac-selected-activity-form',
 	template: `
 		<form [formGroup]="form">
 
@@ -37,22 +37,23 @@ import { CalendarActivity } from '../../firebase/activities/month-activities/cal
 
 			</mat-form-field>
 
-			<button *ngIf="activitySelected"
-					(click)="clearSelection()">
+			<ac-button *ngIf="activitySelected"
+					   (click)="clearSelection()">
 				Cancel
-			</button>
+			</ac-button>
 
-			<button mat-raised-button color="primary"
-					(click)="addActivity()">
+			<ac-button [loading]="loading"
+					   [type]="'submit'"
+					   (click)="addActivity()">
 				{{getButtonText()}}
-			</button>
+			</ac-button>
 
 		</form>
 	`,
 	encapsulation: ViewEncapsulation.None,
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class SelectedDateActivityComponent extends Reactive implements OnInit {
+export class SelectedDateActivityFormComponent extends Reactive implements OnInit {
 
 	@Input()
 	selectedDay: Date;
@@ -61,9 +62,12 @@ export class SelectedDateActivityComponent extends Reactive implements OnInit {
 
 	activitySelected: boolean = false;
 
+	loading: boolean = false;
+
 	constructor(private readonly formBuilder: FormBuilder,
 				private readonly selectedActivityService: SelectedDateActivityService,
-				private readonly calendarFirebaseService: CalendarFirebaseService) {
+				private readonly calendarFirebaseService: FirestoreSelectedDayActivitiesService,
+				private readonly changeDetectorRef: ChangeDetectorRef) {
 		super();
 		this.form = this.formBuilder.group({
 			name: ['', Validators.required],
@@ -87,15 +91,26 @@ export class SelectedDateActivityComponent extends Reactive implements OnInit {
 
 	addActivity(): void {
 		if (this.form.valid) {
+			this.loading = true;
 
 			switch (true) {
 				case this.activitySelected: {
-					this.calendarFirebaseService.updateActivity(this.selectedDay, this.form.value);
+					this.calendarFirebaseService
+						.updateActivity(this.selectedDay, this.form.value)
+						.finally(() => {
+							this.loading = false;
+							this.changeDetectorRef.detectChanges();
+						});
 					break;
 				}
 
 				default: {
-					this.calendarFirebaseService.addActivity(this.selectedDay, this.form.value);
+					this.calendarFirebaseService
+						.addActivity(this.selectedDay, this.form.value)
+						.finally(() => {
+							this.loading = false;
+							this.changeDetectorRef.detectChanges();
+						});
 				}
 			}
 
@@ -103,7 +118,7 @@ export class SelectedDateActivityComponent extends Reactive implements OnInit {
 	}
 
 	clearSelection(): void {
-		this.selectedActivityService.next(null);
+		this.selectedActivityService.selectActivity(null);
 		this.form.reset();
 	}
 

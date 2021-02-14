@@ -3,6 +3,8 @@ import { AngularFireAuth } from '@angular/fire/auth';
 import { Credentials } from './credentials';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { AuthenticationService } from '../authentication/authentication.service';
+import firebase from 'firebase';
+import UserCredential = firebase.auth.UserCredential;
 
 @Injectable()
 export class FirebaseAuthenticationService {
@@ -12,17 +14,17 @@ export class FirebaseAuthenticationService {
 				private readonly matSnackBar: MatSnackBar) {
 	}
 
-	login(credentials: Credentials) {
-		this.fireAuth.signInWithEmailAndPassword(credentials.email, credentials.password)
-			.then(() => {
-				this.matSnackBar.open('Login success', '', {
-					duration: 5000
-				});
-			}, (error) => {
-				this.matSnackBar.open(error, '', {
-					duration: 5000
-				});
-			});
+	login(credentials: Credentials): Promise<void> {
+		return this.fireAuth.signInWithEmailAndPassword(credentials.email, credentials.password)
+				   .then(() => {
+					   this.matSnackBar.open('Login success', '', {
+						   duration: 5000
+					   });
+				   }, (error) => {
+					   this.matSnackBar.open(error, '', {
+						   duration: 5000
+					   });
+				   });
 	}
 
 	logout() {
@@ -32,8 +34,8 @@ export class FirebaseAuthenticationService {
 		});
 	}
 
-	loginAnonymously(): void {
-		this.fireAuth.signInAnonymously().then();
+	loginAnonymously(): Promise<UserCredential> {
+		return this.fireAuth.signInAnonymously();
 	}
 
 }
