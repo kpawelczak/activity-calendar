@@ -3,9 +3,9 @@ import { ActiveDateService } from '../calendar/active-date.service';
 import { Reactive } from '../../common/reactive';
 import { FabricDateUtilService } from '../../common/date-util/fabric-date-util.service';
 import { CalendarActivity } from '../../firebase/activities/month-activities/calendar-activity';
-import { SelectedDateActivityService } from './selected-date-activity.service';
 import { FirestoreMonthActivitiesRepository } from '../../firebase/activities/month-activities/firestore-month-activities.repository';
 import { distinctUntilChanged, switchMap } from 'rxjs/operators';
+import { SelectedDateActivitiesService } from './selected-date-activities.service';
 
 @Component({
 	selector: 'act-selected-day',
@@ -25,10 +25,8 @@ export class SelectedDayComponent extends Reactive implements OnInit {
 
 	selectedDay: Date;
 
-	activities: Array<CalendarActivity>;
-
 	constructor(private readonly selectedDayService: ActiveDateService,
-				private readonly selectedDateActivityService: SelectedDateActivityService,
+				private readonly selectedDateActivitiesService: SelectedDateActivitiesService,
 				private readonly monthActivitiesRepository: FirestoreMonthActivitiesRepository,
 				private readonly dateUtilService: FabricDateUtilService,
 				private readonly changeDetectorRef: ChangeDetectorRef) {
@@ -40,7 +38,7 @@ export class SelectedDayComponent extends Reactive implements OnInit {
 			.onMonthActivities()
 			.pipe(
 				switchMap((monthActivities: Array<CalendarActivity>) => {
-					this.selectedDateActivityService.setMonthActivities(monthActivities);
+					this.selectedDateActivitiesService.setMonthActivities(monthActivities);
 					return this.selectedDayService.observeSelectedDate();
 				}),
 				distinctUntilChanged(),
@@ -48,7 +46,7 @@ export class SelectedDayComponent extends Reactive implements OnInit {
 			)
 			.subscribe((selectedDate: Date) => {
 				this.selectedDay = selectedDate;
-				this.selectedDateActivityService.selectDayActivities(selectedDate);
+				this.selectedDateActivitiesService.selectDayActivities(this.selectedDay);
 				this.changeDetectorRef.detectChanges();
 			});
 	}

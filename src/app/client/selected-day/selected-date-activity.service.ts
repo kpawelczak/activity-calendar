@@ -1,39 +1,40 @@
 import { Injectable } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 import { CalendarActivity } from '../../firebase/activities/month-activities/calendar-activity';
+import { FirestoreSelectedDayActivitiesService } from '../../firebase/activities/selected-day-activities/firestore-selected-day-activities.service';
+import { FirestoreMonthActivitiesRepository } from '../../firebase/activities/month-activities/firestore-month-activities.repository';
+import { v4 as uuidv4 } from 'uuid';
+import { SelectedDateActivitiesService } from './selected-date-activities.service';
 
 @Injectable()
 export class SelectedDateActivityService {
 
-	private monthActivities: Array<CalendarActivity>;
-
-	private readonly activities$ = new Subject<Array<CalendarActivity>>();
-
 	private readonly activity$ = new Subject<CalendarActivity>();
+
+	constructor(private readonly firestoreSelectedDayActivitiesService: FirestoreSelectedDayActivitiesService,
+				private readonly selectedDateActivitiesService: SelectedDateActivitiesService,
+				private readonly monthActivitiesRepository: FirestoreMonthActivitiesRepository) {
+	}
 
 	onActivity(): Observable<CalendarActivity> {
 		return this.activity$.asObservable();
-	}
-
-	onActivities(): Observable<Array<CalendarActivity>> {
-		return this.activities$.asObservable();
-	}
-
-	selectDayActivities(day: Date): void {
-		const dayActivities = this.monthActivities
-								  .filter((calendarActivity: CalendarActivity) => {
-									  return calendarActivity.day === day.getTime();
-								  });
-
-		this.activities$.next(dayActivities);
 	}
 
 	selectActivity(activity: CalendarActivity): void {
 		this.activity$.next(activity);
 	}
 
-	setMonthActivities(monthActivities: Array<CalendarActivity>): void {
-		this.monthActivities = monthActivities;
+	addActivity(selectedDate: Date, formValues: CalendarActivity): Promise<void> {
+		const dayInSeconds = selectedDate.getTime(),
+			uuid = uuidv4(),
+			calendarActivity = new CalendarActivity(dayInSeconds, uuid, formValues.name, formValues.reps);
+
+		return this.firestoreSelectedDayActivitiesService
+				   .addActivity(calendarActivity)
+				   .then(() => {
+					   this.monthActivitiesRepository.addMonthActivity(calendarActivity);
+					   this.selectedDateActivitiesService.selectDayActivities(selectedDate);
+				   });
 	}
 
 }

@@ -2,13 +2,14 @@ import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit, V
 import { SelectedDateActivityService } from './selected-date-activity.service';
 import { CalendarActivity } from '../../firebase/activities/month-activities/calendar-activity';
 import { Reactive } from '../../common/reactive';
+import { SelectedDateActivitiesService } from './selected-date-activities.service';
 
 @Component({
 	selector: 'ac-selected-date-activities',
 	template: `
 		<div *ngFor="let activity of activities; let i = index"
-			 [class.selected-activity]="isActivitySelected(i)"
-			 (click)="selectActivity(activity, i)">
+			 [class.selected-activity]="isActivitySelected(activity)"
+			 (click)="selectActivity(activity)">
 			{{activity.name}} - {{activity.reps}}
 		</div>
 	`,
@@ -20,29 +21,30 @@ export class SelectedDateActivitiesComponent extends Reactive implements OnInit 
 	@Input()
 	activities: Array<CalendarActivity>;
 
-	selectedActivityIndex: number;
+	selectedActivity: CalendarActivity;
 
 	constructor(private readonly selectedActivityService: SelectedDateActivityService,
+				private readonly selectedActivitiesService: SelectedDateActivitiesService,
 				private readonly changeDetectorRef: ChangeDetectorRef) {
 		super();
 	}
 
 	ngOnInit() {
-		this.selectedActivityService
+		this.selectedActivitiesService
 			.onActivities()
 			.pipe(this.takeUntil())
-			.subscribe((activities: any) => {
+			.subscribe((activities: Array<CalendarActivity>) => {
 				this.activities = activities;
 				this.changeDetectorRef.detectChanges();
 			});
 	}
 
-	selectActivity(activity: CalendarActivity, index: number): void {
-		this.selectedActivityIndex = index;
+	selectActivity(activity: CalendarActivity): void {
+		this.selectedActivity = activity;
 		this.selectedActivityService.selectActivity(activity);
 	}
 
-	isActivitySelected(index: number): boolean {
-		return this.selectedActivityIndex === index;
+	isActivitySelected(activity: CalendarActivity): boolean {
+		return this.selectedActivity && this.selectedActivity.UUID === activity.UUID;
 	}
 }

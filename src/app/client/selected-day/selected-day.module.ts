@@ -13,6 +13,7 @@ import { FabricDateUtilModule } from '../../common/date-util/fabric-date-util.mo
 import { SelectedDateActivityService } from './selected-date-activity.service';
 import { FirestoreSelectedDayActivitiesModule } from '../../firebase/activities/selected-day-activities/firestore-selected-day-activities.module';
 import { ActivityCalendarButtonModule } from '../../common/ui/activity-calendar-button/activity-calendar-button.module';
+import { SelectedDateActivitiesService } from './selected-date-activities.service';
 
 
 @NgModule({
@@ -38,7 +39,8 @@ import { ActivityCalendarButtonModule } from '../../common/ui/activity-calendar-
 		SelectedDayComponent
 	],
 	providers: [
-		SelectedDateActivityService
+		SelectedDateActivityService,
+		SelectedDateActivitiesService
 	]
 })
 export class SelectedDayModule {

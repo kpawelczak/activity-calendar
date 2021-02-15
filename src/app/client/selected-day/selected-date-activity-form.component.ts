@@ -37,14 +37,14 @@ import { CalendarActivity } from '../../firebase/activities/month-activities/cal
 
 			</mat-form-field>
 
-			<ac-button *ngIf="activitySelected"
+			<ac-button *ngIf="selectedActivity"
 					   (click)="clearSelection()">
 				Cancel
 			</ac-button>
 
 			<ac-button [loading]="loading"
 					   [type]="'submit'"
-					   (click)="addActivity()">
+					   (click)="manageActivity()">
 				{{getButtonText()}}
 			</ac-button>
 
@@ -60,7 +60,7 @@ export class SelectedDateActivityFormComponent extends Reactive implements OnIni
 
 	form: FormGroup;
 
-	activitySelected: boolean = false;
+	selectedActivity: CalendarActivity;
 
 	loading: boolean = false;
 
@@ -80,40 +80,30 @@ export class SelectedDateActivityFormComponent extends Reactive implements OnIni
 			.onActivity()
 			.pipe(this.takeUntil())
 			.subscribe((activity: CalendarActivity) => {
-				this.activitySelected = !!activity;
+				this.selectedActivity = activity;
 				this.fillForm(activity);
 			});
 	}
 
 	getButtonText(): string {
-		return this.activitySelected ? 'Edit' : 'Add';
+		return this.selectedActivity ? 'Edit' : 'Add';
 	}
 
-	addActivity(): void {
+	manageActivity(): void {
 		if (this.form.valid) {
 			this.loading = true;
 
 			switch (true) {
-				case this.activitySelected: {
-					this.calendarFirebaseService
-						.updateActivity(this.selectedDay, this.form.value)
-						.finally(() => {
-							this.loading = false;
-							this.changeDetectorRef.detectChanges();
-						});
+
+				case !!this.selectedActivity: {
+					this.updateActivity();
 					break;
 				}
 
 				default: {
-					this.calendarFirebaseService
-						.addActivity(this.selectedDay, this.form.value)
-						.finally(() => {
-							this.loading = false;
-							this.changeDetectorRef.detectChanges();
-						});
+					this.addActivity();
 				}
 			}
-
 		}
 	}
 
@@ -128,6 +118,31 @@ export class SelectedDateActivityFormComponent extends Reactive implements OnIni
 
 	hasValue(formControlName: string): boolean {
 		return !!this.form.controls[formControlName].value;
+	}
+
+	private addActivity(): void {
+		this.selectedActivityService
+			.addActivity(this.selectedDay, this.form.value)
+			.finally(() => {
+				this.loading = false;
+				this.changeDetectorRef.detectChanges();
+			});
+	}
+
+	private updateActivity(): void {
+		const calendarActivity = new CalendarActivity(
+			this.selectedActivity.day,
+			this.selectedActivity.UUID,
+			this.form.controls['name'].value,
+			this.form.controls['reps'].value
+		);
+
+		this.calendarFirebaseService
+			.updateActivity(calendarActivity)
+			.finally(() => {
+				this.loading = false;
+				this.changeDetectorRef.detectChanges();
+			});
 	}
 
 	private fillForm(activity: CalendarActivity): void {
