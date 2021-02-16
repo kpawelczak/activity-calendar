@@ -3,7 +3,7 @@ import { Observable, Subject } from 'rxjs';
 import { CalendarActivity } from '../../firebase/activities/month-activities/calendar-activity';
 
 @Injectable()
-export class SelectedDateActivitiesService {
+export class SelectedDateActivitiesRepository {
 
 	private monthActivities: Array<CalendarActivity>;
 

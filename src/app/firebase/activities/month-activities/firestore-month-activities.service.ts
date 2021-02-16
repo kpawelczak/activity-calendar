@@ -12,10 +12,9 @@ import Database = firebase.database.Database;
 export class FirestoreMonthActivitiesService extends ProfileCollection {
 	private static readonly MILLI_SECONDS_IN_WEEK = 604800000;
 
-	constructor(
-		private readonly monthActivitiesRepository: FirestoreMonthActivitiesRepository,
-		firebaseProfileService: FirebaseProfileService,
-		firestore: AngularFirestore) {
+	constructor(private readonly monthActivitiesRepository: FirestoreMonthActivitiesRepository,
+				firebaseProfileService: FirebaseProfileService,
+				firestore: AngularFirestore) {
 		super(firebaseProfileService, firestore);
 	}
 

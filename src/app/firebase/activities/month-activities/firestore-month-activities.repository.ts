@@ -30,4 +30,13 @@ export class FirestoreMonthActivitiesRepository { // todo not firestore
 		this.monthActivities$.next(this.monthActivities);
 	}
 
+	deleteActivity(activity: CalendarActivity): void {
+		this.monthActivities = this.monthActivities
+								   .filter((calendarActivity: CalendarActivity) => {
+									   return calendarActivity.UUID !== activity.UUID;
+								   });
+
+		this.monthActivities$.next(this.monthActivities);
+	}
+
 }

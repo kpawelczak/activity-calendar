@@ -1,9 +1,9 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Reactive } from '../../common/reactive';
-import { SelectedDateActivityService } from './selected-date-activity.service';
-import { FirestoreSelectedDayActivitiesService } from '../../firebase/activities/selected-day-activities/firestore-selected-day-activities.service';
 import { CalendarActivity } from '../../firebase/activities/month-activities/calendar-activity';
+import { SelectedActivityService } from './selected-activity.service';
+import { SelectedActivityRepository } from './selected-activity.repository';
 
 @Component({
 	selector: 'ac-selected-activity-form',
@@ -65,8 +65,8 @@ export class SelectedDateActivityFormComponent extends Reactive implements OnIni
 	loading: boolean = false;
 
 	constructor(private readonly formBuilder: FormBuilder,
-				private readonly selectedActivityService: SelectedDateActivityService,
-				private readonly calendarFirebaseService: FirestoreSelectedDayActivitiesService,
+				private readonly selectedActivityRepository: SelectedActivityRepository,
+				private readonly selectedActivityService: SelectedActivityService,
 				private readonly changeDetectorRef: ChangeDetectorRef) {
 		super();
 		this.form = this.formBuilder.group({
@@ -76,7 +76,7 @@ export class SelectedDateActivityFormComponent extends Reactive implements OnIni
 	}
 
 	ngOnInit() {
-		this.selectedActivityService
+		this.selectedActivityRepository
 			.onActivity()
 			.pipe(this.takeUntil())
 			.subscribe((activity: CalendarActivity) => {
@@ -108,7 +108,7 @@ export class SelectedDateActivityFormComponent extends Reactive implements OnIni
 	}
 
 	clearSelection(): void {
-		this.selectedActivityService.selectActivity(null);
+		this.selectedActivityRepository.selectActivity(null);
 		this.form.reset();
 	}
 

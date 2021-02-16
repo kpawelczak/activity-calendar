@@ -10,10 +10,11 @@ import { MatIconModule } from '@angular/material/icon';
 import { SelectedDateActivitiesComponent } from './selected-date-activities.component';
 import { SelectedDateActivityFormComponent } from './selected-date-activity-form.component';
 import { FabricDateUtilModule } from '../../common/date-util/fabric-date-util.module';
-import { SelectedDateActivityService } from './selected-date-activity.service';
-import { FirestoreSelectedDayActivitiesModule } from '../../firebase/activities/selected-day-activities/firestore-selected-day-activities.module';
+import { SelectedActivityRepository } from './selected-activity.repository';
 import { ActivityCalendarButtonModule } from '../../common/ui/activity-calendar-button/activity-calendar-button.module';
-import { SelectedDateActivitiesService } from './selected-date-activities.service';
+import { SelectedDateActivitiesRepository } from './selected-date-activities.repository';
+import { FirestoreSelectedActivityModule } from '../../firebase/activities/selected-activity/firestore-selected-activity.module';
+import { SelectedActivityService } from './selected-activity.service';
 
 
 @NgModule({
@@ -21,7 +22,7 @@ import { SelectedDateActivitiesService } from './selected-date-activities.servic
 		CommonModule,
 		ReactiveFormsModule,
 		FormsModule,
-		FirestoreSelectedDayActivitiesModule,
+		FirestoreSelectedActivityModule,
 		MatSelectModule,
 		MatFormFieldModule,
 		MatInputModule,
@@ -39,8 +40,9 @@ import { SelectedDateActivitiesService } from './selected-date-activities.servic
 		SelectedDayComponent
 	],
 	providers: [
-		SelectedDateActivityService,
-		SelectedDateActivitiesService
+		SelectedActivityRepository,
+		SelectedActivityService,
+		SelectedDateActivitiesRepository
 	]
 })
 export class SelectedDayModule {

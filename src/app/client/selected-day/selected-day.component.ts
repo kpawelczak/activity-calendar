@@ -5,16 +5,17 @@ import { FabricDateUtilService } from '../../common/date-util/fabric-date-util.s
 import { CalendarActivity } from '../../firebase/activities/month-activities/calendar-activity';
 import { FirestoreMonthActivitiesRepository } from '../../firebase/activities/month-activities/firestore-month-activities.repository';
 import { distinctUntilChanged, switchMap } from 'rxjs/operators';
-import { SelectedDateActivitiesService } from './selected-date-activities.service';
+import { SelectedDateActivitiesRepository } from './selected-date-activities.repository';
 
 @Component({
 	selector: 'act-selected-day',
 	template: `
 		<h2>{{selectedDay | date:'EEEE, MMMM d, y'}}</h2>
 
-		<ac-selected-date-activities></ac-selected-date-activities>
+		<ac-selected-date-activities [selectedDay]="selectedDay"
+									 [isSelectedDayToday]="isSelectedDayToday"></ac-selected-date-activities>
 
-		<ac-selected-activity-form *ngIf="showActivityForm()"
+		<ac-selected-activity-form *ngIf="isSelectedDayToday()"
 								   [selectedDay]="selectedDay">
 		</ac-selected-activity-form>
 	`,
@@ -26,7 +27,7 @@ export class SelectedDayComponent extends Reactive implements OnInit {
 	selectedDay: Date;
 
 	constructor(private readonly selectedDayService: ActiveDateService,
-				private readonly selectedDateActivitiesService: SelectedDateActivitiesService,
+				private readonly selectedDateActivitiesService: SelectedDateActivitiesRepository,
 				private readonly monthActivitiesRepository: FirestoreMonthActivitiesRepository,
 				private readonly dateUtilService: FabricDateUtilService,
 				private readonly changeDetectorRef: ChangeDetectorRef) {
@@ -51,7 +52,7 @@ export class SelectedDayComponent extends Reactive implements OnInit {
 			});
 	}
 
-	showActivityForm(): boolean {
+	isSelectedDayToday(): boolean {
 		return this.selectedDay ? this.dateUtilService.areDatesSame(this.selectedDay, new Date()) : false;
 	}
 }
