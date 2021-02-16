@@ -125,6 +125,7 @@ export class SelectedDateActivityFormComponent extends Reactive implements OnIni
 			.addActivity(this.selectedDay, this.form.value)
 			.finally(() => {
 				this.loading = false;
+				this.form.reset();
 				this.changeDetectorRef.detectChanges();
 			});
 	}
@@ -137,8 +138,8 @@ export class SelectedDateActivityFormComponent extends Reactive implements OnIni
 			this.form.controls['reps'].value
 		);
 
-		this.calendarFirebaseService
-			.updateActivity(calendarActivity)
+		this.selectedActivityService
+			.updateActivity(this.selectedDay, calendarActivity)
 			.finally(() => {
 				this.loading = false;
 				this.changeDetectorRef.detectChanges();

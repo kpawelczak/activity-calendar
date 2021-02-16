@@ -23,8 +23,11 @@ export class FirestoreMonthActivitiesRepository { // todo not firestore
 		this.monthActivities$.next(this.monthActivities);
 	}
 
-	updateMonthActivities(): void {
-
+	updateMonthActivities(activity: CalendarActivity): void {
+		this.monthActivities = this.monthActivities.map((calendarActivity: CalendarActivity) => {
+			return activity.UUID === calendarActivity.UUID ? activity : calendarActivity;
+		});
+		this.monthActivities$.next(this.monthActivities);
 	}
 
 }

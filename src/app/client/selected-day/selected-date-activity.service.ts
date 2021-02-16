@@ -37,4 +37,13 @@ export class SelectedDateActivityService {
 				   });
 	}
 
+	updateActivity(selectedDate: Date, activity: CalendarActivity): Promise<void> {
+
+		return this.firestoreSelectedDayActivitiesService
+				   .updateActivity(activity)
+				   .then(() => {
+					   this.monthActivitiesRepository.updateMonthActivities(activity);
+					   this.selectedDateActivitiesService.selectDayActivities(selectedDate);
+				   });
+	}
 }
