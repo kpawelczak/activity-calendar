@@ -25,3 +25,41 @@ act-selected-day {
 .selected-activity {
 	color: mat-color($ac-accent);
 }
+
+ac-selected-date-activities {
+	padding: $grid*3 0;
+
+	.ac-selected-date-activity {
+		display: grid;
+		grid-template-columns: 30px 1fr 1fr 80px;
+		padding: $grid*1.5 $grid / 2;
+		justify-content: center;
+		border-bottom: {
+			style: solid;
+			width: 1px;
+			color: $gray;
+		};
+
+		mat-icon {
+			max-width: 80px;
+			margin-top: -4px;
+			cursor: pointer;
+
+			&:hover {
+				color: $primary-hover;
+			}
+		}
+
+		&:nth-last-child(1) {
+			border-bottom: none;
+		}
+
+		&:not(&.header) {
+			cursor: pointer;
+
+			&:hover {
+				color: $primary-hover;
+			}
+		}
+	}
+}

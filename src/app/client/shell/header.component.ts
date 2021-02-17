@@ -4,16 +4,20 @@ import { FirebaseAuthenticationService } from '../../firebase/entry/firebase-aut
 @Component({
 	selector: 'ac-header',
 	template: `
-		<button mat-icon-button color="primary"
-				[matMenuTriggerFor]="settingsMenu">
+		<div class="ac-header">
+			<h2>Calendar</h2>
 
-			<mat-icon aria-hidden="false"
-					  aria-label="menu icon"
-					  class="client-menu-icon">
-				menu
-			</mat-icon>
+			<button mat-icon-button color="primary"
+					[matMenuTriggerFor]="settingsMenu">
 
-		</button>
+				<mat-icon aria-hidden="false"
+						  aria-label="menu icon"
+						  class="client-menu-icon">
+					menu
+				</mat-icon>
+
+			</button>
+		</div>
 
 		<mat-menu #settingsMenu>
 

@@ -16,6 +16,7 @@ import { SelectedActivityRepository } from './selected-activity.repository';
 				<input matInput type="text" formControlName="name">
 
 				<button *ngIf="hasValue('name')"
+						type="button"
 						(click)="clearFormItem('name')"
 						mat-button matSuffix mat-icon-button aria-label="Clear">
 					<mat-icon>close</mat-icon>
@@ -30,6 +31,7 @@ import { SelectedActivityRepository } from './selected-activity.repository';
 				<input matInput type="number" formControlName="reps">
 
 				<button *ngIf="hasValue('reps')"
+						type="button"
 						(click)="clearFormItem('reps')"
 						mat-button matSuffix mat-icon-button aria-label="Clear">
 					<mat-icon>close</mat-icon>

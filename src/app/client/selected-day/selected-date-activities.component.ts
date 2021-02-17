@@ -9,16 +9,36 @@ import { FabricDateUtilService } from '../../common/date-util/fabric-date-util.s
 @Component({
 	selector: 'ac-selected-date-activities',
 	template: `
-		<div *ngFor="let activity of activities; let i = index"
-			 [class.selected-activity]="isActivitySelected(activity)">
+		<ng-container *ngIf="activities?.length > 0">
 
-			<span (click)="selectActivity(activity)">{{activity.name}} - {{activity.reps}}</span>
+			<div class="ac-selected-date-activity header">
 
-			<mat-icon *ngIf="isSelectedDayToday()"
-					  (click)="deleteActivity(activity)">delete
-			</mat-icon>
+				<span>#</span>
 
-		</div>
+				<span>Name</span>
+
+				<span>Reps</span>
+
+			</div>
+
+			<div *ngFor="let activity of activities; let i = index"
+				 [class.selected-activity]="isActivitySelected(activity)"
+				 (click)="selectActivity(activity)"
+				 class="ac-selected-date-activity">
+
+				<span>{{i + 1}}</span>
+
+				<span>{{activity.name}}</span>
+
+				<span>{{activity.reps}}</span>
+
+				<mat-icon *ngIf="isSelectedDayToday()"
+						  (click)="deleteActivity(activity)">delete
+				</mat-icon>
+
+			</div>
+
+		</ng-container>
 	`,
 	encapsulation: ViewEncapsulation.None,
 	changeDetection: ChangeDetectionStrategy.OnPush
@@ -67,6 +87,8 @@ export class SelectedDateActivitiesComponent extends Reactive implements OnInit 
 	}
 
 	deleteActivity(activity: CalendarActivity): void {
+		event.preventDefault();
+		event.stopPropagation();
 		this.selectedActivityService.deleteActivity(this.selectedDay, activity).finally();
 	}
 

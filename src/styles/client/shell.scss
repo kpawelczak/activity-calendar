@@ -1,11 +1,14 @@
-ac-header {
+.ac-header {
 	display: flex;
-	justify-content: flex-end;
+	justify-content: space-between;
+	align-items: baseline;
 	margin-bottom: $grid*3;
+	color: $white;
 
 	mat-icon.client-menu-icon {
 		font-size: $grid*4;
 		margin-right: $grid;
 		color: $white;
+		margin-top: -8px;
 	}
 }
