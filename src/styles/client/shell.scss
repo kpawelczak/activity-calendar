@@ -12,3 +12,11 @@
 		margin-top: -8px;
 	}
 }
+
+.ac-route-active {
+	color: $primary;
+
+	mat-icon {
+		color: $primary!important;
+	}
+}

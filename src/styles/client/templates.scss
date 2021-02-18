@@ -1,0 +1,15 @@
+ac-templates {
+	//display: block;
+	//background: $dark-element-background;
+	padding: $container-padding;
+	color: $white-gray;
+
+	mat-expansion-panel.mat-expansion-panel {
+		background: $dark-element-background;
+
+		mat-panel-title.mat-expansion-panel-header-title {
+			color: $white-gray;
+		}
+	}
+
+}

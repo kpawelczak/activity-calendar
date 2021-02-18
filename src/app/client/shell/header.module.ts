@@ -4,13 +4,15 @@ import { HeaderComponent } from './header.component';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatMenuModule } from '@angular/material/menu';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
 	imports: [
 		CommonModule,
 		MatIconModule,
 		MatButtonModule,
-		MatMenuModule
+		MatMenuModule,
+		RouterModule
 	],
 	declarations: [
 		HeaderComponent

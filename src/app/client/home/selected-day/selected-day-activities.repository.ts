@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
-import { Observable, Subject } from 'rxjs';
-import { CalendarActivity } from '../../firebase/activities/month-activities/calendar-activity';
+import { Observable, ReplaySubject } from 'rxjs';
+import { CalendarActivity } from '../../../firebase/activities/month-activities/calendar-activity';
 
 @Injectable()
-export class SelectedDateActivitiesRepository {
+export class SelectedDayActivitiesRepository {
 
 	private monthActivities: Array<CalendarActivity>;
 
-	private readonly activities$ = new Subject<Array<CalendarActivity>>();
+	private readonly activities$ = new ReplaySubject<Array<CalendarActivity>>(1);
 
 	onActivities(): Observable<Array<CalendarActivity>> {
 		return this.activities$.asObservable();

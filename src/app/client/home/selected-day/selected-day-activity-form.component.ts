@@ -1,13 +1,15 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Reactive } from '../../common/reactive';
-import { CalendarActivity } from '../../firebase/activities/month-activities/calendar-activity';
+import { Reactive } from '../../../common/reactive';
+import { CalendarActivity } from '../../../firebase/activities/month-activities/calendar-activity';
 import { SelectedActivityService } from './selected-activity.service';
 import { SelectedActivityRepository } from './selected-activity.repository';
 
 @Component({
 	selector: 'ac-selected-activity-form',
 	template: `
+		<h2 class="selected-activity-form-title">Add activity</h2>
+
 		<form [formGroup]="form">
 
 			<mat-form-field class="example-form-field">
@@ -55,7 +57,7 @@ import { SelectedActivityRepository } from './selected-activity.repository';
 	encapsulation: ViewEncapsulation.None,
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class SelectedDateActivityFormComponent extends Reactive implements OnInit {
+export class SelectedDayActivityFormComponent extends Reactive implements OnInit {
 
 	@Input()
 	selectedDay: Date;

@@ -12,7 +12,7 @@ $header-divider-height: 6px;
 
 $horizontal-padding: 8px;
 
-act-calendar {
+ac-calendar {
 	display: block;
 	background: $dark-element-background;
 }
@@ -186,6 +186,10 @@ act-calendar {
 					span {
 						opacity: 1;
 					}
+				}
+
+				&.gui-date-picker-current-day {
+					pointer-events: auto;
 				}
 
 				&.has-activity {

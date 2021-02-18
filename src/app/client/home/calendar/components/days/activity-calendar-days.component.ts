@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, Input, ViewEncapsulation } from '@a
 
 import { daysOfTheWeek } from '../../common/data/days-of-the-week';
 import { ActiveDateService } from '../../active-date.service';
-import { FabricDateUtilService } from '../../../../common/date-util/fabric-date-util.service';
+import { FabricDateUtilService } from '../../../../../common/date-util/fabric-date-util.service';
 
 @Component({
 	selector: 'act-calendar-days',

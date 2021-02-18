@@ -32,9 +32,6 @@ export class ActivityCalendarDaysContainerComponent extends CalendarPartContaine
 	nextWeeks: Array<Array<Date>>;
 
 	@Input()
-	selectedDate: Date;
-
-	@Input()
 	selectedMonth: number;
 
 	@Input()

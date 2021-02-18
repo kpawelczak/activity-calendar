@@ -55,7 +55,7 @@ import { FirebaseAuthenticationService } from '../../firebase/entry/firebase-aut
 				login
 			</ac-button>
 
-			<ac-button [type]="'submit'"
+			<ac-button [type]="'button'"
 					   [loading]="loadingAnonymous"
 					   (click)="loginAnonymously()">
 				Login anonymously

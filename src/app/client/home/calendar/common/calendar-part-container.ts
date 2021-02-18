@@ -1,12 +1,15 @@
-import { AfterViewInit, ChangeDetectorRef, Directive, ElementRef, Renderer2 } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Directive, ElementRef, Input, Renderer2 } from '@angular/core';
 import { ActivityCalendarInterfaceService } from '../components/top-interface/activity-calendar-interface.service';
 import { ActivityCalendarCardView } from './models/activity-calendar-card-view';
-import { Reactive } from '../../../common/reactive';
+import { Reactive } from '../../../../common/reactive';
 import { timer } from 'rxjs';
 import { calendarAnimationTimer } from './calendar-animation-timer';
 
 @Directive({ selector: 'calendar-part-container' })
 export abstract class CalendarPartContainer extends Reactive implements AfterViewInit {
+
+	@Input()
+	selectedDate: Date;
 
 	private offsetPercentage: number;
 

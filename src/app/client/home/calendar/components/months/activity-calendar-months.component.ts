@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, Inpu
 import { quarters } from '../../common/data/quarters';
 import { ActivityCalendarViewService } from '../../activity-calendar-view.service';
 import { ActivityCalendarService } from '../../activity-calendar.service';
-import { FabricDateUtilService } from '../../../../common/date-util/fabric-date-util.service';
+import { FabricDateUtilService } from '../../../../../common/date-util/fabric-date-util.service';
 import { ActivityCalendarView } from '../../common/models/activity-calendar-view';
 import { CalendarPartContainer } from '../../common/calendar-part-container';
 import { ActivityCalendarInterfaceService } from '../top-interface/activity-calendar-interface.service';
@@ -30,9 +30,6 @@ import { ActivityCalendarInterfaceService } from '../top-interface/activity-cale
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ActivityCalendarMonthsComponent extends CalendarPartContainer {
-
-	@Input()
-	selectedDate: Date;
 
 	@Input()
 	selectedYear: number;

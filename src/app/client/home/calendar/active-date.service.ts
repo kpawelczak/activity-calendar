@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { FabricDateUtilService } from '../../common/date-util/fabric-date-util.service';
+import { FabricDateUtilService } from '../../../common/date-util/fabric-date-util.service';
 
 @Injectable()
 export class ActiveDateService {

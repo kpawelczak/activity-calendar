@@ -30,9 +30,6 @@ import { ActivityCalendarInterfaceService } from '../top-interface/activity-cale
 export class ActivityCalendarYearsComponent extends CalendarPartContainer {
 
 	@Input()
-	selectedDate: Date;
-
-	@Input()
 	years: Array<Array<number>>;
 
 	currentDay: Date = new Date();

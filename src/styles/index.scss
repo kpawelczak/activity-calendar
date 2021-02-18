@@ -3,9 +3,12 @@
 @import "mixins";
 
 @import "styles";
+
 @import "entry/entry";
+
 @import "client/calendar";
 @import "client/selected-date";
+@import "client/templates";
 @import "client/shell";
 
 @import "ui/button";

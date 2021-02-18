@@ -1,16 +1,14 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
 import { SelectedActivityRepository } from './selected-activity.repository';
-import { CalendarActivity } from '../../firebase/activities/month-activities/calendar-activity';
-import { Reactive } from '../../common/reactive';
-import { SelectedDateActivitiesRepository } from './selected-date-activities.repository';
+import { CalendarActivity } from '../../../firebase/activities/month-activities/calendar-activity';
+import { Reactive } from '../../../common/reactive';
+import { SelectedDayActivitiesRepository } from './selected-day-activities.repository';
 import { SelectedActivityService } from './selected-activity.service';
-import { FabricDateUtilService } from '../../common/date-util/fabric-date-util.service';
+import { FabricDateUtilService } from '../../../common/date-util/fabric-date-util.service';
 
 @Component({
 	selector: 'ac-selected-date-activities',
 	template: `
-		<ng-container *ngIf="activities?.length > 0">
-
 			<div class="ac-selected-date-activity header">
 
 				<span>#</span>
@@ -33,17 +31,16 @@ import { FabricDateUtilService } from '../../common/date-util/fabric-date-util.s
 				<span>{{activity.reps}}</span>
 
 				<mat-icon *ngIf="isSelectedDayToday()"
-						  (click)="deleteActivity(activity)">delete
+						  (click)="deleteActivity(activity)">
+					delete
 				</mat-icon>
 
 			</div>
-
-		</ng-container>
 	`,
 	encapsulation: ViewEncapsulation.None,
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class SelectedDateActivitiesComponent extends Reactive implements OnInit {
+export class SelectedDayActivitiesComponent extends Reactive implements OnInit {
 
 	@Input()
 	selectedDay: Date;
@@ -58,21 +55,13 @@ export class SelectedDateActivitiesComponent extends Reactive implements OnInit 
 
 	constructor(private readonly selectedActivityRepository: SelectedActivityRepository,
 				private readonly selectedActivityService: SelectedActivityService,
-				private readonly selectedActivitiesService: SelectedDateActivitiesRepository,
+				private readonly selectedActivitiesService: SelectedDayActivitiesRepository,
 				private readonly dateUtilService: FabricDateUtilService,
 				private readonly changeDetectorRef: ChangeDetectorRef) {
 		super();
 	}
 
 	ngOnInit() {
-		this.selectedActivitiesService
-			.onActivities()
-			.pipe(this.takeUntil())
-			.subscribe((activities: Array<CalendarActivity>) => {
-				this.activities = activities;
-				this.changeDetectorRef.detectChanges();
-			});
-
 		this.selectedActivityRepository
 			.onActivity()
 			.pipe(this.takeUntil())

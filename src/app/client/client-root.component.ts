@@ -8,9 +8,7 @@ import { FirebaseProfileService } from '../firebase/profile/firebase-profile.ser
 
 			<ac-header></ac-header>
 
-			<act-calendar></act-calendar>
-
-			<act-selected-day></act-selected-day>
+			<router-outlet></router-outlet>
 
 		</ng-container>
 	`,

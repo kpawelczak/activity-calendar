@@ -1,25 +1,10 @@
-act-selected-day {
+ac-selected-day {
 	display: block;
 	box-sizing: border-box;
 	margin: $grid*4 0;
-	padding: $grid*3 $grid*2;
+	padding: $container-padding;
 	color: $white-gray;
 	background: $dark-element-background;
-
-	form {
-		display: flex;
-		flex-direction: column;
-
-		mat-form-field {
-			margin: $grid*2 0;
-		}
-
-		button.mat-raised-button {
-			width: 200px;
-			margin: $grid*2 0;
-			align-self: flex-end;
-		}
-	}
 }
 
 .selected-activity {
@@ -27,6 +12,7 @@ act-selected-day {
 }
 
 ac-selected-date-activities {
+	display: block;
 	padding: $grid*3 0;
 
 	.ac-selected-date-activity {
@@ -62,4 +48,28 @@ ac-selected-date-activities {
 			}
 		}
 	}
+}
+
+ac-selected-activity-form {
+
+	h2.selected-activity-form-title {
+		margin-top: $grid*5;
+		margin-bottom: 0;
+	}
+
+	form {
+		display: flex;
+		flex-direction: column;
+
+		mat-form-field {
+			margin: $grid*2 0;
+		}
+
+		button.mat-raised-button {
+			width: 200px;
+			margin: $grid*2 0;
+			align-self: flex-end;
+		}
+	}
+
 }

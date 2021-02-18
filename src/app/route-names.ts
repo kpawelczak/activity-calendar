@@ -1,7 +1,8 @@
 export enum RouteNames {
 	ENTRY = 'entry',
 	CLIENT = 'client',
-	CALENDAR = 'home',
+	CALENDAR = '',
 	REGISTRATION = 'registration',
+	TEMPLATES = 'templates',
 	RESET = 'reset'
 }
