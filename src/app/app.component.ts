@@ -29,28 +29,37 @@ export class AppComponent extends Reactive implements OnInit {
 			.authState
 			.pipe(this.takeUntil())
 			.subscribe((user: User | null) => {
-
-				switch (true) {
-
-					case user?.isAnonymous: {
-						this.setProfileAndLoginStatus('public');
-						break;
-					}
-
-					case !!user && !user.isAnonymous: {
-						this.setProfileAndLoginStatus(user.email);
-						break;
-					}
-
-					case !user: {
-						this.setProfileAndLoginStatus('');
-					}
-				}
+				this.manageAuthenticationStatus(user);
 			});
 	}
 
+	private manageAuthenticationStatus(user: User | null): void {
+		const anonymousIsLoggedIn = user?.isAnonymous,
+			userIsLoggedIn = !!user && !user.isAnonymous,
+			loggedOut = !user;
+
+		switch (true) {
+
+			case anonymousIsLoggedIn: {
+				this.setProfileAndLoginStatus('public');
+				break;
+			}
+
+			case userIsLoggedIn: {
+				this.setProfileAndLoginStatus(user.email);
+				break;
+			}
+
+			case loggedOut: {
+				this.setProfileAndLoginStatus('');
+			}
+		}
+	}
+
 	private setProfileAndLoginStatus(profile: string): void {
+		const isLoggedIn = !!profile;
+
 		this.profileService.next(profile);
-		this.authService.next(!!profile);
+		this.authService.next(isLoggedIn);
 	}
 }

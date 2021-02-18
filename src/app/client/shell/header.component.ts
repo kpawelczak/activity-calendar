@@ -2,8 +2,8 @@ import { ChangeDetectionStrategy, Component, ViewEncapsulation } from '@angular/
 import { FirebaseAuthenticationService } from '../../firebase/entry/firebase-authentication.service';
 import { RouteNames } from '../../route-names';
 import { Router } from '@angular/router';
-import { acLinks } from './ac-links';
-import { AcLink } from './ac-link';
+import { activityCalendarLinks } from './activity-calendar-links';
+import { ActivityCalendarLink } from './activity-calendar-link';
 
 @Component({
 	selector: 'ac-header',
@@ -46,9 +46,9 @@ import { AcLink } from './ac-link';
 })
 export class HeaderComponent {
 
-	links: Array<AcLink> = acLinks;
+	links: Array<ActivityCalendarLink> = activityCalendarLinks;
 
-	activeLink: AcLink = this.getInitialLink();
+	activeLink: ActivityCalendarLink = this.getInitialLink();
 
 	RouteNames = RouteNames;
 
@@ -60,7 +60,7 @@ export class HeaderComponent {
 		this.authService.logout();
 	}
 
-	navigate(acLink: AcLink): void {
+	navigate(acLink: ActivityCalendarLink): void {
 		this.activeLink = acLink;
 		this.router.navigate([`${RouteNames.CLIENT}/${acLink.route}`]);
 	}
@@ -69,7 +69,7 @@ export class HeaderComponent {
 		return this.activeLink.route === routeName;
 	}
 
-	private getInitialLink(): AcLink {
-		return this.links.filter((acLinK: AcLink) => acLinK.route === RouteNames.CALENDAR)[0];
+	private getInitialLink(): ActivityCalendarLink {
+		return this.links.filter((acLinK: ActivityCalendarLink) => acLinK.route === RouteNames.CALENDAR)[0];
 	}
 }
