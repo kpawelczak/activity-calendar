@@ -1,7 +1,8 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ViewEncapsulation } from '@angular/core';
 import { RouteNames } from '../../route-names';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, Validators } from '@angular/forms';
 import { FirebaseAuthenticationService } from '../../firebase/entry/firebase-authentication.service';
+import { ActivityCalendarForm } from '../../common/form/activity-calendar-form';
 
 @Component({
 	selector: 'ac-login',
@@ -66,11 +67,9 @@ import { FirebaseAuthenticationService } from '../../firebase/entry/firebase-aut
 	encapsulation: ViewEncapsulation.None,
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class LoginComponent {
+export class LoginComponent extends ActivityCalendarForm {
 
 	RouteNames = RouteNames;
-
-	form: FormGroup;
 
 	loadingUser: boolean;
 
@@ -79,18 +78,11 @@ export class LoginComponent {
 	constructor(private readonly formBuilder: FormBuilder,
 				private readonly firebaseService: FirebaseAuthenticationService,
 				private readonly changeDetectorRef: ChangeDetectorRef) {
+		super();
 		this.form = this.formBuilder.group({
 			email: ['', Validators.required],
 			password: ['', Validators.required]
 		});
-	}
-
-	clearFormItem(formControlValue: string): void {
-		this.form.controls[formControlValue].reset();
-	}
-
-	hasValue(formControlName: string): boolean {
-		return !!this.form.controls[formControlName].value;
 	}
 
 	login(): void {

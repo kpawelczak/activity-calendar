@@ -1,14 +1,14 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Reactive } from '../../../common/reactive';
+import { FormBuilder } from '@angular/forms';
 import { CalendarActivity } from '../../../firebase/activities/month-activities/calendar-activity';
 import { SelectedActivityService } from './selected-activity.service';
 import { SelectedActivityRepository } from './selected-activity.repository';
+import { ActivityForm } from '../../../common/form/activity-form';
 
 @Component({
 	selector: 'ac-selected-activity-form',
 	template: `
-		<h2 class="selected-activity-form-title">Add activity</h2>
+		<h2 class="selected-activity-form-title">{{getFormTypeText()}} activity</h2>
 
 		<form [formGroup]="form">
 
@@ -49,7 +49,7 @@ import { SelectedActivityRepository } from './selected-activity.repository';
 			<ac-button [loading]="loading"
 					   [type]="'submit'"
 					   (click)="manageActivity()">
-				{{getButtonText()}}
+				{{getFormTypeText()}}
 			</ac-button>
 
 		</form>
@@ -57,26 +57,20 @@ import { SelectedActivityRepository } from './selected-activity.repository';
 	encapsulation: ViewEncapsulation.None,
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class SelectedDayActivityFormComponent extends Reactive implements OnInit {
+export class SelectedDayActivityFormComponent extends ActivityForm implements OnInit {
 
 	@Input()
 	selectedDay: Date;
-
-	form: FormGroup;
 
 	selectedActivity: CalendarActivity;
 
 	loading: boolean = false;
 
-	constructor(private readonly formBuilder: FormBuilder,
-				private readonly selectedActivityRepository: SelectedActivityRepository,
+	constructor(private readonly selectedActivityRepository: SelectedActivityRepository,
 				private readonly selectedActivityService: SelectedActivityService,
-				private readonly changeDetectorRef: ChangeDetectorRef) {
-		super();
-		this.form = this.formBuilder.group({
-			name: ['', Validators.required],
-			reps: ['', Validators.required]
-		});
+				private readonly changeDetectorRef: ChangeDetectorRef,
+				formBuilder: FormBuilder) {
+		super(formBuilder);
 	}
 
 	ngOnInit() {
@@ -89,7 +83,7 @@ export class SelectedDayActivityFormComponent extends Reactive implements OnInit
 			});
 	}
 
-	getButtonText(): string {
+	getFormTypeText(): string {
 		return this.selectedActivity ? 'Edit' : 'Add';
 	}
 
@@ -114,14 +108,6 @@ export class SelectedDayActivityFormComponent extends Reactive implements OnInit
 	clearSelection(): void {
 		this.selectedActivityRepository.selectActivity(null);
 		this.form.reset();
-	}
-
-	clearFormItem(formControlValue: string): void {
-		this.form.controls[formControlValue].reset();
-	}
-
-	hasValue(formControlName: string): boolean {
-		return !!this.form.controls[formControlName].value;
 	}
 
 	private addActivity(): void {
@@ -150,10 +136,4 @@ export class SelectedDayActivityFormComponent extends Reactive implements OnInit
 			});
 	}
 
-	private fillForm(activity: CalendarActivity): void {
-		if (activity) {
-			this.form.controls['name'].setValue(activity.name);
-			this.form.controls['reps'].setValue(activity.reps);
-		}
-	}
 }

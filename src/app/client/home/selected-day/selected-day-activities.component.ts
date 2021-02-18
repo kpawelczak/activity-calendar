@@ -9,33 +9,33 @@ import { FabricDateUtilService } from '../../../common/date-util/fabric-date-uti
 @Component({
 	selector: 'ac-selected-date-activities',
 	template: `
-			<div class="ac-selected-date-activity header">
+		<div class="ac-selected-date-activity header">
 
-				<span>#</span>
+			<span>#</span>
 
-				<span>Name</span>
+			<span>Name</span>
 
-				<span>Reps</span>
+			<span>Reps</span>
 
-			</div>
+		</div>
 
-			<div *ngFor="let activity of activities; let i = index"
-				 [class.selected-activity]="isActivitySelected(activity)"
-				 (click)="selectActivity(activity)"
-				 class="ac-selected-date-activity">
+		<div *ngFor="let activity of activities; let i = index"
+			 [class.selected-activity]="isActivitySelected(activity)"
+			 (click)="selectActivity(activity)"
+			 class="ac-selected-date-activity">
 
-				<span>{{i + 1}}</span>
+			<span>{{i + 1}}</span>
 
-				<span>{{activity.name}}</span>
+			<span>{{activity.name}}</span>
 
-				<span>{{activity.reps}}</span>
+			<span>{{activity.reps}}</span>
 
-				<mat-icon *ngIf="isSelectedDayToday()"
-						  (click)="deleteActivity(activity)">
-					delete
-				</mat-icon>
+			<mat-icon *ngIf="isSelectedDayToday()"
+					  (click)="deleteActivity(activity)">
+				delete
+			</mat-icon>
 
-			</div>
+		</div>
 	`,
 	encapsulation: ViewEncapsulation.None,
 	changeDetection: ChangeDetectionStrategy.OnPush

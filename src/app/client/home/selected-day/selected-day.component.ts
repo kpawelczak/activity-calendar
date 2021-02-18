@@ -10,7 +10,7 @@ import { SelectedDayActivitiesRepository } from './selected-day-activities.repos
 @Component({
 	selector: 'ac-selected-day',
 	template: `
-		<h2>{{selectedDay | date:'EEEE, MMMM d, y'}}</h2>
+		<h2 class="selected-activity-day">{{selectedDay | date:'EEEE, MMMM d, y'}}</h2>
 
 		<mat-tab-group mat-stretch-tabs dynamicHeight>
 

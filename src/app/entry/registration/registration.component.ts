@@ -1,7 +1,8 @@
 import { ChangeDetectionStrategy, Component, ViewEncapsulation } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, Validators } from '@angular/forms';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { AngularFirestore } from '@angular/fire/firestore';
+import { ActivityCalendarForm } from '../../common/form/activity-calendar-form';
 
 @Component({
 	selector: 'ac-registration',
@@ -43,24 +44,16 @@ import { AngularFirestore } from '@angular/fire/firestore';
 	encapsulation: ViewEncapsulation.None,
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class RegistrationComponent {
-	form: FormGroup;
+export class RegistrationComponent extends ActivityCalendarForm {
 
 	constructor(private readonly formBuilder: FormBuilder,
 				private readonly firestore: AngularFirestore,
 				private readonly fireAuth: AngularFireAuth) {
+		super();
 		this.form = this.formBuilder.group({
 			email: ['', Validators.required],
 			password: ['', Validators.required]
 		});
-	}
-
-	clearFormItem(formControlValue: string): void {
-		this.form.controls[formControlValue].reset();
-	}
-
-	hasValue(formControlName: string): boolean {
-		return !!this.form.controls[formControlName].value;
 	}
 
 	register() {

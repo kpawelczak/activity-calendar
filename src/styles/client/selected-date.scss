@@ -5,6 +5,11 @@ ac-selected-day {
 	padding: $container-padding;
 	color: $white-gray;
 	background: $dark-element-background;
+
+	h2.selected-activity-day {
+		text-align: center;
+		margin-bottom: $grid*4;
+	}
 }
 
 .selected-activity {
