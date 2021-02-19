@@ -1,18 +1,17 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
 import { WeekdayTemplate } from '../../../repositories/templates/weekday-template';
-import { Activity } from '../activity';
 import { Reactive } from '../../../common/reactive';
 import { WeekdayTemplateRepository } from './weekday-template.repository';
+import { TemplateActivity } from '../../../repositories/templates/template-activity';
 
 @Component({
 	selector: 'ac-weekday-template',
 	template: `
 		<!--		click on button to add activity to template-->
 
-		<ac-template-activity-form *ngFor="let template of weekdayTemplate?.templates; let i = index"
+		<ac-template-activity-form *ngFor="let template of weekdayTemplate?.templates"
 								   [templateActivity]="template"
-								   [weekday]="weekday"
-								   (onDeletion)="deleteActivity(i)"></ac-template-activity-form>
+								   [weekdayTemplate]="weekdayTemplate"></ac-template-activity-form>
 
 		<ac-button (click)="addTemplate()">Add template</ac-button>
 	`,
@@ -41,11 +40,8 @@ export class WeekdayTemplateComponent extends Reactive implements OnInit {
 	}
 
 	addTemplate(): void {
-		this.weekdayTemplate.templates.push(new Activity('', ''));
-	}
+		const templateActivity = new TemplateActivity('', '');
 
-	deleteActivity(index: number): void {
-		this.weekdayTemplate.templates.splice(index, 1);
+		this.weekdayTemplate.templates.push(templateActivity);
 	}
-
 }

@@ -1,8 +1,7 @@
-import { Activity } from '../../client/templates/activity';
-
 export class TemplateActivity {
 
-	constructor(readonly activity: Activity,
+	constructor(readonly name: string,
+				readonly reps: string,
 				readonly UUID?: string) {
 	}
 }

@@ -1,17 +1,9 @@
-import {
-	ChangeDetectionStrategy,
-	Component,
-	EventEmitter,
-	Input,
-	OnChanges,
-	Output,
-	SimpleChanges,
-	ViewEncapsulation
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnChanges, SimpleChanges, ViewEncapsulation } from '@angular/core';
 import { ActivityForm } from '../../../common/form/activity-form';
 import { FormBuilder } from '@angular/forms';
-import { FirebaseTemplatesService } from '../../../firebase/templates/firebase-templates.service';
-import { Activity } from '../activity';
+import { TemplateActivity } from '../../../repositories/templates/template-activity';
+import { WeekdayTemplate } from '../../../repositories/templates/weekday-template';
+import { WeekdayTemplateService } from './weekday-template.service';
 
 @Component({
 	selector: 'ac-template-activity-form',
@@ -55,7 +47,7 @@ import { Activity } from '../activity';
 				</mat-icon>
 			</button>
 
-			<button mat-icon-button (click)="onDeletion.emit()">
+			<button mat-icon-button (click)="deleteTemplateActivity()">
 				<mat-icon>
 					delete
 				</mat-icon>
@@ -69,17 +61,14 @@ import { Activity } from '../activity';
 export class WeekdayActivityFormComponent extends ActivityForm implements OnChanges {
 
 	@Input()
-	templateActivity: Activity;
+	templateActivity: TemplateActivity;
 
 	@Input()
-	weekday: string;
-
-	@Output()
-	onDeletion = new EventEmitter;
+	weekdayTemplate: WeekdayTemplate;
 
 	loading: boolean;
 
-	constructor(private readonly firebaseTemplatesService: FirebaseTemplatesService,
+	constructor(private readonly weekdayTemplateService: WeekdayTemplateService,
 				formBuilder: FormBuilder) {
 		super(formBuilder);
 	}
@@ -95,7 +84,16 @@ export class WeekdayActivityFormComponent extends ActivityForm implements OnChan
 	saveActivity(): void {
 		if (this.form.valid) {
 			this.loading = true;
-			this.firebaseTemplatesService.saveActivityToTemplate(this.weekday, this.form.value);
+			const name = this.form.controls['name'].value,
+				reps = this.form.controls['reps'].value,
+				uuid = this.templateActivity.UUID ? this.templateActivity.UUID : '',
+				templateActivity = new TemplateActivity(name, reps, uuid);
+
+			this.weekdayTemplateService.saveActivityToTemplate(this.weekdayTemplate, templateActivity);
 		}
+	}
+
+	deleteTemplateActivity(): void {
+		this.weekdayTemplateService.deleteTemplateActivity(this.weekdayTemplate, this.templateActivity.UUID);
 	}
 }

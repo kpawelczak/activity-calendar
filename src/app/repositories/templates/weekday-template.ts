@@ -1,8 +1,8 @@
-import { Activity } from '../../client/templates/activity';
+import { TemplateActivity } from './template-activity';
 
 export class WeekdayTemplate {
 
 	constructor(readonly weekday: string,
-				readonly templates: Array<Activity> = []) {
+				readonly templates: Array<TemplateActivity> = []) {
 	}
 }

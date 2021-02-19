@@ -2,11 +2,12 @@ import { Injectable } from '@angular/core';
 import { ProfileCollection } from '../profile/firebase-profile';
 import { FirebaseProfileService } from '../profile/firebase-profile.service';
 import { AngularFirestore } from '@angular/fire/firestore';
-import { Activity } from '../../client/templates/activity';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { take } from 'rxjs/operators';
 import { WeekdayTemplatesRepository } from '../../repositories/templates/weekday-templates.repository';
 import { WeekdayTemplate } from '../../repositories/templates/weekday-template';
+import { TemplateActivity } from '../../repositories/templates/template-activity';
+import { v4 as uuidv4 } from 'uuid';
 
 @Injectable()
 export class FirebaseTemplatesService extends ProfileCollection {
@@ -30,19 +31,37 @@ export class FirebaseTemplatesService extends ProfileCollection {
 			});
 	}
 
-	saveActivityToTemplate(weekday: string, activity: Activity) {
+	saveActivityToTemplate(weekday: string, templateActivity: TemplateActivity): Promise<void> {
+		const UUID = templateActivity.UUID ? templateActivity.UUID : uuidv4();
 
-		this.profileCollection()
-			.doc('templates')
-			.collection(weekday)
-			.add({
-				...activity
-			})
-			.then(() => {
-				this.matSnackBar.open('Activity saved to template', '', {
-					duration: 5000
-				});
-			});
+		return this.profileCollection()
+				   .doc('templates')
+				   .collection(weekday)
+				   .doc(UUID)
+				   .set({
+					   name: templateActivity.name,
+					   reps: templateActivity.reps,
+					   UUID
+				   })
+				   .then(() => {
+					   this.matSnackBar.open('Activity saved to template', '', {
+						   duration: 5000
+					   });
+				   });
+	}
+
+	deleteTemplateActivity(weekday: string, templateActivityUUID: string): Promise<void> {
+
+		return this.profileCollection()
+				   .doc('templates')
+				   .collection(weekday)
+				   .doc(templateActivityUUID)
+				   .delete()
+				   .then(() => {
+					   this.matSnackBar.open('Activity deleted from template', '', {
+						   duration: 5000
+					   });
+				   });
 	}
 
 }
