@@ -3,6 +3,7 @@ import { WeekdayTemplate } from '../../../repositories/templates/weekday-templat
 import { Reactive } from '../../../common/reactive';
 import { WeekdayTemplateRepository } from './weekday-template.repository';
 import { TemplateActivity } from '../../../repositories/templates/template-activity';
+import { v4 as uuidv4 } from 'uuid';
 
 @Component({
 	selector: 'ac-weekday-template',
@@ -40,7 +41,7 @@ export class WeekdayTemplateComponent extends Reactive implements OnInit {
 	}
 
 	addTemplate(): void {
-		const templateActivity = new TemplateActivity('', '');
+		const templateActivity = new TemplateActivity('', '', uuidv4());
 
 		this.weekdayTemplate.templates.push(templateActivity);
 	}

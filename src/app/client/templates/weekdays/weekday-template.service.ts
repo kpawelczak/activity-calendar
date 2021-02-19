@@ -16,7 +16,10 @@ export class WeekdayTemplateService {
 		this.firebaseTemplatesService
 			.saveActivityToTemplate(weekdayTemplate.weekday, templateActivity)
 			.then(() => {
-				const newWeekdayTemplate = this.createWeekdayTemplateWithNewActivity(weekdayTemplate, templateActivity);
+				const newWeekdayTemplate = this.createWeekdayTemplateWithUpdatedActivity(
+					weekdayTemplate,
+					templateActivity
+				);
 				this.weekdayTemplatesRepository.next(newWeekdayTemplate);
 			});
 	}
@@ -31,40 +34,28 @@ export class WeekdayTemplateService {
 			});
 	}
 
-	private createWeekdayTemplateWithNewActivity(weekdayTemplate: WeekdayTemplate,
-												 newTemplateActivity: TemplateActivity): WeekdayTemplate {
-		let newTemplates = weekdayTemplate.templates,
-			activityAlreadyInArray = false;
+	private createWeekdayTemplateWithUpdatedActivity(weekdayTemplate: WeekdayTemplate,
+													 newTemplateActivity: TemplateActivity): WeekdayTemplate {
+		let newTemplates = weekdayTemplate.templates;
 
-		newTemplates.forEach((templateActivity: TemplateActivity) => {
+		newTemplates = newTemplates.map((templateActivity: TemplateActivity) => {
+
 			if (templateActivity.UUID === newTemplateActivity.UUID) {
-				activityAlreadyInArray = true;
+				return newTemplateActivity;
 			}
+
+			return templateActivity;
 		});
-
-		if (activityAlreadyInArray) {
-			newTemplates = newTemplates.map((templateActivity: TemplateActivity) => {
-
-				if (templateActivity.UUID === newTemplateActivity.UUID) {
-					return newTemplateActivity;
-				}
-
-				return templateActivity;
-			});
-		} else {
-			newTemplates.push(newTemplateActivity);
-		}
 
 		return new WeekdayTemplate(weekdayTemplate.weekday, newTemplates);
 	}
 
 	private createWeekdayTemplateWithDeletedActivity(weekdayTemplate: WeekdayTemplate,
 													 templateActivityUUID: string): WeekdayTemplate {
-		const templatesUUID = weekdayTemplate.templates
-											 .map((templateActivity: TemplateActivity) => {
-												 return templateActivity.UUID;
-											 }),
-			deletedTemplateActivityIndex = templatesUUID.indexOf(templateActivityUUID);
+		const templates = weekdayTemplate.templates,
+			deletedTemplateActivityIndex = templates.findIndex((templateActivity: TemplateActivity) => {
+				return templateActivity.UUID === templateActivityUUID;
+			});
 
 		weekdayTemplate.templates.splice(deletedTemplateActivityIndex, 1);
 

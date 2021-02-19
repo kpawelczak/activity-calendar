@@ -7,7 +7,6 @@ import { take } from 'rxjs/operators';
 import { WeekdayTemplatesRepository } from '../../repositories/templates/weekday-templates.repository';
 import { WeekdayTemplate } from '../../repositories/templates/weekday-template';
 import { TemplateActivity } from '../../repositories/templates/template-activity';
-import { v4 as uuidv4 } from 'uuid';
 
 @Injectable()
 export class FirebaseTemplatesService extends ProfileCollection {
@@ -32,7 +31,7 @@ export class FirebaseTemplatesService extends ProfileCollection {
 	}
 
 	saveActivityToTemplate(weekday: string, templateActivity: TemplateActivity): Promise<void> {
-		const UUID = templateActivity.UUID ? templateActivity.UUID : uuidv4();
+		const UUID = templateActivity.UUID;
 
 		return this.profileCollection()
 				   .doc('templates')
