@@ -30,7 +30,7 @@ import { ActivityForm } from '../../../common/form/activity-form';
 
 				<mat-label>Reps</mat-label>
 
-				<input matInput type="number" formControlName="reps">
+				<input matInput type="text" formControlName="reps">
 
 				<button *ngIf="hasValue('reps')"
 						type="button"

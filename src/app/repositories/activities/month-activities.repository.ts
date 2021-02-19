@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Observable, ReplaySubject } from 'rxjs';
-import { CalendarActivity } from './calendar-activity';
+import { CalendarActivity } from '../../firebase/activities/month-activities/calendar-activity';
 
 @Injectable()
-export class FirestoreMonthActivitiesRepository { // todo not firestore
+export class MonthActivitiesRepository { // todo not firestore
 
 	private monthActivities: Array<CalendarActivity>;
 

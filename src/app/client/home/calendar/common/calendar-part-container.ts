@@ -57,11 +57,11 @@ export abstract class CalendarPartContainer extends Reactive implements AfterVie
 
 		this.offsetPercentage = this.getOffsetPercentage(event.deltaX);
 
-		if (Math.abs(this.offsetPercentage) > 150) {
+		if (Math.abs(this.offsetPercentage) > 50) {
 			return;
 		}
 
-		this.setOffset(this.offsetPercentage / 4);
+		this.setOffset(this.offsetPercentage / 2);
 		this.detectChanges();
 	}
 

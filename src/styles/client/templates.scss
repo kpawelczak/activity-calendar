@@ -12,4 +12,14 @@ ac-templates {
 		}
 	}
 
+	ac-template-activity-form {
+		display: block;
+
+		form {
+			display: grid;
+			grid-template-columns: minmax(100px, 1fr) minmax(100px, 1fr) 24px 24px;
+			grid-column-gap: $grid*1.5;
+			align-items: center;
+		}
+	}
 }

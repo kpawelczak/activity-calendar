@@ -3,7 +3,7 @@ import { ActiveDateService } from '../calendar/active-date.service';
 import { Reactive } from '../../../common/reactive';
 import { FabricDateUtilService } from '../../../common/date-util/fabric-date-util.service';
 import { CalendarActivity } from '../../../firebase/activities/month-activities/calendar-activity';
-import { FirestoreMonthActivitiesRepository } from '../../../firebase/activities/month-activities/firestore-month-activities.repository';
+import { MonthActivitiesRepository } from '../../../repositories/activities/month-activities.repository';
 import { distinctUntilChanged, switchMap } from 'rxjs/operators';
 import { SelectedDayActivitiesRepository } from './selected-day-activities.repository';
 
@@ -47,7 +47,7 @@ export class SelectedDayComponent extends Reactive implements OnInit {
 
 	constructor(private readonly selectedDayService: ActiveDateService,
 				private readonly selectedDateActivitiesService: SelectedDayActivitiesRepository,
-				private readonly monthActivitiesRepository: FirestoreMonthActivitiesRepository,
+				private readonly monthActivitiesRepository: MonthActivitiesRepository,
 				private readonly dateUtilService: FabricDateUtilService,
 				private readonly changeDetectorRef: ChangeDetectorRef) {
 		super();

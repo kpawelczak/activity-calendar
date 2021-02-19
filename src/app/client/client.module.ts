@@ -5,6 +5,8 @@ import { ClientRoutingModule } from './client-routing.module';
 import { HeaderModule } from './shell/header.module';
 import { HomeModule } from './home/home.module';
 import { TemplatesModule } from './templates/templates.module';
+import { WeekdayTemplatesModule } from '../repositories/templates/weekday-templates.module';
+import { MonthActivitiesModule } from '../repositories/activities/month-activities.module';
 
 
 @NgModule({
@@ -13,7 +15,9 @@ import { TemplatesModule } from './templates/templates.module';
 		ClientRoutingModule,
 		HomeModule,
 		TemplatesModule,
-		HeaderModule
+		HeaderModule,
+		WeekdayTemplatesModule,
+		MonthActivitiesModule
 	],
 	declarations: [
 		ClientRootComponent

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { CalendarActivity } from '../../../firebase/activities/month-activities/calendar-activity';
 import { SelectedDayActivitiesRepository } from './selected-day-activities.repository';
-import { FirestoreMonthActivitiesRepository } from '../../../firebase/activities/month-activities/firestore-month-activities.repository';
+import { MonthActivitiesRepository } from '../../../repositories/activities/month-activities.repository';
 import { v4 as uuidv4 } from 'uuid';
 import { FirestoreSelectedActivityService } from '../../../firebase/activities/selected-activity/firestore-selected-activity.service';
 
@@ -11,7 +11,7 @@ export class SelectedActivityService {
 
 	constructor(private readonly firestoreSelectedActivityService: FirestoreSelectedActivityService,
 				private readonly selectedDateActivitiesService: SelectedDayActivitiesRepository,
-				private readonly monthActivitiesRepository: FirestoreMonthActivitiesRepository) {
+				private readonly monthActivitiesRepository: MonthActivitiesRepository) {
 	}
 
 	addActivity(selectedDate: Date, formValues: CalendarActivity): Promise<void> {

@@ -56,7 +56,7 @@ export class HeaderComponent {
 				private readonly router: Router) {
 	}
 
-	logout() {
+	logout(): void {
 		this.authService.logout();
 	}
 

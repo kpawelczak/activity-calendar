@@ -8,7 +8,7 @@ import { ActivityCalendarYearsService } from './components/years/activity-calend
 import { Reactive } from '../../../common/reactive';
 import { ActivityCalendarView } from './common/models/activity-calendar-view';
 import { FirestoreMonthActivitiesService } from '../../../firebase/activities/month-activities/firestore-month-activities.service';
-import { FirestoreMonthActivitiesRepository } from '../../../firebase/activities/month-activities/firestore-month-activities.repository';
+import { MonthActivitiesRepository } from '../../../repositories/activities/month-activities.repository';
 
 
 @Component({
@@ -49,7 +49,7 @@ export class ActivityCalendarComponent extends Reactive implements OnInit {
 				private readonly calendarService: ActivityCalendarService,
 				private readonly calendarViewService: ActivityCalendarViewService,
 				private readonly firestoreMonthActivitiesService: FirestoreMonthActivitiesService,
-				private readonly firestoreMonthActivitiesRepository: FirestoreMonthActivitiesRepository,
+				private readonly firestoreMonthActivitiesRepository: MonthActivitiesRepository,
 				private readonly changeDetectorRef: ChangeDetectorRef) {
 		super();
 	}

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { FirestoreMonthActivitiesRepository } from './firestore-month-activities.repository';
+import { MonthActivitiesRepository } from '../../../repositories/activities/month-activities.repository';
 import firebase from 'firebase';
 import { AngularFirestore, CollectionReference } from '@angular/fire/firestore';
 import { take } from 'rxjs/operators';
@@ -12,7 +12,7 @@ import Database = firebase.database.Database;
 export class FirestoreMonthActivitiesService extends ProfileCollection {
 	private static readonly MILLI_SECONDS_IN_WEEK = 604800000;
 
-	constructor(private readonly monthActivitiesRepository: FirestoreMonthActivitiesRepository,
+	constructor(private readonly monthActivitiesRepository: MonthActivitiesRepository,
 				firebaseProfileService: FirebaseProfileService,
 				firestore: AngularFirestore) {
 		super(firebaseProfileService, firestore);
