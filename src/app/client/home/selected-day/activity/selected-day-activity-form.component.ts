@@ -111,8 +111,19 @@ export class SelectedDayActivityFormComponent extends ActivityForm implements On
 	}
 
 	private addActivity(): void {
+		const calendarActivity = new CalendarActivity(
+			this.selectedDay.getTime(),
+			this.form.controls['name'].value,
+			this.form.controls['reps'].value
+		);
+
 		this.selectedActivityService
-			.addActivity(this.selectedDay, this.form.value)
+			.addActivity(this.selectedDay, calendarActivity)
+			.catch(() => {
+				this.loading = false;
+				this.form.reset();
+				this.changeDetectorRef.detectChanges();
+			})
 			.finally(() => {
 				this.loading = false;
 				this.form.reset();
@@ -123,13 +134,21 @@ export class SelectedDayActivityFormComponent extends ActivityForm implements On
 	private updateActivity(): void {
 		const calendarActivity = new CalendarActivity(
 			this.selectedActivity.day,
-			this.selectedActivity.activityUUID,
 			this.form.controls['name'].value,
-			this.form.controls['reps'].value
+			this.form.controls['reps'].value,
+			this.selectedActivity.getActivityUUID()
 		);
+
+		if (this.selectedActivity.getAssignedTemplateUUID()) {
+			calendarActivity.setTemplateUUID(this.selectedActivity.getAssignedTemplateUUID());
+		}
 
 		this.selectedActivityService
 			.updateActivity(this.selectedDay, calendarActivity)
+			.catch(() => {
+				this.loading = false;
+				this.changeDetectorRef.detectChanges();
+			})
 			.finally(() => {
 				this.loading = false;
 				this.changeDetectorRef.detectChanges();

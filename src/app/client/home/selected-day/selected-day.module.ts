@@ -19,6 +19,7 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { SelectedDayTemplateComponent } from './template/selected-day-template.component';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { SelectedDayTemplateActivityComponent } from './template/selected-day-template-activity.component';
+import { SelectedDayTemplateActivityRepository } from './template/selected-day-template-activity.repository';
 
 
 @NgModule({
@@ -50,7 +51,8 @@ import { SelectedDayTemplateActivityComponent } from './template/selected-day-te
 	providers: [
 		SelectedActivityRepository,
 		SelectedActivityService,
-		SelectedDayActivitiesRepository
+		SelectedDayActivitiesRepository,
+		SelectedDayTemplateActivityRepository
 	]
 })
 export class SelectedDayModule {

@@ -41,7 +41,7 @@ export class FirebaseTemplatesService extends ProfileCollection {
 				   .set({
 					   name: templateActivity.name,
 					   reps: templateActivity.reps,
-					   UUID
+					   templateUUID: UUID
 				   })
 				   .then(() => {
 					   this.matSnackBar.open('Activity saved to template', '', {

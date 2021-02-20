@@ -2,11 +2,12 @@ import { Injectable } from '@angular/core';
 import { MonthActivitiesRepository } from '../../../repositories/activities/month-activities.repository';
 import firebase from 'firebase';
 import { AngularFirestore, CollectionReference } from '@angular/fire/firestore';
-import { take } from 'rxjs/operators';
+import { map, take } from 'rxjs/operators';
 import { CalendarActivity } from './calendar-activity';
 import { ProfileCollection } from '../../profile/firebase-profile';
 import { FirebaseProfileService } from '../../profile/firebase-profile.service';
 import Database = firebase.database.Database;
+import DocumentData = firebase.firestore.DocumentData;
 
 @Injectable()
 export class FirestoreMonthActivitiesService extends ProfileCollection {
@@ -29,9 +30,21 @@ export class FirestoreMonthActivitiesService extends ProfileCollection {
 						  .where('day', '<', endAt);
 			})
 			.valueChanges()
-			.pipe(take(1))
-			.subscribe((response: Array<CalendarActivity>) => {
-				this.monthActivitiesRepository.next(response);
+			.pipe(
+				map((response: Array<DocumentData>) => {
+					return response.map((calendarActivity: DocumentData) => {
+						return new CalendarActivity(
+							calendarActivity.day,
+							calendarActivity.name,
+							calendarActivity.reps,
+							calendarActivity.activityUUID,
+							calendarActivity.assignedTemplateUUID
+						);
+					});
+				}),
+				take(1))
+			.subscribe((calendarActivities: Array<CalendarActivity>) => {
+				this.monthActivitiesRepository.next(calendarActivities);
 			});
 	}
 

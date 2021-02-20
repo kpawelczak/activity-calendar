@@ -15,14 +15,13 @@ export class SelectedActivityService {
 	}
 
 	addActivity(selectedDate: Date, calendarActivity: CalendarActivity): Promise<void> {
-		const dayInSeconds = selectedDate.getTime(),
-			uuid = calendarActivity.activityUUID ? calendarActivity.activityUUID : uuidv4(),
-			newCalendarActivity = new CalendarActivity(dayInSeconds, uuid, calendarActivity.name, calendarActivity.reps);
-
+		if (!calendarActivity.getActivityUUID()) {
+			calendarActivity.setActivityUUID(uuidv4());
+		}
 		return this.firestoreSelectedActivityService
 				   .addActivity(calendarActivity)
 				   .then(() => {
-					   this.monthActivitiesRepository.addMonthActivity(newCalendarActivity);
+					   this.monthActivitiesRepository.addMonthActivity(calendarActivity);
 					   this.selectedDateActivitiesService.selectDayActivities(selectedDate);
 				   });
 	}

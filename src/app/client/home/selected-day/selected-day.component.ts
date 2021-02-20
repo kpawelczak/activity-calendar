@@ -18,7 +18,7 @@ import { Weekday } from '../../../repositories/templates/weekday';
 		<h2 class="selected-activity-day">{{selectedDay | date:'EEEE, MMMM d, y'}}</h2>
 
 		<mat-tab-group mat-stretch-tabs dynamicHeight>
-
+			<!--Todo mattab -> ngif no template no activities-->
 			<mat-tab *ngIf="activities?.length > 0"
 					 [label]="getActivitiesLabel()">
 

@@ -15,13 +15,14 @@ export class FirestoreSelectedActivityService extends ProfileCollection {
 	}
 
 	addActivity(activity: CalendarActivity): Promise<void> {
-
 		return this.profileCollection()
 				   .doc('activities')
 				   .collection('days')
-				   .doc(activity.activityUUID)
+				   .doc(activity.getActivityUUID())
 				   .set({
-					   ...activity
+					   ...activity,
+					   activityUUID: activity.getActivityUUID(),
+					   assignedTemplateUUID: activity.getAssignedTemplateUUID()
 				   });
 	}
 
@@ -30,7 +31,7 @@ export class FirestoreSelectedActivityService extends ProfileCollection {
 		return this.profileCollection()
 				   .doc('activities')
 				   .collection('days')
-				   .doc(activity.activityUUID)
+				   .doc(activity.getActivityUUID())
 				   .update({
 					   name: activity.name,
 					   reps: activity.reps
@@ -42,7 +43,7 @@ export class FirestoreSelectedActivityService extends ProfileCollection {
 		return this.profileCollection()
 				   .doc('activities')
 				   .collection('days')
-				   .doc(activity.activityUUID)
+				   .doc(activity.getActivityUUID())
 				   .delete();
 	}
 

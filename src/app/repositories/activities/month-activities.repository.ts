@@ -25,7 +25,7 @@ export class MonthActivitiesRepository {
 
 	updateMonthActivities(activity: CalendarActivity): void {
 		this.monthActivities = this.monthActivities.map((calendarActivity: CalendarActivity) => {
-			return activity.activityUUID === calendarActivity.activityUUID ? activity : calendarActivity;
+			return activity.getActivityUUID() === calendarActivity.getActivityUUID() ? activity : calendarActivity;
 		});
 		this.monthActivities$.next(this.monthActivities);
 	}
@@ -33,7 +33,7 @@ export class MonthActivitiesRepository {
 	deleteActivity(activity: CalendarActivity): void {
 		this.monthActivities = this.monthActivities
 								   .filter((calendarActivity: CalendarActivity) => {
-									   return calendarActivity.activityUUID !== activity.activityUUID;
+									   return calendarActivity.getActivityUUID() !== activity.getActivityUUID();
 								   });
 
 		this.monthActivities$.next(this.monthActivities);

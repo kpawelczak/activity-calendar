@@ -82,6 +82,6 @@ export class SelectedDayActivitiesComponent extends Reactive implements OnInit {
 	}
 
 	isActivitySelected(activity: CalendarActivity): boolean {
-		return this.selectedActivity?.activityUUID === activity.activityUUID;
+		return this.selectedActivity?.getActivityUUID() === activity.getActivityUUID();
 	}
 }

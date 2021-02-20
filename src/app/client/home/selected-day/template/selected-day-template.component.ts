@@ -14,7 +14,8 @@ import { TemplateActivity } from '../../../../repositories/templates/template-ac
 
 		</div>
 
-		<ac-selected-day-template-activity *ngFor="let templateActivity of templateActivities"
+		<ac-selected-day-template-activity *ngFor="let templateActivity of templateActivities; let i = index"
+										   [index]="i"
 										   [selectedDay]="selectedDay"
 										   [templateActivity]="templateActivity">
 		</ac-selected-day-template-activity>

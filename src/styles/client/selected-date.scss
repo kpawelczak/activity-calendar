@@ -82,4 +82,23 @@ ac-selected-activity-form {
 ac-selected-day-template {
 	display: block;
 	padding: $grid*3 0;
+
+	ac-selected-day-template-activity {
+
+		.ac-selected-date-activity {
+
+			mat-checkbox {
+				pointer-events: none;
+			}
+
+			&:hover {
+
+				mat-checkbox {
+					.mat-checkbox-frame {
+						border-color: $primary;
+					}
+				}
+			}
+		}
+	}
 }
