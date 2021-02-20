@@ -12,7 +12,6 @@ import { ActivityCalendarButtonModule } from '../../common/ui/activity-calendar-
 import { WeekdayTemplateComponent } from './weekdays/weekday-template.component';
 import { FirebaseTemplatesModule } from '../../firebase/templates/firebase-templates.module';
 import { WeekdayTemplateService } from './weekdays/weekday-template.service';
-import { WeekdayTemplateRepository } from './weekdays/weekday-template.repository';
 
 
 @NgModule({
@@ -33,8 +32,7 @@ import { WeekdayTemplateRepository } from './weekdays/weekday-template.repositor
 		WeekdayTemplateComponent
 	],
 	providers: [
-		WeekdayTemplateService,
-		WeekdayTemplateRepository
+		WeekdayTemplateService
 	]
 })
 export class TemplatesModule {

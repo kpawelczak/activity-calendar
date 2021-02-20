@@ -7,6 +7,7 @@ import { take } from 'rxjs/operators';
 import { WeekdayTemplatesRepository } from '../../repositories/templates/weekday-templates.repository';
 import { WeekdayTemplate } from '../../repositories/templates/weekday-template';
 import { TemplateActivity } from '../../repositories/templates/template-activity';
+import { Weekday } from '../../repositories/templates/weekday';
 
 @Injectable()
 export class FirebaseTemplatesService extends ProfileCollection {
@@ -18,10 +19,10 @@ export class FirebaseTemplatesService extends ProfileCollection {
 		super(profileService, angularFirestore);
 	}
 
-	getTemplate(weekday: string) {
+	getTemplate(weekday: Weekday): void {
 		this.profileCollection()
 			.doc('templates')
-			.collection(weekday)
+			.collection(weekday.toString())
 			.valueChanges()
 			.pipe(take(1))
 			.subscribe((templates: any) => {
@@ -30,12 +31,12 @@ export class FirebaseTemplatesService extends ProfileCollection {
 			});
 	}
 
-	saveActivityToTemplate(weekday: string, templateActivity: TemplateActivity): Promise<void> {
-		const UUID = templateActivity.UUID;
+	saveActivityToTemplate(weekday: Weekday, templateActivity: TemplateActivity): Promise<void> {
+		const UUID = templateActivity.templateUUID;
 
 		return this.profileCollection()
 				   .doc('templates')
-				   .collection(weekday)
+				   .collection(weekday.toString())
 				   .doc(UUID)
 				   .set({
 					   name: templateActivity.name,
@@ -49,11 +50,11 @@ export class FirebaseTemplatesService extends ProfileCollection {
 				   });
 	}
 
-	deleteTemplateActivity(weekday: string, templateActivityUUID: string): Promise<void> {
+	deleteTemplateActivity(weekday: Weekday, templateActivityUUID: string): Promise<void> {
 
 		return this.profileCollection()
 				   .doc('templates')
-				   .collection(weekday)
+				   .collection(weekday.toString())
 				   .doc(templateActivityUUID)
 				   .delete()
 				   .then(() => {

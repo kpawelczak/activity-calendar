@@ -86,7 +86,7 @@ export class WeekdayActivityFormComponent extends ActivityForm implements OnChan
 			this.loading = true;
 			const name = this.form.controls['name'].value,
 				reps = this.form.controls['reps'].value,
-				uuid = this.templateActivity.UUID ? this.templateActivity.UUID : '',
+				uuid = this.templateActivity.templateUUID ? this.templateActivity.templateUUID : '',
 				templateActivity = new TemplateActivity(name, reps, uuid);
 
 			this.weekdayTemplateService.saveActivityToTemplate(this.weekdayTemplate, templateActivity);
@@ -94,6 +94,6 @@ export class WeekdayActivityFormComponent extends ActivityForm implements OnChan
 	}
 
 	deleteTemplateActivity(): void {
-		this.weekdayTemplateService.deleteTemplateActivity(this.weekdayTemplate, this.templateActivity.UUID);
+		this.weekdayTemplateService.deleteTemplateActivity(this.weekdayTemplate, this.templateActivity.templateUUID);
 	}
 }

@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { WeekdayTemplatesRepository } from './weekday-templates.repository';
+import { WeekdayTemplateRepository } from './weekday-template.repository';
 
 
 @NgModule({
@@ -8,7 +9,8 @@ import { WeekdayTemplatesRepository } from './weekday-templates.repository';
 		CommonModule
 	],
 	providers: [
-		WeekdayTemplatesRepository
+		WeekdayTemplatesRepository,
+		WeekdayTemplateRepository
 	]
 })
 export class WeekdayTemplatesModule {

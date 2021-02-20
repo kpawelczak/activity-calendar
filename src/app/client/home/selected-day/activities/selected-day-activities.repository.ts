@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable, ReplaySubject } from 'rxjs';
-import { CalendarActivity } from '../../../firebase/activities/month-activities/calendar-activity';
+import { CalendarActivity } from '../../../../firebase/activities/month-activities/calendar-activity';
 
 @Injectable()
 export class SelectedDayActivitiesRepository {

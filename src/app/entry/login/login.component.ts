@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ViewEncapsulation } from '@angular/core';
-import { RouteNames } from '../../route-names';
+import { RouteName } from '../../route-name';
 import { FormBuilder, Validators } from '@angular/forms';
 import { FirebaseAuthenticationService } from '../../firebase/entry/firebase-authentication.service';
 import { ActivityCalendarForm } from '../../common/form/activity-calendar-form';
@@ -69,7 +69,7 @@ import { ActivityCalendarForm } from '../../common/form/activity-calendar-form';
 })
 export class LoginComponent extends ActivityCalendarForm {
 
-	RouteNames = RouteNames;
+	RouteNames = RouteName;
 
 	loadingUser: boolean;
 

@@ -1,8 +1,8 @@
 export class CalendarActivity {
 
 	constructor(readonly day: number,
-				readonly UUID: string,
+				readonly activityUUID: string,
 				readonly name: string,
-				readonly reps: number) {
+				readonly reps: string) {
 	}
 }

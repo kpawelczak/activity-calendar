@@ -1,10 +1,12 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
 import { WeekdayTemplate } from '../../../repositories/templates/weekday-template';
 import { Reactive } from '../../../common/reactive';
-import { WeekdayTemplateRepository } from './weekday-template.repository';
+import { WeekdayTemplateRepository } from '../../../repositories/templates/weekday-template.repository';
 import { TemplateActivity } from '../../../repositories/templates/template-activity';
 import { v4 as uuidv4 } from 'uuid';
 import { FirebaseTemplatesService } from '../../../firebase/templates/firebase-templates.service';
+import { Weekday } from '../../../repositories/templates/weekday';
+import { weekdayNames } from './weekday-names';
 
 @Component({
 	selector: 'ac-weekday-template',
@@ -13,7 +15,7 @@ import { FirebaseTemplatesService } from '../../../firebase/templates/firebase-t
 
 			<mat-expansion-panel-header>
 				<mat-panel-title>
-					{{weekdayTemplate.weekday}}
+					{{getWeekdayName()}}
 				</mat-panel-title>
 			</mat-expansion-panel-header>
 			<!--		click on button to add activity to template-->
@@ -32,7 +34,7 @@ import { FirebaseTemplatesService } from '../../../firebase/templates/firebase-t
 export class WeekdayTemplateComponent extends Reactive implements OnInit {
 
 	@Input()
-	weekday: string;
+	weekday: Weekday;
 
 	weekdayTemplate: WeekdayTemplate;
 
@@ -47,6 +49,7 @@ export class WeekdayTemplateComponent extends Reactive implements OnInit {
 	ngOnInit() {
 		this.weekdayTemplateRepository
 			.onTemplate(this.weekday)
+			.pipe(this.takeUntil())
 			.subscribe((weekdayTemplate: WeekdayTemplate) => {
 				this.weekdayTemplate = weekdayTemplate;
 				this.changeDetectorRef.detectChanges();
@@ -59,11 +62,15 @@ export class WeekdayTemplateComponent extends Reactive implements OnInit {
 		this.weekdayTemplate.templates.push(templateActivity);
 	}
 
-	getTemplates(): void {
+	getTemplates(): void { // todo
 		if (this.canGetFromFirebase) {
 			this.firebaseTemplatesService
 				.getTemplate(this.weekday);
 			this.canGetFromFirebase = false;
 		}
+	}
+
+	getWeekdayName(): string {
+		return weekdayNames[this.weekdayTemplate.weekday - 1];
 	}
 }

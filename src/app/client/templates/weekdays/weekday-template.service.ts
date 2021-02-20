@@ -40,7 +40,7 @@ export class WeekdayTemplateService {
 
 		newTemplates = newTemplates.map((templateActivity: TemplateActivity) => {
 
-			if (templateActivity.UUID === newTemplateActivity.UUID) {
+			if (templateActivity.templateUUID === newTemplateActivity.templateUUID) {
 				return newTemplateActivity;
 			}
 
@@ -54,7 +54,7 @@ export class WeekdayTemplateService {
 													 templateActivityUUID: string): WeekdayTemplate {
 		const templates = weekdayTemplate.templates,
 			deletedTemplateActivityIndex = templates.findIndex((templateActivity: TemplateActivity) => {
-				return templateActivity.UUID === templateActivityUUID;
+				return templateActivity.templateUUID === templateActivityUUID;
 			});
 
 		weekdayTemplate.templates.splice(deletedTemplateActivityIndex, 1);

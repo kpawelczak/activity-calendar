@@ -1,9 +1,9 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
-import { CalendarActivity } from '../../../firebase/activities/month-activities/calendar-activity';
+import { CalendarActivity } from '../../../../firebase/activities/month-activities/calendar-activity';
 import { SelectedActivityService } from './selected-activity.service';
 import { SelectedActivityRepository } from './selected-activity.repository';
-import { ActivityForm } from '../../../common/form/activity-form';
+import { ActivityForm } from '../../../../common/form/activity-form';
 
 @Component({
 	selector: 'ac-selected-activity-form',
@@ -123,7 +123,7 @@ export class SelectedDayActivityFormComponent extends ActivityForm implements On
 	private updateActivity(): void {
 		const calendarActivity = new CalendarActivity(
 			this.selectedActivity.day,
-			this.selectedActivity.UUID,
+			this.selectedActivity.activityUUID,
 			this.form.controls['name'].value,
 			this.form.controls['reps'].value
 		);

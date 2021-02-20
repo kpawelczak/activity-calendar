@@ -7,16 +7,18 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import { SelectedDayActivitiesComponent } from './selected-day-activities.component';
-import { SelectedDayActivityFormComponent } from './selected-day-activity-form.component';
+import { SelectedDayActivitiesComponent } from './activities/selected-day-activities.component';
+import { SelectedDayActivityFormComponent } from './activity/selected-day-activity-form.component';
 import { FabricDateUtilModule } from '../../../common/date-util/fabric-date-util.module';
-import { SelectedActivityRepository } from './selected-activity.repository';
+import { SelectedActivityRepository } from './activity/selected-activity.repository';
 import { ActivityCalendarButtonModule } from '../../../common/ui/activity-calendar-button/activity-calendar-button.module';
-import { SelectedDayActivitiesRepository } from './selected-day-activities.repository';
+import { SelectedDayActivitiesRepository } from './activities/selected-day-activities.repository';
 import { FirestoreSelectedActivityModule } from '../../../firebase/activities/selected-activity/firestore-selected-activity.module';
-import { SelectedActivityService } from './selected-activity.service';
+import { SelectedActivityService } from './activity/selected-activity.service';
 import { MatTabsModule } from '@angular/material/tabs';
-import { SelectedDayTemplateComponent } from './selected-day-template.component';
+import { SelectedDayTemplateComponent } from './template/selected-day-template.component';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { SelectedDayTemplateActivityComponent } from './template/selected-day-template-activity.component';
 
 
 @NgModule({
@@ -32,13 +34,15 @@ import { SelectedDayTemplateComponent } from './selected-day-template.component'
 		ActivityCalendarButtonModule,
 		MatIconModule,
 		MatTabsModule,
+		MatCheckboxModule,
 		FabricDateUtilModule
 	],
 	declarations: [
 		SelectedDayComponent,
 		SelectedDayActivityFormComponent,
 		SelectedDayActivitiesComponent,
-		SelectedDayTemplateComponent
+		SelectedDayTemplateComponent,
+		SelectedDayTemplateActivityComponent
 	],
 	exports: [
 		SelectedDayComponent

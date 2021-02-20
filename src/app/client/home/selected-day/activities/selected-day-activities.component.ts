@@ -1,10 +1,10 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
-import { SelectedActivityRepository } from './selected-activity.repository';
-import { CalendarActivity } from '../../../firebase/activities/month-activities/calendar-activity';
-import { Reactive } from '../../../common/reactive';
+import { SelectedActivityRepository } from '../activity/selected-activity.repository';
+import { CalendarActivity } from '../../../../firebase/activities/month-activities/calendar-activity';
+import { Reactive } from '../../../../common/reactive';
 import { SelectedDayActivitiesRepository } from './selected-day-activities.repository';
-import { SelectedActivityService } from './selected-activity.service';
-import { FabricDateUtilService } from '../../../common/date-util/fabric-date-util.service';
+import { SelectedActivityService } from '../activity/selected-activity.service';
+import { FabricDateUtilService } from '../../../../common/date-util/fabric-date-util.service';
 
 @Component({
 	selector: 'ac-selected-date-activities',
@@ -82,6 +82,6 @@ export class SelectedDayActivitiesComponent extends Reactive implements OnInit {
 	}
 
 	isActivitySelected(activity: CalendarActivity): boolean {
-		return this.selectedActivity?.UUID === activity.UUID;
+		return this.selectedActivity?.activityUUID === activity.activityUUID;
 	}
 }

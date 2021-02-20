@@ -3,7 +3,7 @@ import { Observable, ReplaySubject } from 'rxjs';
 import { CalendarActivity } from '../../firebase/activities/month-activities/calendar-activity';
 
 @Injectable()
-export class MonthActivitiesRepository { // todo not firestore
+export class MonthActivitiesRepository {
 
 	private monthActivities: Array<CalendarActivity>;
 
@@ -25,7 +25,7 @@ export class MonthActivitiesRepository { // todo not firestore
 
 	updateMonthActivities(activity: CalendarActivity): void {
 		this.monthActivities = this.monthActivities.map((calendarActivity: CalendarActivity) => {
-			return activity.UUID === calendarActivity.UUID ? activity : calendarActivity;
+			return activity.activityUUID === calendarActivity.activityUUID ? activity : calendarActivity;
 		});
 		this.monthActivities$.next(this.monthActivities);
 	}
@@ -33,7 +33,7 @@ export class MonthActivitiesRepository { // todo not firestore
 	deleteActivity(activity: CalendarActivity): void {
 		this.monthActivities = this.monthActivities
 								   .filter((calendarActivity: CalendarActivity) => {
-									   return calendarActivity.UUID !== activity.UUID;
+									   return calendarActivity.activityUUID !== activity.activityUUID;
 								   });
 
 		this.monthActivities$.next(this.monthActivities);

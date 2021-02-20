@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 
 import { AuthenticationService } from './authentication.service';
-import { RouteNames } from '../../route-names';
+import { RouteName } from '../../route-name';
 
 
 @Injectable()
@@ -21,7 +21,7 @@ export class AuthenticationGuard implements CanActivate {
 				   .pipe(
 					   tap((activated) => {
 						   if (!activated) {
-							   this.router.navigate([RouteNames.ENTRY]);
+							   this.router.navigate([RouteName.ENTRY]);
 						   }
 					   })
 				   );

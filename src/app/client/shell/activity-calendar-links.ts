@@ -1,7 +1,7 @@
 import { ActivityCalendarLink } from './activity-calendar-link';
-import { RouteNames } from '../../route-names';
+import { RouteName } from '../../route-name';
 
 export const activityCalendarLinks = [
-	new ActivityCalendarLink('Calendar', RouteNames.CALENDAR, 'calendar_today'),
-	new ActivityCalendarLink('Templates', RouteNames.TEMPLATES, 'dynamic_feed')
+	new ActivityCalendarLink('Calendar', RouteName.CALENDAR, 'calendar_today'),
+	new ActivityCalendarLink('Templates', RouteName.TEMPLATES, 'dynamic_feed')
 ];

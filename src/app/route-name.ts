@@ -1,4 +1,4 @@
-export enum RouteNames {
+export enum RouteName {
 	ENTRY = 'entry',
 	CLIENT = 'client',
 	CALENDAR = '',

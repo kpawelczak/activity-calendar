@@ -19,7 +19,7 @@ export class FirestoreSelectedActivityService extends ProfileCollection {
 		return this.profileCollection()
 				   .doc('activities')
 				   .collection('days')
-				   .doc(activity.UUID)
+				   .doc(activity.activityUUID)
 				   .set({
 					   ...activity
 				   });
@@ -30,7 +30,7 @@ export class FirestoreSelectedActivityService extends ProfileCollection {
 		return this.profileCollection()
 				   .doc('activities')
 				   .collection('days')
-				   .doc(activity.UUID)
+				   .doc(activity.activityUUID)
 				   .update({
 					   name: activity.name,
 					   reps: activity.reps
@@ -42,7 +42,7 @@ export class FirestoreSelectedActivityService extends ProfileCollection {
 		return this.profileCollection()
 				   .doc('activities')
 				   .collection('days')
-				   .doc(activity.UUID)
+				   .doc(activity.activityUUID)
 				   .delete();
 	}
 

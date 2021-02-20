@@ -1,8 +1,8 @@
-import { RouteNames } from '../../route-names';
+import { RouteName } from '../../route-name';
 
 export class ActivityCalendarLink {
 	constructor(readonly name: string,
-				readonly route: RouteNames,
+				readonly route: RouteName,
 				readonly icon: string) {
 	}
 }

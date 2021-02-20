@@ -1,21 +1,21 @@
 import { ExtraOptions, RouterModule, Routes } from '@angular/router';
-import { RouteNames } from './route-names';
+import { RouteName } from './route-name';
 import { AuthenticationGuard } from './firebase/authentication/authentication.guard';
 
 const routerConfig: ExtraOptions = { relativeLinkResolution: 'legacy' };
 
 const routes: Routes = [
-	{ path: '', redirectTo: `/${RouteNames.ENTRY}`, pathMatch: 'full' },
+	{ path: '', redirectTo: `/${RouteName.ENTRY}`, pathMatch: 'full' },
 	{
-		path: RouteNames.ENTRY,
+		path: RouteName.ENTRY,
 		loadChildren: () => import('./entry/entry.module').then(m => m.EntryModule)
 	},
 	{
-		path: RouteNames.CLIENT,
+		path: RouteName.CLIENT,
 		loadChildren: () => import('./client/client.module').then(m => m.ClientModule),
 		canActivate: [AuthenticationGuard]
 	},
-	{ path: '**', redirectTo: RouteNames.ENTRY, pathMatch: 'full' }
+	{ path: '**', redirectTo: RouteName.ENTRY, pathMatch: 'full' }
 ];
 
 export const AppRoutes = RouterModule.forRoot(routes, routerConfig);

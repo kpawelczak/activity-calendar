@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { ClientRootComponent } from './client-root.component';
-import { RouteNames } from '../route-names';
+import { RouteName } from '../route-name';
 import { TemplatesComponent } from './templates/templates.component';
 import { HomeRootComponent } from './home/home-root.component';
 
@@ -14,7 +14,7 @@ const routes = [{
 			path: '',
 			component: HomeRootComponent
 		}, {
-			path: RouteNames.TEMPLATES,
+			path: RouteName.TEMPLATES,
 			component: TemplatesComponent
 		}
 	]

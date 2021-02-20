@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable, ReplaySubject } from 'rxjs';
 import { Reactive } from '../../common/reactive';
 import { Router } from '@angular/router';
-import { RouteNames } from '../../route-names';
+import { RouteName } from '../../route-name';
 
 @Injectable()
 export class AuthenticationService extends Reactive {
@@ -17,12 +17,12 @@ export class AuthenticationService extends Reactive {
 				switch (loggedIn) {
 
 					case true: {
-						this.router.navigate([RouteNames.CLIENT]);
+						this.router.navigate([RouteName.CLIENT]);
 						break;
 					}
 
 					default: {
-						this.router.navigate([RouteNames.ENTRY]);
+						this.router.navigate([RouteName.ENTRY]);
 					}
 				}
 			});
