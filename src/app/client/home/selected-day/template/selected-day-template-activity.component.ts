@@ -8,18 +8,19 @@ import {
 	SimpleChanges,
 	ViewEncapsulation
 } from '@angular/core';
-import { TemplateActivity } from '../../../../repositories/templates/template-activity';
-import { CalendarActivity } from '../../../../firebase/activities/month-activities/calendar-activity';
+import { TemplateActivity } from '../../../../common/models/template-activity';
 import { v4 as uuidv4 } from 'uuid';
-import { SelectedActivityService } from '../activity/selected-activity.service';
+import { SelectedDayActivityService } from '../activity/selected-day-activity.service';
 import { Reactive } from '../../../../common/reactive';
 import { SelectedDayTemplateActivityRepository } from './selected-day-template-activity.repository';
 import { distinctUntilChanged, filter, map } from 'rxjs/operators';
+import { CalendarActivity } from '../../../../common/models/calendar-activity';
 
 @Component({
 	selector: 'ac-selected-day-template-activity',
 	template: `
-		<div (click)="manageActivity()"
+		<div *ngIf="templateActivity.name"
+			 (click)="manageActivity()"
 			 class="ac-selected-date-activity">
 			<span>{{index + 1}}</span>
 
@@ -48,7 +49,7 @@ export class SelectedDayTemplateActivityComponent extends Reactive implements On
 
 	checked: boolean = false;
 
-	constructor(private readonly selectedActivityService: SelectedActivityService,
+	constructor(private readonly selectedDayActivityService: SelectedDayActivityService,
 				private readonly selectedDayTemplateActivityRepository: SelectedDayTemplateActivityRepository,
 				private readonly changeDetectorRef: ChangeDetectorRef) {
 		super();
@@ -94,9 +95,9 @@ export class SelectedDayTemplateActivityComponent extends Reactive implements On
 	manageActivity(): void {
 		this.checked = !this.checked;
 		if (this.checked) {
-			this.selectedActivityService.addActivity(this.selectedDay, this.calendarActivity);
+			this.selectedDayActivityService.addActivity(this.selectedDay, this.calendarActivity);
 		} else {
-			this.selectedActivityService.deleteActivity(this.selectedDay, this.calendarActivity);
+			this.selectedDayActivityService.deleteActivity(this.selectedDay, this.calendarActivity);
 		}
 	}
 

@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, Input, OnChanges, SimpleChanges, ViewEncapsulation } from '@angular/core';
 import { ActivityForm } from '../../../common/form/activity-form';
 import { FormBuilder } from '@angular/forms';
-import { TemplateActivity } from '../../../repositories/templates/template-activity';
+import { TemplateActivity } from '../../../common/models/template-activity';
 import { WeekdayTemplate } from '../../../repositories/templates/weekday-template';
 import { WeekdayTemplateService } from './weekday-template.service';
 
@@ -94,6 +94,6 @@ export class WeekdayActivityFormComponent extends ActivityForm implements OnChan
 	}
 
 	deleteTemplateActivity(): void {
-		this.weekdayTemplateService.deleteTemplateActivity(this.weekdayTemplate, this.templateActivity.templateUUID);
+		this.weekdayTemplateService.deleteTemplateActivity(this.weekdayTemplate, this.templateActivity);
 	}
 }

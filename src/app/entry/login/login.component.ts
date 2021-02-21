@@ -50,17 +50,21 @@ import { ActivityCalendarForm } from '../../common/form/activity-calendar-form';
 
 			</mat-form-field>
 
-			<ac-button [type]="'submit'"
-					   [loading]="loadingUser"
-					   (click)="login()">
-				login
-			</ac-button>
+			<div class="entry-login-buttons-wrapper">
+				<ac-button [type]="'submit'"
+						   [loading]="loadingUser"
+						   (click)="login()">
+					Login
+				</ac-button>
 
-			<ac-button [type]="'button'"
-					   [loading]="loadingAnonymous"
-					   (click)="loginAnonymously()">
-				Login anonymously
-			</ac-button>
+				<div>or</div>
+
+				<ac-button [type]="'button'"
+						   [loading]="loadingAnonymous"
+						   (click)="loginAnonymously()">
+					Login anonymously
+				</ac-button>
+			</div>
 
 		</form>
 	`,

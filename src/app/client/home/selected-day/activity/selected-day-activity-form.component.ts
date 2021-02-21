@@ -1,9 +1,11 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Inject, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
-import { CalendarActivity } from '../../../../firebase/activities/month-activities/calendar-activity';
-import { SelectedActivityService } from './selected-activity.service';
+import { SelectedDayActivityService } from './selected-day-activity.service';
 import { SelectedActivityRepository } from './selected-activity.repository';
 import { ActivityForm } from '../../../../common/form/activity-form';
+import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
+import { SelectedDayDialogData } from '../selected-day-dialog-data';
+import { CalendarActivity } from '../../../../common/models/calendar-activity';
 
 @Component({
 	selector: 'ac-selected-activity-form',
@@ -41,16 +43,18 @@ import { ActivityForm } from '../../../../common/form/activity-form';
 
 			</mat-form-field>
 
-			<ac-button *ngIf="selectedActivity"
-					   (click)="clearSelection()">
-				Cancel
-			</ac-button>
+			<div class="ac-selected-activity-form-buttons">
+				<button mat-button
+						(click)="closeDialog()">
+					Cancel
+				</button>
 
-			<ac-button [loading]="loading"
-					   [type]="'submit'"
-					   (click)="manageActivity()">
-				{{getFormTypeText()}}
-			</ac-button>
+				<ac-button [loading]="loading"
+						   [type]="'submit'"
+						   (click)="manageActivity()">
+					{{getFormTypeText()}}
+				</ac-button>
+			</div>
 
 		</form>
 	`,
@@ -59,32 +63,24 @@ import { ActivityForm } from '../../../../common/form/activity-form';
 })
 export class SelectedDayActivityFormComponent extends ActivityForm implements OnInit {
 
-	@Input()
-	selectedDay: Date;
-
-	selectedActivity: CalendarActivity;
-
 	loading: boolean = false;
 
 	constructor(private readonly selectedActivityRepository: SelectedActivityRepository,
-				private readonly selectedActivityService: SelectedActivityService,
-				private readonly changeDetectorRef: ChangeDetectorRef,
+				private readonly selectedDayActivityService: SelectedDayActivityService,
+				private readonly matDialog: MatDialog,
+				@Inject(MAT_DIALOG_DATA) private readonly selectedDayDialogData: SelectedDayDialogData,
 				formBuilder: FormBuilder) {
 		super(formBuilder);
 	}
 
 	ngOnInit() {
-		this.selectedActivityRepository
-			.onActivity()
-			.pipe(this.takeUntil())
-			.subscribe((activity: CalendarActivity) => {
-				this.selectedActivity = activity;
-				this.fillForm(activity);
-			});
+		if (this.selectedDayDialogData.selectedActivity) {
+			this.fillForm(this.selectedDayDialogData.selectedActivity);
+		}
 	}
 
 	getFormTypeText(): string {
-		return this.selectedActivity ? 'Edit' : 'Add';
+		return this.selectedDayDialogData.selectedActivity ? 'Edit' : 'Add';
 	}
 
 	manageActivity(): void {
@@ -93,7 +89,7 @@ export class SelectedDayActivityFormComponent extends ActivityForm implements On
 
 			switch (true) {
 
-				case !!this.selectedActivity: {
+				case !!this.selectedDayDialogData.selectedActivity: {
 					this.updateActivity();
 					break;
 				}
@@ -105,54 +101,46 @@ export class SelectedDayActivityFormComponent extends ActivityForm implements On
 		}
 	}
 
-	clearSelection(): void {
-		this.selectedActivityRepository.selectActivity(null);
-		this.form.reset();
+	closeDialog(): void {
+		this.matDialog.closeAll();
 	}
 
 	private addActivity(): void {
 		const calendarActivity = new CalendarActivity(
-			this.selectedDay.getTime(),
+			this.selectedDayDialogData.selectedDay.getTime(),
 			this.form.controls['name'].value,
 			this.form.controls['reps'].value
 		);
 
-		this.selectedActivityService
-			.addActivity(this.selectedDay, calendarActivity)
-			.catch(() => {
-				this.loading = false;
-				this.form.reset();
-				this.changeDetectorRef.detectChanges();
-			})
+		this.selectedDayActivityService
+			.addActivity(this.selectedDayDialogData.selectedDay, calendarActivity)
 			.finally(() => {
-				this.loading = false;
-				this.form.reset();
-				this.changeDetectorRef.detectChanges();
+				this.onResponse();
 			});
 	}
 
 	private updateActivity(): void {
 		const calendarActivity = new CalendarActivity(
-			this.selectedActivity.day,
+			this.selectedDayDialogData.selectedActivity.day,
 			this.form.controls['name'].value,
 			this.form.controls['reps'].value,
-			this.selectedActivity.getActivityUUID()
+			this.selectedDayDialogData.selectedActivity.getActivityUUID()
 		);
 
-		if (this.selectedActivity.getAssignedTemplateUUID()) {
-			calendarActivity.setTemplateUUID(this.selectedActivity.getAssignedTemplateUUID());
+		if (this.selectedDayDialogData.selectedActivity.getAssignedTemplateUUID()) {
+			calendarActivity.setTemplateUUID(this.selectedDayDialogData.selectedActivity.getAssignedTemplateUUID());
 		}
 
-		this.selectedActivityService
-			.updateActivity(this.selectedDay, calendarActivity)
-			.catch(() => {
-				this.loading = false;
-				this.changeDetectorRef.detectChanges();
-			})
+		this.selectedDayActivityService
+			.updateActivity(this.selectedDayDialogData.selectedDay, calendarActivity)
 			.finally(() => {
-				this.loading = false;
-				this.changeDetectorRef.detectChanges();
+				this.onResponse();
 			});
+	}
+
+	private onResponse(): void {
+		this.loading = false;
+		this.matDialog.closeAll();
 	}
 
 }

@@ -6,11 +6,57 @@ body {
 
 .container {
 	margin: $grid*3 auto;
-	max-width: 576px;
+	max-width: $container-max-width;
+
+	button.mat-icon-button {
+		transition: color 0.3s ease-in-out;
+		box-shadow: none;
+
+		&:hover {
+			color: $primary;
+		}
+	}
 }
 
 h1 {
 	color: $white;
+}
+
+.activity-calendar-dialog {
+
+	mat-dialog-container {
+		color: $gray;
+		width: calc(#{$container-max-width} - 30px);
+		padding: $container-padding;
+		background: $dark-elevated-background;
+
+		@media (max-width: 576px) {
+			width: calc(100vw - 30px);
+		}
+	}
+}
+
+.mat-menu-panel {
+	background: $dark-elevated-background;
+}
+
+.ac-snackbar {
+	background: $dark-elevated-background;
+	color: $primary;
+
+	.mat-simple-snackbar {
+		justify-content: center;
+	}
+}
+
+.ac-snackbar-warn {
+	background: mat-color($ac-warn);
+	color: $white;
+	text-align: center;
+
+	.mat-simple-snackbar {
+		justify-content: center;
+	}
 }
 
 /* Chrome, Safari, Edge, Opera */

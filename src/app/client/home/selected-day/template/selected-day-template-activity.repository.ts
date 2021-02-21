@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { CalendarActivity } from '../../../../firebase/activities/month-activities/calendar-activity';
 import { SelectedDayActivitiesRepository } from '../activities/selected-day-activities.repository';
 import { map } from 'rxjs/operators';
+import { CalendarActivity } from '../../../../common/models/calendar-activity';
 
 @Injectable()
 export class SelectedDayTemplateActivityRepository {

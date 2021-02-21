@@ -1,47 +1,47 @@
 import { Injectable } from '@angular/core';
-import { CalendarActivity } from '../../../../firebase/activities/month-activities/calendar-activity';
 import { SelectedDayActivitiesRepository } from '../activities/selected-day-activities.repository';
-import { MonthActivitiesRepository } from '../../../../repositories/activities/month-activities.repository';
+import { ActivitiesRepository } from '../../../../repositories/activities/activities.repository';
 import { v4 as uuidv4 } from 'uuid';
-import { FirestoreSelectedActivityService } from '../../../../firebase/activities/selected-activity/firestore-selected-activity.service';
+import { CalendarActivity } from '../../../../common/models/calendar-activity';
+import { FirestoreActivityService } from '../../../../firebase/activities/activity/firestore-activity.service';
 
 
 @Injectable()
-export class SelectedActivityService {
+export class SelectedDayActivityService {
 
-	constructor(private readonly firestoreSelectedActivityService: FirestoreSelectedActivityService,
+	constructor(private readonly firestoreActivityService: FirestoreActivityService,
 				private readonly selectedDateActivitiesService: SelectedDayActivitiesRepository,
-				private readonly monthActivitiesRepository: MonthActivitiesRepository) {
+				private readonly activitiesRepository: ActivitiesRepository) {
 	}
 
 	addActivity(selectedDate: Date, calendarActivity: CalendarActivity): Promise<void> {
 		if (!calendarActivity.getActivityUUID()) {
 			calendarActivity.setActivityUUID(uuidv4());
 		}
-		return this.firestoreSelectedActivityService
+		return this.firestoreActivityService
 				   .addActivity(calendarActivity)
 				   .then(() => {
-					   this.monthActivitiesRepository.addMonthActivity(calendarActivity);
+					   this.activitiesRepository.addMonthActivity(calendarActivity);
 					   this.selectedDateActivitiesService.selectDayActivities(selectedDate);
 				   });
 	}
 
 	updateActivity(selectedDate: Date, activity: CalendarActivity): Promise<void> {
 
-		return this.firestoreSelectedActivityService
+		return this.firestoreActivityService
 				   .updateActivity(activity)
 				   .then(() => {
-					   this.monthActivitiesRepository.updateMonthActivities(activity);
+					   this.activitiesRepository.updateMonthActivities(activity);
 					   this.selectedDateActivitiesService.selectDayActivities(selectedDate);
 				   });
 	}
 
 	deleteActivity(selectedDate: Date, activity: CalendarActivity): Promise<void> {
 
-		return this.firestoreSelectedActivityService
+		return this.firestoreActivityService
 				   .deleteActivity(activity)
 				   .then(() => {
-					   this.monthActivitiesRepository.deleteActivity(activity);
+					   this.activitiesRepository.deleteActivity(activity);
 					   this.selectedDateActivitiesService.selectDayActivities(selectedDate);
 				   });
 	}

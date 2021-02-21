@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit, V
 import { WeekdayTemplate } from '../../../repositories/templates/weekday-template';
 import { Reactive } from '../../../common/reactive';
 import { WeekdayTemplateRepository } from '../../../repositories/templates/weekday-template.repository';
-import { TemplateActivity } from '../../../repositories/templates/template-activity';
+import { TemplateActivity } from '../../../common/models/template-activity';
 import { v4 as uuidv4 } from 'uuid';
 import { FirebaseTemplatesService } from '../../../firebase/templates/firebase-templates.service';
 import { Weekday } from '../../../repositories/templates/weekday';
@@ -18,13 +18,19 @@ import { weekdayNames } from './weekday-names';
 					{{getWeekdayName()}}
 				</mat-panel-title>
 			</mat-expansion-panel-header>
-			<!--		click on button to add activity to template-->
 
 			<ac-template-activity-form *ngFor="let template of weekdayTemplate?.templates"
 									   [templateActivity]="template"
 									   [weekdayTemplate]="weekdayTemplate"></ac-template-activity-form>
 
-			<ac-button (click)="addTemplate()">Add template</ac-button>
+			<div class="ac-weekday-template-add-button-wrapper">
+				<button mat-icon-button
+						[type]="'button'"
+						[disableRipple]="true"
+						(click)="addTemplate()">
+					<mat-icon>add_circle</mat-icon>
+				</button>
+			</div>
 
 		</mat-expansion-panel>
 	`,
@@ -62,7 +68,7 @@ export class WeekdayTemplateComponent extends Reactive implements OnInit {
 		this.weekdayTemplate.templates.push(templateActivity);
 	}
 
-	getTemplates(): void { // todo
+	getTemplates(): void {
 		if (this.canGetFromFirebase) {
 			this.firebaseTemplatesService
 				.getTemplate(this.weekday);
@@ -71,6 +77,6 @@ export class WeekdayTemplateComponent extends Reactive implements OnInit {
 	}
 
 	getWeekdayName(): string {
-		return weekdayNames[this.weekdayTemplate.weekday - 1];
+		return weekdayNames[this.weekdayTemplate.weekday];
 	}
 }

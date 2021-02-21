@@ -6,7 +6,7 @@ import { HeaderModule } from './shell/header.module';
 import { HomeModule } from './home/home.module';
 import { TemplatesModule } from './templates/templates.module';
 import { WeekdayTemplatesModule } from '../repositories/templates/weekday-templates.module';
-import { MonthActivitiesModule } from '../repositories/activities/month-activities.module';
+import { ActivitiesModule } from '../repositories/activities/activities.module';
 
 
 @NgModule({
@@ -17,7 +17,7 @@ import { MonthActivitiesModule } from '../repositories/activities/month-activiti
 		TemplatesModule,
 		HeaderModule,
 		WeekdayTemplatesModule,
-		MonthActivitiesModule
+		ActivitiesModule
 	],
 	declarations: [
 		ClientRootComponent

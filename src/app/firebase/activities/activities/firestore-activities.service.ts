@@ -1,19 +1,19 @@
 import { Injectable } from '@angular/core';
-import { MonthActivitiesRepository } from '../../../repositories/activities/month-activities.repository';
+import { ActivitiesRepository } from '../../../repositories/activities/activities.repository';
 import firebase from 'firebase';
 import { AngularFirestore, CollectionReference } from '@angular/fire/firestore';
 import { map, take } from 'rxjs/operators';
-import { CalendarActivity } from './calendar-activity';
+import { CalendarActivity } from '../../../common/models/calendar-activity';
 import { ProfileCollection } from '../../profile/firebase-profile';
 import { FirebaseProfileService } from '../../profile/firebase-profile.service';
 import Database = firebase.database.Database;
 import DocumentData = firebase.firestore.DocumentData;
 
 @Injectable()
-export class FirestoreMonthActivitiesService extends ProfileCollection {
+export class FirestoreActivitiesService extends ProfileCollection {
 	private static readonly MILLI_SECONDS_IN_WEEK = 604800000;
 
-	constructor(private readonly monthActivitiesRepository: MonthActivitiesRepository,
+	constructor(private readonly monthActivitiesRepository: ActivitiesRepository,
 				firebaseProfileService: FirebaseProfileService,
 				firestore: AngularFirestore) {
 		super(firebaseProfileService, firestore);
@@ -23,8 +23,8 @@ export class FirestoreMonthActivitiesService extends ProfileCollection {
 		this.profileCollection()
 			.doc('activities')
 			.collection('days', (ref: CollectionReference<Database>) => {
-				const startAt = this.getStartOfTheMonth(year, month) - FirestoreMonthActivitiesService.MILLI_SECONDS_IN_WEEK,
-					endAt = this.getStartOfTheMonth(year, month + 1) + FirestoreMonthActivitiesService.MILLI_SECONDS_IN_WEEK;
+				const startAt = this.getStartOfTheMonth(year, month) - FirestoreActivitiesService.MILLI_SECONDS_IN_WEEK,
+					endAt = this.getStartOfTheMonth(year, month + 1) + FirestoreActivitiesService.MILLI_SECONDS_IN_WEEK;
 
 				return ref.where('day', '>=', startAt)
 						  .where('day', '<', endAt);

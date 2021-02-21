@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { FirebaseTemplatesService } from '../../../firebase/templates/firebase-templates.service';
-import { TemplateActivity } from '../../../repositories/templates/template-activity';
+import { TemplateActivity } from '../../../common/models/template-activity';
 import { WeekdayTemplatesRepository } from '../../../repositories/templates/weekday-templates.repository';
 import { WeekdayTemplate } from '../../../repositories/templates/weekday-template';
 
@@ -24,13 +24,17 @@ export class WeekdayTemplateService {
 			});
 	}
 
-	deleteTemplateActivity(weekdayTemplate: WeekdayTemplate, templateActivityUUID: string): void {
+	deleteTemplateActivity(weekdayTemplate: WeekdayTemplate, templateActivity: TemplateActivity): void {
+
+		if (!templateActivity.name) {
+			this.removeActivityFromRepository(weekdayTemplate, templateActivity);
+			return;
+		}
 
 		this.firebaseTemplatesService
-			.deleteTemplateActivity(weekdayTemplate.weekday, templateActivityUUID)
+			.deleteTemplateActivity(weekdayTemplate.weekday, templateActivity.templateUUID)
 			.then(() => {
-				const newWeekdayTemplate = this.createWeekdayTemplateWithDeletedActivity(weekdayTemplate, templateActivityUUID);
-				this.weekdayTemplatesRepository.next(newWeekdayTemplate);
+				this.removeActivityFromRepository(weekdayTemplate, templateActivity);
 			});
 	}
 
@@ -60,5 +64,10 @@ export class WeekdayTemplateService {
 		weekdayTemplate.templates.splice(deletedTemplateActivityIndex, 1);
 
 		return weekdayTemplate;
+	}
+
+	private removeActivityFromRepository(weekdayTemplate: WeekdayTemplate, templateActivity: TemplateActivity): void {
+		const newWeekdayTemplate = this.createWeekdayTemplateWithDeletedActivity(weekdayTemplate, templateActivity.templateUUID);
+		this.weekdayTemplatesRepository.next(newWeekdayTemplate);
 	}
 }

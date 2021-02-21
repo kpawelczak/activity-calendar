@@ -17,3 +17,15 @@ ac-registration {
 		}
 	}
 }
+
+ac-login {
+
+	.entry-login-buttons-wrapper {
+		text-align: center;
+		margin-top: $grid;
+
+		> div {
+			margin: $grid 0;
+		}
+	}
+}

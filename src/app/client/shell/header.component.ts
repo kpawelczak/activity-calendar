@@ -1,9 +1,10 @@
-import { ChangeDetectionStrategy, Component, ViewEncapsulation } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ViewChild, ViewEncapsulation } from '@angular/core';
 import { FirebaseAuthenticationService } from '../../firebase/entry/firebase-authentication.service';
 import { RouteName } from '../../route-name';
 import { Router } from '@angular/router';
 import { activityCalendarLinks } from './activity-calendar-links';
 import { ActivityCalendarLink } from './activity-calendar-link';
+import { MatMenuTrigger } from '@angular/material/menu';
 
 @Component({
 	selector: 'ac-header',
@@ -46,6 +47,9 @@ import { ActivityCalendarLink } from './activity-calendar-link';
 })
 export class HeaderComponent {
 
+	@ViewChild(MatMenuTrigger)
+	trigger: MatMenuTrigger;
+
 	links: Array<ActivityCalendarLink> = activityCalendarLinks;
 
 	activeLink: ActivityCalendarLink = this.getInitialLink();
@@ -62,7 +66,11 @@ export class HeaderComponent {
 
 	navigate(acLink: ActivityCalendarLink): void {
 		this.activeLink = acLink;
-		this.router.navigate([`${RouteName.CLIENT}/${acLink.route}`]);
+		this.router
+			.navigate([`${RouteName.CLIENT}/${acLink.route}`])
+			.then(() => {
+				this.trigger.closeMenu();
+			});
 	}
 
 	isLinkActive(routeName: RouteName): boolean {

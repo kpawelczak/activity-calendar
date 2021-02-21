@@ -61,9 +61,9 @@ export class RegistrationComponent extends ActivityCalendarForm {
 			const email = this.form.controls['email'].value,
 				password = this.form.controls['password'].value;
 
-			this.fireAuth
-				.createUserWithEmailAndPassword(email, password)
-				.then();
+			// this.fireAuth
+			// 	.createUserWithEmailAndPassword(email, password)
+			// 	.then();
 		}
 	}
 }

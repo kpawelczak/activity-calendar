@@ -1,15 +1,15 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { MonthActivitiesRepository } from './month-activities.repository';
+import { ActivitiesRepository } from './activities.repository';
 
 @NgModule({
 	imports: [
 		CommonModule
 	],
 	providers: [
-		MonthActivitiesRepository
+		ActivitiesRepository
 	]
 })
-export class MonthActivitiesModule {
+export class ActivitiesModule {
 
 }

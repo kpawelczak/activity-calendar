@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Observable, ReplaySubject } from 'rxjs';
-import { CalendarActivity } from '../../firebase/activities/month-activities/calendar-activity';
+import { CalendarActivity } from '../../common/models/calendar-activity';
 
 @Injectable()
-export class MonthActivitiesRepository {
+export class ActivitiesRepository {
 
 	private monthActivities: Array<CalendarActivity>;
 
@@ -24,6 +24,7 @@ export class MonthActivitiesRepository {
 	}
 
 	updateMonthActivities(activity: CalendarActivity): void {
+
 		this.monthActivities = this.monthActivities.map((calendarActivity: CalendarActivity) => {
 			return activity.getActivityUUID() === calendarActivity.getActivityUUID() ? activity : calendarActivity;
 		});

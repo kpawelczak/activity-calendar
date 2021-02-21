@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 import { Observable, ReplaySubject } from 'rxjs';
-import { CalendarActivity } from '../../../../firebase/activities/month-activities/calendar-activity';
+import { CalendarActivity } from '../../../../common/models/calendar-activity';
 
 @Injectable()
 export class SelectedDayActivitiesRepository {
 
-	private monthActivities: Array<CalendarActivity>;
+	private activities: Array<CalendarActivity>;
 
 	private readonly activities$ = new ReplaySubject<Array<CalendarActivity>>(1);
 
@@ -14,7 +14,7 @@ export class SelectedDayActivitiesRepository {
 	}
 
 	selectDayActivities(day: Date): void {
-		const dayActivities = this.monthActivities
+		const dayActivities = this.activities
 								  .filter((calendarActivity: CalendarActivity) => {
 									  return calendarActivity.day === day.getTime();
 								  });
@@ -22,7 +22,7 @@ export class SelectedDayActivitiesRepository {
 		this.activities$.next(dayActivities);
 	}
 
-	setMonthActivities(monthActivities: Array<CalendarActivity>): void {
-		this.monthActivities = monthActivities;
+	setMonthActivities(activities: Array<CalendarActivity>): void {
+		this.activities = activities;
 	}
 }

@@ -1,14 +1,14 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
-import { CalendarActivity } from '../month-activities/calendar-activity';
+import { CalendarActivity } from '../../../common/models/calendar-activity';
 import { ProfileCollection } from '../../profile/firebase-profile';
 import { FirebaseProfileService } from '../../profile/firebase-profile.service';
-import { MonthActivitiesRepository } from '../../../repositories/activities/month-activities.repository';
+import { ActivitiesRepository } from '../../../repositories/activities/activities.repository';
 
 @Injectable()
-export class FirestoreSelectedActivityService extends ProfileCollection {
+export class FirestoreActivityService extends ProfileCollection {
 
-	constructor(private readonly monthActivitiesRepository: MonthActivitiesRepository,
+	constructor(private readonly monthActivitiesRepository: ActivitiesRepository,
 				firestore: AngularFirestore,
 				firebaseProfileService: FirebaseProfileService) {
 		super(firebaseProfileService, firestore);

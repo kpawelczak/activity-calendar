@@ -12,12 +12,27 @@ ac-templates {
 
 	ac-template-activity-form {
 		display: block;
+		margin: $grid 0;
 
 		form {
 			display: grid;
 			grid-template-columns: minmax(100px, 1fr) minmax(100px, 1fr) 24px 24px;
 			grid-column-gap: $grid*1.5;
 			align-items: center;
+			color: $gray;
+		}
+	}
+
+	.ac-weekday-template-add-button-wrapper {
+		display: flex;
+		justify-content: flex-end;
+
+		button.mat-icon-button {
+			color: $gray;
+
+			mat-icon {
+				font-size: 32px;
+			}
 		}
 	}
 }

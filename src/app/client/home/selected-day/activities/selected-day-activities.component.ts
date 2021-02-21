@@ -1,10 +1,12 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
 import { SelectedActivityRepository } from '../activity/selected-activity.repository';
-import { CalendarActivity } from '../../../../firebase/activities/month-activities/calendar-activity';
 import { Reactive } from '../../../../common/reactive';
 import { SelectedDayActivitiesRepository } from './selected-day-activities.repository';
-import { SelectedActivityService } from '../activity/selected-activity.service';
+import { SelectedDayActivityService } from '../activity/selected-day-activity.service';
 import { FabricDateUtilService } from '../../../../common/date-util/fabric-date-util.service';
+import { MatDialog } from '@angular/material/dialog';
+import { SelectedDayActivityFormComponent } from '../activity/selected-day-activity-form.component';
+import { CalendarActivity } from '../../../../common/models/calendar-activity';
 
 @Component({
 	selector: 'ac-selected-date-activities',
@@ -20,7 +22,7 @@ import { FabricDateUtilService } from '../../../../common/date-util/fabric-date-
 		</div>
 
 		<div *ngFor="let activity of activities; let i = index"
-			 [class.selected-activity]="isActivitySelected(activity)"
+			 [class.activity-disabled]="!isSelectedDayToday()"
 			 (click)="selectActivity(activity)"
 			 class="ac-selected-date-activity">
 
@@ -51,13 +53,12 @@ export class SelectedDayActivitiesComponent extends Reactive implements OnInit {
 	@Input()
 	isSelectedDayToday: () => boolean;
 
-	selectedActivity: CalendarActivity;
 
 	constructor(private readonly selectedActivityRepository: SelectedActivityRepository,
-				private readonly selectedActivityService: SelectedActivityService,
+				private readonly selectedActivityService: SelectedDayActivityService,
 				private readonly selectedActivitiesService: SelectedDayActivitiesRepository,
-				private readonly dateUtilService: FabricDateUtilService,
-				private readonly changeDetectorRef: ChangeDetectorRef) {
+				private readonly matDialog: MatDialog,
+				private readonly dateUtilService: FabricDateUtilService) {
 		super();
 	}
 
@@ -66,8 +67,13 @@ export class SelectedDayActivitiesComponent extends Reactive implements OnInit {
 			.onActivity()
 			.pipe(this.takeUntil())
 			.subscribe((selectedActivity: CalendarActivity) => {
-				this.selectedActivity = selectedActivity;
-				this.changeDetectorRef.detectChanges();
+				this.matDialog.open(SelectedDayActivityFormComponent, {
+					panelClass: 'activity-calendar-dialog',
+					data: {
+						selectedDay: this.selectedDay,
+						selectedActivity
+					}
+				});
 			});
 	}
 
@@ -79,9 +85,5 @@ export class SelectedDayActivitiesComponent extends Reactive implements OnInit {
 		event.preventDefault();
 		event.stopPropagation();
 		this.selectedActivityService.deleteActivity(this.selectedDay, activity).finally();
-	}
-
-	isActivitySelected(activity: CalendarActivity): boolean {
-		return this.selectedActivity?.getActivityUUID() === activity.getActivityUUID();
 	}
 }

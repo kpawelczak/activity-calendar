@@ -2,14 +2,20 @@
 	display: flex;
 	justify-content: space-between;
 	align-items: baseline;
+	margin-left: $grid*2;
 	margin-bottom: $grid*3;
-	color: $white;
+	color: $primary;
 
 	mat-icon.client-menu-icon {
 		font-size: $grid*4;
 		margin-right: $grid;
 		color: $white;
 		margin-top: -8px;
+		transition: all 0.3s ease-in-out;
+
+		&:hover {
+			color: $primary;
+		}
 	}
 }
 

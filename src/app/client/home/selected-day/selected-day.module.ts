@@ -1,42 +1,53 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { SelectedDayComponent } from './selected-day.component';
-import { MatSelectModule } from '@angular/material/select';
+
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+
+import { MatSelectModule } from '@angular/material/select';
+import { MatTabsModule } from '@angular/material/tabs';
+import { MatDialogModule } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+
+import { FabricDateUtilModule } from '../../../common/date-util/fabric-date-util.module';
+import { ActivityCalendarButtonModule } from '../../../common/ui/activity-calendar-button/activity-calendar-button.module';
+import { FirestoreActivityModule } from '../../../firebase/activities/activity/firestore-activity.module';
+
+import { SelectedDayComponent } from './selected-day.component';
 import { SelectedDayActivitiesComponent } from './activities/selected-day-activities.component';
 import { SelectedDayActivityFormComponent } from './activity/selected-day-activity-form.component';
-import { FabricDateUtilModule } from '../../../common/date-util/fabric-date-util.module';
-import { SelectedActivityRepository } from './activity/selected-activity.repository';
-import { ActivityCalendarButtonModule } from '../../../common/ui/activity-calendar-button/activity-calendar-button.module';
-import { SelectedDayActivitiesRepository } from './activities/selected-day-activities.repository';
-import { FirestoreSelectedActivityModule } from '../../../firebase/activities/selected-activity/firestore-selected-activity.module';
-import { SelectedActivityService } from './activity/selected-activity.service';
-import { MatTabsModule } from '@angular/material/tabs';
 import { SelectedDayTemplateComponent } from './template/selected-day-template.component';
-import { MatCheckboxModule } from '@angular/material/checkbox';
 import { SelectedDayTemplateActivityComponent } from './template/selected-day-template-activity.component';
-import { SelectedDayTemplateActivityRepository } from './template/selected-day-template-activity.repository';
 
+import { SelectedDayTemplateActivityRepository } from './template/selected-day-template-activity.repository';
+import { SelectedDayActivityService } from './activity/selected-day-activity.service';
+import { SelectedActivityRepository } from './activity/selected-activity.repository';
+import { SelectedDayActivitiesRepository } from './activities/selected-day-activities.repository';
+
+
+const materialModules = [
+	MatSelectModule,
+	MatFormFieldModule,
+	MatInputModule,
+	MatButtonModule,
+	MatIconModule,
+	MatTabsModule,
+	MatCheckboxModule,
+	MatDialogModule
+];
 
 @NgModule({
 	imports: [
 		CommonModule,
 		ReactiveFormsModule,
 		FormsModule,
-		FirestoreSelectedActivityModule,
-		MatSelectModule,
-		MatFormFieldModule,
-		MatInputModule,
-		MatButtonModule,
+		FirestoreActivityModule,
 		ActivityCalendarButtonModule,
-		MatIconModule,
-		MatTabsModule,
-		MatCheckboxModule,
-		FabricDateUtilModule
+		FabricDateUtilModule,
+		...materialModules
 	],
 	declarations: [
 		SelectedDayComponent,
@@ -50,7 +61,7 @@ import { SelectedDayTemplateActivityRepository } from './template/selected-day-t
 	],
 	providers: [
 		SelectedActivityRepository,
-		SelectedActivityService,
+		SelectedDayActivityService,
 		SelectedDayActivitiesRepository,
 		SelectedDayTemplateActivityRepository
 	]

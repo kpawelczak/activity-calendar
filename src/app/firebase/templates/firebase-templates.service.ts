@@ -6,7 +6,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { take } from 'rxjs/operators';
 import { WeekdayTemplatesRepository } from '../../repositories/templates/weekday-templates.repository';
 import { WeekdayTemplate } from '../../repositories/templates/weekday-template';
-import { TemplateActivity } from '../../repositories/templates/template-activity';
+import { TemplateActivity } from '../../common/models/template-activity';
 import { Weekday } from '../../repositories/templates/weekday';
 
 @Injectable()
@@ -45,6 +45,7 @@ export class FirebaseTemplatesService extends ProfileCollection {
 				   })
 				   .then(() => {
 					   this.matSnackBar.open('Activity saved to template', '', {
+						   panelClass: 'ac-snackbar',
 						   duration: 5000
 					   });
 				   });
@@ -59,6 +60,7 @@ export class FirebaseTemplatesService extends ProfileCollection {
 				   .delete()
 				   .then(() => {
 					   this.matSnackBar.open('Activity deleted from template', '', {
+						   panelClass: 'ac-snackbar',
 						   duration: 5000
 					   });
 				   });

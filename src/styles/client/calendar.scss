@@ -275,7 +275,7 @@ ac-calendar {
 					background: $gray-lightest;
 					display: block;
 					left: 50%;
-					top: 50%;
+					top: calc(50% - 1px);
 					transform: translateX(-50%) translateY(-50%);
 					z-index: -1;
 					height: $arrow-hover-size;

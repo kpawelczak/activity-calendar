@@ -1,9 +1,9 @@
 export enum Weekday {
-	MONDAY = 1,
+	SUNDAY,
+	MONDAY,
 	TUESDAY,
 	WEDNESDAY,
 	THURSDAY,
 	FRIDAY,
 	SATURDAY,
-	SUNDAY
 }
