@@ -30,13 +30,13 @@ import { CalendarActivity } from '../../../../common/models/calendar-activity';
 
 			<mat-form-field class="example-form-field">
 
-				<mat-label>Reps</mat-label>
+				<mat-label>Amount</mat-label>
 
-				<input matInput type="text" formControlName="reps">
+				<input matInput type="text" formControlName="amount">
 
-				<button *ngIf="hasValue('reps')"
+				<button *ngIf="hasValue('amount')"
 						type="button"
-						(click)="clearFormItem('reps')"
+						(click)="clearFormItem('amount')"
 						mat-button matSuffix mat-icon-button aria-label="Clear">
 					<mat-icon>close</mat-icon>
 				</button>
@@ -45,6 +45,7 @@ import { CalendarActivity } from '../../../../common/models/calendar-activity';
 
 			<div class="ac-selected-activity-form-buttons">
 				<button mat-button
+						[type]="'button'"
 						(click)="closeDialog()">
 					Cancel
 				</button>
@@ -109,7 +110,7 @@ export class SelectedDayActivityFormComponent extends ActivityForm implements On
 		const calendarActivity = new CalendarActivity(
 			this.selectedDayDialogData.selectedDay.getTime(),
 			this.form.controls['name'].value,
-			this.form.controls['reps'].value
+			this.form.controls['amount'].value
 		);
 
 		this.selectedDayActivityService
@@ -123,7 +124,7 @@ export class SelectedDayActivityFormComponent extends ActivityForm implements On
 		const calendarActivity = new CalendarActivity(
 			this.selectedDayDialogData.selectedActivity.day,
 			this.form.controls['name'].value,
-			this.form.controls['reps'].value,
+			this.form.controls['amount'].value,
 			this.selectedDayDialogData.selectedActivity.getActivityUUID()
 		);
 

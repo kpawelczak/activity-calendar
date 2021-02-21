@@ -81,8 +81,9 @@ export class SelectedDayComponent extends Reactive implements OnInit {
 		this.activitiesRepository
 			.onMonthActivities()
 			.pipe(
-				switchMap((monthActivities: Array<CalendarActivity>) => {
-					this.selectedDayActivitiesRepository.setMonthActivities(monthActivities);
+				filter((activities: Array<CalendarActivity>) => activities.length !== 0),
+				switchMap((activities: Array<CalendarActivity>) => {
+					this.selectedDayActivitiesRepository.setMonthActivities(activities);
 					return this.selectedDayService.observeSelectedDate();
 				}),
 				distinctUntilChanged(),

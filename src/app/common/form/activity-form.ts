@@ -1,6 +1,8 @@
 import { FormBuilder, Validators } from '@angular/forms';
 import { Directive } from '@angular/core';
 import { ActivityCalendarForm } from './activity-calendar-form';
+import { CalendarActivity } from '../models/calendar-activity';
+import { TemplateActivity } from '../models/template-activity';
 
 @Directive({ selector: 'activity-from' })
 export abstract class ActivityForm extends ActivityCalendarForm {
@@ -9,14 +11,14 @@ export abstract class ActivityForm extends ActivityCalendarForm {
 		super();
 		this.form = this.formBuilder.group({
 			name: ['', Validators.required],
-			reps: ['', Validators.required]
+			amount: ['', Validators.required]
 		});
 	}
 
-	fillForm(activity: any): void { // TODO CalendarActivity => Activity
+	fillForm(activity: CalendarActivity | TemplateActivity): void {
 		if (activity) {
 			this.form.controls['name'].setValue(activity.name);
-			this.form.controls['reps'].setValue(activity.reps);
+			this.form.controls['amount'].setValue(activity.amount);
 		}
 	}
 }

@@ -17,7 +17,7 @@ import { CalendarActivity } from '../../../../common/models/calendar-activity';
 
 			<span>Name</span>
 
-			<span>Reps</span>
+			<span>Amount</span>
 
 		</div>
 
@@ -30,7 +30,7 @@ import { CalendarActivity } from '../../../../common/models/calendar-activity';
 
 			<span>{{activity.name}}</span>
 
-			<span>{{activity.reps}}</span>
+			<span>{{activity.amount}}</span>
 
 			<mat-icon *ngIf="isSelectedDayToday()"
 					  (click)="deleteActivity(activity)">

@@ -42,7 +42,7 @@ export class FirestoreActivityService extends ProfileCollection {
 				   .doc(activity.getActivityUUID())
 				   .update({
 					   name: activity.name,
-					   reps: activity.reps
+					   amount: activity.amount
 				   })
 				   .catch((error) => {
 					   this.acSnackBar.notify(error, { warn: true });

@@ -26,13 +26,13 @@ import { WeekdayTemplateService } from './weekday-template.service';
 
 			<mat-form-field class="example-form-field">
 
-				<mat-label>Reps</mat-label>
+				<mat-label>Amount</mat-label>
 
-				<input matInput type="text" formControlName="reps">
+				<input matInput type="text" formControlName="amount">
 
-				<button *ngIf="hasValue('reps')"
+				<button *ngIf="hasValue('amount')"
 						type="button"
-						(click)="clearFormItem('reps')"
+						(click)="clearFormItem('amount')"
 						mat-button matSuffix mat-icon-button aria-label="Clear">
 					<mat-icon>close</mat-icon>
 				</button>
@@ -85,9 +85,9 @@ export class WeekdayActivityFormComponent extends ActivityForm implements OnChan
 		if (this.form.valid) {
 			this.loading = true;
 			const name = this.form.controls['name'].value,
-				reps = this.form.controls['reps'].value,
+				amount = this.form.controls['amount'].value,
 				uuid = this.templateActivity.templateUUID ? this.templateActivity.templateUUID : '',
-				templateActivity = new TemplateActivity(name, reps, uuid);
+				templateActivity = new TemplateActivity(name, amount, uuid);
 
 			this.weekdayTemplateService.saveActivityToTemplate(this.weekdayTemplate, templateActivity);
 		}

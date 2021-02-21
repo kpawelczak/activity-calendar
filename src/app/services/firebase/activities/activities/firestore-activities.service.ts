@@ -14,7 +14,7 @@ import DocumentData = firebase.firestore.DocumentData;
 export class FirestoreActivitiesService extends ProfileCollection {
 	private static readonly MILLI_SECONDS_IN_WEEK = 604800000;
 
-	constructor(private readonly monthActivitiesRepository: ActivitiesRepository,
+	constructor(private readonly activitiesRepository: ActivitiesRepository,
 				private readonly acSnackBar: ActivityCalendarSnackbarService,
 				firebaseProfileService: ProfileService,
 				firestore: AngularFirestore) {
@@ -38,7 +38,7 @@ export class FirestoreActivitiesService extends ProfileCollection {
 						return new CalendarActivity(
 							calendarActivity.day,
 							calendarActivity.name,
-							calendarActivity.reps,
+							calendarActivity.amount,
 							calendarActivity.activityUUID,
 							calendarActivity.assignedTemplateUUID
 						);
@@ -46,7 +46,7 @@ export class FirestoreActivitiesService extends ProfileCollection {
 				}),
 				take(1))
 			.subscribe((calendarActivities: Array<CalendarActivity>) => {
-				this.monthActivitiesRepository.next(calendarActivities);
+				this.activitiesRepository.next(calendarActivities);
 			}, () => {
 				this.acSnackBar.notify('Failed to load selected month activities', {
 					warn: true

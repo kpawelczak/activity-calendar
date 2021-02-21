@@ -26,7 +26,7 @@ import { CalendarActivity } from '../../../../common/models/calendar-activity';
 
 			<span>{{calendarActivity.name}}</span>
 
-			<span>{{calendarActivity.reps}}</span>
+			<span>{{calendarActivity.amount}}</span>
 
 			<mat-checkbox [checked]="checked"></mat-checkbox>
 		</div>
@@ -62,7 +62,7 @@ export class SelectedDayTemplateActivityComponent extends Reactive implements On
 			this.calendarActivity = new CalendarActivity(
 				this.selectedDay.getTime(),
 				this.templateActivity.name,
-				this.templateActivity.reps,
+				this.templateActivity.amount,
 				uuid,
 				this.templateActivity.templateUUID
 			);

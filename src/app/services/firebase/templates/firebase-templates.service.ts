@@ -40,7 +40,7 @@ export class FirebaseTemplatesService extends ProfileCollection {
 				   .doc(UUID)
 				   .set({
 					   name: templateActivity.name,
-					   reps: templateActivity.reps,
+					   amount: templateActivity.amount,
 					   templateUUID: UUID
 				   })
 				   .catch((error) => {

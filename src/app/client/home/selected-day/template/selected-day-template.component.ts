@@ -10,7 +10,7 @@ import { TemplateActivity } from '../../../../common/models/template-activity';
 
 			<span>Name</span>
 
-			<span>Reps</span>
+			<span>Amount</span>
 
 		</div>
 

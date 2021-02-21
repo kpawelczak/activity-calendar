@@ -1,7 +1,7 @@
 export class TemplateActivity {
 
 	constructor(readonly name: string,
-				readonly reps: string,
+				readonly amount: string,
 				readonly templateUUID: string) {
 	}
 }

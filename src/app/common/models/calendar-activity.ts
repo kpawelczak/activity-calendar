@@ -6,7 +6,7 @@ export class CalendarActivity {
 
 	constructor(readonly day: number,
 				readonly name: string,
-				readonly reps: string,
+				readonly amount: string,
 				activityUUID?: string,
 				assignedTemplateUUID: string = '-1') {
 		if (activityUUID) {

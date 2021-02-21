@@ -19,6 +19,10 @@ export class WeekdayTemplatesRepository {
 		this.templates$.next(this.templates);
 	}
 
+	reset(): void {
+		this.templates$.next(weekdayTemplates);
+	}
+
 	private replaceWeekdayTemplate(newTemplate: WeekdayTemplate): void {
 		this.templates = this.templates.map((weekdayTemplate: WeekdayTemplate) => {
 			return newTemplate.weekday === weekdayTemplate.weekday ? newTemplate : weekdayTemplate;
