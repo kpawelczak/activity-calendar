@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, Input, Renderer2, ViewEncapsulation } from '@angular/core';
 import { CalendarPartContainer } from '../../common/calendar-part-container';
 import { ActivityCalendarInterfaceService } from '../top-interface/activity-calendar-interface.service';
+import { CalendarActivity } from '../../../../../common/models/calendar-activity';
 
 @Component({
 	selector: 'act-days-container',
@@ -35,7 +36,7 @@ export class ActivityCalendarDaysContainerComponent extends CalendarPartContaine
 	selectedMonth: number;
 
 	@Input()
-	monthActivities: Array<any>;
+	monthActivities: Array<CalendarActivity>;
 
 	constructor(interfaceService: ActivityCalendarInterfaceService,
 				renderer: Renderer2,

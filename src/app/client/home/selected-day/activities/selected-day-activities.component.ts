@@ -53,7 +53,6 @@ export class SelectedDayActivitiesComponent extends Reactive implements OnInit {
 	@Input()
 	isSelectedDayToday: () => boolean;
 
-
 	constructor(private readonly selectedActivityRepository: SelectedActivityRepository,
 				private readonly selectedActivityService: SelectedDayActivityService,
 				private readonly selectedActivitiesService: SelectedDayActivitiesRepository,

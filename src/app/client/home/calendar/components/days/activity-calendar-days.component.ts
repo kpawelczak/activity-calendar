@@ -3,6 +3,7 @@ import { ChangeDetectionStrategy, Component, Input, ViewEncapsulation } from '@a
 import { daysOfTheWeek } from '../../common/data/days-of-the-week';
 import { ActiveDateService } from '../../active-date.service';
 import { FabricDateUtilService } from '../../../../../common/date-util/fabric-date-util.service';
+import { CalendarActivity } from '../../../../../common/models/calendar-activity';
 
 @Component({
 	selector: 'act-calendar-days',
@@ -39,7 +40,7 @@ import { FabricDateUtilService } from '../../../../../common/date-util/fabric-da
 export class ActivityCalendarDaysComponent {
 
 	@Input()
-	monthActivities: Array<any>;
+	monthActivities: Array<CalendarActivity>;
 
 	@Input()
 	selectedDate: Date;
@@ -80,7 +81,7 @@ export class ActivityCalendarDaysComponent {
 		const dayInMilliSeconds = day.getTime();
 		let hasActivity = false;
 
-		this.monthActivities?.forEach((activity: any) => {
+		this.monthActivities?.forEach((activity: CalendarActivity) => {
 
 			if (activity.day === dayInMilliSeconds) {
 				hasActivity = true;

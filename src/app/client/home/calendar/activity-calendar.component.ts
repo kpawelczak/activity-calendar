@@ -9,6 +9,7 @@ import { Reactive } from '../../../common/reactive';
 import { ActivityCalendarView } from './common/models/activity-calendar-view';
 import { ActivitiesRepository } from '../../../services/repositories/activities/activities.repository';
 import { FirestoreActivitiesService } from '../../../services/firebase/activities/activities/firestore-activities.service';
+import { CalendarActivity } from '../../../common/models/calendar-activity';
 
 
 @Component({
@@ -40,7 +41,7 @@ export class ActivityCalendarComponent extends Reactive implements OnInit {
 
 	activityCalendarView: ActivityCalendarView = ActivityCalendarView.DAYS;
 
-	monthActivities: Array<any>;
+	monthActivities: Array<CalendarActivity>;
 
 	constructor(private readonly datePickerService: ActiveDateService,
 				private readonly datePickerWeeks: ActivityCalendarWeeks,
