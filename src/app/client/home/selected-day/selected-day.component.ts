@@ -42,7 +42,8 @@ import { CalendarActivity } from '../../../common/models/calendar-activity';
 
 		</mat-tab-group>
 
-		<div class="selected-day-add-activity-button-wrapper">
+		<div *ngIf="isSelectedDayToday()"
+			 class="selected-day-add-activity-button-wrapper">
 
 			<button mat-icon-button
 					[type]="'button'"

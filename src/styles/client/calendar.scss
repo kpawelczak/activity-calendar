@@ -186,6 +186,10 @@ ac-calendar {
 					span {
 						opacity: 1;
 					}
+
+					&.has-activity {
+						pointer-events: auto;
+					}
 				}
 
 				&.gui-date-picker-current-day {
@@ -195,7 +199,6 @@ ac-calendar {
 				&.has-activity {
 					color: $primary;
 					font-weight: bold;
-					pointer-events: auto;
 				}
 			}
 
