@@ -1,5 +1,5 @@
 import { Reactive } from '../../common/reactive';
-import { FirebaseProfileService } from './firebase-profile.service';
+import { ProfileService } from './profile.service';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { AngularFirestoreCollection } from '@angular/fire/firestore/collection/collection';
 
@@ -8,7 +8,7 @@ export abstract class ProfileCollection extends Reactive {
 
 	profile: string;
 
-	protected constructor(private readonly profileService: FirebaseProfileService,
+	protected constructor(private readonly profileService: ProfileService,
 						  private readonly angularFirestore: AngularFirestore) {
 		super();
 		this.profileService

@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import { FirebaseTemplatesService } from '../../../firebase/templates/firebase-templates.service';
+import { FirebaseTemplatesService } from '../../../services/firebase/templates/firebase-templates.service';
 import { TemplateActivity } from '../../../common/models/template-activity';
-import { WeekdayTemplatesRepository } from '../../../repositories/templates/weekday-templates.repository';
-import { WeekdayTemplate } from '../../../repositories/templates/weekday-template';
+import { WeekdayTemplatesRepository } from '../../../services/repositories/templates/weekday-templates.repository';
+import { WeekdayTemplate } from '../../../services/repositories/templates/weekday-template';
 
 @Injectable()
 export class WeekdayTemplateService {

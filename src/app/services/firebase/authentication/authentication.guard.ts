@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 
 import { AuthenticationService } from './authentication.service';
-import { RouteName } from '../../route-name';
+import { RouteName } from '../../../route-name';
 
 
 @Injectable()

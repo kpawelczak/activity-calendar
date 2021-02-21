@@ -2,8 +2,8 @@ import { ChangeDetectionStrategy, Component, OnInit, ViewEncapsulation } from '@
 import { Reactive } from './common/reactive';
 import { AngularFireAuth } from '@angular/fire/auth';
 import firebase from 'firebase';
-import { AuthenticationService } from './firebase/authentication/authentication.service';
-import { FirebaseProfileService } from './firebase/profile/firebase-profile.service';
+import { AuthenticationService } from './services/firebase/authentication/authentication.service';
+import { ProfileService } from './services/profile/profile.service';
 import User = firebase.User;
 
 @Component({
@@ -20,7 +20,7 @@ export class AppComponent extends Reactive implements OnInit {
 
 	constructor(private readonly fireAuth: AngularFireAuth,
 				private readonly authService: AuthenticationService,
-				private readonly profileService: FirebaseProfileService) {
+				private readonly profileService: ProfileService) {
 		super();
 	}
 

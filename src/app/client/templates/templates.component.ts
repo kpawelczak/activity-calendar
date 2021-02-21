@@ -1,8 +1,8 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { MatAccordion } from '@angular/material/expansion';
 import { Reactive } from '../../common/reactive';
-import { WeekdayTemplatesRepository } from '../../repositories/templates/weekday-templates.repository';
-import { WeekdayTemplate } from '../../repositories/templates/weekday-template';
+import { WeekdayTemplatesRepository } from '../../services/repositories/templates/weekday-templates.repository';
+import { WeekdayTemplate } from '../../services/repositories/templates/weekday-template';
 import { take } from 'rxjs/operators';
 
 @Component({

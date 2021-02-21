@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, Input, OnChanges, SimpleChanges, Vi
 import { ActivityForm } from '../../../common/form/activity-form';
 import { FormBuilder } from '@angular/forms';
 import { TemplateActivity } from '../../../common/models/template-activity';
-import { WeekdayTemplate } from '../../../repositories/templates/weekday-template';
+import { WeekdayTemplate } from '../../../services/repositories/templates/weekday-template';
 import { WeekdayTemplateService } from './weekday-template.service';
 
 @Component({

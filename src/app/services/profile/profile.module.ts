@@ -1,15 +1,15 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FirebaseProfileService } from './firebase-profile.service';
+import { ProfileService } from './profile.service';
 
 @NgModule({
 	imports: [
 		CommonModule
 	],
 	providers: [
-		FirebaseProfileService
+		ProfileService
 	]
 })
-export class FirebaseProfileModule {
+export class ProfileModule {
 
 }

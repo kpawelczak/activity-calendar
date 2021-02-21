@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { SelectedDayActivitiesRepository } from '../activities/selected-day-activities.repository';
-import { ActivitiesRepository } from '../../../../repositories/activities/activities.repository';
+import { ActivitiesRepository } from '../../../../services/repositories/activities/activities.repository';
 import { v4 as uuidv4 } from 'uuid';
 import { CalendarActivity } from '../../../../common/models/calendar-activity';
-import { FirestoreActivityService } from '../../../../firebase/activities/activity/firestore-activity.service';
+import { FirestoreActivityService } from '../../../../services/firebase/activities/activity/firestore-activity.service';
 
 
 @Injectable()

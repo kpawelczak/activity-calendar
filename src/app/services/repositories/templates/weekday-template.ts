@@ -1,4 +1,4 @@
-import { TemplateActivity } from '../../common/models/template-activity';
+import { TemplateActivity } from '../../../common/models/template-activity';
 import { Weekday } from './weekday';
 
 export class WeekdayTemplate {

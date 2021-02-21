@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
-import { CalendarActivity } from '../../../common/models/calendar-activity';
-import { ProfileCollection } from '../../profile/firebase-profile';
-import { FirebaseProfileService } from '../../profile/firebase-profile.service';
+import { CalendarActivity } from '../../../../common/models/calendar-activity';
+import { ProfileCollection } from '../../../profile/profile-collection';
+import { ProfileService } from '../../../profile/profile.service';
 import { ActivitiesRepository } from '../../../repositories/activities/activities.repository';
 
 @Injectable()
@@ -10,7 +10,7 @@ export class FirestoreActivityService extends ProfileCollection {
 
 	constructor(private readonly monthActivitiesRepository: ActivitiesRepository,
 				firestore: AngularFirestore,
-				firebaseProfileService: FirebaseProfileService) {
+				firebaseProfileService: ProfileService) {
 		super(firebaseProfileService, firestore);
 	}
 

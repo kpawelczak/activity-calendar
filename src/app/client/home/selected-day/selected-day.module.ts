@@ -14,7 +14,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 
 import { FabricDateUtilModule } from '../../../common/date-util/fabric-date-util.module';
 import { ActivityCalendarButtonModule } from '../../../common/ui/activity-calendar-button/activity-calendar-button.module';
-import { FirestoreActivityModule } from '../../../firebase/activities/activity/firestore-activity.module';
+import { FirestoreActivityModule } from '../../../services/firebase/activities/activity/firestore-activity.module';
 
 import { SelectedDayComponent } from './selected-day.component';
 import { SelectedDayActivitiesComponent } from './activities/selected-day-activities.component';

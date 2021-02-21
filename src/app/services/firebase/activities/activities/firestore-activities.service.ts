@@ -3,9 +3,9 @@ import { ActivitiesRepository } from '../../../repositories/activities/activitie
 import firebase from 'firebase';
 import { AngularFirestore, CollectionReference } from '@angular/fire/firestore';
 import { map, take } from 'rxjs/operators';
-import { CalendarActivity } from '../../../common/models/calendar-activity';
-import { ProfileCollection } from '../../profile/firebase-profile';
-import { FirebaseProfileService } from '../../profile/firebase-profile.service';
+import { CalendarActivity } from '../../../../common/models/calendar-activity';
+import { ProfileCollection } from '../../../profile/profile-collection';
+import { ProfileService } from '../../../profile/profile.service';
 import Database = firebase.database.Database;
 import DocumentData = firebase.firestore.DocumentData;
 
@@ -14,7 +14,7 @@ export class FirestoreActivitiesService extends ProfileCollection {
 	private static readonly MILLI_SECONDS_IN_WEEK = 604800000;
 
 	constructor(private readonly monthActivitiesRepository: ActivitiesRepository,
-				firebaseProfileService: FirebaseProfileService,
+				firebaseProfileService: ProfileService,
 				firestore: AngularFirestore) {
 		super(firebaseProfileService, firestore);
 	}

@@ -5,8 +5,8 @@ import { ClientRoutingModule } from './client-routing.module';
 import { HeaderModule } from './shell/header.module';
 import { HomeModule } from './home/home.module';
 import { TemplatesModule } from './templates/templates.module';
-import { WeekdayTemplatesModule } from '../repositories/templates/weekday-templates.module';
-import { ActivitiesModule } from '../repositories/activities/activities.module';
+import { WeekdayTemplatesModule } from '../services/repositories/templates/weekday-templates.module';
+import { ActivitiesModule } from '../services/repositories/activities/activities.module';
 
 
 @NgModule({

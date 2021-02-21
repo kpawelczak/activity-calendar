@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
-import { ProfileCollection } from '../profile/firebase-profile';
-import { FirebaseProfileService } from '../profile/firebase-profile.service';
+import { ProfileCollection } from '../../profile/profile-collection';
+import { ProfileService } from '../../profile/profile.service';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { take } from 'rxjs/operators';
 import { WeekdayTemplatesRepository } from '../../repositories/templates/weekday-templates.repository';
 import { WeekdayTemplate } from '../../repositories/templates/weekday-template';
-import { TemplateActivity } from '../../common/models/template-activity';
+import { TemplateActivity } from '../../../common/models/template-activity';
 import { Weekday } from '../../repositories/templates/weekday';
 
 @Injectable()
@@ -14,7 +14,7 @@ export class FirebaseTemplatesService extends ProfileCollection {
 
 	constructor(private readonly weekdayTemplatesRepository: WeekdayTemplatesRepository,
 				private readonly matSnackBar: MatSnackBar,
-				profileService: FirebaseProfileService,
+				profileService: ProfileService,
 				angularFirestore: AngularFirestore) {
 		super(profileService, angularFirestore);
 	}

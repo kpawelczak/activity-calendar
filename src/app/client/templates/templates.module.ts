@@ -10,7 +10,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { ActivityCalendarButtonModule } from '../../common/ui/activity-calendar-button/activity-calendar-button.module';
 import { WeekdayTemplateComponent } from './weekdays/weekday-template.component';
-import { FirebaseTemplatesModule } from '../../firebase/templates/firebase-templates.module';
+import { FirebaseTemplatesModule } from '../../services/firebase/templates/firebase-templates.module';
 import { WeekdayTemplateService } from './weekdays/weekday-template.service';
 
 

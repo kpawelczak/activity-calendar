@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable, ReplaySubject } from 'rxjs';
-import { CalendarActivity } from '../../common/models/calendar-activity';
+import { CalendarActivity } from '../../../common/models/calendar-activity';
 
 @Injectable()
 export class ActivitiesRepository {

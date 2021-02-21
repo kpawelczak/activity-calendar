@@ -8,9 +8,9 @@ import { environment } from '../environments/environment';
 import { AngularFireModule } from '@angular/fire';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { AuthenticationModule } from './firebase/authentication/authentication.module';
-import { FirebaseEntryModule } from './firebase/entry/firebase-entry.module';
-import { FirebaseProfileModule } from './firebase/profile/firebase-profile.module';
+import { AuthenticationModule } from './services/firebase/authentication/authentication.module';
+import { FirebaseEntryModule } from './services/firebase/entry/firebase-entry.module';
+import { ProfileModule } from './services/profile/profile.module';
 
 
 @NgModule({
@@ -22,7 +22,7 @@ import { FirebaseProfileModule } from './firebase/profile/firebase-profile.modul
 		AngularFireModule.initializeApp(environment.firebase),
 		AngularFirestoreModule,
 		AuthenticationModule,
-		FirebaseProfileModule,
+		ProfileModule,
 		FirebaseEntryModule,
 		BrowserAnimationsModule
 	],

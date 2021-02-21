@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { Reactive } from '../common/reactive';
-import { FirebaseProfileService } from '../firebase/profile/firebase-profile.service';
+import { ProfileService } from '../services/profile/profile.service';
 
 @Component({
 	template: `
@@ -19,7 +19,7 @@ export class ClientRootComponent extends Reactive implements OnInit {
 
 	profileLoaded: boolean = false;
 
-	constructor(private readonly firebaseProfileService: FirebaseProfileService,
+	constructor(private readonly firebaseProfileService: ProfileService,
 				private readonly changeDetectorRef: ChangeDetectorRef) {
 		super();
 	}
