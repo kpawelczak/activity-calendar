@@ -2,18 +2,18 @@ import { Injectable } from '@angular/core';
 import { ProfileCollection } from '../../profile/profile-collection';
 import { ProfileService } from '../../profile/profile.service';
 import { AngularFirestore } from '@angular/fire/firestore';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { take } from 'rxjs/operators';
 import { WeekdayTemplatesRepository } from '../../repositories/templates/weekday-templates.repository';
 import { WeekdayTemplate } from '../../repositories/templates/weekday-template';
 import { TemplateActivity } from '../../../common/models/template-activity';
 import { Weekday } from '../../repositories/templates/weekday';
+import { ActivityCalendarSnackbarService } from '../../../common/ui/activity-calendar-snackbar/activity-calendar-snackbar.service';
 
 @Injectable()
 export class FirebaseTemplatesService extends ProfileCollection {
 
 	constructor(private readonly weekdayTemplatesRepository: WeekdayTemplatesRepository,
-				private readonly matSnackBar: MatSnackBar,
+				private readonly acSnackBar: ActivityCalendarSnackbarService,
 				profileService: ProfileService,
 				angularFirestore: AngularFirestore) {
 		super(profileService, angularFirestore);
@@ -43,11 +43,11 @@ export class FirebaseTemplatesService extends ProfileCollection {
 					   reps: templateActivity.reps,
 					   templateUUID: UUID
 				   })
+				   .catch((error) => {
+					   this.acSnackBar.notify(error, { warn: true });
+				   })
 				   .then(() => {
-					   this.matSnackBar.open('Activity saved to template', '', {
-						   panelClass: 'ac-snackbar',
-						   duration: 5000
-					   });
+					   this.acSnackBar.notify('Activity saved to template');
 				   });
 	}
 
@@ -58,11 +58,11 @@ export class FirebaseTemplatesService extends ProfileCollection {
 				   .collection(weekday.toString())
 				   .doc(templateActivityUUID)
 				   .delete()
+				   .catch((error) => {
+					   this.acSnackBar.notify(error, { warn: true });
+				   })
 				   .then(() => {
-					   this.matSnackBar.open('Activity deleted from template', '', {
-						   panelClass: 'ac-snackbar',
-						   duration: 5000
-					   });
+					   this.acSnackBar.notify('Activity deleted from template');
 				   });
 	}
 

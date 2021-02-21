@@ -6,6 +6,7 @@ import { map, take } from 'rxjs/operators';
 import { CalendarActivity } from '../../../../common/models/calendar-activity';
 import { ProfileCollection } from '../../../profile/profile-collection';
 import { ProfileService } from '../../../profile/profile.service';
+import { ActivityCalendarSnackbarService } from '../../../../common/ui/activity-calendar-snackbar/activity-calendar-snackbar.service';
 import Database = firebase.database.Database;
 import DocumentData = firebase.firestore.DocumentData;
 
@@ -14,6 +15,7 @@ export class FirestoreActivitiesService extends ProfileCollection {
 	private static readonly MILLI_SECONDS_IN_WEEK = 604800000;
 
 	constructor(private readonly monthActivitiesRepository: ActivitiesRepository,
+				private readonly acSnackBar: ActivityCalendarSnackbarService,
 				firebaseProfileService: ProfileService,
 				firestore: AngularFirestore) {
 		super(firebaseProfileService, firestore);
@@ -45,6 +47,10 @@ export class FirestoreActivitiesService extends ProfileCollection {
 				take(1))
 			.subscribe((calendarActivities: Array<CalendarActivity>) => {
 				this.monthActivitiesRepository.next(calendarActivities);
+			}, () => {
+				this.acSnackBar.notify('Failed to load selected month activities', {
+					warn: true
+				});
 			});
 	}
 

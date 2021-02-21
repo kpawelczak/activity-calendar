@@ -11,6 +11,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AuthenticationModule } from './services/firebase/authentication/authentication.module';
 import { FirebaseEntryModule } from './services/firebase/entry/firebase-entry.module';
 import { ProfileModule } from './services/profile/profile.module';
+import { ActivityCalendarSnackbarModule } from './common/ui/activity-calendar-snackbar/activity-calendar-snackbar.module';
 
 
 @NgModule({
@@ -24,6 +25,7 @@ import { ProfileModule } from './services/profile/profile.module';
 		AuthenticationModule,
 		ProfileModule,
 		FirebaseEntryModule,
+		ActivityCalendarSnackbarModule,
 		BrowserAnimationsModule
 	],
 	declarations: [

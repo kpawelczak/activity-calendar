@@ -1,0 +1,18 @@
+.ac-snackbar {
+	background: $dark-elevated-background;
+	color: $primary;
+
+	.mat-simple-snackbar {
+		justify-content: center;
+	}
+}
+
+.ac-snackbar-warn {
+	background: mat-color($ac-warn);
+	color: $white;
+	text-align: center;
+
+	.mat-simple-snackbar {
+		justify-content: center;
+	}
+}

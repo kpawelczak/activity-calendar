@@ -4,11 +4,13 @@ import { CalendarActivity } from '../../../../common/models/calendar-activity';
 import { ProfileCollection } from '../../../profile/profile-collection';
 import { ProfileService } from '../../../profile/profile.service';
 import { ActivitiesRepository } from '../../../repositories/activities/activities.repository';
+import { ActivityCalendarSnackbarService } from '../../../../common/ui/activity-calendar-snackbar/activity-calendar-snackbar.service';
 
 @Injectable()
 export class FirestoreActivityService extends ProfileCollection {
 
 	constructor(private readonly monthActivitiesRepository: ActivitiesRepository,
+				private readonly acSnackBar: ActivityCalendarSnackbarService,
 				firestore: AngularFirestore,
 				firebaseProfileService: ProfileService) {
 		super(firebaseProfileService, firestore);
@@ -23,6 +25,12 @@ export class FirestoreActivityService extends ProfileCollection {
 					   ...activity,
 					   activityUUID: activity.getActivityUUID(),
 					   assignedTemplateUUID: activity.getAssignedTemplateUUID()
+				   })
+				   .catch((error) => {
+					   this.acSnackBar.notify(error, { warn: true });
+				   })
+				   .then(() => {
+					   this.acSnackBar.notify('Activity added');
 				   });
 	}
 
@@ -35,6 +43,12 @@ export class FirestoreActivityService extends ProfileCollection {
 				   .update({
 					   name: activity.name,
 					   reps: activity.reps
+				   })
+				   .catch((error) => {
+					   this.acSnackBar.notify(error, { warn: true });
+				   })
+				   .then(() => {
+					   this.acSnackBar.notify('Activity updated');
 				   });
 	}
 
@@ -44,7 +58,13 @@ export class FirestoreActivityService extends ProfileCollection {
 				   .doc('activities')
 				   .collection('days')
 				   .doc(activity.getActivityUUID())
-				   .delete();
+				   .delete()
+				   .catch((error) => {
+					   this.acSnackBar.notify(error, { warn: true });
+				   })
+				   .then(() => {
+					   this.acSnackBar.notify('Activity removed');
+				   });
 	}
 
 }

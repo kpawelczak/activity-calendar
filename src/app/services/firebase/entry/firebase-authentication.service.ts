@@ -1,28 +1,25 @@
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { Credentials } from './credentials';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { AuthenticationService } from '../authentication/authentication.service';
-import firebase from 'firebase';
-import UserCredential = firebase.auth.UserCredential;
+import { ActivityCalendarSnackbarService } from '../../../common/ui/activity-calendar-snackbar/activity-calendar-snackbar.service';
 
 @Injectable()
 export class FirebaseAuthenticationService {
 
 	constructor(private readonly fireAuth: AngularFireAuth,
 				private readonly authService: AuthenticationService,
-				private readonly matSnackBar: MatSnackBar) {
+				private readonly acSnackbar: ActivityCalendarSnackbarService) {
 	}
 
 	login(credentials: Credentials): Promise<void> {
-		return this.fireAuth.signInWithEmailAndPassword(credentials.email, credentials.password)
+		return this.fireAuth
+				   .signInWithEmailAndPassword(credentials.email, credentials.password)
 				   .then(() => {
-					   this.matSnackBar.open('Login success', '', {
-						   duration: 5000
-					   });
+					   this.acSnackbar.notify('Login success');
 				   }, (error) => {
-					   this.matSnackBar.open(error, '', {
-						   duration: 5000
+					   this.acSnackbar.notify(error, {
+						   warn: true
 					   });
 				   });
 	}
@@ -34,8 +31,15 @@ export class FirebaseAuthenticationService {
 		});
 	}
 
-	loginAnonymously(): Promise<UserCredential> {
-		return this.fireAuth.signInAnonymously();
+	loginAnonymously(): Promise<void> {
+		return this.fireAuth.signInAnonymously()
+				   .then(() => {
+					   this.acSnackbar.notify('Login success');
+				   }, (error) => {
+					   this.acSnackbar.notify(error, {
+						   warn: true
+					   });
+				   });
 	}
 
 }
