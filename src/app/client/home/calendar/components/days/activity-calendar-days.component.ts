@@ -78,16 +78,9 @@ export class ActivityCalendarDaysComponent {
 	}
 
 	hasActivity(day: Date): boolean {
-		const dayInMilliSeconds = day.getTime();
-		let hasActivity = false;
+		const dayInMilliSeconds = day.getTime(),
+			dayActivity = this.monthActivities?.find((activity: CalendarActivity) => activity.day === dayInMilliSeconds);
 
-		this.monthActivities?.forEach((activity: CalendarActivity) => {
-
-			if (activity.day === dayInMilliSeconds) {
-				hasActivity = true;
-			}
-		});
-
-		return hasActivity;
+		return !!dayActivity;
 	}
 }

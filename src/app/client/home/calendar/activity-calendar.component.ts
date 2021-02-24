@@ -42,7 +42,7 @@ export class ActivityCalendarComponent extends Reactive implements OnInit {
 
 	activityCalendarView: ActivityCalendarView = ActivityCalendarView.DAYS;
 
-	monthActivities: Array<CalendarActivity> = [];
+	monthActivities: Array<CalendarActivity>;
 
 	constructor(private readonly datePickerService: ActiveDateService,
 				private readonly datePickerWeeks: ActivityCalendarWeeks,
@@ -106,14 +106,26 @@ export class ActivityCalendarComponent extends Reactive implements OnInit {
 		this.activitiesRepository
 			.onMonthActivities()
 			.pipe(
+				skip(1),
 				this.takeUntil())
 			.subscribe((monthActivities: Array<CalendarActivity>) => {
-
 				this.monthActivities = monthActivities;
 				this.changeDetectorRef.detectChanges();
 			});
 
-		this.firestoreActivitiesService.getMonthActivities(this.selectedYear, this.selectedMonth)
+		this.activitiesRepository
+			.onMonthActivities()
+			.pipe(
+				take(1),
+				this.takeUntil())
+			.subscribe((monthActivities: Array<CalendarActivity>) => {
+				if (!monthActivities) {
+					this.firestoreActivitiesService.getMonthActivities(this.selectedYear, this.selectedMonth);
+				} else {
+					this.monthActivities = monthActivities;
+				}
+			});
+
 		this.calculateDatePickerData();
 	}
 

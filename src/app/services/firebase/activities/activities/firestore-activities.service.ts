@@ -12,7 +12,7 @@ import DocumentData = firebase.firestore.DocumentData;
 
 @Injectable()
 export class FirestoreActivitiesService extends ProfileCollection {
-	private static readonly MILLI_SECONDS_IN_WEEK = 604800000;
+	private static readonly MILLI_SECONDS_IN_WEEK = 604800000; // * 2
 
 	constructor(private readonly activitiesRepository: ActivitiesRepository,
 				private readonly acSnackBar: ActivityCalendarSnackbarService,
@@ -46,7 +46,9 @@ export class FirestoreActivitiesService extends ProfileCollection {
 				}),
 				take(1))
 			.subscribe((calendarActivities: Array<CalendarActivity>) => {
-				this.activitiesRepository.next(calendarActivities);
+				const activities = calendarActivities.length > 0 ? calendarActivities : null;
+
+				this.activitiesRepository.next(activities);
 			}, () => {
 				this.acSnackBar.notify('Failed to load selected month activities', {
 					warn: true
