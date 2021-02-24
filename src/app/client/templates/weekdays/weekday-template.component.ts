@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
-import { WeekdayTemplate } from '../../../services/repositories/templates/weekday-template';
+import { WeekdayTemplate } from '../../../services/repositories/templates/template/weekday-template';
 import { Reactive } from '../../../common/reactive';
-import { WeekdayTemplateRepository } from '../../../services/repositories/templates/weekday-template.repository';
+import { WeekdayTemplateRepository } from '../../../services/repositories/templates/template/weekday-template.repository';
 import { TemplateActivity } from '../../../common/models/template-activity';
 import { v4 as uuidv4 } from 'uuid';
 import { FirebaseTemplatesService } from '../../../services/firebase/templates/firebase-templates.service';
@@ -13,10 +13,14 @@ import { weekdayNames } from './weekday-names';
 	template: `
 		<mat-expansion-panel (opened)="getTemplates()">
 
-			<mat-expansion-panel-header>
+			<mat-expansion-panel-header
+				[class.has-template-activities]="weekdayTemplate.getTemplateCounter()">
 				<mat-panel-title>
 					{{getWeekdayName()}}
 				</mat-panel-title>
+				<mat-panel-description>
+					{{getTemplateCounter()}}
+				</mat-panel-description>
 			</mat-expansion-panel-header>
 
 			<ac-template-activity-form *ngFor="let template of weekdayTemplate?.templates"
@@ -58,6 +62,7 @@ export class WeekdayTemplateComponent extends Reactive implements OnInit {
 			.pipe(this.takeUntil())
 			.subscribe((weekdayTemplate: WeekdayTemplate) => {
 				this.weekdayTemplate = weekdayTemplate;
+				this.canGetFromFirebase = this.weekdayTemplate.templates.length === 0;
 				this.changeDetectorRef.detectChanges();
 			});
 	}
@@ -69,14 +74,22 @@ export class WeekdayTemplateComponent extends Reactive implements OnInit {
 	}
 
 	getTemplates(): void {
-		if (this.canGetFromFirebase) {
-			this.firebaseTemplatesService
-				.getTemplate(this.weekday);
+		if (this.canGetFromFirebase && this.weekdayTemplate.getTemplateCounter()) {
+			this.firebaseTemplatesService.getTemplate(this.weekday);
 			this.canGetFromFirebase = false;
 		}
 	}
 
 	getWeekdayName(): string {
 		return weekdayNames[this.weekdayTemplate.weekday];
+	}
+
+	getTemplateCounter(): number {
+
+		if (!this.weekdayTemplate.getTemplateCounter()) {
+			return;
+		}
+
+		return Object.values(this.weekdayTemplate.getTemplateCounter())[0];
 	}
 }

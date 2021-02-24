@@ -1,44 +1,35 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ViewChild, ViewEncapsulation } from '@angular/core';
 import { MatAccordion } from '@angular/material/expansion';
-import { Reactive } from '../../common/reactive';
-import { WeekdayTemplatesRepository } from '../../services/repositories/templates/weekday-templates.repository';
-import { WeekdayTemplate } from '../../services/repositories/templates/weekday-template';
-import { take } from 'rxjs/operators';
+import { Weekday } from '../../services/repositories/templates/weekday';
+
 
 @Component({
 	selector: 'ac-templates',
 	template: `
 		<mat-accordion multi>
 
-			<ac-weekday-template *ngFor="let weekdayTemplate of weekdayTemplates"
-								 [weekday]="weekdayTemplate.weekday"></ac-weekday-template>
+			<ac-weekday-template *ngFor="let weekday of weekdays"
+								 [weekday]="weekday"></ac-weekday-template>
 
 		</mat-accordion>
 	`,
 	encapsulation: ViewEncapsulation.None,
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class TemplatesComponent extends Reactive implements OnInit {
+export class TemplatesComponent {
 
 	@ViewChild(MatAccordion)
 	accordion: MatAccordion;
 
-	weekdayTemplates: Array<WeekdayTemplate>;
+	weekdays: Array<Weekday> = this.getWeekdays();
 
-	constructor(private readonly weekdayTemplatesRepository: WeekdayTemplatesRepository,
-				private readonly changeDetectorRef: ChangeDetectorRef) {
-		super();
-	}
+	getWeekdays(): Array<Weekday> {
+		const weekdays = Object.values(Weekday)
+							   .map((value: Weekday) => value)
+							   .filter(value => typeof value === 'number');
 
-	ngOnInit() {
-		this.weekdayTemplatesRepository
-			.onTemplates()
-			.pipe(
-				take(1),
-				this.takeUntil())
-			.subscribe((weekdayTemplates: Array<WeekdayTemplate>) => {
-				this.weekdayTemplates = weekdayTemplates;
-				this.changeDetectorRef.detectChanges();
-			});
+		weekdays.push(weekdays.shift());
+
+		return weekdays;
 	}
 }

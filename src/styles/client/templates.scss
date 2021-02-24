@@ -7,6 +7,20 @@ ac-templates {
 
 		mat-panel-title.mat-expansion-panel-header-title {
 			color: $white-gray;
+			max-width: 100px;
+		}
+
+		.mat-expansion-panel-header-description {
+			display: none;
+		}
+
+		.has-template-activities {
+
+			.mat-expansion-panel-header-description {
+				display: flex;
+				color: $primary;
+				font-weight: bold;
+			}
 		}
 	}
 

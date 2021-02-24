@@ -1,17 +1,41 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { WeekdayTemplate } from './weekday-template';
+import { WeekdayTemplate } from './template/weekday-template';
 import { weekdayTemplates } from './weekday-templates';
+import { map, switchMap } from 'rxjs/operators';
+import { TemplateCounter } from './counters/template-counter';
+import { WeekdayTemplateCountersRepository } from './counters/weekday-template-counters.repository';
 
 @Injectable()
 export class WeekdayTemplatesRepository {
 
 	private templates: Array<WeekdayTemplate> = weekdayTemplates;
 
+	private weekdayTemplateCounters: TemplateCounter;
+
 	private readonly templates$ = new BehaviorSubject<Array<WeekdayTemplate>>(this.templates);
 
+	constructor(private readonly weekdayTemplatesCounterRepository: WeekdayTemplateCountersRepository) {
+	}
+
 	onTemplates(): Observable<Array<WeekdayTemplate>> {
-		return this.templates$.asObservable();
+		return this.weekdayTemplatesCounterRepository
+				   .onTemplatesCounter()
+				   .pipe(
+					   switchMap((templateCounters: TemplateCounter) => {
+						   this.weekdayTemplateCounters = templateCounters;
+						   return this.templates$.asObservable();
+					   }),
+					   map((templates: Array<WeekdayTemplate>) => {
+						   return templates.map((weekdayTemplate: WeekdayTemplate) => {
+							   const weekday = weekdayTemplate.weekday,
+								   templateCounterValue = this.weekdayTemplateCounters[weekday],
+								   templateCounter = templateCounterValue ? { [weekday]: templateCounterValue } : null;
+
+							   return new WeekdayTemplate(weekdayTemplate.weekday, weekdayTemplate.templates, templateCounter);
+						   });
+					   })
+				   );
 	}
 
 	next(weekdayTemplate: WeekdayTemplate): void {

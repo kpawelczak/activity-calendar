@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { WeekdayTemplate } from './weekday-template';
-import { WeekdayTemplatesRepository } from './weekday-templates.repository';
+import { WeekdayTemplatesRepository } from '../weekday-templates.repository';
 import { map } from 'rxjs/operators';
-import { Weekday } from './weekday';
+import { Weekday } from '../weekday';
 
 @Injectable()
 export class WeekdayTemplateRepository {

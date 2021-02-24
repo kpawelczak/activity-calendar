@@ -4,7 +4,7 @@ import { ProfileService } from '../../profile/profile.service';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { take } from 'rxjs/operators';
 import { WeekdayTemplatesRepository } from '../../repositories/templates/weekday-templates.repository';
-import { WeekdayTemplate } from '../../repositories/templates/weekday-template';
+import { WeekdayTemplate } from '../../repositories/templates/template/weekday-template';
 import { TemplateActivity } from '../../../common/models/template-activity';
 import { Weekday } from '../../repositories/templates/weekday';
 import { ActivityCalendarSnackbarService } from '../../../common/ui/activity-calendar-snackbar/activity-calendar-snackbar.service';
@@ -25,7 +25,7 @@ export class FirebaseTemplatesService extends ProfileCollection {
 			.collection(weekday.toString())
 			.valueChanges()
 			.pipe(take(1))
-			.subscribe((templates: any) => {
+			.subscribe((templates: Array<TemplateActivity>) => {
 				const weekdayTemplate = new WeekdayTemplate(weekday, templates);
 				this.weekdayTemplatesRepository.next(weekdayTemplate);
 			});

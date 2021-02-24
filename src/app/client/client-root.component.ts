@@ -3,6 +3,7 @@ import { Reactive } from '../common/reactive';
 import { ProfileService } from '../services/profile/profile.service';
 import { ActivitiesRepository } from '../services/repositories/activities/activities.repository';
 import { WeekdayTemplatesRepository } from '../services/repositories/templates/weekday-templates.repository';
+import { WeekdayTemplateCountersRepository } from '../services/repositories/templates/counters/weekday-template-counters.repository';
 
 @Component({
 	template: `
@@ -21,15 +22,16 @@ export class ClientRootComponent extends Reactive implements OnInit, OnDestroy {
 
 	profileLoaded: boolean = false;
 
-	constructor(private readonly firebaseProfileService: ProfileService,
+	constructor(private readonly profileService: ProfileService,
 				private readonly activitiesRepository: ActivitiesRepository,
 				private readonly weekdayTemplatesRepository: WeekdayTemplatesRepository,
+				private readonly weekdayTemplateCountersRepository: WeekdayTemplateCountersRepository,
 				private readonly changeDetectorRef: ChangeDetectorRef) {
 		super();
 	}
 
 	ngOnInit() {
-		this.firebaseProfileService
+		this.profileService
 			.onProfile()
 			.pipe(this.takeUntil())
 			.subscribe((profile: string) => {
@@ -40,7 +42,8 @@ export class ClientRootComponent extends Reactive implements OnInit, OnDestroy {
 
 	ngOnDestroy() {
 		super.ngOnDestroy();
-		this.activitiesRepository.next([]);
+		this.activitiesRepository.reset();
 		this.weekdayTemplatesRepository.reset();
+		this.weekdayTemplateCountersRepository.reset();
 	}
 }

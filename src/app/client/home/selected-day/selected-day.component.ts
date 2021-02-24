@@ -5,10 +5,10 @@ import { FabricDateUtilService } from '../../../common/date-util/fabric-date-uti
 import { ActivitiesRepository } from '../../../services/repositories/activities/activities.repository';
 import { distinctUntilChanged, filter, map, switchMap } from 'rxjs/operators';
 import { SelectedDayActivitiesRepository } from './activities/selected-day-activities.repository';
-import { WeekdayTemplate } from '../../../services/repositories/templates/weekday-template';
+import { WeekdayTemplate } from '../../../services/repositories/templates/template/weekday-template';
 import { TemplateActivity } from '../../../common/models/template-activity';
 import { FirebaseTemplatesService } from '../../../services/firebase/templates/firebase-templates.service';
-import { WeekdayTemplateRepository } from '../../../services/repositories/templates/weekday-template.repository';
+import { WeekdayTemplateRepository } from '../../../services/repositories/templates/template/weekday-template.repository';
 import { Weekday } from '../../../services/repositories/templates/weekday';
 import { MatDialog } from '@angular/material/dialog';
 import { SelectedDayActivityFormComponent } from './activity/selected-day-activity-form.component';
@@ -82,7 +82,7 @@ export class SelectedDayComponent extends Reactive implements OnInit {
 		this.activitiesRepository
 			.onMonthActivities()
 			.pipe(
-				filter((activities: Array<CalendarActivity>) => activities.length !== 0),
+				filter((activities: Array<CalendarActivity>) => activities && activities.length !== 0),
 				switchMap((activities: Array<CalendarActivity>) => {
 					this.selectedDayActivitiesRepository.setMonthActivities(activities);
 					return this.selectedDayService.observeSelectedDate();

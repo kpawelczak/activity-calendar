@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable, ReplaySubject } from 'rxjs';
+import { BehaviorSubject, Observable, ReplaySubject } from 'rxjs';
 import { CalendarActivity } from '../../../common/models/calendar-activity';
 
 @Injectable()
@@ -7,7 +7,7 @@ export class ActivitiesRepository {
 
 	private monthActivities: Array<CalendarActivity>;
 
-	private readonly monthActivities$ = new ReplaySubject<Array<CalendarActivity>>(1);
+	private readonly monthActivities$ = new BehaviorSubject<Array<CalendarActivity>>(null);
 
 	onMonthActivities(): Observable<Array<CalendarActivity>> {
 		return this.monthActivities$.asObservable();
@@ -38,6 +38,11 @@ export class ActivitiesRepository {
 								   });
 
 		this.monthActivities$.next(this.monthActivities);
+	}
+
+	reset(): void {
+		this.monthActivities = [];
+		this.monthActivities$.next([]);
 	}
 
 }

@@ -25,10 +25,11 @@ export class FirebaseAuthenticationService {
 	}
 
 	logout() {
-		this.fireAuth.signOut().then(() => {
-		}, () => {
-			this.authService.next(false);
-		});
+		this.fireAuth.signOut()
+			.then(() => {
+			}, () => {
+				this.authService.next(false);
+			});
 	}
 
 	loginAnonymously(): Promise<void> {

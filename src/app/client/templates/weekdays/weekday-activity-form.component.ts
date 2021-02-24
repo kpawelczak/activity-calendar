@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, Input, OnChanges, SimpleChanges, Vi
 import { ActivityForm } from '../../../common/form/activity-form';
 import { FormBuilder } from '@angular/forms';
 import { TemplateActivity } from '../../../common/models/template-activity';
-import { WeekdayTemplate } from '../../../services/repositories/templates/weekday-template';
+import { WeekdayTemplate } from '../../../services/repositories/templates/template/weekday-template';
 import { WeekdayTemplateService } from './weekday-template.service';
 
 @Component({
@@ -84,12 +84,19 @@ export class WeekdayActivityFormComponent extends ActivityForm implements OnChan
 	saveActivity(): void {
 		if (this.form.valid) {
 			this.loading = true;
+
+			const newTemplate = !this.templateActivity.name;
+
 			const name = this.form.controls['name'].value,
 				amount = this.form.controls['amount'].value,
-				uuid = this.templateActivity.templateUUID ? this.templateActivity.templateUUID : '',
+				uuid = this.templateActivity.templateUUID,
 				templateActivity = new TemplateActivity(name, amount, uuid);
 
-			this.weekdayTemplateService.saveActivityToTemplate(this.weekdayTemplate, templateActivity);
+			if (newTemplate) {
+				this.weekdayTemplateService.addActivityToTemplate(this.weekdayTemplate, templateActivity);
+			} else {
+				this.weekdayTemplateService.saveActivityToTemplate(this.weekdayTemplate, templateActivity);
+			}
 		}
 	}
 

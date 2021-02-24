@@ -2,29 +2,46 @@ import { Injectable } from '@angular/core';
 import { FirebaseTemplatesService } from '../../../services/firebase/templates/firebase-templates.service';
 import { TemplateActivity } from '../../../common/models/template-activity';
 import { WeekdayTemplatesRepository } from '../../../services/repositories/templates/weekday-templates.repository';
-import { WeekdayTemplate } from '../../../services/repositories/templates/weekday-template';
+import { WeekdayTemplate } from '../../../services/repositories/templates/template/weekday-template';
+import { WeekdayTemplateCountersRepository } from '../../../services/repositories/templates/counters/weekday-template-counters.repository';
+import { from, Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
+import { FirebaseTemplateCountersService } from '../../../services/firebase/templates/firebase-template-counters.service';
+import { TemplateCounter } from '../../../services/repositories/templates/counters/template-counter';
 
 @Injectable()
 export class WeekdayTemplateService {
 
 	constructor(private readonly firebaseTemplatesService: FirebaseTemplatesService,
-				private readonly weekdayTemplatesRepository: WeekdayTemplatesRepository) {
+				private readonly firebaseTemplateCountersService: FirebaseTemplateCountersService,
+				private readonly weekdayTemplatesRepository: WeekdayTemplatesRepository,
+				private readonly weekdayTemplateCountersRepository: WeekdayTemplateCountersRepository) {
 	}
 
-	saveActivityToTemplate(weekdayTemplate: WeekdayTemplate, templateActivity: TemplateActivity): void {
-
-		this.firebaseTemplatesService
-			.saveActivityToTemplate(weekdayTemplate.weekday, templateActivity)
-			.then(() => {
-				const newWeekdayTemplate = this.createWeekdayTemplateWithUpdatedActivity(
-					weekdayTemplate,
-					templateActivity
-				);
-				this.weekdayTemplatesRepository.next(newWeekdayTemplate);
+	addActivityToTemplate(weekdayTemplate: WeekdayTemplate, templateActivity: TemplateActivity): void {
+		this.saveActivityToTemplate(weekdayTemplate, templateActivity)
+			.subscribe((newWeekdayTemplate: WeekdayTemplate) => {
+				this.updateCounter(newWeekdayTemplate);
 			});
 	}
 
-	deleteTemplateActivity(weekdayTemplate: WeekdayTemplate, templateActivity: TemplateActivity): void {
+	saveActivityToTemplate(weekdayTemplate: WeekdayTemplate, templateActivity: TemplateActivity): Observable<WeekdayTemplate> {
+		return from(this.firebaseTemplatesService.saveActivityToTemplate(weekdayTemplate.weekday, templateActivity))
+			.pipe(
+				map(() => {
+					const newWeekdayTemplate = this.createWeekdayTemplateWithUpdatedActivity(
+						weekdayTemplate,
+						templateActivity
+					);
+					this.weekdayTemplatesRepository.next(newWeekdayTemplate);
+
+					return newWeekdayTemplate;
+				})
+			);
+	}
+
+	deleteTemplateActivity(weekdayTemplate: WeekdayTemplate,
+						   templateActivity: TemplateActivity): void {
 
 		if (!templateActivity.name) {
 			this.removeActivityFromRepository(weekdayTemplate, templateActivity);
@@ -51,12 +68,14 @@ export class WeekdayTemplateService {
 			return templateActivity;
 		});
 
+		newTemplates = newTemplates.filter((templateActivity: TemplateActivity) => templateActivity.name);
+
 		return new WeekdayTemplate(weekdayTemplate.weekday, newTemplates);
 	}
 
 	private createWeekdayTemplateWithDeletedActivity(weekdayTemplate: WeekdayTemplate,
 													 templateActivityUUID: string): WeekdayTemplate {
-		const templates = weekdayTemplate.templates,
+		const templates = weekdayTemplate.templates.filter((templateActivity: TemplateActivity) => templateActivity.name),
 			deletedTemplateActivityIndex = templates.findIndex((templateActivity: TemplateActivity) => {
 				return templateActivity.templateUUID === templateActivityUUID;
 			});
@@ -69,5 +88,13 @@ export class WeekdayTemplateService {
 	private removeActivityFromRepository(weekdayTemplate: WeekdayTemplate, templateActivity: TemplateActivity): void {
 		const newWeekdayTemplate = this.createWeekdayTemplateWithDeletedActivity(weekdayTemplate, templateActivity.templateUUID);
 		this.weekdayTemplatesRepository.next(newWeekdayTemplate);
+		this.updateCounter(newWeekdayTemplate);
+	}
+
+	private updateCounter(weekdayTemplate: WeekdayTemplate): void {
+
+		const weekdayTemplateCounter = { [weekdayTemplate.weekday]: weekdayTemplate.templates.length } as TemplateCounter;
+		this.firebaseTemplateCountersService.updateTemplateCounters(weekdayTemplateCounter);
+		this.weekdayTemplateCountersRepository.updateCounter(weekdayTemplateCounter);
 	}
 }

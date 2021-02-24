@@ -1,7 +1,8 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { WeekdayTemplatesRepository } from './weekday-templates.repository';
-import { WeekdayTemplateRepository } from './weekday-template.repository';
+import { WeekdayTemplateRepository } from './template/weekday-template.repository';
+import { WeekdayTemplateCountersRepository } from './counters/weekday-template-counters.repository';
 
 
 @NgModule({
@@ -10,7 +11,8 @@ import { WeekdayTemplateRepository } from './weekday-template.repository';
 	],
 	providers: [
 		WeekdayTemplatesRepository,
-		WeekdayTemplateRepository
+		WeekdayTemplateRepository,
+		WeekdayTemplateCountersRepository
 	]
 })
 export class WeekdayTemplatesModule {

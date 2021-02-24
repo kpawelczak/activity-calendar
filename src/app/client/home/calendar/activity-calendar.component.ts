@@ -10,6 +10,7 @@ import { ActivityCalendarView } from './common/models/activity-calendar-view';
 import { ActivitiesRepository } from '../../../services/repositories/activities/activities.repository';
 import { FirestoreActivitiesService } from '../../../services/firebase/activities/activities/firestore-activities.service';
 import { CalendarActivity } from '../../../common/models/calendar-activity';
+import { skip, take } from 'rxjs/operators';
 
 
 @Component({
@@ -41,7 +42,7 @@ export class ActivityCalendarComponent extends Reactive implements OnInit {
 
 	activityCalendarView: ActivityCalendarView = ActivityCalendarView.DAYS;
 
-	monthActivities: Array<CalendarActivity>;
+	monthActivities: Array<CalendarActivity> = [];
 
 	constructor(private readonly datePickerService: ActiveDateService,
 				private readonly datePickerWeeks: ActivityCalendarWeeks,
@@ -104,14 +105,15 @@ export class ActivityCalendarComponent extends Reactive implements OnInit {
 
 		this.activitiesRepository
 			.onMonthActivities()
-			.pipe(this.takeUntil())
-			.subscribe((monthActivities: Array<any>) => {
+			.pipe(
+				this.takeUntil())
+			.subscribe((monthActivities: Array<CalendarActivity>) => {
+
 				this.monthActivities = monthActivities;
 				this.changeDetectorRef.detectChanges();
 			});
 
-		this.firestoreActivitiesService.getMonthActivities(this.selectedYear, this.selectedMonth);
-
+		this.firestoreActivitiesService.getMonthActivities(this.selectedYear, this.selectedMonth)
 		this.calculateDatePickerData();
 	}
 
