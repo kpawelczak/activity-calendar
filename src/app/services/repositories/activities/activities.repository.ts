@@ -41,8 +41,8 @@ export class ActivitiesRepository {
 	}
 
 	reset(): void {
-		this.monthActivities = [];
-		this.monthActivities$.next([]);
+		this.monthActivities = null;
+		this.monthActivities$.next(null);
 	}
 
 }

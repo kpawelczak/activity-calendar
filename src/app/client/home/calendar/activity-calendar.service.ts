@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
-import { Observable, Subject } from 'rxjs';
+import { Observable, ReplaySubject, Subject } from 'rxjs';
 
 @Injectable()
 export class ActivityCalendarService {
 
-	private readonly dateMonth$ = new Subject<number>();
+	private readonly dateMonth$ = new ReplaySubject<number>(1);
 
-	private readonly dateYear$ = new Subject<number>();
+	private readonly dateYear$ = new ReplaySubject<number>(1);
 
 	observeDateMonth(): Observable<number> {
 		return this.dateMonth$.asObservable();

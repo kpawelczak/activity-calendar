@@ -28,9 +28,13 @@ export class WeekdayTemplatesRepository {
 					   }),
 					   map((templates: Array<WeekdayTemplate>) => {
 						   return templates.map((weekdayTemplate: WeekdayTemplate) => {
-							   const weekday = weekdayTemplate.weekday,
-								   templateCounterValue = this.weekdayTemplateCounters[weekday],
+							   let templateCounter;
+
+							   if (this.weekdayTemplateCounters) {
+								   const weekday = weekdayTemplate.weekday,
+									   templateCounterValue = this.weekdayTemplateCounters[weekday];
 								   templateCounter = templateCounterValue ? { [weekday]: templateCounterValue } : null;
+							   }
 
 							   return new WeekdayTemplate(weekdayTemplate.weekday, weekdayTemplate.templates, templateCounter);
 						   });

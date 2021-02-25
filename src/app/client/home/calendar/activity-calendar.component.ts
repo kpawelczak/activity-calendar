@@ -57,27 +57,6 @@ export class ActivityCalendarComponent extends Reactive implements OnInit {
 	}
 
 	ngOnInit() {
-		this.calendarService
-			.observeDateMonth()
-			.pipe(this.takeUntil())
-			.subscribe((month: number) => {
-				this.selectedMonth = month;
-
-				this.firestoreActivitiesService.getMonthActivities(this.selectedYear, this.selectedMonth);
-
-				this.calculateDatePickerData();
-				this.changeDetectorRef.detectChanges();
-			});
-
-		this.calendarService
-			.observeDateYear()
-			.pipe(this.takeUntil())
-			.subscribe((year: number) => {
-				this.selectedYear = year;
-				this.calculateDatePickerData();
-				this.changeDetectorRef.detectChanges();
-			});
-
 		this.datePickerService
 			.observeSelectedDate()
 			.pipe(this.takeUntil())
@@ -85,6 +64,26 @@ export class ActivityCalendarComponent extends Reactive implements OnInit {
 				this.selectedDate = date;
 				this.selectedYear = date.getFullYear();
 				this.selectedMonth = date.getMonth();
+			});
+
+		this.calendarService
+			.observeDateYear()
+			.pipe(this.takeUntil())
+			.subscribe((year: number) => {
+				this.selectedYear = year;
+				this.firestoreActivitiesService.getMonthActivities(this.selectedYear, this.selectedMonth);
+				this.calculateDatePickerData();
+				this.changeDetectorRef.detectChanges();
+			});
+
+		this.calendarService
+			.observeDateMonth()
+			.pipe(this.takeUntil())
+			.subscribe((month: number) => {
+				this.selectedMonth = month;
+				this.firestoreActivitiesService.getMonthActivities(this.selectedYear, this.selectedMonth);
+				this.calculateDatePickerData();
+				this.changeDetectorRef.detectChanges();
 			});
 
 		this.datePickerYearsService
