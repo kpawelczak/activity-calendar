@@ -1,44 +1,56 @@
 import { Injectable } from '@angular/core';
-import { Observable, ReplaySubject, Subject } from 'rxjs';
+import { BehaviorSubject, Observable, ReplaySubject } from 'rxjs';
+import { ActivityCalendarYearMonth } from './common/models/activity-calendar-year-month';
 
 @Injectable()
 export class ActivityCalendarService {
 
-	private readonly dateMonth$ = new ReplaySubject<number>(1);
+	private initialYearMonth = new ActivityCalendarYearMonth(new Date().getMonth(), new Date().getFullYear());
+
+	private year: number;
 
 	private readonly dateYear$ = new ReplaySubject<number>(1);
 
-	observeDateMonth(): Observable<number> {
-		return this.dateMonth$.asObservable();
-	}
+	private readonly yearMonth$ = new BehaviorSubject<ActivityCalendarYearMonth>(this.initialYearMonth);
 
 	observeDateYear(): Observable<number> {
 		return this.dateYear$.asObservable();
 	}
 
+	onYearMonth(): Observable<ActivityCalendarYearMonth> {
+		return this.yearMonth$.asObservable();
+	}
+
 	nextMonth(year: number, month: number): void {
-		if (month === 11) {
-			this.dateYear$.next(year + 1);
-			this.selectMonth(0);
-		} else {
-			this.selectMonth(month + 1);
-		}
+		const isDecember = month === 11,
+			newMonth = isDecember ? 0 : month + 1;
+
+		this.year = isDecember ? year + 1 : year;
+
+		this.next(newMonth);
 	}
 
 	prevMonth(year: number, month: number): void {
-		if (month === 0) {
-			this.dateYear$.next(year - 1);
-			this.selectMonth(11);
-		} else {
-			this.selectMonth(month - 1);
-		}
+		const isJanuary = month === 0,
+			newMonth = isJanuary ? 11 : month - 1;
+
+		this.year = isJanuary ? year - 1 : year;
+
+		this.next(newMonth);
 	}
 
 	selectYear(year: number): void {
+		this.year = year;
 		this.dateYear$.next(year);
 	}
 
 	selectMonth(month: number): void {
-		this.dateMonth$.next(month);
+		this.next(month);
 	}
+
+	private next(month: number): void {
+		const monthYear = new ActivityCalendarYearMonth(month, this.year);
+		this.yearMonth$.next(monthYear);
+	}
+
 }
