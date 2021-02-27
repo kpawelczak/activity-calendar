@@ -25,7 +25,6 @@ export class FirebaseActivitiesCountService extends ProfileCollection {
 				   .valueChanges()
 				   .pipe(
 					   filter((data: Array<DocumentData>) => !!data),
-					   // map((data: Array<DocumentData>) => data.length > 0 ? data : null),
 					   map((data: Array<DocumentData>) => {
 							   return Object.keys(data)
 											.map((key: string) => {
