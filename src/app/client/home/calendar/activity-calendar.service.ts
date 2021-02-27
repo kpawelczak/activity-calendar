@@ -1,24 +1,24 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, ReplaySubject } from 'rxjs';
-import { ActivityCalendarYearMonth } from './common/models/activity-calendar-year-month';
+import { ActiveMonth } from './common/models/activity-calendar-year-month';
 
 @Injectable()
 export class ActivityCalendarService {
 
-	private initialYearMonth = new ActivityCalendarYearMonth(new Date().getMonth(), new Date().getFullYear());
+	private initialActiveMonth = new ActiveMonth(new Date().getMonth(), new Date().getFullYear());
 
 	private year: number;
 
-	private readonly dateYear$ = new ReplaySubject<number>(1);
+	private readonly activeYear$ = new ReplaySubject<number>(1);
 
-	private readonly yearMonth$ = new BehaviorSubject<ActivityCalendarYearMonth>(this.initialYearMonth);
+	private readonly activeMonth$ = new BehaviorSubject<ActiveMonth>(this.initialActiveMonth);
 
-	observeDateYear(): Observable<number> {
-		return this.dateYear$.asObservable();
+	onActiveYear(): Observable<number> {
+		return this.activeYear$.asObservable();
 	}
 
-	onYearMonth(): Observable<ActivityCalendarYearMonth> {
-		return this.yearMonth$.asObservable();
+	onActiveMonth(): Observable<ActiveMonth> {
+		return this.activeMonth$.asObservable();
 	}
 
 	nextMonth(year: number, month: number): void {
@@ -27,7 +27,7 @@ export class ActivityCalendarService {
 
 		this.year = isDecember ? year + 1 : year;
 
-		this.next(newMonth);
+		this.nextActiveMonth(newMonth);
 	}
 
 	prevMonth(year: number, month: number): void {
@@ -36,21 +36,21 @@ export class ActivityCalendarService {
 
 		this.year = isJanuary ? year - 1 : year;
 
-		this.next(newMonth);
+		this.nextActiveMonth(newMonth);
 	}
 
 	selectYear(year: number): void {
 		this.year = year;
-		this.dateYear$.next(year);
+		this.activeYear$.next(year);
 	}
 
 	selectMonth(month: number): void {
-		this.next(month);
+		this.nextActiveMonth(month);
 	}
 
-	private next(month: number): void {
-		const monthYear = new ActivityCalendarYearMonth(month, this.year);
-		this.yearMonth$.next(monthYear);
+	private nextActiveMonth(month: number): void {
+		const monthYear = new ActiveMonth(month, this.year);
+		this.activeMonth$.next(monthYear);
 	}
 
 }

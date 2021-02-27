@@ -4,19 +4,19 @@ import { ActivityCalendarInterfaceService } from '../top-interface/activity-cale
 import { CalendarActivity } from '../../../../../common/models/calendar-activity';
 
 @Component({
-	selector: 'act-days-container',
+	selector: 'ac-days-container',
 	template: `
-		<act-calendar-days [weeks]="prevWeeks"></act-calendar-days>
+		<ac-calendar-days [weeks]="prevWeeks"></ac-calendar-days>
 
-		<act-calendar-days (pan)="onPan($event)"
-						   (panend)="onPanEnd()"
-						   [selectedDate]="selectedDate"
-						   [selectedMonth]="selectedMonth"
-						   [monthActivities]="monthActivities"
-						   [weeks]="weeks">
-		</act-calendar-days>
+		<ac-calendar-days (pan)="onPan($event)"
+						  (panend)="onPanEnd()"
+						  [selectedDate]="selectedDate"
+						  [activeMonth]="activeMonth"
+						  [monthActivities]="monthActivities"
+						  [weeks]="weeks">
+		</ac-calendar-days>
 
-		<act-calendar-days [weeks]="nextWeeks"></act-calendar-days>
+		<ac-calendar-days [weeks]="nextWeeks"></ac-calendar-days>
 	`,
 	encapsulation: ViewEncapsulation.None,
 	changeDetection: ChangeDetectionStrategy.OnPush
@@ -33,7 +33,7 @@ export class ActivityCalendarDaysContainerComponent extends CalendarPartContaine
 	nextWeeks: Array<Array<Date>>;
 
 	@Input()
-	selectedMonth: number;
+	activeMonth: number;
 
 	@Input()
 	monthActivities: Array<CalendarActivity>;

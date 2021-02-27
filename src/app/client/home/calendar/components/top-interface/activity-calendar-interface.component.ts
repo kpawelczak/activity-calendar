@@ -14,7 +14,7 @@ import { calendarAnimationTimer } from '../../common/calendar-animation-timer';
 
 
 @Component({
-	selector: 'act-calendar-interface',
+	selector: 'ac-calendar-interface',
 	template: `
 		<div class="gui-date-picker-interface">
 
@@ -44,10 +44,10 @@ export class ActivityCalendarInterfaceComponent extends Reactive implements OnIn
 	selectedDate: Date;
 
 	@Input()
-	selectedMonth: number;
+	activeMonth: number;
 
 	@Input()
-	selectedYear: number;
+	activeYear: number;
 
 	@Input()
 	years: Array<Array<number>>;
@@ -80,10 +80,10 @@ export class ActivityCalendarInterfaceComponent extends Reactive implements OnIn
 		switch (this.fabricCalendarView) {
 
 			case ActivityCalendarView.DAYS:
-				return `${months[this.selectedMonth]} ${this.selectedYear}`;
+				return `${months[this.activeMonth]} ${this.activeYear}`;
 
 			case ActivityCalendarView.MONTHS:
-				return `${months[this.selectedMonth]} ${this.selectedYear}`;
+				return `${months[this.activeMonth]} ${this.activeYear}`;
 
 			case ActivityCalendarView.YEARS:
 				return `${this.getDisplayedYearRange()}`;
@@ -110,10 +110,11 @@ export class ActivityCalendarInterfaceComponent extends Reactive implements OnIn
 	switchCard(cardView: ActivityCalendarCardView): void {
 		const next = cardView === ActivityCalendarCardView.NEXT,
 			inc = next ? 1 : -1,
-			selectedYear = this.selectedYear + inc,
-			years = next ?
-				this.datePickerYears.nextYearRange(this.selectedYear)
-				: this.datePickerYears.prevYearRange(this.selectedYear);
+			activeYear = this.activeYear + inc,
+			years =
+				next ?
+					this.datePickerYears.nextYearRange(this.activeYear)
+					: this.datePickerYears.prevYearRange(this.activeYear);
 
 		switch (this.fabricCalendarView) {
 
@@ -122,7 +123,7 @@ export class ActivityCalendarInterfaceComponent extends Reactive implements OnIn
 				break;
 
 			case ActivityCalendarView.MONTHS:
-				this.calendarService.selectYear(selectedYear);
+				this.calendarService.selectYear(activeYear);
 				break;
 
 			case ActivityCalendarView.YEARS:
@@ -137,9 +138,9 @@ export class ActivityCalendarInterfaceComponent extends Reactive implements OnIn
 
 	private handleMonthChange(next: boolean): void {
 		if (next) {
-			this.calendarService.nextMonth(this.selectedYear, this.selectedMonth);
+			this.calendarService.nextMonth(this.activeYear, this.activeMonth);
 		} else {
-			this.calendarService.prevMonth(this.selectedYear, this.selectedMonth);
+			this.calendarService.prevMonth(this.activeYear, this.activeMonth);
 		}
 	}
 }

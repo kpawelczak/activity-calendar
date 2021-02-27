@@ -6,7 +6,7 @@ import { CalendarPartContainer } from '../../common/calendar-part-container';
 import { ActivityCalendarInterfaceService } from '../top-interface/activity-calendar-interface.service';
 
 @Component({
-	selector: 'act-calendar-years',
+	selector: 'ac-calendar-years',
 	template: `
 		<table (pan)="onPan($event)"
 			   (panend)="onPanEnd()">

@@ -7,11 +7,10 @@ import { ActivityCalendarService } from './activity-calendar.service';
 import { ActivityCalendarYearsService } from './components/years/activity-calendar-years.service';
 import { Reactive } from '../../../common/reactive';
 import { ActivityCalendarView } from './common/models/activity-calendar-view';
-import { ActivitiesRepository } from '../../../services/repositories/activities/activities.repository';
 import { FirestoreActivitiesService } from '../../../services/firebase/activities/activities/firestore-activities.service';
 import { CalendarActivity } from '../../../common/models/calendar-activity';
 import { switchMap } from 'rxjs/operators';
-import { ActivityCalendarYearMonth } from './common/models/activity-calendar-year-month';
+import { ActiveMonth } from './common/models/activity-calendar-year-month';
 
 
 @Component({
@@ -35,9 +34,9 @@ export class ActivityCalendarComponent extends Reactive implements OnInit {
 
 	selectedDate: Date;
 
-	selectedMonth: number;
+	activeMonth: number;
 
-	selectedYear: number;
+	activeYear: number;
 
 	ActivityCalendarView = ActivityCalendarView;
 
@@ -52,7 +51,6 @@ export class ActivityCalendarComponent extends Reactive implements OnInit {
 				private readonly calendarService: ActivityCalendarService,
 				private readonly calendarViewService: ActivityCalendarViewService,
 				private readonly firestoreActivitiesService: FirestoreActivitiesService,
-				private readonly activitiesRepository: ActivitiesRepository,
 				private readonly changeDetectorRef: ChangeDetectorRef) {
 		super();
 	}
@@ -68,16 +66,16 @@ export class ActivityCalendarComponent extends Reactive implements OnInit {
 			});
 
 		this.calendarService
-			.onYearMonth()
+			.onActiveMonth()
 			.pipe(
-				switchMap((yearMonth: ActivityCalendarYearMonth) => {
-					this.selectedYear = yearMonth.year;
-					this.selectedMonth = yearMonth.month;
+				switchMap((activeMonth: ActiveMonth) => {
+					this.activeYear = activeMonth.year;
+					this.activeMonth = activeMonth.month;
 					this.calculateDatePickerData();
 					this.changeDetectorRef.detectChanges();
 
 					return this.firestoreActivitiesService
-							   .getMonthActivities(this.selectedYear, this.selectedMonth);
+							   .getMonthActivities(this.activeYear, this.activeMonth);
 				}),
 				this.takeUntil())
 			.subscribe((calendarActivities: Array<CalendarActivity>) => {
@@ -86,10 +84,10 @@ export class ActivityCalendarComponent extends Reactive implements OnInit {
 			});
 
 		this.calendarService
-			.observeDateYear()
+			.onActiveYear()
 			.pipe(this.takeUntil())
 			.subscribe((year: number) => {
-				this.selectedYear = year;
+				this.activeYear = year;
 				this.changeDetectorRef.detectChanges();
 			});
 
@@ -118,10 +116,10 @@ export class ActivityCalendarComponent extends Reactive implements OnInit {
 	}
 
 	private calculateDatePickerData(): void {
-		this.weeks = this.datePickerWeeks.getDaysInMonths(this.selectedYear, this.selectedMonth);
-		this.prevWeeks = this.datePickerWeeks.getDaysInMonths(this.selectedYear, this.selectedMonth - 1);
-		this.nextWeeks = this.datePickerWeeks.getDaysInMonths(this.selectedYear, this.selectedMonth + 1);
+		this.weeks = this.datePickerWeeks.getDaysInMonths(this.activeYear, this.activeMonth);
+		this.prevWeeks = this.datePickerWeeks.getDaysInMonths(this.activeYear, this.activeMonth - 1);
+		this.nextWeeks = this.datePickerWeeks.getDaysInMonths(this.activeYear, this.activeMonth + 1);
 
-		this.years = this.datePickerYears.getYears(this.selectedYear);
+		this.years = this.datePickerYears.getYears(this.activeYear);
 	}
 }

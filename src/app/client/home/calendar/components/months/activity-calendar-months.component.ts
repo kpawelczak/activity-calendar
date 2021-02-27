@@ -8,7 +8,7 @@ import { CalendarPartContainer } from '../../common/calendar-part-container';
 import { ActivityCalendarInterfaceService } from '../top-interface/activity-calendar-interface.service';
 
 @Component({
-	selector: 'act-calendar-months',
+	selector: 'ac-calendar-months',
 	template: `
 		<table (pan)="onPan($event)"
 			   (panend)="onPanEnd()">
@@ -32,7 +32,7 @@ import { ActivityCalendarInterfaceService } from '../top-interface/activity-cale
 export class ActivityCalendarMonthsComponent extends CalendarPartContainer {
 
 	@Input()
-	selectedYear: number;
+	activeYear: number;
 
 	quarters = quarters;
 
@@ -50,8 +50,8 @@ export class ActivityCalendarMonthsComponent extends CalendarPartContainer {
 
 	isDisabled(month: number): boolean {
 		const currentYear = this.currentDay.getFullYear(),
-			isYearHigher = this.selectedYear > currentYear,
-			isYearSame = this.selectedYear === this.currentDay.getFullYear(),
+			isYearHigher = this.activeYear > currentYear,
+			isYearSame = this.activeYear === this.currentDay.getFullYear(),
 			isMonthHigher = month > this.currentDay.getMonth();
 
 		return isYearSame ? isMonthHigher : isYearHigher;
@@ -59,7 +59,7 @@ export class ActivityCalendarMonthsComponent extends CalendarPartContainer {
 
 	isMonth(date: Date, month: number): boolean {
 		if (date) {
-			return this.dateUtilsService.isMonth(date, month, this.selectedYear);
+			return this.dateUtilsService.isMonth(date, month, this.activeYear);
 		}
 	}
 

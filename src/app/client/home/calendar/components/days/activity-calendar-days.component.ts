@@ -6,7 +6,7 @@ import { FabricDateUtilService } from '../../../../../common/date-util/fabric-da
 import { CalendarActivity } from '../../../../../common/models/calendar-activity';
 
 @Component({
-	selector: 'act-calendar-days',
+	selector: 'ac-calendar-days',
 	template: `
 		<table>
 			<thead class="gui-date-picker-header">
@@ -46,7 +46,7 @@ export class ActivityCalendarDaysComponent {
 	selectedDate: Date;
 
 	@Input()
-	selectedMonth: number;
+	activeMonth: number;
 
 	@Input()
 	weeks: Array<Array<Date>>;
@@ -73,8 +73,8 @@ export class ActivityCalendarDaysComponent {
 		}
 	}
 
-	displayMonthDays(day: number): boolean {
-		return day === this.selectedMonth;
+	displayMonthDays(month: number): boolean {
+		return month === this.activeMonth;
 	}
 
 	hasActivity(day: Date): boolean {
