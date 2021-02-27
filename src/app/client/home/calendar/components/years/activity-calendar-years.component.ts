@@ -4,6 +4,7 @@ import { ActivityCalendarViewService } from '../../activity-calendar-view.servic
 import { ActivityCalendarView } from '../../common/models/activity-calendar-view';
 import { CalendarPartContainer } from '../../common/calendar-part-container';
 import { ActivityCalendarInterfaceService } from '../top-interface/activity-calendar-interface.service';
+import { ActivitiesCount } from '../../../../../common/models/activities-count';
 
 @Component({
 	selector: 'ac-calendar-years',
@@ -14,6 +15,7 @@ import { ActivityCalendarInterfaceService } from '../top-interface/activity-cale
 				<td (click)="selectYear(year)"
 					*ngFor="let year of yearsChunk"
 					[class.disabled]="isDisabled(year)"
+					[class.has-activity]="hasActivity(year)"
 					[class.gui-date-picker-current-year]="isYear(currentDay, year)"
 					[class.gui-date-picker-selected-year]="isYear(selectedDate, year)"
 					class="gui-date-picker-year">
@@ -31,6 +33,9 @@ export class ActivityCalendarYearsComponent extends CalendarPartContainer {
 
 	@Input()
 	years: Array<Array<number>>;
+
+	@Input()
+	activitiesCount: Array<ActivitiesCount>;
 
 	currentDay: Date = new Date();
 
@@ -56,6 +61,13 @@ export class ActivityCalendarYearsComponent extends CalendarPartContainer {
 
 	isDisabled(year: number): boolean {
 		return year > this.currentDay.getFullYear();
+	}
+
+	hasActivity(year: number): boolean {
+		const yearActivitiesCount = this.activitiesCount
+										.find((activitiesCount: ActivitiesCount) => activitiesCount.year === year);
+
+		return !!yearActivitiesCount;
 	}
 
 }

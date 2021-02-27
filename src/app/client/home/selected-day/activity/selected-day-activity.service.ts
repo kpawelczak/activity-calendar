@@ -3,14 +3,16 @@ import { SelectedDayActivitiesRepository } from '../activities/selected-day-acti
 import { ActivitiesRepository } from '../../../../services/repositories/activities/activities.repository';
 import { v4 as uuidv4 } from 'uuid';
 import { CalendarActivity } from '../../../../common/models/calendar-activity';
-import { FirestoreActivityService } from '../../../../services/firebase/activities/activity/firestore-activity.service';
+import { FirebaseActivityService } from '../../../../services/firebase/activities/activity/firebase-activity.service';
+import { ActivitiesCountRepository } from '../../../../services/repositories/activities/count/activities-count.repository';
 
 
 @Injectable()
 export class SelectedDayActivityService {
 
-	constructor(private readonly firestoreActivityService: FirestoreActivityService,
+	constructor(private readonly firebaseActivityService: FirebaseActivityService,
 				private readonly selectedDateActivitiesService: SelectedDayActivitiesRepository,
+				private readonly activitiesCountRepository: ActivitiesCountRepository,
 				private readonly activitiesRepository: ActivitiesRepository) {
 	}
 
@@ -18,9 +20,11 @@ export class SelectedDayActivityService {
 		if (!calendarActivity.getActivityUUID()) {
 			calendarActivity.setActivityUUID(uuidv4());
 		}
-		return this.firestoreActivityService
+
+		return this.firebaseActivityService
 				   .addActivity(calendarActivity)
 				   .then(() => {
+					   this.activitiesCountRepository.updateCount(selectedDate, true);
 					   this.activitiesRepository.addMonthActivity(calendarActivity);
 					   this.selectedDateActivitiesService.selectDayActivities(selectedDate);
 				   });
@@ -28,7 +32,7 @@ export class SelectedDayActivityService {
 
 	updateActivity(selectedDate: Date, activity: CalendarActivity): Promise<void> {
 
-		return this.firestoreActivityService
+		return this.firebaseActivityService
 				   .updateActivity(activity)
 				   .then(() => {
 					   this.activitiesRepository.updateMonthActivities(activity);
@@ -38,9 +42,10 @@ export class SelectedDayActivityService {
 
 	deleteActivity(selectedDate: Date, activity: CalendarActivity): Promise<void> {
 
-		return this.firestoreActivityService
+		return this.firebaseActivityService
 				   .deleteActivity(activity)
 				   .then(() => {
+					   this.activitiesCountRepository.updateCount(selectedDate);
 					   this.activitiesRepository.deleteActivity(activity);
 					   this.selectedDateActivitiesService.selectDayActivities(selectedDate);
 				   });

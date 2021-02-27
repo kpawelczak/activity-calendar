@@ -6,7 +6,7 @@ import { AngularFirestoreCollection } from '@angular/fire/firestore/collection/c
 
 export abstract class ProfileCollection extends Reactive {
 
-	profile: string;
+	private profile: string;
 
 	protected constructor(private readonly profileService: ProfileService,
 						  private readonly angularFirestore: AngularFirestore) {

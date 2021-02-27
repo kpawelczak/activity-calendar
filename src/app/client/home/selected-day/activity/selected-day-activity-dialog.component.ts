@@ -62,7 +62,7 @@ import { CalendarActivity } from '../../../../common/models/calendar-activity';
 	encapsulation: ViewEncapsulation.None,
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class SelectedDayActivityFormComponent extends ActivityForm implements OnInit {
+export class SelectedDayActivityDialogComponent extends ActivityForm implements OnInit {
 
 	loading: boolean = false;
 
@@ -114,7 +114,10 @@ export class SelectedDayActivityFormComponent extends ActivityForm implements On
 		);
 
 		this.selectedDayActivityService
-			.addActivity(this.selectedDayDialogData.selectedDay, calendarActivity)
+			.addActivity(
+				this.selectedDayDialogData.selectedDay,
+				calendarActivity
+			)
 			.finally(() => {
 				this.onResponse();
 			});

@@ -7,10 +7,16 @@ import { ActivityCalendarService } from './activity-calendar.service';
 import { ActivityCalendarYearsService } from './components/years/activity-calendar-years.service';
 import { Reactive } from '../../../common/reactive';
 import { ActivityCalendarView } from './common/models/activity-calendar-view';
-import { FirestoreActivitiesService } from '../../../services/firebase/activities/activities/firestore-activities.service';
+import { FirebaseActivitiesService } from '../../../services/firebase/activities/activities/firebase-activities.service';
 import { CalendarActivity } from '../../../common/models/calendar-activity';
-import { switchMap } from 'rxjs/operators';
+import { filter, skip, switchMap } from 'rxjs/operators';
 import { ActiveMonth } from './common/models/activity-calendar-year-month';
+import { FirebaseActivitiesCountService } from '../../../services/firebase/activities/activities-count/firebase-activities-count.service';
+import { ActivitiesCountRepository } from '../../../services/repositories/activities/count/activities-count.repository';
+import { EMPTY } from 'rxjs';
+import { ActivitiesCount } from '../../../common/models/activities-count';
+import { ActivitiesRepository } from '../../../services/repositories/activities/activities.repository';
+import { FabricDateUtilService } from '../../../common/date-util/fabric-date-util.service';
 
 
 @Component({
@@ -44,19 +50,24 @@ export class ActivityCalendarComponent extends Reactive implements OnInit {
 
 	monthActivities: Array<CalendarActivity>;
 
+	activitiesCount: Array<ActivitiesCount>;
+
 	constructor(private readonly datePickerService: ActiveDateService,
 				private readonly datePickerWeeks: ActivityCalendarWeeks,
 				private readonly datePickerYears: ActivityCalendarYears,
 				private readonly datePickerYearsService: ActivityCalendarYearsService,
+				private readonly dateUtilService: FabricDateUtilService,
 				private readonly calendarService: ActivityCalendarService,
 				private readonly calendarViewService: ActivityCalendarViewService,
-				private readonly firestoreActivitiesService: FirestoreActivitiesService,
+				private readonly firebaseActivitiesService: FirebaseActivitiesService,
+				private readonly firebaseActivitiesCountService: FirebaseActivitiesCountService,
+				private readonly activitiesRepository: ActivitiesRepository,
+				private readonly activitiesCountRepository: ActivitiesCountRepository,
 				private readonly changeDetectorRef: ChangeDetectorRef) {
 		super();
 	}
 
 	ngOnInit() {
-
 		this.datePickerService
 			.observeSelectedDate()
 			.pipe(this.takeUntil())
@@ -74,9 +85,22 @@ export class ActivityCalendarComponent extends Reactive implements OnInit {
 					this.calculateDatePickerData();
 					this.changeDetectorRef.detectChanges();
 
-					return this.firestoreActivitiesService
+					return this.firebaseActivitiesService
 							   .getMonthActivities(this.activeYear, this.activeMonth);
 				}),
+				this.takeUntil())
+			.subscribe((calendarActivities: Array<CalendarActivity>) => {
+				this.monthActivities = calendarActivities;
+				this.changeDetectorRef.detectChanges();
+			});
+
+		this.activitiesRepository
+			.onMonthActivities()
+			.pipe(
+				filter(() =>
+					this.dateUtilService.isDateInChosenMonth(this.selectedDate, this.activeMonth, this.activeYear)
+				),
+				skip(1),
 				this.takeUntil())
 			.subscribe((calendarActivities: Array<CalendarActivity>) => {
 				this.monthActivities = calendarActivities;
@@ -104,6 +128,26 @@ export class ActivityCalendarComponent extends Reactive implements OnInit {
 			.pipe(this.takeUntil())
 			.subscribe((fabricCalendarView: ActivityCalendarView) => {
 				this.activityCalendarView = fabricCalendarView;
+				this.changeDetectorRef.detectChanges();
+			});
+
+		this.activitiesCountRepository
+			.onActivitiesCount()
+			.pipe(
+				switchMap((activitiesCount: Array<ActivitiesCount>) => {
+					const isActivitiesCountStored = !!activitiesCount;
+
+					if (isActivitiesCountStored) {
+						this.activitiesCount = activitiesCount;
+						this.changeDetectorRef.detectChanges();
+					}
+
+					return isActivitiesCountStored ? EMPTY : this.firebaseActivitiesCountService.getActivitiesCount();
+				})
+			)
+			.subscribe((activitiesCount: Array<ActivitiesCount>) => {
+				this.activitiesCount = activitiesCount;
+				this.activitiesCountRepository.next(activitiesCount);
 				this.changeDetectorRef.detectChanges();
 			});
 	}

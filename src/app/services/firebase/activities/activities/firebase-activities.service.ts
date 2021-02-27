@@ -6,20 +6,18 @@ import { map, take } from 'rxjs/operators';
 import { CalendarActivity } from '../../../../common/models/calendar-activity';
 import { ProfileCollection } from '../../../profile/profile-collection';
 import { ProfileService } from '../../../profile/profile.service';
-import { ActivityCalendarSnackbarService } from '../../../../common/ui/activity-calendar-snackbar/activity-calendar-snackbar.service';
 import { Observable } from 'rxjs';
 import Database = firebase.database.Database;
 import DocumentData = firebase.firestore.DocumentData;
 
 @Injectable()
-export class FirestoreActivitiesService extends ProfileCollection {
+export class FirebaseActivitiesService extends ProfileCollection {
 
 	private static readonly MILLI_SECONDS_IN_WEEK = 604800000;
 
 	initialProvide: boolean = false;
 
 	constructor(private readonly activitiesRepository: ActivitiesRepository,
-				private readonly acSnackBar: ActivityCalendarSnackbarService,
 				firebaseProfileService: ProfileService,
 				firestore: AngularFirestore) {
 		super(firebaseProfileService, firestore);
@@ -29,8 +27,8 @@ export class FirestoreActivitiesService extends ProfileCollection {
 		return this.profileCollection()
 				   .doc('activities')
 				   .collection('days', (ref: CollectionReference<Database>) => {
-					   const startAt = this.getStartOfTheMonth(year, month) - FirestoreActivitiesService.MILLI_SECONDS_IN_WEEK,
-						   endAt = this.getStartOfTheMonth(year, month + 1) + FirestoreActivitiesService.MILLI_SECONDS_IN_WEEK;
+					   const startAt = this.getStartOfTheMonth(year, month) - FirebaseActivitiesService.MILLI_SECONDS_IN_WEEK,
+						   endAt = this.getStartOfTheMonth(year, month + 1) + FirebaseActivitiesService.MILLI_SECONDS_IN_WEEK;
 
 					   return ref.where('day', '>=', startAt)
 								 .where('day', '<', endAt);

@@ -11,7 +11,7 @@ import { FirebaseTemplatesService } from '../../../services/firebase/templates/f
 import { WeekdayTemplateRepository } from '../../../services/repositories/templates/template/weekday-template.repository';
 import { Weekday } from '../../../services/repositories/templates/weekday';
 import { MatDialog } from '@angular/material/dialog';
-import { SelectedDayActivityFormComponent } from './activity/selected-day-activity-form.component';
+import { SelectedDayActivityDialogComponent } from './activity/selected-day-activity-dialog.component';
 import { CalendarActivity } from '../../../common/models/calendar-activity';
 
 @Component({
@@ -122,7 +122,7 @@ export class SelectedDayComponent extends Reactive implements OnInit {
 	}
 
 	openActivityForm(): void {
-		this.matDialog.open(SelectedDayActivityFormComponent, {
+		this.matDialog.open(SelectedDayActivityDialogComponent, {
 			panelClass: 'activity-calendar-dialog',
 			data: {
 				selectedDay: this.selectedDay

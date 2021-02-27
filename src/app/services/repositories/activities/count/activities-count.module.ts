@@ -1,15 +1,15 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FirestoreActivitiesService } from './firestore-activities.service';
+import { ActivitiesCountRepository } from './activities-count.repository';
 
 @NgModule({
 	imports: [
 		CommonModule
 	],
 	providers: [
-		FirestoreActivitiesService
+		ActivitiesCountRepository
 	]
 })
-export class FirestoreActivitiesModule {
+export class ActivitiesCountModule {
 
 }

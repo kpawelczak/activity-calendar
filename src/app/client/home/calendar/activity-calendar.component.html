@@ -24,7 +24,8 @@
 		<ng-container *ngSwitchCase="ActivityCalendarView.MONTHS">
 
 			<ac-calendar-months [selectedDate]="selectedDate"
-								[activeYear]="activeYear">
+								[activeYear]="activeYear"
+								[activitiesCount]="activitiesCount">
 			</ac-calendar-months>
 
 		</ng-container>
@@ -32,6 +33,7 @@
 		<ng-container *ngSwitchCase="ActivityCalendarView.YEARS">
 
 			<ac-calendar-years [selectedDate]="selectedDate"
+							   [activitiesCount]="activitiesCount"
 							   [years]="years">
 			</ac-calendar-years>
 

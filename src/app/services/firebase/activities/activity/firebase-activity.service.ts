@@ -7,7 +7,7 @@ import { ActivitiesRepository } from '../../../repositories/activities/activitie
 import { ActivityCalendarSnackbarService } from '../../../../common/ui/activity-calendar-snackbar/activity-calendar-snackbar.service';
 
 @Injectable()
-export class FirestoreActivityService extends ProfileCollection {
+export class FirebaseActivityService extends ProfileCollection {
 
 	constructor(private readonly monthActivitiesRepository: ActivitiesRepository,
 				private readonly acSnackBar: ActivityCalendarSnackbarService,

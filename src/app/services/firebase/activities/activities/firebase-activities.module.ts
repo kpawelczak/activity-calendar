@@ -1,15 +1,15 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FirestoreActivityService } from './firestore-activity.service';
+import { FirebaseActivitiesService } from './firebase-activities.service';
 
 @NgModule({
 	imports: [
 		CommonModule
 	],
 	providers: [
-		FirestoreActivityService
+		FirebaseActivitiesService
 	]
 })
-export class FirestoreActivityModule {
+export class FirebaseActivitiesModule {
 
 }

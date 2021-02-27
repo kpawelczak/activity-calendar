@@ -14,11 +14,11 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 
 import { FabricDateUtilModule } from '../../../common/date-util/fabric-date-util.module';
 import { ActivityCalendarButtonModule } from '../../../common/ui/activity-calendar-button/activity-calendar-button.module';
-import { FirestoreActivityModule } from '../../../services/firebase/activities/activity/firestore-activity.module';
+import { FirebaseActivityModule } from '../../../services/firebase/activities/activity/firebase-activity.module';
 
 import { SelectedDayComponent } from './selected-day.component';
 import { SelectedDayActivitiesComponent } from './activities/selected-day-activities.component';
-import { SelectedDayActivityFormComponent } from './activity/selected-day-activity-form.component';
+import { SelectedDayActivityDialogComponent } from './activity/selected-day-activity-dialog.component';
 import { SelectedDayTemplateComponent } from './template/selected-day-template.component';
 import { SelectedDayTemplateActivityComponent } from './template/selected-day-template-activity.component';
 
@@ -44,14 +44,14 @@ const materialModules = [
 		CommonModule,
 		ReactiveFormsModule,
 		FormsModule,
-		FirestoreActivityModule,
+		FirebaseActivityModule,
 		ActivityCalendarButtonModule,
 		FabricDateUtilModule,
 		...materialModules
 	],
 	declarations: [
 		SelectedDayComponent,
-		SelectedDayActivityFormComponent,
+		SelectedDayActivityDialogComponent,
 		SelectedDayActivitiesComponent,
 		SelectedDayTemplateComponent,
 		SelectedDayTemplateActivityComponent

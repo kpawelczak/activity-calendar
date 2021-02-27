@@ -9,7 +9,7 @@ export class FabricDateUtilService {
 			firstDay.getFullYear() === secondDate.getFullYear();
 	}
 
-	isMonth(date: Date, month: number, year: number): boolean {
+	isDateInChosenMonth(date: Date, month: number, year: number): boolean {
 		return date.getMonth() === month &&
 			date.getFullYear() === year;
 	}

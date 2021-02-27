@@ -15,7 +15,8 @@ import { FabricArrowIconModule } from '../../../common/icons/arrow-icon/fabric-a
 import { FabricDateUtilModule } from '../../../common/date-util/fabric-date-util.module';
 import { ActivityCalendarDaysContainerComponent } from './components/days/activity-calendar-days-container.component';
 import { ActivityCalendarInterfaceService } from './components/top-interface/activity-calendar-interface.service';
-import { FirestoreActivitiesModule } from '../../../services/firebase/activities/activities/firestore-activities.module';
+import { FirebaseActivitiesModule } from '../../../services/firebase/activities/activities/firebase-activities.module';
+import { FirebaseActivitiesCountModule } from '../../../services/firebase/activities/activities-count/firebase-activities-count.module';
 
 
 @NgModule({
@@ -23,7 +24,8 @@ import { FirestoreActivitiesModule } from '../../../services/firebase/activities
 		CommonModule,
 		FabricArrowIconModule,
 		FabricDateUtilModule,
-		FirestoreActivitiesModule
+		FirebaseActivitiesModule,
+		FirebaseActivitiesCountModule
 	],
 	declarations: [
 		ActivityCalendarComponent,

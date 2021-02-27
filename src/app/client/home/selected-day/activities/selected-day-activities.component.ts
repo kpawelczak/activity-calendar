@@ -5,7 +5,7 @@ import { SelectedDayActivitiesRepository } from './selected-day-activities.repos
 import { SelectedDayActivityService } from '../activity/selected-day-activity.service';
 import { FabricDateUtilService } from '../../../../common/date-util/fabric-date-util.service';
 import { MatDialog } from '@angular/material/dialog';
-import { SelectedDayActivityFormComponent } from '../activity/selected-day-activity-form.component';
+import { SelectedDayActivityDialogComponent } from '../activity/selected-day-activity-dialog.component';
 import { CalendarActivity } from '../../../../common/models/calendar-activity';
 
 @Component({
@@ -66,7 +66,7 @@ export class SelectedDayActivitiesComponent extends Reactive implements OnInit {
 			.onActivity()
 			.pipe(this.takeUntil())
 			.subscribe((selectedActivity: CalendarActivity) => {
-				this.matDialog.open(SelectedDayActivityFormComponent, {
+				this.matDialog.open(SelectedDayActivityDialogComponent, {
 					panelClass: 'activity-calendar-dialog',
 					data: {
 						selectedDay: this.selectedDay,

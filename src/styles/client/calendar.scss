@@ -171,6 +171,11 @@ ac-calendar {
 						max-width: 80px;
 					}
 				}
+
+				&.has-activity {
+					color: $primary;
+					font-weight: bold;
+				}
 			}
 
 			.gui-date-picker-day {
@@ -194,11 +199,6 @@ ac-calendar {
 
 				&.gui-date-picker-current-day {
 					pointer-events: auto;
-				}
-
-				&.has-activity {
-					color: $primary;
-					font-weight: bold;
 				}
 			}
 
@@ -259,7 +259,7 @@ ac-calendar {
 
 		ac-calendar-years,
 		ac-calendar-months {
-			padding-top: $grid*4;
+			padding: $grid*4 0;
 
 			table {
 				grid-row-gap: 5*$grid;

@@ -4,8 +4,9 @@ import { ProfileService } from '../services/profile/profile.service';
 import { ActivitiesRepository } from '../services/repositories/activities/activities.repository';
 import { WeekdayTemplatesRepository } from '../services/repositories/templates/weekday-templates.repository';
 import { WeekdayTemplateCountersRepository } from '../services/repositories/templates/counters/weekday-template-counters.repository';
-import { FirestoreActivitiesService } from '../services/firebase/activities/activities/firestore-activities.service';
+import { FirebaseActivitiesService } from '../services/firebase/activities/activities/firebase-activities.service';
 import { ActiveDateService } from './home/calendar/active-date.service';
+import { ActivitiesCountRepository } from '../services/repositories/activities/count/activities-count.repository';
 
 @Component({
 	template: `
@@ -29,7 +30,8 @@ export class ClientRootComponent extends Reactive implements OnInit, OnDestroy {
 				private readonly activitiesRepository: ActivitiesRepository,
 				private readonly weekdayTemplatesRepository: WeekdayTemplatesRepository,
 				private readonly weekdayTemplateCountersRepository: WeekdayTemplateCountersRepository,
-				private readonly firestoreActivitiesService: FirestoreActivitiesService,
+				private readonly firestoreActivitiesService: FirebaseActivitiesService,
+				private readonly activitiesCountRepository: ActivitiesCountRepository,
 				private readonly changeDetectorRef: ChangeDetectorRef) {
 		super();
 	}
@@ -55,5 +57,6 @@ export class ClientRootComponent extends Reactive implements OnInit, OnDestroy {
 		this.weekdayTemplateCountersRepository.reset();
 		this.firestoreActivitiesService.reset();
 		this.activeDateService.reset();
+		this.activitiesCountRepository.reset();
 	}
 }
