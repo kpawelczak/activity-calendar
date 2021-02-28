@@ -151,7 +151,8 @@ export class ActivityCalendarComponent extends Reactive implements OnInit {
 					}
 
 					return isActivitiesCountStored ? EMPTY : this.firebaseActivitiesCountService.getActivitiesCount();
-				})
+				}),
+				this.takeUntil()
 			)
 			.subscribe((activitiesCount: Array<ActivitiesCount>) => {
 				this.activitiesCount = activitiesCount;

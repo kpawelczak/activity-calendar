@@ -80,6 +80,7 @@ export class ActivitiesCountRepository {
 	}
 
 	reset(): void {
-		this.activitiesCount$.next([]);
+		this.activitiesCount = null;
+		this.activitiesCount$.next(null);
 	}
 }

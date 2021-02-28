@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, ReplaySubject } from 'rxjs';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { ActiveMonth } from './common/models/activity-calendar-year-month';
 
 @Injectable()
@@ -9,7 +9,7 @@ export class ActivityCalendarService {
 
 	private year: number;
 
-	private readonly activeYear$ = new ReplaySubject<number>(1);
+	private readonly activeYear$ = new Subject<number>();
 
 	private readonly activeMonth$ = new BehaviorSubject<ActiveMonth>(this.activeMonth);
 
