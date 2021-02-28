@@ -4,12 +4,19 @@ import { ActivityCalendarCardView } from './models/activity-calendar-card-view';
 import { Reactive } from '../../../../common/reactive';
 import { timer } from 'rxjs';
 import { calendarAnimationTimer } from './calendar-animation-timer';
+import { FabricDateUtilService } from '../../../../common/date-util/fabric-date-util.service';
 
 @Directive({ selector: 'calendar-part-container' })
 export abstract class CalendarPartContainer extends Reactive implements AfterViewInit {
 
 	@Input()
 	selectedDate: Date;
+
+	@Input()
+	activeMonth: number;
+
+	@Input()
+	activeYear: number;
 
 	private offsetPercentage: number;
 
@@ -18,7 +25,8 @@ export abstract class CalendarPartContainer extends Reactive implements AfterVie
 	protected constructor(private readonly interfaceService: ActivityCalendarInterfaceService,
 						  private readonly renderer: Renderer2,
 						  private readonly elementRef: ElementRef,
-						  private readonly changeDetectorRef: ChangeDetectorRef) {
+						  private readonly changeDetectorRef: ChangeDetectorRef,
+						  private readonly fabricDateUtils: FabricDateUtilService) {
 		super();
 	}
 
@@ -57,12 +65,23 @@ export abstract class CalendarPartContainer extends Reactive implements AfterVie
 
 		this.offsetPercentage = this.getOffsetPercentage(event.deltaX);
 
+		if (this.dateUtils().isNextMonthInFuture(this.activeYear, this.activeMonth)) {
+			if (this.offsetPercentage < -30) {
+				this.offsetPercentage = 30;
+				return;
+			}
+		}
+
 		if (Math.abs(this.offsetPercentage) > 50) {
 			return;
 		}
 
 		this.setOffset(this.offsetPercentage / 2);
 		this.detectChanges();
+	}
+
+	dateUtils(): FabricDateUtilService {
+		return this.fabricDateUtils;
 	}
 
 	protected detectChanges(): void {

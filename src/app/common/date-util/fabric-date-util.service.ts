@@ -21,6 +21,13 @@ export class FabricDateUtilService {
 		return dateString > currentDateString;
 	}
 
+	isNextMonthInFuture(year: number, month: number): boolean {
+		const nextMonth = month + 1,
+			nextMonthDate = new Date(year, nextMonth, 1);
+
+		return this.isFuture(nextMonthDate);
+	}
+
 	getDayStart(): Date {
 		const date = new Date();
 		return new Date(date.getFullYear(), date.getMonth(), date.getDate(), 0, 0, 0);

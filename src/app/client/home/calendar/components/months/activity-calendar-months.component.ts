@@ -35,23 +35,20 @@ import { ActivitiesCountMonth } from '../../../../../common/models/activities-co
 export class ActivityCalendarMonthsComponent extends CalendarPartContainer {
 
 	@Input()
-	activeYear: number;
-
-	@Input()
 	activitiesCount: Array<ActivitiesCount>;
 
 	quarters = quarters;
 
 	currentDay: Date = new Date();
 
-	constructor(private readonly dateUtilsService: FabricDateUtilService,
-				private readonly calendarService: ActivityCalendarService,
+	constructor(private readonly calendarService: ActivityCalendarService,
 				private readonly calendarViewService: ActivityCalendarViewService,
 				interfaceService: ActivityCalendarInterfaceService,
 				renderer: Renderer2,
 				elementRef: ElementRef,
-				changeDetectorRef: ChangeDetectorRef) {
-		super(interfaceService, renderer, elementRef, changeDetectorRef);
+				changeDetectorRef: ChangeDetectorRef,
+				dateUtils: FabricDateUtilService) {
+		super(interfaceService, renderer, elementRef, changeDetectorRef, dateUtils);
 	}
 
 	isDisabled(month: number): boolean {
@@ -65,7 +62,7 @@ export class ActivityCalendarMonthsComponent extends CalendarPartContainer {
 
 	isMonth(date: Date, month: number): boolean {
 		if (date) {
-			return this.dateUtilsService.isDateInChosenMonth(date, month, this.activeYear);
+			return this.dateUtils().isDateInChosenMonth(date, month, this.activeYear);
 		}
 	}
 

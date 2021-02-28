@@ -5,6 +5,7 @@ import { ActivityCalendarView } from '../../common/models/activity-calendar-view
 import { CalendarPartContainer } from '../../common/calendar-part-container';
 import { ActivityCalendarInterfaceService } from '../top-interface/activity-calendar-interface.service';
 import { ActivitiesCount } from '../../../../../common/models/activities-count';
+import { FabricDateUtilService } from '../../../../../common/date-util/fabric-date-util.service';
 
 @Component({
 	selector: 'ac-calendar-years',
@@ -44,8 +45,9 @@ export class ActivityCalendarYearsComponent extends CalendarPartContainer {
 				interfaceService: ActivityCalendarInterfaceService,
 				renderer: Renderer2,
 				elementRef: ElementRef,
-				changeDetectorRef: ChangeDetectorRef) {
-		super(interfaceService, renderer, elementRef, changeDetectorRef);
+				changeDetectorRef: ChangeDetectorRef,
+				dateUtils: FabricDateUtilService) {
+		super(interfaceService, renderer, elementRef, changeDetectorRef, dateUtils);
 	}
 
 	selectYear(year: number): void {

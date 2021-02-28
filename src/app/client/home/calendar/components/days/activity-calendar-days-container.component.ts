@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, Inpu
 import { CalendarPartContainer } from '../../common/calendar-part-container';
 import { ActivityCalendarInterfaceService } from '../top-interface/activity-calendar-interface.service';
 import { CalendarActivity } from '../../../../../common/models/calendar-activity';
+import { FabricDateUtilService } from '../../../../../common/date-util/fabric-date-util.service';
 
 @Component({
 	selector: 'ac-days-container',
@@ -33,15 +34,13 @@ export class ActivityCalendarDaysContainerComponent extends CalendarPartContaine
 	nextWeeks: Array<Array<Date>>;
 
 	@Input()
-	activeMonth: number;
-
-	@Input()
 	monthActivities: Array<CalendarActivity>;
 
 	constructor(interfaceService: ActivityCalendarInterfaceService,
 				renderer: Renderer2,
 				elementRef: ElementRef,
-				changeDetectorRef: ChangeDetectorRef) {
-		super(interfaceService, renderer, elementRef, changeDetectorRef);
+				changeDetectorRef: ChangeDetectorRef,
+				dateUtils: FabricDateUtilService) {
+		super(interfaceService, renderer, elementRef, changeDetectorRef, dateUtils);
 	}
 }

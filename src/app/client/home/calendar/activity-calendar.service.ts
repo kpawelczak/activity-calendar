@@ -5,13 +5,13 @@ import { ActiveMonth } from './common/models/activity-calendar-year-month';
 @Injectable()
 export class ActivityCalendarService {
 
-	private initialActiveMonth = new ActiveMonth(new Date().getMonth(), new Date().getFullYear());
+	private activeMonth = new ActiveMonth(new Date().getMonth(), new Date().getFullYear());
 
 	private year: number;
 
 	private readonly activeYear$ = new ReplaySubject<number>(1);
 
-	private readonly activeMonth$ = new BehaviorSubject<ActiveMonth>(this.initialActiveMonth);
+	private readonly activeMonth$ = new BehaviorSubject<ActiveMonth>(this.activeMonth);
 
 	onActiveYear(): Observable<number> {
 		return this.activeYear$.asObservable();
@@ -45,12 +45,16 @@ export class ActivityCalendarService {
 	}
 
 	selectMonth(month: number): void {
-		this.nextActiveMonth(month);
+		this.activeMonth = new ActiveMonth(month, this.year);
+	}
+
+	next(): void {
+		this.activeMonth$.next(this.activeMonth);
 	}
 
 	private nextActiveMonth(month: number): void {
-		const monthYear = new ActiveMonth(month, this.year);
-		this.activeMonth$.next(monthYear);
+		this.activeMonth = new ActiveMonth(month, this.year);
+		this.next();
 	}
 
 }

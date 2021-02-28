@@ -30,7 +30,7 @@ export class ClientRootComponent extends Reactive implements OnInit, OnDestroy {
 				private readonly activitiesRepository: ActivitiesRepository,
 				private readonly weekdayTemplatesRepository: WeekdayTemplatesRepository,
 				private readonly weekdayTemplateCountersRepository: WeekdayTemplateCountersRepository,
-				private readonly firestoreActivitiesService: FirebaseActivitiesService,
+				private readonly firebaseActivitiesService: FirebaseActivitiesService,
 				private readonly activitiesCountRepository: ActivitiesCountRepository,
 				private readonly changeDetectorRef: ChangeDetectorRef) {
 		super();
@@ -55,7 +55,7 @@ export class ClientRootComponent extends Reactive implements OnInit, OnDestroy {
 		this.activitiesRepository.reset();
 		this.weekdayTemplatesRepository.reset();
 		this.weekdayTemplateCountersRepository.reset();
-		this.firestoreActivitiesService.reset();
+		this.firebaseActivitiesService.reset();
 		this.activeDateService.reset();
 		this.activitiesCountRepository.reset();
 	}

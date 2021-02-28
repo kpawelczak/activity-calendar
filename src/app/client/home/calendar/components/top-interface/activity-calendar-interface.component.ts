@@ -11,6 +11,7 @@ import { Reactive } from '../../../../../common/reactive';
 import { ActivityCalendarInterfaceService } from './activity-calendar-interface.service';
 import { delay } from 'rxjs/operators';
 import { calendarAnimationTimer } from '../../common/calendar-animation-timer';
+import { FabricDateUtilService } from '../../../../../common/date-util/fabric-date-util.service';
 
 
 @Component({
@@ -27,6 +28,7 @@ import { calendarAnimationTimer } from '../../common/calendar-animation-timer';
 				<gui-arrow-icon [direction]="Direction.LEFT"
 								(click)="switchCard(FabricCalendarCardView.PREV)"></gui-arrow-icon>
 				<gui-arrow-icon [direction]="Direction.RIGHT"
+								[class.disabled]="isNextMonthInFuture(activeYear, activeMonth)"
 								(click)="switchCard(FabricCalendarCardView.NEXT)"></gui-arrow-icon>
 			</div>
 
@@ -58,6 +60,7 @@ export class ActivityCalendarInterfaceComponent extends Reactive implements OnIn
 
 	constructor(private readonly calendarViewService: ActivityCalendarViewService,
 				private readonly calendarService: ActivityCalendarService,
+				private readonly datePickerUtils: FabricDateUtilService,
 				private readonly datePickerYearsService: ActivityCalendarYearsService,
 				private readonly datePickerYears: ActivityCalendarYears,
 				private readonly interfaceService: ActivityCalendarInterfaceService) {
@@ -134,6 +137,10 @@ export class ActivityCalendarInterfaceComponent extends Reactive implements OnIn
 
 	getDisplayedYearRange(): string {
 		return this.years[0][0].toString() + '-' + this.years[4][this.years[4].length - 1].toString();
+	}
+
+	isNextMonthInFuture(year: number, month: number): boolean {
+		return this.datePickerUtils.isNextMonthInFuture(year, month);
 	}
 
 	private handleMonthChange(next: boolean): void {

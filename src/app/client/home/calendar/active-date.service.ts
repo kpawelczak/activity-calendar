@@ -7,7 +7,9 @@ import { CalendarActivity } from '../../../common/models/calendar-activity';
 @Injectable()
 export class ActiveDateService {
 
-	private readonly selectedDate$ = new BehaviorSubject(this.getInitialDate());
+	private selectedDate: Date = this.getInitialDate();
+
+	private readonly selectedDate$ = new BehaviorSubject<Date>(this.selectedDate);
 
 	constructor(private readonly dateUtilService: FabricDateUtilService,
 				private readonly activitiesRepository: ActivitiesRepository) {
@@ -19,8 +21,11 @@ export class ActiveDateService {
 	}
 
 	dateSelected(date: Date, activities: Array<CalendarActivity>): void {
-		this.activitiesRepository.next(activities);
-		this.selectedDate$.next(date);
+		if (!this.dateUtilService.areDatesSame(this.selectedDate, date)) {
+			this.selectedDate = date;
+			this.selectedDate$.next(date);
+			this.activitiesRepository.next(activities);
+		}
 	}
 
 	reset(): void {

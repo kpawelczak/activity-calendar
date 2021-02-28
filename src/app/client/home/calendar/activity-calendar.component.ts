@@ -9,7 +9,7 @@ import { Reactive } from '../../../common/reactive';
 import { ActivityCalendarView } from './common/models/activity-calendar-view';
 import { FirebaseActivitiesService } from '../../../services/firebase/activities/activities/firebase-activities.service';
 import { CalendarActivity } from '../../../common/models/calendar-activity';
-import { filter, skip, switchMap } from 'rxjs/operators';
+import { filter, pairwise, skip, startWith, switchMap } from 'rxjs/operators';
 import { ActiveMonth } from './common/models/activity-calendar-year-month';
 import { FirebaseActivitiesCountService } from '../../../services/firebase/activities/activities-count/firebase-activities-count.service';
 import { ActivitiesCountRepository } from '../../../services/repositories/activities/count/activities-count.repository';
@@ -79,14 +79,17 @@ export class ActivityCalendarComponent extends Reactive implements OnInit {
 		this.calendarService
 			.onActiveMonth()
 			.pipe(
-				switchMap((activeMonth: ActiveMonth) => {
+				startWith(new ActiveMonth(-1, -1)),
+				pairwise(),
+				switchMap(([prevActiveMonth, activeMonth]) => {
 					this.activeYear = activeMonth.year;
 					this.activeMonth = activeMonth.month;
 					this.calculateDatePickerData();
 					this.changeDetectorRef.detectChanges();
 
-					return this.firebaseActivitiesService
-							   .getMonthActivities(this.activeYear, this.activeMonth);
+					return this.didActiveMonthChange(prevActiveMonth, activeMonth) ?
+						this.firebaseActivitiesService.getMonthActivities(this.activeYear, this.activeMonth)
+						: EMPTY;
 				}),
 				this.takeUntil())
 			.subscribe((calendarActivities: Array<CalendarActivity>) => {
@@ -128,6 +131,11 @@ export class ActivityCalendarComponent extends Reactive implements OnInit {
 			.pipe(this.takeUntil())
 			.subscribe((fabricCalendarView: ActivityCalendarView) => {
 				this.activityCalendarView = fabricCalendarView;
+
+				if (fabricCalendarView === ActivityCalendarView.DAYS) {
+					this.calendarService.next();
+				}
+
 				this.changeDetectorRef.detectChanges();
 			});
 
@@ -165,5 +173,9 @@ export class ActivityCalendarComponent extends Reactive implements OnInit {
 		this.nextWeeks = this.datePickerWeeks.getDaysInMonths(this.activeYear, this.activeMonth + 1);
 
 		this.years = this.datePickerYears.getYears(this.activeYear);
+	}
+
+	private didActiveMonthChange(prevActiveMonth: ActiveMonth, nextActiveMonth: ActiveMonth): boolean {
+		return JSON.stringify(prevActiveMonth) !== JSON.stringify(nextActiveMonth);
 	}
 }
