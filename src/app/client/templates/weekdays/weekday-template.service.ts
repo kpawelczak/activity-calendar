@@ -5,7 +5,7 @@ import { WeekdayTemplatesRepository } from '../../../services/repositories/templ
 import { WeekdayTemplate } from '../../../services/repositories/templates/template/weekday-template';
 import { WeekdayTemplateCountersRepository } from '../../../services/repositories/templates/counters/weekday-template-counters.repository';
 import { from, Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, take } from 'rxjs/operators';
 import { FirebaseTemplateCountersService } from '../../../services/firebase/templates/firebase-template-counters.service';
 import { TemplateCounter } from '../../../services/repositories/templates/counters/template-counter';
 
@@ -34,9 +34,9 @@ export class WeekdayTemplateService {
 						templateActivity
 					);
 					this.weekdayTemplatesRepository.next(newWeekdayTemplate);
-
 					return newWeekdayTemplate;
-				})
+				}),
+				take(1)
 			);
 	}
 

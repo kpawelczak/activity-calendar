@@ -5,7 +5,7 @@ import { CalendarActivity } from '../../../../common/models/calendar-activity';
 @Injectable()
 export class SelectedDayActivitiesRepository {
 
-	private activities: Array<CalendarActivity>;
+	private monthActivities: Array<CalendarActivity>;
 
 	private readonly activities$ = new ReplaySubject<Array<CalendarActivity>>(1);
 
@@ -14,7 +14,7 @@ export class SelectedDayActivitiesRepository {
 	}
 
 	selectDayActivities(day: Date): void {
-		const dayActivities = this.activities
+		const dayActivities = this.monthActivities
 								  .filter((calendarActivity: CalendarActivity) => {
 									  return calendarActivity.day === day.getTime();
 								  });
@@ -22,7 +22,7 @@ export class SelectedDayActivitiesRepository {
 		this.activities$.next(dayActivities);
 	}
 
-	setMonthActivities(activities: Array<CalendarActivity>): void {
-		this.activities = activities;
+	setMonthActivities(monthActivities: Array<CalendarActivity>): void {
+		this.monthActivities = monthActivities;
 	}
 }

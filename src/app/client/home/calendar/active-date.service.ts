@@ -23,8 +23,8 @@ export class ActiveDateService {
 	dateSelected(date: Date, activities: Array<CalendarActivity>): void {
 		if (!this.dateUtilService.areDatesSame(this.selectedDate, date)) {
 			this.selectedDate = date;
-			this.selectedDate$.next(date);
 			this.activitiesRepository.next(activities);
+			this.selectedDate$.next(date);
 		}
 	}
 

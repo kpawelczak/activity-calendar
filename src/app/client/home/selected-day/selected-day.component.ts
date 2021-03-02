@@ -82,9 +82,9 @@ export class SelectedDayComponent extends Reactive implements OnInit {
 		this.activitiesRepository
 			.onMonthActivities()
 			.pipe(
-				filter((activities: Array<CalendarActivity>) => activities && activities.length !== 0),
-				switchMap((activities: Array<CalendarActivity>) => {
-					this.selectedDayActivitiesRepository.setMonthActivities(activities);
+				filter((monthActivities: Array<CalendarActivity>) => monthActivities && monthActivities.length !== 0),
+				switchMap((monthActivities: Array<CalendarActivity>) => {
+					this.selectedDayActivitiesRepository.setMonthActivities(monthActivities);
 					return this.selectedDayService.observeSelectedDate();
 				}),
 				distinctUntilChanged(),
@@ -102,6 +102,7 @@ export class SelectedDayComponent extends Reactive implements OnInit {
 					if (weekdayTemplate.templates.length === 0) {
 						this.firebaseTemplatesService.getTemplate(this.weekday);
 					}
+
 					return weekdayTemplate.templates;
 				}),
 				filter((templateActivities: Array<TemplateActivity>) => templateActivities.length !== 0),

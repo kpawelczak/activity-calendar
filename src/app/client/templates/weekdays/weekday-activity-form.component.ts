@@ -95,7 +95,7 @@ export class WeekdayActivityFormComponent extends ActivityForm implements OnChan
 			if (newTemplate) {
 				this.weekdayTemplateService.addActivityToTemplate(this.weekdayTemplate, templateActivity);
 			} else {
-				this.weekdayTemplateService.saveActivityToTemplate(this.weekdayTemplate, templateActivity);
+				this.weekdayTemplateService.saveActivityToTemplate(this.weekdayTemplate, templateActivity).subscribe();
 			}
 		}
 	}
