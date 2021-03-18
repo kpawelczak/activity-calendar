@@ -13,3 +13,7 @@ A simple app that lets you track your daily workout.
 - "templates" is useful tool for creating your weekly workout plan
 
 - registration is unavailable, click on "login anonymously" to see the demo
+
+**Website**
+
+https://gui-activity-calendar.firebaseapp.com/
