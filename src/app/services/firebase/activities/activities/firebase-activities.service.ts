@@ -27,8 +27,8 @@ export class FirebaseActivitiesService extends ProfileCollection {
 		return this.profileCollection()
 				   .doc('activities')
 				   .collection('days', (ref: CollectionReference<Database>) => {
-					   const startAt = this.getStartOfTheMonth(year, month) - FirebaseActivitiesService.MILLI_SECONDS_IN_WEEK,
-						   endAt = this.getStartOfTheMonth(year, month + 1) + FirebaseActivitiesService.MILLI_SECONDS_IN_WEEK;
+					   const startAt = this.getStartOfTheMonth(year, month) - FirebaseActivitiesService.MILLI_SECONDS_IN_WEEK * 2,
+						   endAt = this.getStartOfTheMonth(year, month + 1) + FirebaseActivitiesService.MILLI_SECONDS_IN_WEEK * 2;
 
 					   return ref.where('day', '>=', startAt)
 								 .where('day', '<', endAt);
