@@ -1,10 +1,10 @@
 import { AfterViewInit, ChangeDetectorRef, Directive, ElementRef, Input, Renderer2 } from '@angular/core';
 import { ActivityCalendarCardViewService } from '../view/activity-calendar-card-view.service';
 import { ActivityCalendarCardView } from './models/activity-calendar-card-view';
-import { Reactive } from '../../../../common/reactive';
+import { Reactive } from '../../../../common/cdk/reactive';
 import { timer } from 'rxjs';
 import { calendarAnimationTimer } from './calendar-animation-timer';
-import { FabricDateUtilService } from '../../../../common/date-util/fabric-date-util.service';
+import { FabricDateUtilService } from '../../../../common/utils/date-util/fabric-date-util.service';
 
 @Directive({ selector: 'calendar-part-container' })
 export abstract class CalendarPartContainer extends Reactive implements AfterViewInit {

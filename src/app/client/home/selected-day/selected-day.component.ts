@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { ActiveDateService } from '../calendar/active-date.service';
-import { Reactive } from '../../../common/reactive';
-import { FabricDateUtilService } from '../../../common/date-util/fabric-date-util.service';
+import { Reactive } from '../../../common/cdk/reactive';
+import { FabricDateUtilService } from '../../../common/utils/date-util/fabric-date-util.service';
 import { ActivitiesRepository } from '../../../services/repositories/activities/activities.repository';
 import { distinctUntilChanged, filter, map, switchMap } from 'rxjs/operators';
 import { SelectedDayActivitiesRepository } from './activities/selected-day-activities.repository';

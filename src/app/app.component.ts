@@ -1,10 +1,12 @@
 import { ChangeDetectionStrategy, Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { Reactive } from './common/reactive';
+import { Reactive } from './common/cdk/reactive';
 import { AngularFireAuth } from '@angular/fire/auth';
 import firebase from 'firebase';
 import { AuthenticationService } from './services/firebase/authentication/authentication.service';
 import { ProfileService } from './services/profile/profile.service';
 import { ActivityCalendarLoadingScreenService } from './common/ui/activity-calendar-loading-screen/activity-calendar-loading-screen.service';
+import { ConnectionStatusService } from './services/connection/connection-status.service';
+import { filter, switchMap } from 'rxjs/operators';
 import User = firebase.User;
 
 @Component({
@@ -22,16 +24,23 @@ export class AppComponent extends Reactive implements OnInit {
 	constructor(private readonly fireAuth: AngularFireAuth,
 				private readonly authService: AuthenticationService,
 				private readonly loadingScreenService: ActivityCalendarLoadingScreenService,
+				private readonly connectionStatusService: ConnectionStatusService,
 				private readonly profileService: ProfileService) {
 		super();
 	}
 
 	ngOnInit() {
-		this.loadingScreenService.setLoading(true, 'Checking authentication, please wait');
+		this.connectionStatusService
+			.onConnectedStatus()
+			.pipe(
+				filter((connected: boolean) => connected),
+				switchMap(() => {
+					this.loadingScreenService.setLoading(true, 'Checking authentication, please wait');
 
-		this.fireAuth
-			.authState
-			.pipe(this.takeUntil())
+					return this.fireAuth.authState;
+				}),
+				this.takeUntil()
+			)
 			.subscribe((user: User | null) => {
 				this.manageAuthenticationStatus(user);
 			});

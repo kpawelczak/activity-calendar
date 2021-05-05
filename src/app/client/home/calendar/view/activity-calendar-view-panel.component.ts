@@ -7,11 +7,11 @@ import { ActivityCalendarService } from '../activity-calendar.service';
 import { ActivityCalendarYearsService } from '../services/activity-calendar-years.service';
 import { Direction } from '../../../../common/icons/arrow-icon/direction';
 import { ActivityCalendarView } from '../common/models/activity-calendar-view';
-import { Reactive } from '../../../../common/reactive';
+import { Reactive } from '../../../../common/cdk/reactive';
 import { ActivityCalendarCardViewService } from './activity-calendar-card-view.service';
 import { delay } from 'rxjs/operators';
 import { calendarAnimationTimer } from '../common/calendar-animation-timer';
-import { FabricDateUtilService } from '../../../../common/date-util/fabric-date-util.service';
+import { FabricDateUtilService } from '../../../../common/utils/date-util/fabric-date-util.service';
 
 
 @Component({

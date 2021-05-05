@@ -1,8 +1,8 @@
 import { FormBuilder, Validators } from '@angular/forms';
 import { Directive } from '@angular/core';
 import { ActivityCalendarForm } from './activity-calendar-form';
-import { CalendarActivity } from '../models/calendar-activity';
-import { TemplateActivity } from '../models/template-activity';
+import { CalendarActivity } from '../../models/calendar-activity';
+import { TemplateActivity } from '../../models/template-activity';
 
 @Directive({ selector: 'activity-from' })
 export abstract class ActivityForm extends ActivityCalendarForm {

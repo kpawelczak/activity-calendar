@@ -11,7 +11,7 @@ import {
 import { TemplateActivity } from '../../../../common/models/template-activity';
 import { v4 as uuidv4 } from 'uuid';
 import { SelectedDayActivityService } from '../activity/selected-day-activity.service';
-import { Reactive } from '../../../../common/reactive';
+import { Reactive } from '../../../../common/cdk/reactive';
 import { SelectedDayTemplateActivityRepository } from './selected-day-template-activity.repository';
 import { distinctUntilChanged, filter, map } from 'rxjs/operators';
 import { CalendarActivity } from '../../../../common/models/calendar-activity';

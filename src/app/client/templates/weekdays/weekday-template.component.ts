@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
 import { WeekdayTemplate } from '../../../services/repositories/templates/template/weekday-template';
-import { Reactive } from '../../../common/reactive';
+import { Reactive } from '../../../common/cdk/reactive';
 import { WeekdayTemplateRepository } from '../../../services/repositories/templates/template/weekday-template.repository';
 import { TemplateActivity } from '../../../common/models/template-activity';
 import { v4 as uuidv4 } from 'uuid';

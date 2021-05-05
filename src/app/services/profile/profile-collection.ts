@@ -1,4 +1,4 @@
-import { Reactive } from '../../common/reactive';
+import { Reactive } from '../../common/cdk/reactive';
 import { ProfileService } from './profile.service';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { AngularFirestoreCollection } from '@angular/fire/firestore/collection/collection';

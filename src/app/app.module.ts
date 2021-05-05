@@ -13,6 +13,7 @@ import { FirebaseEntryModule } from './services/firebase/entry/firebase-entry.mo
 import { ProfileModule } from './services/profile/profile.module';
 import { ActivityCalendarSnackbarModule } from './common/ui/activity-calendar-snackbar/activity-calendar-snackbar.module';
 import { ActivityCalendarLoadingScreenModule } from './common/ui/activity-calendar-loading-screen/activity-calendar-loading-screen.module';
+import { ConnectionsStatusModule } from './services/connection/connections-status.module';
 
 
 @NgModule({
@@ -26,6 +27,7 @@ import { ActivityCalendarLoadingScreenModule } from './common/ui/activity-calend
 		AuthenticationModule,
 		ProfileModule,
 		FirebaseEntryModule,
+		ConnectionsStatusModule,
 		ActivityCalendarSnackbarModule,
 		ActivityCalendarLoadingScreenModule,
 		BrowserAnimationsModule

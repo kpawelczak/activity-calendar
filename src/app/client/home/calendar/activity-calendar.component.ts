@@ -5,7 +5,7 @@ import { ActivityCalendarYears } from './services/activity-calendar.years';
 import { ActivityCalendarViewService } from './activity-calendar-view.service';
 import { ActivityCalendarService } from './activity-calendar.service';
 import { ActivityCalendarYearsService } from './services/activity-calendar-years.service';
-import { Reactive } from '../../../common/reactive';
+import { Reactive } from '../../../common/cdk/reactive';
 import { ActivityCalendarView } from './common/models/activity-calendar-view';
 import { FirebaseActivitiesService } from '../../../services/firebase/activities/activities/firebase-activities.service';
 import { CalendarActivity } from '../../../common/models/calendar-activity';
@@ -16,7 +16,7 @@ import { ActivitiesCountRepository } from '../../../services/repositories/activi
 import { EMPTY } from 'rxjs';
 import { ActivitiesCount } from '../../../common/models/activities-count';
 import { ActivitiesRepository } from '../../../services/repositories/activities/activities.repository';
-import { FabricDateUtilService } from '../../../common/date-util/fabric-date-util.service';
+import { FabricDateUtilService } from '../../../common/utils/date-util/fabric-date-util.service';
 
 
 @Component({

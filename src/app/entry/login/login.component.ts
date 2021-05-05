@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ViewEncapsulatio
 import { RouteName } from '../../route-name';
 import { FormBuilder, Validators } from '@angular/forms';
 import { FirebaseAuthenticationService } from '../../services/firebase/entry/firebase-authentication.service';
-import { ActivityCalendarForm } from '../../common/form/activity-calendar-form';
+import { ActivityCalendarForm } from '../../common/utils/form/activity-calendar-form';
 
 @Component({
 	selector: 'ac-login',

@@ -5,7 +5,7 @@ import { ActivityCalendarView } from '../../common/models/activity-calendar-view
 import { CalendarPartContainer } from '../../common/calendar-part-container';
 import { ActivityCalendarCardViewService } from '../activity-calendar-card-view.service';
 import { ActivitiesCount } from '../../../../../common/models/activities-count';
-import { FabricDateUtilService } from '../../../../../common/date-util/fabric-date-util.service';
+import { FabricDateUtilService } from '../../../../../common/utils/date-util/fabric-date-util.service';
 
 @Component({
 	selector: 'ac-calendar-years-view',

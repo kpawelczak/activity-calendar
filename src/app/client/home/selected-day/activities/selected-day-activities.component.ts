@@ -1,9 +1,9 @@
 import { ChangeDetectionStrategy, Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
 import { SelectedActivityRepository } from '../activity/selected-activity.repository';
-import { Reactive } from '../../../../common/reactive';
+import { Reactive } from '../../../../common/cdk/reactive';
 import { SelectedDayActivitiesRepository } from './selected-day-activities.repository';
 import { SelectedDayActivityService } from '../activity/selected-day-activity.service';
-import { FabricDateUtilService } from '../../../../common/date-util/fabric-date-util.service';
+import { FabricDateUtilService } from '../../../../common/utils/date-util/fabric-date-util.service';
 import { MatDialog } from '@angular/material/dialog';
 import { SelectedDayActivityDialogComponent } from '../activity/selected-day-activity-dialog.component';
 import { CalendarActivity } from '../../../../common/models/calendar-activity';

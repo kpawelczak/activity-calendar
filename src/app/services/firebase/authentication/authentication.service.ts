@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable, ReplaySubject } from 'rxjs';
-import { Reactive } from '../../../common/reactive';
+import { Reactive } from '../../../common/cdk/reactive';
 import { Router } from '@angular/router';
 import { RouteName } from '../../../route-name';
 

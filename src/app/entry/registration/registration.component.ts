@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, ViewEncapsulation } from '@angular/
 import { FormBuilder, Validators } from '@angular/forms';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { AngularFirestore } from '@angular/fire/firestore';
-import { ActivityCalendarForm } from '../../common/form/activity-calendar-form';
+import { ActivityCalendarForm } from '../../common/utils/form/activity-calendar-form';
 
 @Component({
 	selector: 'ac-registration',

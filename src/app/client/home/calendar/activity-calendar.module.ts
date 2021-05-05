@@ -5,7 +5,7 @@ import { FirebaseActivitiesModule } from '../../../services/firebase/activities/
 import { FirebaseActivitiesCountModule } from '../../../services/firebase/activities/activities-count/firebase-activities-count.module';
 
 import { FabricArrowIconModule } from '../../../common/icons/arrow-icon/fabric-arrow-icon.module';
-import { FabricDateUtilModule } from '../../../common/date-util/fabric-date-util.module';
+import { FabricDateUtilModule } from '../../../common/utils/date-util/fabric-date-util.module';
 
 import { ActivityCalendarComponent } from './activity-calendar.component';
 import { ActivityCalendarViewPanelComponent } from './view/activity-calendar-view-panel.component';

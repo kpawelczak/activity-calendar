@@ -1,4 +1,4 @@
-import { Reactive } from '../reactive';
+import { Reactive } from '../../cdk/reactive';
 import { FormGroup } from '@angular/forms';
 import { Directive } from '@angular/core';
 

@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, Inpu
 import { CalendarPartContainer } from '../../common/calendar-part-container';
 import { ActivityCalendarCardViewService } from '../activity-calendar-card-view.service';
 import { CalendarActivity } from '../../../../../common/models/calendar-activity';
-import { FabricDateUtilService } from '../../../../../common/date-util/fabric-date-util.service';
+import { FabricDateUtilService } from '../../../../../common/utils/date-util/fabric-date-util.service';
 
 @Component({
 	selector: 'ac-days-view',

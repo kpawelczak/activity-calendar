@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
-import { Reactive } from '../common/reactive';
+import { Reactive } from '../common/cdk/reactive';
 import { ProfileService } from '../services/profile/profile.service';
 import { ActivitiesRepository } from '../services/repositories/activities/activities.repository';
 import { WeekdayTemplatesRepository } from '../services/repositories/templates/weekday-templates.repository';

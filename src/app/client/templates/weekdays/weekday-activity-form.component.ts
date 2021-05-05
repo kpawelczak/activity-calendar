@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, Input, OnChanges, SimpleChanges, ViewEncapsulation } from '@angular/core';
-import { ActivityForm } from '../../../common/form/activity-form';
+import { ActivityForm } from '../../../common/utils/form/activity-form';
 import { FormBuilder } from '@angular/forms';
 import { TemplateActivity } from '../../../common/models/template-activity';
 import { WeekdayTemplate } from '../../../services/repositories/templates/template/weekday-template';
