@@ -36,6 +36,20 @@ h1 {
 	}
 }
 
+.activity-calendar-dialog-loading-screen {
+
+	mat-dialog-container {
+		color: $gray;
+		padding: $container-padding;
+		background: $dark-elevated-background;
+	}
+
+	mat-spinner {
+		text-align: center;
+		margin: $grid*4 auto $grid*2 auto;
+	}
+}
+
 .mat-menu-panel {
 	background: $dark-elevated-background;
 }

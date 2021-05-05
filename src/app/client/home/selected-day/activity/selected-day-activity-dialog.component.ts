@@ -4,7 +4,7 @@ import { SelectedDayActivityService } from './selected-day-activity.service';
 import { SelectedActivityRepository } from './selected-activity.repository';
 import { ActivityForm } from '../../../../common/form/activity-form';
 import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
-import { SelectedDayDialogData } from '../selected-day-dialog-data';
+import { SelectedDayDialogData } from './selected-day-dialog-data';
 import { CalendarActivity } from '../../../../common/models/calendar-activity';
 
 @Component({

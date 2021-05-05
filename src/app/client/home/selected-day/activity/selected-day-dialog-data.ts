@@ -1,4 +1,4 @@
-import { CalendarActivity } from '../../../common/models/calendar-activity';
+import { CalendarActivity } from '../../../../common/models/calendar-activity';
 
 export interface SelectedDayDialogData {
 	selectedDay: Date;

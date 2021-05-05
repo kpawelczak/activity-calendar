@@ -4,6 +4,7 @@ import { AngularFireAuth } from '@angular/fire/auth';
 import firebase from 'firebase';
 import { AuthenticationService } from './services/firebase/authentication/authentication.service';
 import { ProfileService } from './services/profile/profile.service';
+import { ActivityCalendarLoadingScreenService } from './common/ui/activity-calendar-loading-screen/activity-calendar-loading-screen.service';
 import User = firebase.User;
 
 @Component({
@@ -20,11 +21,14 @@ export class AppComponent extends Reactive implements OnInit {
 
 	constructor(private readonly fireAuth: AngularFireAuth,
 				private readonly authService: AuthenticationService,
+				private readonly loadingScreenService: ActivityCalendarLoadingScreenService,
 				private readonly profileService: ProfileService) {
 		super();
 	}
 
 	ngOnInit() {
+		this.loadingScreenService.setLoading(true, 'Checking authentication, please wait');
+
 		this.fireAuth
 			.authState
 			.pipe(this.takeUntil())
@@ -61,5 +65,7 @@ export class AppComponent extends Reactive implements OnInit {
 
 		this.profileService.next(profile);
 		this.authService.next(isLoggedIn);
+
+		this.loadingScreenService.setLoading(false);
 	}
 }
