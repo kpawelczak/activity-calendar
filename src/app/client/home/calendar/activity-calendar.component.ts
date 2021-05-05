@@ -1,10 +1,10 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { ActiveDateService } from './active-date.service';
-import { ActivityCalendarWeeks } from './components/weeks/activity-calendar.weeks';
-import { ActivityCalendarYears } from './components/years/activity-calendar.years';
+import { ActivityCalendarWeeks } from './services/activity-calendar.weeks';
+import { ActivityCalendarYears } from './services/activity-calendar.years';
 import { ActivityCalendarViewService } from './activity-calendar-view.service';
 import { ActivityCalendarService } from './activity-calendar.service';
-import { ActivityCalendarYearsService } from './components/years/activity-calendar-years.service';
+import { ActivityCalendarYearsService } from './services/activity-calendar-years.service';
 import { Reactive } from '../../../common/reactive';
 import { ActivityCalendarView } from './common/models/activity-calendar-view';
 import { FirebaseActivitiesService } from '../../../services/firebase/activities/activities/firebase-activities.service';

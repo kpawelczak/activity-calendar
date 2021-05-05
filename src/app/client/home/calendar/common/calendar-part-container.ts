@@ -1,5 +1,5 @@
 import { AfterViewInit, ChangeDetectorRef, Directive, ElementRef, Input, Renderer2 } from '@angular/core';
-import { ActivityCalendarInterfaceService } from '../components/top-interface/activity-calendar-interface.service';
+import { ActivityCalendarCardViewService } from '../view/activity-calendar-card-view.service';
 import { ActivityCalendarCardView } from './models/activity-calendar-card-view';
 import { Reactive } from '../../../../common/reactive';
 import { timer } from 'rxjs';
@@ -22,7 +22,7 @@ export abstract class CalendarPartContainer extends Reactive implements AfterVie
 
 	private calendarPartWidth: number;
 
-	protected constructor(private readonly interfaceService: ActivityCalendarInterfaceService,
+	protected constructor(private readonly interfaceService: ActivityCalendarCardViewService,
 						  private readonly renderer: Renderer2,
 						  private readonly elementRef: ElementRef,
 						  private readonly changeDetectorRef: ChangeDetectorRef,

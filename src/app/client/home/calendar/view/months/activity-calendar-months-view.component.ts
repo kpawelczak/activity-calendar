@@ -1,20 +1,20 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, Input, Renderer2, ViewEncapsulation } from '@angular/core';
-import { quarters } from '../../common/data/quarters';
+import { monthsPerQuarters } from '../../common/data/months-per-quearters';
 import { ActivityCalendarViewService } from '../../activity-calendar-view.service';
 import { ActivityCalendarService } from '../../activity-calendar.service';
 import { FabricDateUtilService } from '../../../../../common/date-util/fabric-date-util.service';
 import { ActivityCalendarView } from '../../common/models/activity-calendar-view';
 import { CalendarPartContainer } from '../../common/calendar-part-container';
-import { ActivityCalendarInterfaceService } from '../top-interface/activity-calendar-interface.service';
+import { ActivityCalendarCardViewService } from '../activity-calendar-card-view.service';
 import { ActivitiesCount } from '../../../../../common/models/activities-count';
 import { ActivitiesCountMonth } from '../../../../../common/models/activities-count-month';
 
 @Component({
-	selector: 'ac-calendar-months',
+	selector: 'ac-calendar-months-view',
 	template: `
 		<table (pan)="onPan($event)"
 			   (panend)="onPanEnd()">
-			<tr *ngFor="let quarter of quarters">
+			<tr *ngFor="let quarter of monthsPerQuarters">
 				<td (click)="selectMonth(month.nr)"
 					*ngFor="let month of quarter"
 					[class.disabled]="isDisabled(month.nr)"
@@ -32,18 +32,18 @@ import { ActivitiesCountMonth } from '../../../../../common/models/activities-co
 	encapsulation: ViewEncapsulation.None,
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ActivityCalendarMonthsComponent extends CalendarPartContainer {
+export class ActivityCalendarMonthsViewComponent extends CalendarPartContainer {
 
 	@Input()
 	activitiesCount: Array<ActivitiesCount>;
 
-	quarters = quarters;
+	readonly currentDay: Date = new Date();
 
-	currentDay: Date = new Date();
+	readonly monthsPerQuarters = monthsPerQuarters;
 
 	constructor(private readonly calendarService: ActivityCalendarService,
 				private readonly calendarViewService: ActivityCalendarViewService,
-				interfaceService: ActivityCalendarInterfaceService,
+				interfaceService: ActivityCalendarCardViewService,
 				renderer: Renderer2,
 				elementRef: ElementRef,
 				changeDetectorRef: ChangeDetectorRef,

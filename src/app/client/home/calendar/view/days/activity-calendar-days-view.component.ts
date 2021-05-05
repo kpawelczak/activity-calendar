@@ -1,11 +1,11 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, Input, Renderer2, ViewEncapsulation } from '@angular/core';
 import { CalendarPartContainer } from '../../common/calendar-part-container';
-import { ActivityCalendarInterfaceService } from '../top-interface/activity-calendar-interface.service';
+import { ActivityCalendarCardViewService } from '../activity-calendar-card-view.service';
 import { CalendarActivity } from '../../../../../common/models/calendar-activity';
 import { FabricDateUtilService } from '../../../../../common/date-util/fabric-date-util.service';
 
 @Component({
-	selector: 'ac-days-container',
+	selector: 'ac-days-view',
 	template: `
 		<ac-calendar-days [weeks]="prevWeeks"></ac-calendar-days>
 
@@ -22,7 +22,7 @@ import { FabricDateUtilService } from '../../../../../common/date-util/fabric-da
 	encapsulation: ViewEncapsulation.None,
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ActivityCalendarDaysContainerComponent extends CalendarPartContainer {
+export class ActivityCalendarDaysViewComponent extends CalendarPartContainer {
 
 	@Input()
 	weeks: Array<Array<Date>>;
@@ -36,7 +36,7 @@ export class ActivityCalendarDaysContainerComponent extends CalendarPartContaine
 	@Input()
 	monthActivities: Array<CalendarActivity>;
 
-	constructor(interfaceService: ActivityCalendarInterfaceService,
+	constructor(interfaceService: ActivityCalendarCardViewService,
 				renderer: Renderer2,
 				elementRef: ElementRef,
 				changeDetectorRef: ChangeDetectorRef,

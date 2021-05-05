@@ -3,12 +3,12 @@ import { ActivityCalendarService } from '../../activity-calendar.service';
 import { ActivityCalendarViewService } from '../../activity-calendar-view.service';
 import { ActivityCalendarView } from '../../common/models/activity-calendar-view';
 import { CalendarPartContainer } from '../../common/calendar-part-container';
-import { ActivityCalendarInterfaceService } from '../top-interface/activity-calendar-interface.service';
+import { ActivityCalendarCardViewService } from '../activity-calendar-card-view.service';
 import { ActivitiesCount } from '../../../../../common/models/activities-count';
 import { FabricDateUtilService } from '../../../../../common/date-util/fabric-date-util.service';
 
 @Component({
-	selector: 'ac-calendar-years',
+	selector: 'ac-calendar-years-view',
 	template: `
 		<table (pan)="onPan($event)"
 			   (panend)="onPanEnd()">
@@ -30,7 +30,7 @@ import { FabricDateUtilService } from '../../../../../common/date-util/fabric-da
 	encapsulation: ViewEncapsulation.None,
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ActivityCalendarYearsComponent extends CalendarPartContainer {
+export class ActivityCalendarYearsViewComponent extends CalendarPartContainer {
 
 	@Input()
 	years: Array<Array<number>>;
@@ -42,7 +42,7 @@ export class ActivityCalendarYearsComponent extends CalendarPartContainer {
 
 	constructor(private readonly calendarService: ActivityCalendarService,
 				private readonly calendarViewService: ActivityCalendarViewService,
-				interfaceService: ActivityCalendarInterfaceService,
+				interfaceService: ActivityCalendarCardViewService,
 				renderer: Renderer2,
 				elementRef: ElementRef,
 				changeDetectorRef: ChangeDetectorRef,

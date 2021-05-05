@@ -30,7 +30,7 @@ ac-calendar {
 		padding: 0 0 12px 0;
 		overflow: hidden;
 
-		ac-days-container {
+		ac-days-view {
 			display: flex;
 			width: 100%;
 			transform: translateX(0);
@@ -51,7 +51,7 @@ ac-calendar {
 			}
 		}
 
-		ac-calendar-interface {
+		ac-calendar-view-panel {
 			width: inherit;
 
 			.gui-date-picker-interface {
@@ -241,7 +241,7 @@ ac-calendar {
 
 		}
 
-		ac-calendar-years {
+		ac-calendar-years-view {
 			table {
 				tr {
 					grid-template-columns: repeat(5, 1fr);
@@ -249,7 +249,7 @@ ac-calendar {
 			}
 		}
 
-		ac-calendar-months {
+		ac-calendar-months-view {
 			table {
 				tr {
 					grid-template-columns: repeat(3, 1fr);
@@ -257,8 +257,8 @@ ac-calendar {
 			}
 		}
 
-		ac-calendar-years,
-		ac-calendar-months {
+		ac-calendar-years-view,
+		ac-calendar-months-view {
 			padding: $grid*4 0;
 
 			table {

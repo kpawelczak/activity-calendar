@@ -1,47 +1,38 @@
 <div class="gui-date-picker-container">
 
-	<ac-calendar-interface [fabricCalendarView]="activityCalendarView"
-						   [selectedDate]="selectedDate"
-						   [activeMonth]="activeMonth"
-						   [activeYear]="activeYear"
-						   [years]="years">
-	</ac-calendar-interface>
+	<ac-calendar-view-panel [fabricCalendarView]="activityCalendarView"
+							[selectedDate]="selectedDate"
+							[activeMonth]="activeMonth"
+							[activeYear]="activeYear"
+							[years]="years">
+	</ac-calendar-view-panel>
 
 	<ng-container [ngSwitch]="getCalendarView()">
 
-		<ng-container *ngSwitchCase="ActivityCalendarView.DAYS">
+		<ac-days-view *ngSwitchCase="ActivityCalendarView.DAYS"
+					  [selectedDate]="selectedDate"
+					  [activeMonth]="activeMonth"
+					  [activeYear]="activeYear"
+					  [monthActivities]="monthActivities"
+					  [weeks]="weeks"
+					  [prevWeeks]="prevWeeks"
+					  [nextWeeks]="nextWeeks">
+		</ac-days-view>
 
-			<ac-days-container [selectedDate]="selectedDate"
-							   [activeMonth]="activeMonth"
-							   [activeYear]="activeYear"
-							   [monthActivities]="monthActivities"
-							   [weeks]="weeks"
-							   [prevWeeks]="prevWeeks"
-							   [nextWeeks]="nextWeeks">
-			</ac-days-container>
+		<ac-calendar-months-view *ngSwitchCase="ActivityCalendarView.MONTHS"
+								 [selectedDate]="selectedDate"
+								 [activeYear]="activeYear"
+								 [activeMonth]="activeMonth"
+								 [activitiesCount]="activitiesCount">
+		</ac-calendar-months-view>
 
-		</ng-container>
-
-		<ng-container *ngSwitchCase="ActivityCalendarView.MONTHS">
-
-			<ac-calendar-months [selectedDate]="selectedDate"
+		<ac-calendar-years-view *ngSwitchCase="ActivityCalendarView.YEARS"
+								[selectedDate]="selectedDate"
 								[activeYear]="activeYear"
 								[activeMonth]="activeMonth"
-								[activitiesCount]="activitiesCount">
-			</ac-calendar-months>
-
-		</ng-container>
-
-		<ng-container *ngSwitchCase="ActivityCalendarView.YEARS">
-
-			<ac-calendar-years [selectedDate]="selectedDate"
-							   [activeYear]="activeYear"
-							   [activeMonth]="activeMonth"
-							   [activitiesCount]="activitiesCount"
-							   [years]="years">
-			</ac-calendar-years>
-
-		</ng-container>
+								[activitiesCount]="activitiesCount"
+								[years]="years">
+		</ac-calendar-years-view>
 
 	</ng-container>
 

@@ -1,21 +1,21 @@
 import { ChangeDetectionStrategy, Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
-import { ActivityCalendarViewService } from '../../activity-calendar-view.service';
-import { ActivityCalendarCardView } from '../../common/models/activity-calendar-card-view';
-import { ActivityCalendarYears } from '../years/activity-calendar.years';
-import { months } from '../../common/data/months';
-import { ActivityCalendarService } from '../../activity-calendar.service';
-import { ActivityCalendarYearsService } from '../years/activity-calendar-years.service';
-import { Direction } from '../../../../../common/icons/arrow-icon/direction';
-import { ActivityCalendarView } from '../../common/models/activity-calendar-view';
-import { Reactive } from '../../../../../common/reactive';
-import { ActivityCalendarInterfaceService } from './activity-calendar-interface.service';
+import { ActivityCalendarViewService } from '../activity-calendar-view.service';
+import { ActivityCalendarCardView } from '../common/models/activity-calendar-card-view';
+import { ActivityCalendarYears } from '../services/activity-calendar.years';
+import { months } from '../common/data/months';
+import { ActivityCalendarService } from '../activity-calendar.service';
+import { ActivityCalendarYearsService } from '../services/activity-calendar-years.service';
+import { Direction } from '../../../../common/icons/arrow-icon/direction';
+import { ActivityCalendarView } from '../common/models/activity-calendar-view';
+import { Reactive } from '../../../../common/reactive';
+import { ActivityCalendarCardViewService } from './activity-calendar-card-view.service';
 import { delay } from 'rxjs/operators';
-import { calendarAnimationTimer } from '../../common/calendar-animation-timer';
-import { FabricDateUtilService } from '../../../../../common/date-util/fabric-date-util.service';
+import { calendarAnimationTimer } from '../common/calendar-animation-timer';
+import { FabricDateUtilService } from '../../../../common/date-util/fabric-date-util.service';
 
 
 @Component({
-	selector: 'ac-calendar-interface',
+	selector: 'ac-calendar-view-panel',
 	template: `
 		<div class="gui-date-picker-interface">
 
@@ -37,7 +37,7 @@ import { FabricDateUtilService } from '../../../../../common/date-util/fabric-da
 	encapsulation: ViewEncapsulation.None,
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ActivityCalendarInterfaceComponent extends Reactive implements OnInit {
+export class ActivityCalendarViewPanelComponent extends Reactive implements OnInit {
 
 	@Input()
 	fabricCalendarView: ActivityCalendarView;
@@ -63,13 +63,13 @@ export class ActivityCalendarInterfaceComponent extends Reactive implements OnIn
 				private readonly datePickerUtils: FabricDateUtilService,
 				private readonly datePickerYearsService: ActivityCalendarYearsService,
 				private readonly datePickerYears: ActivityCalendarYears,
-				private readonly interfaceService: ActivityCalendarInterfaceService) {
+				private readonly interfaceService: ActivityCalendarCardViewService) {
 		super();
 	}
 
 	ngOnInit() {
 		this.interfaceService
-			.onCardSwitch()
+			.onCardView()
 			.pipe(
 				delay(calendarAnimationTimer),
 				this.takeUntil()

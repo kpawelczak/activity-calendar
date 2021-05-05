@@ -1,23 +1,26 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ActivityCalendarComponent } from './activity-calendar.component';
-import { ActivityCalendarInterfaceComponent } from './components/top-interface/activity-calendar-interface.component';
-import { ActivityCalendarYearsComponent } from './components/years/activity-calendar-years.component';
-import { ActivityCalendarMonthsComponent } from './components/months/activity-calendar-months.component';
-import { ActivityCalendarDaysComponent } from './components/days/activity-calendar-days.component';
-import { ActiveDateService } from './active-date.service';
-import { ActivityCalendarService } from './activity-calendar.service';
-import { ActivityCalendarViewService } from './activity-calendar-view.service';
-import { ActivityCalendarYearsService } from './components/years/activity-calendar-years.service';
-import { ActivityCalendarWeeks } from './components/weeks/activity-calendar.weeks';
-import { ActivityCalendarYears } from './components/years/activity-calendar.years';
-import { FabricArrowIconModule } from '../../../common/icons/arrow-icon/fabric-arrow-icon.module';
-import { FabricDateUtilModule } from '../../../common/date-util/fabric-date-util.module';
-import { ActivityCalendarDaysContainerComponent } from './components/days/activity-calendar-days-container.component';
-import { ActivityCalendarInterfaceService } from './components/top-interface/activity-calendar-interface.service';
+
 import { FirebaseActivitiesModule } from '../../../services/firebase/activities/activities/firebase-activities.module';
 import { FirebaseActivitiesCountModule } from '../../../services/firebase/activities/activities-count/firebase-activities-count.module';
 
+import { FabricArrowIconModule } from '../../../common/icons/arrow-icon/fabric-arrow-icon.module';
+import { FabricDateUtilModule } from '../../../common/date-util/fabric-date-util.module';
+
+import { ActivityCalendarComponent } from './activity-calendar.component';
+import { ActivityCalendarViewPanelComponent } from './view/activity-calendar-view-panel.component';
+import { ActivityCalendarYearsViewComponent } from './view/years/activity-calendar-years-view.component';
+import { ActivityCalendarMonthsViewComponent } from './view/months/activity-calendar-months-view.component';
+import { ActivityCalendarDaysComponent } from './view/days/activity-calendar-days.component';
+import { ActivityCalendarDaysViewComponent } from './view/days/activity-calendar-days-view.component';
+
+import { ActivityCalendarCardViewService } from './view/activity-calendar-card-view.service';
+import { ActiveDateService } from './active-date.service';
+import { ActivityCalendarService } from './activity-calendar.service';
+import { ActivityCalendarViewService } from './activity-calendar-view.service';
+import { ActivityCalendarYearsService } from './services/activity-calendar-years.service';
+import { ActivityCalendarWeeks } from './services/activity-calendar.weeks';
+import { ActivityCalendarYears } from './services/activity-calendar.years';
 
 @NgModule({
 	imports: [
@@ -30,10 +33,10 @@ import { FirebaseActivitiesCountModule } from '../../../services/firebase/activi
 	declarations: [
 		ActivityCalendarComponent,
 		ActivityCalendarDaysComponent,
-		ActivityCalendarDaysContainerComponent,
-		ActivityCalendarMonthsComponent,
-		ActivityCalendarYearsComponent,
-		ActivityCalendarInterfaceComponent
+		ActivityCalendarDaysViewComponent,
+		ActivityCalendarMonthsViewComponent,
+		ActivityCalendarYearsViewComponent,
+		ActivityCalendarViewPanelComponent
 	],
 	exports: [
 		ActivityCalendarComponent
@@ -45,7 +48,7 @@ import { FirebaseActivitiesCountModule } from '../../../services/firebase/activi
 		ActivityCalendarYearsService,
 		ActivityCalendarWeeks,
 		ActivityCalendarYears,
-		ActivityCalendarInterfaceService
+		ActivityCalendarCardViewService
 	]
 })
 export class ActivityCalendarModule {
