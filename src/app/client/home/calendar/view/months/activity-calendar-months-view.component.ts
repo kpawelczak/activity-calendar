@@ -2,12 +2,12 @@ import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, Inpu
 import { monthsPerQuarters } from '../../common/data/months-per-quearters';
 import { ActivityCalendarViewService } from '../../activity-calendar-view.service';
 import { ActivityCalendarService } from '../../activity-calendar.service';
-import { FabricDateUtilService } from '../../../../../common/utils/date-util/fabric-date-util.service';
 import { ActivityCalendarView } from '../../common/models/activity-calendar-view';
 import { CalendarPartContainer } from '../../common/calendar-part-container';
 import { ActivityCalendarCardViewService } from '../activity-calendar-card-view.service';
 import { ActivitiesCount } from '../../../../../common/models/activities-count';
 import { ActivitiesCountMonth } from '../../../../../common/models/activities-count-month';
+import { DateUtils } from '../../../../../common/utils/date-util/date-utils';
 
 @Component({
 	selector: 'ac-calendar-months-view',
@@ -46,9 +46,8 @@ export class ActivityCalendarMonthsViewComponent extends CalendarPartContainer {
 				interfaceService: ActivityCalendarCardViewService,
 				renderer: Renderer2,
 				elementRef: ElementRef,
-				changeDetectorRef: ChangeDetectorRef,
-				dateUtils: FabricDateUtilService) {
-		super(interfaceService, renderer, elementRef, changeDetectorRef, dateUtils);
+				changeDetectorRef: ChangeDetectorRef) {
+		super(interfaceService, renderer, elementRef, changeDetectorRef);
 	}
 
 	isDisabled(month: number): boolean {
@@ -62,7 +61,7 @@ export class ActivityCalendarMonthsViewComponent extends CalendarPartContainer {
 
 	isMonth(date: Date, month: number): boolean {
 		if (date) {
-			return this.dateUtils().isDateInChosenMonth(date, month, this.activeYear);
+			return DateUtils.isDateInChosenMonth(date, month, this.activeYear);
 		}
 	}
 

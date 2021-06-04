@@ -12,7 +12,6 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 
-import { FabricDateUtilModule } from '../../../common/utils/date-util/fabric-date-util.module';
 import { ActivityCalendarButtonModule } from '../../../common/ui/activity-calendar-button/activity-calendar-button.module';
 import { FirebaseActivityModule } from '../../../services/firebase/activities/activity/firebase-activity.module';
 
@@ -46,7 +45,6 @@ const materialModules = [
 		FormsModule,
 		FirebaseActivityModule,
 		ActivityCalendarButtonModule,
-		FabricDateUtilModule,
 		...materialModules
 	],
 	declarations: [

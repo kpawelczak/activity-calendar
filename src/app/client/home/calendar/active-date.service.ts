@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { FabricDateUtilService } from '../../../common/utils/date-util/fabric-date-util.service';
 import { ActivitiesRepository } from '../../../services/repositories/activities/activities.repository';
 import { CalendarActivity } from '../../../common/models/calendar-activity';
+import { DateUtils } from '../../../common/utils/date-util/date-utils';
 
 @Injectable()
 export class ActiveDateService {
@@ -11,8 +11,7 @@ export class ActiveDateService {
 
 	private readonly selectedDate$ = new BehaviorSubject<Date>(this.selectedDate);
 
-	constructor(private readonly dateUtilService: FabricDateUtilService,
-				private readonly activitiesRepository: ActivitiesRepository) {
+	constructor(private readonly activitiesRepository: ActivitiesRepository) {
 
 	}
 
@@ -21,7 +20,7 @@ export class ActiveDateService {
 	}
 
 	dateSelected(date: Date, activities: Array<CalendarActivity>): void {
-		if (!this.dateUtilService.areDatesSame(this.selectedDate, date)) {
+		if (!DateUtils.areDatesSame(this.selectedDate, date)) {
 			this.selectedDate = date;
 			this.activitiesRepository.next(activities);
 			this.selectedDate$.next(date);
@@ -33,6 +32,6 @@ export class ActiveDateService {
 	}
 
 	private getInitialDate(): Date {
-		return this.dateUtilService.getDayStart();
+		return DateUtils.getDayStart();
 	}
 }

@@ -6,6 +6,11 @@ import { Weekday } from '../../services/repositories/templates/weekday';
 @Component({
 	selector: 'ac-templates',
 	template: `
+		<div class="ac-templates-title">
+			<h2>Active templates</h2>
+			<mat-icon>settings</mat-icon>
+		</div>
+
 		<mat-accordion multi>
 
 			<ac-weekday-template *ngFor="let weekday of weekdays"
@@ -13,6 +18,9 @@ import { Weekday } from '../../services/repositories/templates/weekday';
 
 		</mat-accordion>
 	`,
+	host: {
+		'[class.ac-templates]': 'true'
+	},
 	encapsulation: ViewEncapsulation.None,
 	changeDetection: ChangeDetectionStrategy.OnPush
 })

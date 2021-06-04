@@ -1,9 +1,11 @@
-ac-templates {
+.ac-templates {
+	display: block;
 	padding: $container-padding;
 	color: $white-gray;
+	background: $dark-element-background;
 
 	mat-expansion-panel.mat-expansion-panel {
-		background: $dark-element-background;
+		background: $dark-elevated-background;
 
 		mat-panel-title.mat-expansion-panel-header-title {
 			color: $white-gray;
@@ -47,6 +49,16 @@ ac-templates {
 			mat-icon {
 				font-size: 32px;
 			}
+		}
+	}
+
+	.ac-templates-title {
+		display: flex;
+		justify-content: space-between;
+		padding: 0 $grid $grid*2 0;
+
+		mat-icon {
+			font-size: 32px;
 		}
 	}
 }

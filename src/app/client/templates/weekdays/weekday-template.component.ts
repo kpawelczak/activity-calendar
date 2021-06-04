@@ -13,8 +13,7 @@ import { weekdayNames } from './weekday-names';
 	template: `
 		<mat-expansion-panel (opened)="getTemplates()">
 
-			<mat-expansion-panel-header
-				[class.has-template-activities]="weekdayTemplate.getTemplateCounter()">
+			<mat-expansion-panel-header [class.has-template-activities]="weekdayTemplate.getTemplateCounter()">
 				<mat-panel-title>
 					{{getWeekdayName()}}
 				</mat-panel-title>

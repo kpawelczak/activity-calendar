@@ -66,11 +66,6 @@ ac-selected-date-activities {
 	mat-icon {
 		max-width: 80px;
 		margin-top: -4px;
-		cursor: pointer;
-
-		&:hover {
-			color: $primary-hover;
-		}
 	}
 
 	&:nth-last-child(1) {

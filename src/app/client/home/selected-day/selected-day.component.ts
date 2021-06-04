@@ -1,7 +1,6 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { ActiveDateService } from '../calendar/active-date.service';
 import { Reactive } from '../../../common/cdk/reactive';
-import { FabricDateUtilService } from '../../../common/utils/date-util/fabric-date-util.service';
 import { ActivitiesRepository } from '../../../services/repositories/activities/activities.repository';
 import { distinctUntilChanged, filter, map, switchMap } from 'rxjs/operators';
 import { SelectedDayActivitiesRepository } from './activities/selected-day-activities.repository';
@@ -13,6 +12,7 @@ import { Weekday } from '../../../services/repositories/templates/weekday';
 import { MatDialog } from '@angular/material/dialog';
 import { SelectedDayActivityDialogComponent } from './activity/selected-day-activity-dialog.component';
 import { CalendarActivity } from '../../../common/models/calendar-activity';
+import { DateUtils } from '../../../common/utils/date-util/date-utils';
 
 @Component({
 	selector: 'ac-selected-day',
@@ -72,7 +72,6 @@ export class SelectedDayComponent extends Reactive implements OnInit {
 				private readonly activitiesRepository: ActivitiesRepository,
 				private readonly firebaseTemplatesService: FirebaseTemplatesService,
 				private readonly weekdayTemplateRepository: WeekdayTemplateRepository,
-				private readonly dateUtilService: FabricDateUtilService,
 				private readonly matDialog: MatDialog,
 				private readonly changeDetectorRef: ChangeDetectorRef) {
 		super();
@@ -123,16 +122,17 @@ export class SelectedDayComponent extends Reactive implements OnInit {
 	}
 
 	openActivityForm(): void {
-		this.matDialog.open(SelectedDayActivityDialogComponent, {
-			panelClass: 'activity-calendar-dialog',
-			data: {
-				selectedDay: this.selectedDay
-			}
-		});
+		this.matDialog
+			.open(SelectedDayActivityDialogComponent, {
+				panelClass: 'activity-calendar-dialog',
+				data: {
+					selectedDay: this.selectedDay
+				}
+			});
 	}
 
 	isSelectedDayToday(): boolean {
-		return this.selectedDay ? this.dateUtilService.areDatesSame(this.selectedDay, new Date()) : false;
+		return this.selectedDay ? DateUtils.areDatesSame(this.selectedDay, new Date()) : false;
 	}
 
 	getActivitiesLabel(): string {

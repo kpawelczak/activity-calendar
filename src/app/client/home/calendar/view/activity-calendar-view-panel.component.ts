@@ -11,7 +11,7 @@ import { Reactive } from '../../../../common/cdk/reactive';
 import { ActivityCalendarCardViewService } from './activity-calendar-card-view.service';
 import { delay } from 'rxjs/operators';
 import { calendarAnimationTimer } from '../common/calendar-animation-timer';
-import { FabricDateUtilService } from '../../../../common/utils/date-util/fabric-date-util.service';
+import { DateUtils } from '../../../../common/utils/date-util/date-utils';
 
 
 @Component({
@@ -60,7 +60,6 @@ export class ActivityCalendarViewPanelComponent extends Reactive implements OnIn
 
 	constructor(private readonly calendarViewService: ActivityCalendarViewService,
 				private readonly calendarService: ActivityCalendarService,
-				private readonly datePickerUtils: FabricDateUtilService,
 				private readonly datePickerYearsService: ActivityCalendarYearsService,
 				private readonly datePickerYears: ActivityCalendarYears,
 				private readonly interfaceService: ActivityCalendarCardViewService) {
@@ -140,7 +139,7 @@ export class ActivityCalendarViewPanelComponent extends Reactive implements OnIn
 	}
 
 	isNextMonthInFuture(year: number, month: number): boolean {
-		return this.datePickerUtils.isNextMonthInFuture(year, month);
+		return DateUtils.isNextMonthInFuture(year, month);
 	}
 
 	private handleMonthChange(next: boolean): void {

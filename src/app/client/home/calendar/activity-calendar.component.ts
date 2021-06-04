@@ -16,7 +16,7 @@ import { ActivitiesCountRepository } from '../../../services/repositories/activi
 import { EMPTY } from 'rxjs';
 import { ActivitiesCount } from '../../../common/models/activities-count';
 import { ActivitiesRepository } from '../../../services/repositories/activities/activities.repository';
-import { FabricDateUtilService } from '../../../common/utils/date-util/fabric-date-util.service';
+import { DateUtils } from '../../../common/utils/date-util/date-utils';
 
 
 @Component({
@@ -56,7 +56,6 @@ export class ActivityCalendarComponent extends Reactive implements OnInit {
 				private readonly datePickerWeeks: ActivityCalendarWeeks,
 				private readonly datePickerYears: ActivityCalendarYears,
 				private readonly datePickerYearsService: ActivityCalendarYearsService,
-				private readonly dateUtilService: FabricDateUtilService,
 				private readonly calendarService: ActivityCalendarService,
 				private readonly calendarViewService: ActivityCalendarViewService,
 				private readonly firebaseActivitiesService: FirebaseActivitiesService,
@@ -101,7 +100,7 @@ export class ActivityCalendarComponent extends Reactive implements OnInit {
 			.onMonthActivities()
 			.pipe(
 				filter(() =>
-					this.dateUtilService.isDateInChosenMonth(this.selectedDate, this.activeMonth, this.activeYear)
+					DateUtils.isDateInChosenMonth(this.selectedDate, this.activeMonth, this.activeYear)
 				),
 				skip(1),
 				this.takeUntil())

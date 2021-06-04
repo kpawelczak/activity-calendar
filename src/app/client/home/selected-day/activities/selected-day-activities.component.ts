@@ -3,7 +3,6 @@ import { SelectedActivityRepository } from '../activity/selected-activity.reposi
 import { Reactive } from '../../../../common/cdk/reactive';
 import { SelectedDayActivitiesRepository } from './selected-day-activities.repository';
 import { SelectedDayActivityService } from '../activity/selected-day-activity.service';
-import { FabricDateUtilService } from '../../../../common/utils/date-util/fabric-date-util.service';
 import { MatDialog } from '@angular/material/dialog';
 import { SelectedDayActivityDialogComponent } from '../activity/selected-day-activity-dialog.component';
 import { CalendarActivity } from '../../../../common/models/calendar-activity';
@@ -56,8 +55,7 @@ export class SelectedDayActivitiesComponent extends Reactive implements OnInit {
 	constructor(private readonly selectedActivityRepository: SelectedActivityRepository,
 				private readonly selectedActivityService: SelectedDayActivityService,
 				private readonly selectedActivitiesService: SelectedDayActivitiesRepository,
-				private readonly matDialog: MatDialog,
-				private readonly dateUtilService: FabricDateUtilService) {
+				private readonly matDialog: MatDialog) {
 		super();
 	}
 
@@ -66,13 +64,14 @@ export class SelectedDayActivitiesComponent extends Reactive implements OnInit {
 			.onActivity()
 			.pipe(this.takeUntil())
 			.subscribe((selectedActivity: CalendarActivity) => {
-				this.matDialog.open(SelectedDayActivityDialogComponent, {
-					panelClass: 'activity-calendar-dialog',
-					data: {
-						selectedDay: this.selectedDay,
-						selectedActivity
-					}
-				});
+				this.matDialog
+					.open(SelectedDayActivityDialogComponent, {
+						panelClass: 'activity-calendar-dialog',
+						data: {
+							selectedDay: this.selectedDay,
+							selectedActivity
+						}
+					});
 			});
 	}
 

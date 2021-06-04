@@ -2,8 +2,8 @@ import { ChangeDetectionStrategy, Component, Input, ViewEncapsulation } from '@a
 
 import { daysOfTheWeek } from '../../common/data/days-of-the-week';
 import { ActiveDateService } from '../../active-date.service';
-import { FabricDateUtilService } from '../../../../../common/utils/date-util/fabric-date-util.service';
 import { CalendarActivity } from '../../../../../common/models/calendar-activity';
+import { DateUtils } from '../../../../../common/utils/date-util/date-utils';
 
 @Component({
 	selector: 'ac-calendar-days',
@@ -55,12 +55,11 @@ export class ActivityCalendarDaysComponent {
 
 	currentDay: Date = new Date();
 
-	constructor(private readonly dateUtilsService: FabricDateUtilService,
-				private readonly datePickerService: ActiveDateService) {
+	constructor(private readonly datePickerService: ActiveDateService) {
 	}
 
 	isDisabled(day: Date): boolean {
-		return this.dateUtilsService.isFuture(day);
+		return DateUtils.isFuture(day);
 	}
 
 	selectDate(date: Date): void {
@@ -69,7 +68,7 @@ export class ActivityCalendarDaysComponent {
 
 	isDate(comparedDate: Date, date: Date): boolean {
 		if (comparedDate) {
-			return this.dateUtilsService.areDatesSame(comparedDate, date);
+			return DateUtils.areDatesSame(comparedDate, date);
 		}
 	}
 
