@@ -1,4 +1,4 @@
-import { WeekdayTemplate } from '../template/weekday-template';
+import { WeekdayTemplate } from './weekday-template';
 import { Weekday } from '../weekday';
 
 export const weekdayTemplates = [

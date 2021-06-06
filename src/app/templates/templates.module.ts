@@ -9,33 +9,31 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { ActivityCalendarButtonModule } from '../common/ui/activity-calendar-button/activity-calendar-button.module';
 
-
-import { WeekdayTemplatesRepository } from './store/templates/weekday-templates.repository';
-import { WeekdayTemplateRepository } from './store/template/weekday-template.repository';
-import { WeekdayTemplateCountersRepository } from './store/counters/weekday-template-counters.repository';
-import { WeekdayTemplateSetsRepository } from './store/sets/weekday-template-sets.repository';
-
-import { FirebaseTemplateService } from './infrastructure/firebase-template.service';
-import { FirebaseTemplateCountersService } from './infrastructure/firebase-template-counters.service';
+import { TemplatesRepository } from './store/templates/templates.repository';
+import { TemplateSetsRepository } from './store/sets/template-sets.repository';
 import { FirebaseTemplateSetsService } from './infrastructure/firebase-template-sets.service';
+import { FirebaseTemplatesService } from './infrastructure/firebase-templates.service';
+import { FirebaseTemplateService } from './infrastructure/firebase-template.service';
+import { FirebaseActiveTemplateSetService } from './infrastructure/firebase-active-template-set.service';
 
 import { TemplatesComponent } from './feature/templates.component';
 import { TemplateSettingsComponent } from './feature/settings/template-settings.component';
 import { WeekdayActivityFormComponent } from './feature/weekdays/weekday-activity-form.component';
 import { WeekdayTemplateComponent } from './feature/weekdays/weekday-template.component';
-import { WeekdayTemplateService } from './feature/weekdays/weekday-template.service';
+import { TemplateService } from './store/template/template.service';
+import { ActiveTemplateSetService } from './store/sets/active-template-set.service';
 
 const store = [
-	WeekdayTemplatesRepository,
-	WeekdayTemplateRepository,
-	WeekdayTemplateCountersRepository,
-	WeekdayTemplateSetsRepository
+	TemplatesRepository,
+	TemplateSetsRepository,
+	ActiveTemplateSetService
 ];
 
 const infrastructure = [
 	FirebaseTemplateService,
-	FirebaseTemplateCountersService,
-	FirebaseTemplateSetsService
+	FirebaseTemplatesService,
+	FirebaseTemplateSetsService,
+	FirebaseActiveTemplateSetService
 ];
 
 
@@ -63,7 +61,7 @@ const infrastructure = [
 	providers: [
 		...store,
 		...infrastructure,
-		WeekdayTemplateService
+		TemplateService
 	]
 })
 export class TemplatesModule {

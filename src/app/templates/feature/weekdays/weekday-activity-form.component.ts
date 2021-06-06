@@ -2,8 +2,8 @@ import { ChangeDetectionStrategy, Component, Input, OnChanges, SimpleChanges, Vi
 import { ActivityForm } from '../../../common/utils/form/activity-form';
 import { FormBuilder } from '@angular/forms';
 import { TemplateActivity } from '../../template-activity';
-import { WeekdayTemplateService } from './weekday-template.service';
-import { WeekdayTemplate } from '../../store/template/weekday-template';
+import { TemplateService } from '../../store/template/template.service';
+import { WeekdayTemplate } from '../../store/weekday-template';
 
 @Component({
 	selector: 'ac-template-activity-form',
@@ -68,7 +68,7 @@ export class WeekdayActivityFormComponent extends ActivityForm implements OnChan
 
 	loading: boolean;
 
-	constructor(private readonly weekdayTemplateService: WeekdayTemplateService,
+	constructor(private readonly weekdayTemplateService: TemplateService,
 				formBuilder: FormBuilder) {
 		super(formBuilder);
 	}
@@ -90,7 +90,8 @@ export class WeekdayActivityFormComponent extends ActivityForm implements OnChan
 			const name = this.form.controls['name'].value,
 				amount = this.form.controls['amount'].value,
 				uuid = this.templateActivity.templateUUID,
-				templateActivity = new TemplateActivity(name, amount, uuid);
+				weekday = this.weekdayTemplate.weekday,
+				templateActivity = new TemplateActivity(weekday, name, amount, uuid);
 
 			if (newTemplate) {
 				this.weekdayTemplateService.addActivityToTemplate(this.weekdayTemplate, templateActivity);

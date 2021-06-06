@@ -3,30 +3,26 @@ import { ProfileCollection } from '../../profile/profile-collection';
 import { ProfileService } from '../../profile/profile.service';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
-import { map, take } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import firebase from 'firebase';
 import DocumentData = firebase.firestore.DocumentData;
 
-
 @Injectable()
-export class FirebaseTemplateSetsService extends ProfileCollection {
+export class FirebaseActiveTemplateSetService extends ProfileCollection {
 
 	constructor(profileService: ProfileService,
 				angularFirestore: AngularFirestore) {
 		super(profileService, angularFirestore);
 	}
 
-	getTemplateSets(): Observable<Array<string>> {
+	getActiveTemplateSet(): Observable<string> {
 		return this.profileCollection()
 				   .doc('templates')
-				   .collection('template-sets')
-				   .doc('sets')
+				   .collection('active-template-set')
+				   .doc('active-set')
 				   .valueChanges()
 				   .pipe(
-					   map((data: DocumentData) => {
-						   return data.templateSets;
-					   }),
-					   take(1)
+					   map((data: DocumentData) => data?.setName)
 				   );
 	}
 }

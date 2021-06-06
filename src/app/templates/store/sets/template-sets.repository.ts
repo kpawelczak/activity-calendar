@@ -4,13 +4,13 @@ import { Observable } from 'rxjs';
 import { FirebaseTemplateSetsService } from '../../infrastructure/firebase-template-sets.service';
 
 @Injectable()
-export class WeekdayTemplateSetsRepository extends SmartRepository<any> {
+export class TemplateSetsRepository extends SmartRepository<Array<string>> {
 
 	constructor(private readonly firebaseTemplateSets: FirebaseTemplateSetsService) {
 		super();
 	}
 
-	getValuesFromApi(): Observable<any> {
+	getValuesFromApi(): Observable<Array<string>> {
 		return this.firebaseTemplateSets.getTemplateSets();
 	}
 }

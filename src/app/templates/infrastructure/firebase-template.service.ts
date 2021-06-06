@@ -2,12 +2,9 @@ import { Injectable } from '@angular/core';
 import { ProfileCollection } from '../../profile/profile-collection';
 import { ProfileService } from '../../profile/profile.service';
 import { AngularFirestore } from '@angular/fire/firestore';
-import { map, take } from 'rxjs/operators';
 import { TemplateActivity } from '../template-activity';
 import { ActivityCalendarSnackbarService } from '../../common/ui/activity-calendar-snackbar/activity-calendar-snackbar.service';
-import { Weekday } from '../store/weekday';
-import { WeekdayTemplate } from '../store/template/weekday-template';
-import { Observable } from 'rxjs';
+import { Weekday } from '../weekday';
 
 
 @Injectable()
@@ -17,19 +14,6 @@ export class FirebaseTemplateService extends ProfileCollection {
 				profileService: ProfileService,
 				angularFirestore: AngularFirestore) {
 		super(profileService, angularFirestore);
-	}
-
-	loadTemplate(weekday: Weekday): Observable<WeekdayTemplate> {
-		return this.profileCollection()
-				   .doc('templates')
-				   .collection(weekday.toString())
-				   .valueChanges()
-				   .pipe(
-					   map((templates: Array<TemplateActivity>) => {
-						   return new WeekdayTemplate(weekday, templates);
-					   }),
-					   take(1)
-				   );
 	}
 
 	saveActivityToTemplate(weekday: Weekday, templateActivity: TemplateActivity): Promise<void> {

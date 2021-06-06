@@ -1,12 +1,8 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
-import { Reactive } from '../../../common/cdk/reactive';
+import { ChangeDetectionStrategy, Component, Input, ViewEncapsulation } from '@angular/core';
 import { TemplateActivity } from '../../template-activity';
 import { v4 as uuidv4 } from 'uuid';
-import { FirebaseTemplateService } from '../../infrastructure/firebase-template.service';
 import { weekdayNames } from './weekday-names';
-import { Weekday } from '../../store/weekday';
-import { WeekdayTemplate } from '../../store/template/weekday-template';
-import { WeekdayTemplateRepository } from '../../store/template/weekday-template.repository';
+import { WeekdayTemplate } from '../../store/weekday-template';
 
 
 @Component({
@@ -14,7 +10,7 @@ import { WeekdayTemplateRepository } from '../../store/template/weekday-template
 	template: `
 		<ng-container *ngIf="weekdayTemplate">
 
-			<mat-expansion-panel (opened)="getTemplate()">
+			<mat-expansion-panel>
 
 				<mat-expansion-panel-header [class.has-template-activities]="weekdayTemplate.getTemplateCounter()">
 					<mat-panel-title>
@@ -25,7 +21,7 @@ import { WeekdayTemplateRepository } from '../../store/template/weekday-template
 					</mat-panel-description>
 				</mat-expansion-panel-header>
 
-				<ac-template-activity-form *ngFor="let template of weekdayTemplate.templates"
+				<ac-template-activity-form *ngFor="let template of weekdayTemplate?.templates"
 										   [templateActivity]="template"
 										   [weekdayTemplate]="weekdayTemplate"></ac-template-activity-form>
 
@@ -45,42 +41,14 @@ import { WeekdayTemplateRepository } from '../../store/template/weekday-template
 	encapsulation: ViewEncapsulation.None,
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class WeekdayTemplateComponent extends Reactive implements OnInit {
+export class WeekdayTemplateComponent {
 
 	@Input()
-	weekday: Weekday;
-
 	weekdayTemplate: WeekdayTemplate;
 
-	private canGetFromFirebase: boolean = true;
-
-	constructor(private readonly firebaseTemplatesService: FirebaseTemplateService,
-				private readonly weekdayTemplateRepository: WeekdayTemplateRepository,
-				private readonly changeDetectorRef: ChangeDetectorRef) {
-		super();
-	}
-
-	ngOnInit() {
-		this.weekdayTemplateRepository
-			.onTemplate(this.weekday)
-			.pipe(this.takeUntil())
-			.subscribe((weekdayTemplate: WeekdayTemplate) => {
-				this.weekdayTemplate = weekdayTemplate;
-				this.canGetFromFirebase = this.weekdayTemplate.templates.length === 0;
-				this.changeDetectorRef.detectChanges();
-			});
-	}
-
 	addTemplate(): void {
-		const templateActivity = new TemplateActivity('', '', uuidv4());
+		const templateActivity = new TemplateActivity(null, '', '', uuidv4());
 		this.weekdayTemplate.templates.push(templateActivity);
-	}
-
-	getTemplate(): void {
-		if (this.canGetFromFirebase && this.weekdayTemplate.getTemplateCounter()) {
-			this.weekdayTemplateRepository.getTemplate(this.weekday);
-			this.canGetFromFirebase = false;
-		}
 	}
 
 	getWeekdayName(): string {
@@ -88,11 +56,6 @@ export class WeekdayTemplateComponent extends Reactive implements OnInit {
 	}
 
 	getTemplateCounter(): number {
-
-		if (!this.weekdayTemplate.getTemplateCounter()) {
-			return;
-		}
-
-		return Object.values(this.weekdayTemplate.getTemplateCounter())[0];
+		return this.weekdayTemplate.getTemplateCounter();
 	}
 }
