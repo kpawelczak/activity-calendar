@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, ViewEnca
 import { ActiveDateService } from '../calendar/active-date.service';
 import { Reactive } from '../../../common/cdk/reactive';
 import { ActivitiesRepository } from '../../../services/repositories/activities/activities.repository';
-import { distinctUntilChanged, filter, map, switchMap } from 'rxjs/operators';
+import { filter, map, switchMap } from 'rxjs/operators';
 import { SelectedDayActivitiesRepository } from './activities/selected-day-activities.repository';
 import { MatDialog } from '@angular/material/dialog';
 import { SelectedDayActivityDialogComponent } from './activity/selected-day-activity-dialog.component';
@@ -12,6 +12,7 @@ import { Weekday } from '../../../templates/weekday';
 import { TemplateActivity } from '../../../templates/template-activity';
 import { TemplateRepository } from '../../../templates/store/template/template.repository';
 import { WeekdayTemplate } from '../../../templates/store/weekday-template';
+import { combineLatest } from 'rxjs';
 
 @Component({
 	selector: 'ac-selected-day',
@@ -74,21 +75,17 @@ export class SelectedDayComponent extends Reactive implements OnInit {
 	}
 
 	ngOnInit() {
-		this.activitiesRepository
-			.onMonthActivities()
+		combineLatest([
+			this.activitiesRepository.onValues(),
+			this.selectedDayService.observeSelectedDate()
+		])
 			.pipe(
-				filter((monthActivities: Array<CalendarActivity>) => monthActivities && monthActivities.length !== 0),
-				switchMap((monthActivities: Array<CalendarActivity>) => {
-					this.selectedDayActivitiesRepository.setMonthActivities(monthActivities);
-					return this.selectedDayService.observeSelectedDate();
-				}),
-				distinctUntilChanged(),
-				switchMap((selectedDate: Date) => {
-					this.selectedDay = selectedDate;
-					this.selectedDayActivitiesRepository.selectDayActivities(this.selectedDay);
+				switchMap(([monthActivities, selectedDate]: [Array<CalendarActivity>, Date]) => {
+					this.selectDay(selectedDate);
+					this.selectedDayActivitiesRepository.selectDayActivities(this.selectedDay, monthActivities);
 					this.changeDetectorRef.detectChanges();
 					return this.templateRepository
-							   .onWeekdayTemplate(this.getWeekDay(selectedDate));
+							   .onWeekdayTemplate(this.getWeekDay());
 				}),
 				filter(() => this.isSelectedDayToday()),
 				map((weekdayTemplate: WeekdayTemplate) => weekdayTemplate.getTemplates()),
@@ -100,7 +97,7 @@ export class SelectedDayComponent extends Reactive implements OnInit {
 			});
 
 		this.selectedDayActivitiesRepository
-			.onActivities()
+			.onValues()
 			.pipe(this.takeUntil())
 			.subscribe((activities: Array<CalendarActivity>) => {
 				this.activities = activities;
@@ -126,8 +123,8 @@ export class SelectedDayComponent extends Reactive implements OnInit {
 		return this.isSelectedDayToday() ? 'Activities' : 'Past activities';
 	}
 
-	getWeekDay(date: Date): Weekday {
-		return date.getDay();
+	getWeekDay(): Weekday {
+		return this.selectedDay.getDay();
 	}
 
 	canShowActivities(): boolean {
@@ -136,5 +133,11 @@ export class SelectedDayComponent extends Reactive implements OnInit {
 
 	canShowTemplates(): boolean {
 		return this.isSelectedDayToday() && this.templateActivities?.length > 0;
+	}
+
+	private selectDay(date: Date): void {
+		if (!DateUtils.areDatesSame(this.selectedDay, date)) {
+			this.selectedDay = date;
+		}
 	}
 }

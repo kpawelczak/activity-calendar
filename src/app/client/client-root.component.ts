@@ -53,7 +53,6 @@ export class ClientRootComponent extends Reactive implements OnInit, OnDestroy {
 	private onLogout(): void {
 		this.activitiesRepository.reset();
 		this.weekdayTemplatesRepository.reset();
-		this.firebaseActivitiesService.reset();
 		this.activeDateService.reset();
 		this.activitiesCountRepository.reset();
 	}

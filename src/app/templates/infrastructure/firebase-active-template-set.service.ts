@@ -7,6 +7,7 @@ import { map } from 'rxjs/operators';
 import firebase from 'firebase';
 import DocumentData = firebase.firestore.DocumentData;
 
+
 @Injectable()
 export class FirebaseActiveTemplateSetService extends ProfileCollection {
 
@@ -22,7 +23,22 @@ export class FirebaseActiveTemplateSetService extends ProfileCollection {
 				   .doc('active')
 				   .valueChanges()
 				   .pipe(
-					   map((data: DocumentData) => data?.templateName)
+					   map((data: DocumentData) => {
+						   const templateName = data?.templateName;
+						   this.setDefaultTemplateSet(templateName);
+						   return templateName ? templateName : 'default';
+					   })
 				   );
+	}
+
+	private setDefaultTemplateSet(templateName: string) {
+		if (!templateName) {
+			this.profileCollection()
+				.doc('templates')
+				.collection('template-sets')
+				.doc('active')
+				.set({ templateName: 'default' })
+				.finally();
+		}
 	}
 }

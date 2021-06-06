@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { FirebaseActiveTemplateSetService } from '../../infrastructure/firebase-active-template-set.service';
 import { take } from 'rxjs/operators';
 
+
 @Injectable()
 export class ActiveTemplateSetService extends SmartRepository<string> {
 

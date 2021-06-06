@@ -1,48 +1,46 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
 import { CalendarActivity } from '../../../common/models/calendar-activity';
+import { FirebaseActivitiesService } from '../../firebase/activities/activities/firebase-activities.service';
+import { ValuesRepository } from '../../../common/cdk/values-repository';
 
 @Injectable()
-export class ActivitiesRepository {
+export class ActivitiesRepository extends ValuesRepository<Array<CalendarActivity>> {
 
-	private monthActivities: Array<CalendarActivity>;
-
-	private readonly monthActivities$ = new BehaviorSubject<Array<CalendarActivity>>(null);
-
-	onMonthActivities(): Observable<Array<CalendarActivity>> {
-		return this.monthActivities$.asObservable();
+	constructor(private readonly firebaseActivitiesService: FirebaseActivitiesService) {
+		super([]);
 	}
 
-	next(activities: Array<CalendarActivity>): void {
-		this.monthActivities = activities;
-		this.monthActivities$.next(activities);
+	loadActivities(year: number, month: number): void {
+		this.firebaseActivitiesService
+			.getMonthActivities(year, month)
+			.subscribe((calendarActivities: Array<CalendarActivity>) => {
+				this.next(calendarActivities);
+			});
 	}
 
 	addMonthActivity(activity: CalendarActivity): void {
-		this.monthActivities.push(activity);
-		this.monthActivities$.next(this.monthActivities);
+		const monthActivities = this.getValues() ? this.getValues() : [];
+
+		monthActivities.push(activity);
+		this.next(monthActivities);
 	}
 
 	updateMonthActivities(activity: CalendarActivity): void {
 
-		this.monthActivities = this.monthActivities.map((calendarActivity: CalendarActivity) => {
-			return activity.getActivityUUID() === calendarActivity.getActivityUUID() ? activity : calendarActivity;
-		});
-		this.monthActivities$.next(this.monthActivities);
+		const updatedActivities = this.getValues()
+									  .map((calendarActivity: CalendarActivity) => {
+										  return activity.getActivityUUID() === calendarActivity.getActivityUUID() ? activity : calendarActivity;
+									  });
+		this.next(updatedActivities);
 	}
 
 	deleteActivity(activity: CalendarActivity): void {
-		this.monthActivities = this.monthActivities
-								   .filter((calendarActivity: CalendarActivity) => {
-									   return calendarActivity.getActivityUUID() !== activity.getActivityUUID();
-								   });
+		const updatedActivities = this.getValues()
+									  .filter((calendarActivity: CalendarActivity) => {
+										  return calendarActivity.getActivityUUID() !== activity.getActivityUUID();
+									  });
 
-		this.monthActivities$.next(this.monthActivities);
-	}
-
-	reset(): void {
-		this.monthActivities = null;
-		this.monthActivities$.next(null);
+		this.next(updatedActivities);
 	}
 
 }

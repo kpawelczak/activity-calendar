@@ -1,9 +1,9 @@
 export class DateUtils {
 
 	static areDatesSame(firstDay: Date, secondDate: Date): boolean {
-		return firstDay.getDate() === secondDate.getDate() &&
-			firstDay.getMonth() === secondDate.getMonth() &&
-			firstDay.getFullYear() === secondDate.getFullYear();
+		return firstDay?.getDate() === secondDate?.getDate() &&
+			firstDay?.getMonth() === secondDate?.getMonth() &&
+			firstDay?.getFullYear() === secondDate?.getFullYear();
 	}
 
 	static isDateInChosenMonth(date: Date, month: number, year: number): boolean {

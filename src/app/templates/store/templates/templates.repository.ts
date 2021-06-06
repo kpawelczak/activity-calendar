@@ -3,7 +3,7 @@ import { Observable } from 'rxjs';
 import { WeekdayTemplate } from '../weekday-template';
 import { FirebaseTemplatesService } from '../../infrastructure/firebase-templates.service';
 import { SmartRepository } from '../../../common/cdk/smart-repository';
-import { take } from 'rxjs/operators';
+
 
 @Injectable()
 export class TemplatesRepository extends SmartRepository<Array<WeekdayTemplate>> {
@@ -23,8 +23,7 @@ export class TemplatesRepository extends SmartRepository<Array<WeekdayTemplate>>
 
 	getValuesFromApi(): Observable<Array<WeekdayTemplate>> {
 		return this.firebaseTemplatesService
-				   .loadTemplates()
-				   .pipe(take(1));
+				   .loadTemplates();
 	}
 
 	nextTemplate(weekdayTemplate: WeekdayTemplate): void {
@@ -38,5 +37,4 @@ export class TemplatesRepository extends SmartRepository<Array<WeekdayTemplate>>
 					   return newTemplate.getWeekday() === weekdayTemplate.getWeekday() ? newTemplate : weekdayTemplate;
 				   });
 	}
-
 }

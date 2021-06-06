@@ -9,7 +9,7 @@ import { Reactive } from '../../../common/cdk/reactive';
 import { ActivityCalendarView } from './common/models/activity-calendar-view';
 import { FirebaseActivitiesService } from '../../../services/firebase/activities/activities/firebase-activities.service';
 import { CalendarActivity } from '../../../common/models/calendar-activity';
-import { filter, pairwise, skip, startWith, switchMap } from 'rxjs/operators';
+import { filter, pairwise, startWith, switchMap } from 'rxjs/operators';
 import { ActiveMonth } from './common/models/activity-calendar-year-month';
 import { FirebaseActivitiesCountService } from '../../../services/firebase/activities/activities-count/firebase-activities-count.service';
 import { ActivitiesCountRepository } from '../../../services/repositories/activities/count/activities-count.repository';
@@ -80,29 +80,25 @@ export class ActivityCalendarComponent extends Reactive implements OnInit {
 			.pipe(
 				startWith(new ActiveMonth(-1, -1)),
 				pairwise(),
-				switchMap(([prevActiveMonth, activeMonth]) => {
-					this.activeYear = activeMonth.year;
-					this.activeMonth = activeMonth.month;
-					this.calculateDatePickerData();
-					this.changeDetectorRef.detectChanges();
-
-					return this.didActiveMonthChange(prevActiveMonth, activeMonth) ?
-						this.firebaseActivitiesService.getMonthActivities(this.activeYear, this.activeMonth)
-						: EMPTY;
-				}),
 				this.takeUntil())
-			.subscribe((calendarActivities: Array<CalendarActivity>) => {
-				this.monthActivities = calendarActivities;
+			.subscribe(([prevActiveMonth, activeMonth]) => {
+				this.activeYear = activeMonth.year;
+				this.activeMonth = activeMonth.month;
+				this.calculateDatePickerData();
+
+				if (this.didActiveMonthChange(prevActiveMonth, activeMonth)) {
+					this.activitiesRepository.loadActivities(this.activeYear, this.activeMonth);
+				}
+
 				this.changeDetectorRef.detectChanges();
 			});
 
 		this.activitiesRepository
-			.onMonthActivities()
+			.onValues()
 			.pipe(
 				filter(() =>
 					DateUtils.isDateInChosenMonth(this.selectedDate, this.activeMonth, this.activeYear)
 				),
-				skip(1),
 				this.takeUntil())
 			.subscribe((calendarActivities: Array<CalendarActivity>) => {
 				this.monthActivities = calendarActivities;

@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { ActivitiesRepository } from '../../../repositories/activities/activities.repository';
 import firebase from 'firebase';
 import { AngularFirestore, CollectionReference } from '@angular/fire/firestore';
 import { map, take } from 'rxjs/operators';
@@ -15,10 +14,7 @@ export class FirebaseActivitiesService extends ProfileCollection {
 
 	private static readonly MILLI_SECONDS_IN_WEEK = 604800000;
 
-	initialProvide: boolean = false;
-
-	constructor(private readonly activitiesRepository: ActivitiesRepository,
-				firebaseProfileService: ProfileService,
+	constructor(firebaseProfileService: ProfileService,
 				firestore: AngularFirestore) {
 		super(firebaseProfileService, firestore);
 	}
@@ -36,7 +32,6 @@ export class FirebaseActivitiesService extends ProfileCollection {
 				   .valueChanges()
 				   .pipe(
 					   map((response: Array<DocumentData>) => {
-
 						   return response.map((calendarActivity: DocumentData) => {
 							   return new CalendarActivity(
 								   calendarActivity.day,
@@ -48,20 +43,10 @@ export class FirebaseActivitiesService extends ProfileCollection {
 						   });
 					   }),
 					   map((calendarActivities: Array<CalendarActivity>) => {
-
-						   if (!this.initialProvide) {
-							   this.activitiesRepository.next(calendarActivities);
-							   this.initialProvide = true;
-						   }
-
 						   return calendarActivities.length === 0 ? null : calendarActivities;
 					   }),
 					   take(1)
 				   );
-	}
-
-	reset(): void {
-		this.initialProvide = false;
 	}
 
 	private getStartOfTheMonth(year: number, month: number): number {

@@ -7,14 +7,13 @@ import { CalendarActivity } from '../../../../common/models/calendar-activity';
 @Injectable()
 export class SelectedDayTemplateActivityRepository {
 
-
 	constructor(private readonly selectedDayActivitiesRepository: SelectedDayActivitiesRepository) {
 
 	}
 
 	onActivity(templateUUID: string): Observable<CalendarActivity> {
 		return this.selectedDayActivitiesRepository
-				   .onActivities()
+				   .onValues()
 				   .pipe(
 					   map((activities: Array<CalendarActivity>) => {
 						   const activityWithAssignedTemplate = this.getActivityWithAssignedTemplate(activities, templateUUID);
@@ -25,6 +24,6 @@ export class SelectedDayTemplateActivityRepository {
 
 	private getActivityWithAssignedTemplate(activities: Array<CalendarActivity>,
 											templateUUID: string): CalendarActivity {
-		return activities.find((activity: CalendarActivity) => activity.getAssignedTemplateUUID() === templateUUID);
+		return activities?.find((activity: CalendarActivity) => activity.getAssignedTemplateUUID() === templateUUID);
 	}
 }

@@ -26,7 +26,6 @@ export class SelectedDayActivityService {
 				   .then(() => {
 					   this.activitiesCountRepository.updateCount(selectedDate, true);
 					   this.activitiesRepository.addMonthActivity(calendarActivity);
-					   this.selectedDateActivitiesService.selectDayActivities(selectedDate);
 				   });
 	}
 
@@ -36,7 +35,6 @@ export class SelectedDayActivityService {
 				   .updateActivity(activity)
 				   .then(() => {
 					   this.activitiesRepository.updateMonthActivities(activity);
-					   this.selectedDateActivitiesService.selectDayActivities(selectedDate);
 				   });
 	}
 
@@ -47,7 +45,6 @@ export class SelectedDayActivityService {
 				   .then(() => {
 					   this.activitiesCountRepository.updateCount(selectedDate);
 					   this.activitiesRepository.deleteActivity(activity);
-					   this.selectedDateActivitiesService.selectDayActivities(selectedDate);
 				   });
 	}
 }

@@ -24,6 +24,10 @@ export class FirebaseActivitiesCountService extends ProfileCollection {
 				   .doc('activities-count')
 				   .valueChanges()
 				   .pipe(
+					   map((data: Array<DocumentData>) => {
+						   this.setActivitiesCountCollection(data);
+						   return data;
+					   }),
 					   filter((data: Array<DocumentData>) => !!data),
 					   map((data: Array<DocumentData>) => {
 							   return Object.keys(data)
@@ -60,4 +64,14 @@ export class FirebaseActivitiesCountService extends ProfileCollection {
 			.then();
 	}
 
+	private setActivitiesCountCollection(activitiesCount: Array<DocumentData>) {
+		if (!activitiesCount) {
+			this.profileCollection()
+				.doc('activities')
+				.collection('activities-count')
+				.doc('activities-count')
+				.set({})
+				.finally();
+		}
+	}
 }

@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { FirebaseTemplateSetsService } from '../../infrastructure/firebase-template-sets.service';
 import { map } from 'rxjs/operators';
 
+
 @Injectable()
 export class TemplateSetsRepository extends SmartRepository<Array<string>> {
 

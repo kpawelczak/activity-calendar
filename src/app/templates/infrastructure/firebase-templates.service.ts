@@ -11,6 +11,7 @@ import { weekdayTemplates } from '../store/weekday-templates';
 import { ActiveTemplateSetService } from '../store/sets/active-template-set.service';
 import Database = firebase.database.Database;
 
+
 @Injectable()
 export class FirebaseTemplatesService extends ProfileCollection {
 
@@ -43,17 +44,14 @@ export class FirebaseTemplatesService extends ProfileCollection {
 	}
 
 	private getWeekdayTemplates(templates: Array<TemplateActivity>): Array<WeekdayTemplate> {
-
 		const newWeekdayTemplates = [...weekdayTemplates];
 
 		templates.forEach((templateActivity: TemplateActivity) => {
+			const newWeekdayIndex
+				= newWeekdayTemplates
+				.findIndex((weekdayTemplate: WeekdayTemplate) => weekdayTemplate.getWeekday() === templateActivity.weekday);
 
-			newWeekdayTemplates.forEach((weekdayTemplate: WeekdayTemplate, index: number) => {
-
-				if (weekdayTemplate.getWeekday() === templateActivity.weekday) {
-					newWeekdayTemplates[index].addTemplate(templateActivity);
-				}
-			});
+			newWeekdayTemplates[newWeekdayIndex].addTemplate(templateActivity);
 		});
 
 		return newWeekdayTemplates;

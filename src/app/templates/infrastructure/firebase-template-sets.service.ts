@@ -24,9 +24,22 @@ export class FirebaseTemplateSetsService extends ProfileCollection {
 				   .valueChanges()
 				   .pipe(
 					   map((data: DocumentData) => {
-						   return data?.templateSets;
+						   const templateSets = data?.templateSets;
+						   this.setDefaultTemplateSets(templateSets);
+						   return templateSets ? templateSets : ['default'];
 					   }),
 					   take(1)
 				   );
+	}
+
+	private setDefaultTemplateSets(templateSets: Array<string>) {
+		if (!templateSets) {
+			this.profileCollection()
+				.doc('templates')
+				.collection('template-sets')
+				.doc('sets')
+				.set({ templateSets: ['default'] })
+				.finally();
+		}
 	}
 }
