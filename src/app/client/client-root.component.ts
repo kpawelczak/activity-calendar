@@ -5,7 +5,7 @@ import { ActivitiesRepository } from '../services/repositories/activities/activi
 import { FirebaseActivitiesService } from '../services/firebase/activities/activities/firebase-activities.service';
 import { ActiveDateService } from './home/calendar/active-date.service';
 import { ActivitiesCountRepository } from '../services/repositories/activities/count/activities-count.repository';
-import { WeekdayTemplatesRepository } from '../templates/store/weekday-templates.repository';
+import { WeekdayTemplatesRepository } from '../templates/store/templates/weekday-templates.repository';
 import { WeekdayTemplateCountersRepository } from '../templates/store/counters/weekday-template-counters.repository';
 
 @Component({

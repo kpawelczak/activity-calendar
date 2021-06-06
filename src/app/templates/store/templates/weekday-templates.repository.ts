@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { WeekdayTemplate } from './template/weekday-template';
+import { WeekdayTemplate } from '../template/weekday-template';
 import { weekdayTemplates } from './weekday-templates';
 import { map, switchMap } from 'rxjs/operators';
-import { TemplateCounter } from './counters/template-counter';
-import { WeekdayTemplateCountersRepository } from './counters/weekday-template-counters.repository';
+import { TemplateCounter } from '../counters/template-counter';
+import { WeekdayTemplateCountersRepository } from '../counters/weekday-template-counters.repository';
 
 @Injectable()
 export class WeekdayTemplatesRepository {
@@ -20,7 +20,7 @@ export class WeekdayTemplatesRepository {
 
 	onTemplates(): Observable<Array<WeekdayTemplate>> {
 		return this.weekdayTemplatesCounterRepository
-				   .onTemplatesCounter()
+				   .onValues()
 				   .pipe(
 					   switchMap((templateCounters: TemplateCounter) => {
 						   this.weekdayTemplateCounters = templateCounters;

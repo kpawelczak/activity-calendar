@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
-import { FirebaseTemplatesService } from '../../infrastructure/firebase-templates.service';
+import { FirebaseTemplateService } from '../../infrastructure/firebase-template.service';
 import { TemplateActivity } from '../../template-activity';
 import { from, Observable } from 'rxjs';
 import { map, take } from 'rxjs/operators';
 import { FirebaseTemplateCountersService } from '../../infrastructure/firebase-template-counters.service';
-import { WeekdayTemplatesRepository } from '../../store/weekday-templates.repository';
+import { WeekdayTemplatesRepository } from '../../store/templates/weekday-templates.repository';
 import { WeekdayTemplateCountersRepository } from '../../store/counters/weekday-template-counters.repository';
 import { WeekdayTemplate } from '../../store/template/weekday-template';
 import { TemplateCounter } from '../../store/counters/template-counter';
@@ -13,7 +13,7 @@ import { TemplateCounter } from '../../store/counters/template-counter';
 @Injectable()
 export class WeekdayTemplateService {
 
-	constructor(private readonly firebaseTemplatesService: FirebaseTemplatesService,
+	constructor(private readonly firebaseTemplatesService: FirebaseTemplateService,
 				private readonly firebaseTemplateCountersService: FirebaseTemplateCountersService,
 				private readonly weekdayTemplatesRepository: WeekdayTemplatesRepository,
 				private readonly weekdayTemplateCountersRepository: WeekdayTemplateCountersRepository) {

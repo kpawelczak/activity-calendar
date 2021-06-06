@@ -5,7 +5,6 @@ import { ActivitiesRepository } from '../../../services/repositories/activities/
 import { distinctUntilChanged, filter, map, switchMap } from 'rxjs/operators';
 import { SelectedDayActivitiesRepository } from './activities/selected-day-activities.repository';
 import { TemplateActivity } from '../../../templates/template-activity';
-import { FirebaseTemplatesService } from '../../../templates/infrastructure/firebase-templates.service';
 import { MatDialog } from '@angular/material/dialog';
 import { SelectedDayActivityDialogComponent } from './activity/selected-day-activity-dialog.component';
 import { CalendarActivity } from '../../../common/models/calendar-activity';
@@ -70,7 +69,6 @@ export class SelectedDayComponent extends Reactive implements OnInit {
 	constructor(private readonly selectedDayService: ActiveDateService,
 				private readonly selectedDayActivitiesRepository: SelectedDayActivitiesRepository,
 				private readonly activitiesRepository: ActivitiesRepository,
-				private readonly firebaseTemplatesService: FirebaseTemplatesService,
 				private readonly weekdayTemplateRepository: WeekdayTemplateRepository,
 				private readonly matDialog: MatDialog,
 				private readonly changeDetectorRef: ChangeDetectorRef) {
@@ -99,7 +97,7 @@ export class SelectedDayComponent extends Reactive implements OnInit {
 				filter((weekdayTemplate: WeekdayTemplate) => !!weekdayTemplate),
 				map((weekdayTemplate: WeekdayTemplate) => {
 					if (weekdayTemplate.templates.length === 0) {
-						this.firebaseTemplatesService.getTemplate(this.weekday);
+						this.weekdayTemplateRepository.getTemplate(this.weekday);
 					}
 
 					return weekdayTemplate.templates;

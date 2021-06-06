@@ -1,5 +1,5 @@
-import { WeekdayTemplate } from './template/weekday-template';
-import { Weekday } from './weekday';
+import { WeekdayTemplate } from '../template/weekday-template';
+import { Weekday } from '../weekday';
 
 export const weekdayTemplates = [
 	new WeekdayTemplate(Weekday.MONDAY),

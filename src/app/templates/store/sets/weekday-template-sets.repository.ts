@@ -1,15 +1,16 @@
 import { Injectable } from '@angular/core';
 import { SmartRepository } from '../../../common/cdk/smart-repository';
 import { Observable } from 'rxjs';
+import { FirebaseTemplateSetsService } from '../../infrastructure/firebase-template-sets.service';
 
 @Injectable()
 export class WeekdayTemplateSetsRepository extends SmartRepository<any> {
-//todo probably not needed
-	constructor() {
+
+	constructor(private readonly firebaseTemplateSets: FirebaseTemplateSetsService) {
 		super();
 	}
 
 	getValuesFromApi(): Observable<any> {
-		return undefined;
+		return this.firebaseTemplateSets.getTemplateSets();
 	}
 }
