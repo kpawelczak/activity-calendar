@@ -90,7 +90,7 @@ export class WeekdayActivityFormComponent extends ActivityForm implements OnChan
 			const name = this.form.controls['name'].value,
 				amount = this.form.controls['amount'].value,
 				uuid = this.templateActivity.templateUUID,
-				weekday = this.weekdayTemplate.weekday,
+				weekday = this.weekdayTemplate.getWeekday(),
 				templateActivity = new TemplateActivity(weekday, name, amount, uuid);
 
 			if (newTemplate) {

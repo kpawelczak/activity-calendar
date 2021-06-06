@@ -9,7 +9,7 @@ import { combineLatest } from 'rxjs';
 	selector: 'template-settings',
 	template: `
 		<mat-form-field appearance="fill">
-			<mat-label>Template sets</mat-label>
+			<mat-label>Template set</mat-label>
 			<mat-select [formControl]="form">
 				<mat-option *ngFor="let templateSetName of templateSets"
 							[value]="templateSetName">

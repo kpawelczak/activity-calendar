@@ -1,12 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { WeekdayTemplate } from '../weekday-template';
-import { weekdayTemplates } from '../weekday-templates';
 import { FirebaseTemplatesService } from '../../infrastructure/firebase-templates.service';
-import { map } from 'rxjs/operators';
-import { Weekday } from '../../weekday';
-import { TemplateActivity } from '../../template-activity';
 import { SmartRepository } from '../../../common/cdk/smart-repository';
+import { take } from 'rxjs/operators';
 
 @Injectable()
 export class TemplatesRepository extends SmartRepository<Array<WeekdayTemplate>> {
@@ -15,31 +12,31 @@ export class TemplatesRepository extends SmartRepository<Array<WeekdayTemplate>>
 		super();
 	}
 
+	loadTemplates(): void {
+		this.firebaseTemplatesService
+			.loadTemplates()
+			.pipe(this.takeUntil())
+			.subscribe((weekdayTemplates: Array<WeekdayTemplate>) => {
+				this.next(weekdayTemplates);
+			});
+	}
+
 	getValuesFromApi(): Observable<Array<WeekdayTemplate>> {
 		return this.firebaseTemplatesService
 				   .loadTemplates()
-				   .pipe(
-					   map((templates: Array<WeekdayTemplate>) => {
-						   return weekdayTemplates.map((weekdayTemplate: WeekdayTemplate) => {
-							   const weekday = weekdayTemplate.weekday;
-							   return new WeekdayTemplate(weekday, this.getWeekdayTemplates(weekday, templates));
-						   });
-					   })
-				   );
+				   .pipe(take(1));
 	}
 
 	nextTemplate(weekdayTemplate: WeekdayTemplate): void {
-		const newTemplates = this.replaceWeekdayTemplate(weekdayTemplate);
+		const newTemplates = [...this.replaceWeekdayTemplate(weekdayTemplate)];
 		this.next(newTemplates);
 	}
 
 	private replaceWeekdayTemplate(newTemplate: WeekdayTemplate): Array<WeekdayTemplate> {
-		return this.getValues().map((weekdayTemplate: WeekdayTemplate) => {
-			return newTemplate.weekday === weekdayTemplate.weekday ? newTemplate : weekdayTemplate;
-		});
+		return this.getValues()
+				   .map((weekdayTemplate: WeekdayTemplate) => {
+					   return newTemplate.getWeekday() === weekdayTemplate.getWeekday() ? newTemplate : weekdayTemplate;
+				   });
 	}
 
-	private getWeekdayTemplates(weekday: Weekday, templates: Array<WeekdayTemplate>): Array<TemplateActivity> {
-		return templates.filter((weekdayTemplate: WeekdayTemplate) => weekdayTemplate.weekday === weekday)[0]?.templates;
-	}
 }

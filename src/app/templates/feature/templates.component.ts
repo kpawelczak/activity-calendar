@@ -1,8 +1,7 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ViewChild, ViewEncapsulation } from '@angular/core';
 import { MatAccordion } from '@angular/material/expansion';
-import { Reactive } from '../../common/cdk/reactive';
-import { TemplatesRepository } from '../store/templates/templates.repository';
 import { WeekdayTemplate } from '../store/weekday-template';
+import { Weekday } from '../weekday';
 
 
 @Component({
@@ -16,11 +15,10 @@ import { WeekdayTemplate } from '../store/weekday-template';
 
 		<mat-accordion multi>
 
-			<ac-weekday-template *ngFor="let weekdayTemplate of weekdayTemplates"
-								 [weekdayTemplate]="weekdayTemplate"></ac-weekday-template>
+			<ac-weekday-template *ngFor="let weekday of getWeekdays()"
+								 [weekday]="weekday"></ac-weekday-template>
 
 		</mat-accordion>
-
 	`,
 	host: {
 		'[class.ac-templates]': 'true'
@@ -28,25 +26,20 @@ import { WeekdayTemplate } from '../store/weekday-template';
 	encapsulation: ViewEncapsulation.None,
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class TemplatesComponent extends Reactive implements OnInit {
+export class TemplatesComponent {
 
 	@ViewChild(MatAccordion)
 	accordion: MatAccordion;
 
 	weekdayTemplates: Array<WeekdayTemplate>;
 
-	constructor(private readonly templatesRepository: TemplatesRepository,
-				private readonly changeDetectorRef: ChangeDetectorRef) {
-		super();
-	}
+	getWeekdays(): Array<Weekday> {
+		const weekdays = Object.values(Weekday)
+							   .map((value: Weekday) => value)
+							   .filter(value => typeof value === 'number');
 
-	ngOnInit() {
-		this.templatesRepository
-			.onValues()
-			.pipe(this.takeUntil())
-			.subscribe((weekdayTemplates: Array<WeekdayTemplate>) => {
-				this.weekdayTemplates = weekdayTemplates;
-				this.changeDetectorRef.detectChanges();
-			});
+		weekdays.push(weekdays.shift());
+
+		return weekdays;
 	}
 }

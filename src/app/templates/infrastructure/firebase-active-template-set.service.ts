@@ -18,11 +18,11 @@ export class FirebaseActiveTemplateSetService extends ProfileCollection {
 	getActiveTemplateSet(): Observable<string> {
 		return this.profileCollection()
 				   .doc('templates')
-				   .collection('active-template-set')
-				   .doc('active-set')
+				   .collection('template-sets')
+				   .doc('active')
 				   .valueChanges()
 				   .pipe(
-					   map((data: DocumentData) => data?.setName)
+					   map((data: DocumentData) => data?.templateName)
 				   );
 	}
 }

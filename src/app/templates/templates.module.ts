@@ -22,8 +22,10 @@ import { WeekdayActivityFormComponent } from './feature/weekdays/weekday-activit
 import { WeekdayTemplateComponent } from './feature/weekdays/weekday-template.component';
 import { TemplateService } from './store/template/template.service';
 import { ActiveTemplateSetService } from './store/sets/active-template-set.service';
+import { TemplateRepository } from './store/template/template.repository';
 
 const store = [
+	TemplateRepository,
 	TemplatesRepository,
 	TemplateSetsRepository,
 	ActiveTemplateSetService

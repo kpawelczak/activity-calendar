@@ -24,7 +24,7 @@ export class FirebaseTemplateSetsService extends ProfileCollection {
 				   .valueChanges()
 				   .pipe(
 					   map((data: DocumentData) => {
-						   return data.templateSets;
+						   return data?.templateSets;
 					   }),
 					   take(1)
 				   );

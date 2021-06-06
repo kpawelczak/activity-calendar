@@ -4,43 +4,53 @@ import { ProfileService } from '../../profile/profile.service';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { TemplateActivity } from '../template-activity';
 import { ActivityCalendarSnackbarService } from '../../common/ui/activity-calendar-snackbar/activity-calendar-snackbar.service';
-import { Weekday } from '../weekday';
+import { ActiveTemplateSetService } from '../store/sets/active-template-set.service';
+import { switchMap } from 'rxjs/operators';
+import { from, Observable } from 'rxjs';
 
 
 @Injectable()
 export class FirebaseTemplateService extends ProfileCollection {
 
 	constructor(private readonly acSnackBar: ActivityCalendarSnackbarService,
+				private readonly activeTemplateSetService: ActiveTemplateSetService,
 				profileService: ProfileService,
 				angularFirestore: AngularFirestore) {
 		super(profileService, angularFirestore);
 	}
 
-	saveActivityToTemplate(weekday: Weekday, templateActivity: TemplateActivity): Promise<void> {
+	saveActivityToTemplate(templateActivity: TemplateActivity): Observable<any> {
 		const UUID = templateActivity.templateUUID;
-
-		return this.profileCollection()
-				   .doc('templates')
-				   .collection(weekday.toString())
-				   .doc(UUID)
-				   .set({
-					   name: templateActivity.name,
-					   amount: templateActivity.amount,
-					   templateUUID: UUID
-				   })
-				   .catch((error) => {
-					   this.acSnackBar.notify(error, { warn: true });
-				   })
-				   .then(() => {
-					   this.acSnackBar.notify('Activity saved to template');
-				   });
+		return this.activeTemplateSetService
+				   .onValues()
+				   .pipe(
+					   switchMap((templateSetName: string) => {
+						   return from(this.profileCollection()
+										   .doc('templates')
+										   .collection('templates')
+										   .doc(UUID)
+										   .set({
+											   weekday: templateActivity.weekday,
+											   name: templateActivity.name,
+											   amount: templateActivity.amount,
+											   templateUUID: UUID,
+											   templateSetName
+										   })
+										   .catch((error) => {
+											   this.acSnackBar.notify(error, { warn: true });
+										   })
+										   .then(() => {
+											   this.acSnackBar.notify('Activity saved to template');
+										   })
+						   );
+					   })
+				   );
 	}
 
-	deleteTemplateActivity(weekday: Weekday, templateActivityUUID: string): Promise<void> {
-
+	deleteTemplateActivity(templateActivityUUID: string): Promise<void> {
 		return this.profileCollection()
 				   .doc('templates')
-				   .collection(weekday.toString())
+				   .collection('templates')
 				   .doc(templateActivityUUID)
 				   .delete()
 				   .catch((error) => {

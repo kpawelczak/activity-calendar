@@ -1,8 +1,11 @@
-import { ChangeDetectionStrategy, Component, Input, ViewEncapsulation } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
 import { TemplateActivity } from '../../template-activity';
 import { v4 as uuidv4 } from 'uuid';
 import { weekdayNames } from './weekday-names';
+import { Weekday } from '../../weekday';
+import { Reactive } from '../../../common/cdk/reactive';
 import { WeekdayTemplate } from '../../store/weekday-template';
+import { TemplateRepository } from '../../store/template/template.repository';
 
 
 @Component({
@@ -12,7 +15,7 @@ import { WeekdayTemplate } from '../../store/weekday-template';
 
 			<mat-expansion-panel>
 
-				<mat-expansion-panel-header [class.has-template-activities]="weekdayTemplate.getTemplateCounter()">
+				<mat-expansion-panel-header [class.has-template-activities]="getTemplateCounter()">
 					<mat-panel-title>
 						{{getWeekdayName()}}
 					</mat-panel-title>
@@ -21,7 +24,7 @@ import { WeekdayTemplate } from '../../store/weekday-template';
 					</mat-panel-description>
 				</mat-expansion-panel-header>
 
-				<ac-template-activity-form *ngFor="let template of weekdayTemplate?.templates"
+				<ac-template-activity-form *ngFor="let template of weekdayTemplate?.getTemplates()"
 										   [templateActivity]="template"
 										   [weekdayTemplate]="weekdayTemplate"></ac-template-activity-form>
 
@@ -41,18 +44,35 @@ import { WeekdayTemplate } from '../../store/weekday-template';
 	encapsulation: ViewEncapsulation.None,
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class WeekdayTemplateComponent {
+export class WeekdayTemplateComponent extends Reactive implements OnInit {
 
 	@Input()
+	weekday: Weekday;
+
 	weekdayTemplate: WeekdayTemplate;
+
+	constructor(private readonly templateRepository: TemplateRepository,
+				private readonly changeDetectorRef: ChangeDetectorRef) {
+		super();
+	}
+
+	ngOnInit() {
+		this.templateRepository
+			.onWeekdayTemplate(this.weekday)
+			.pipe(this.takeUntil())
+			.subscribe((weekdayTemplate: WeekdayTemplate) => {
+				this.weekdayTemplate = weekdayTemplate;
+				this.changeDetectorRef.detectChanges();
+			});
+	}
 
 	addTemplate(): void {
 		const templateActivity = new TemplateActivity(null, '', '', uuidv4());
-		this.weekdayTemplate.templates.push(templateActivity);
+		this.weekdayTemplate.addTemplate(templateActivity);
 	}
 
 	getWeekdayName(): string {
-		return weekdayNames[this.weekdayTemplate.weekday];
+		return weekdayNames[this.weekdayTemplate.getWeekday()];
 	}
 
 	getTemplateCounter(): number {
