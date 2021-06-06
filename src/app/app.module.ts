@@ -10,10 +10,10 @@ import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AuthenticationModule } from './services/firebase/authentication/authentication.module';
 import { FirebaseEntryModule } from './services/firebase/entry/firebase-entry.module';
-import { ProfileModule } from './services/profile/profile.module';
+import { ProfileModule } from './profile/profile.module';
 import { ActivityCalendarSnackbarModule } from './common/ui/activity-calendar-snackbar/activity-calendar-snackbar.module';
 import { ActivityCalendarLoadingScreenModule } from './common/ui/activity-calendar-loading-screen/activity-calendar-loading-screen.module';
-import { ConnectionsStatusModule } from './services/connection/connections-status.module';
+import { ConnectionsStatusModule } from './connection/connections-status.module';
 
 
 @NgModule({

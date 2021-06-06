@@ -1,12 +1,13 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
-import { WeekdayTemplate } from '../../../services/repositories/templates/template/weekday-template';
 import { Reactive } from '../../../common/cdk/reactive';
-import { WeekdayTemplateRepository } from '../../../services/repositories/templates/template/weekday-template.repository';
-import { TemplateActivity } from '../../../common/models/template-activity';
+import { TemplateActivity } from '../../template-activity';
 import { v4 as uuidv4 } from 'uuid';
-import { FirebaseTemplatesService } from '../../../services/firebase/templates/firebase-templates.service';
-import { Weekday } from '../../../services/repositories/templates/weekday';
+import { FirebaseTemplatesService } from '../../infrastructure/firebase-templates.service';
 import { weekdayNames } from './weekday-names';
+import { Weekday } from '../../store/weekday';
+import { WeekdayTemplate } from '../../store/template/weekday-template';
+import { WeekdayTemplateRepository } from '../../store/template/weekday-template.repository';
+
 
 @Component({
 	selector: 'ac-weekday-template',

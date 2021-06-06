@@ -1,13 +1,14 @@
 import { Injectable } from '@angular/core';
-import { FirebaseTemplatesService } from '../../../services/firebase/templates/firebase-templates.service';
-import { TemplateActivity } from '../../../common/models/template-activity';
-import { WeekdayTemplatesRepository } from '../../../services/repositories/templates/weekday-templates.repository';
-import { WeekdayTemplate } from '../../../services/repositories/templates/template/weekday-template';
-import { WeekdayTemplateCountersRepository } from '../../../services/repositories/templates/counters/weekday-template-counters.repository';
+import { FirebaseTemplatesService } from '../../infrastructure/firebase-templates.service';
+import { TemplateActivity } from '../../template-activity';
 import { from, Observable } from 'rxjs';
 import { map, take } from 'rxjs/operators';
-import { FirebaseTemplateCountersService } from '../../../services/firebase/templates/firebase-template-counters.service';
-import { TemplateCounter } from '../../../services/repositories/templates/counters/template-counter';
+import { FirebaseTemplateCountersService } from '../../infrastructure/firebase-template-counters.service';
+import { WeekdayTemplatesRepository } from '../../store/weekday-templates.repository';
+import { WeekdayTemplateCountersRepository } from '../../store/counters/weekday-template-counters.repository';
+import { WeekdayTemplate } from '../../store/template/weekday-template';
+import { TemplateCounter } from '../../store/counters/template-counter';
+
 
 @Injectable()
 export class WeekdayTemplateService {

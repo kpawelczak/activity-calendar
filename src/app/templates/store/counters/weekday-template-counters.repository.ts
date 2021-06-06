@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable, ReplaySubject } from 'rxjs';
-import { FirebaseTemplateCountersService } from '../../../firebase/templates/firebase-template-counters.service';
+import { FirebaseTemplateCountersService } from '../../infrastructure/firebase-template-counters.service';
 import { TemplateCounter } from './template-counter';
 
 @Injectable()

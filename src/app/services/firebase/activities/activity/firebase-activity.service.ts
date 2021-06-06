@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { CalendarActivity } from '../../../../common/models/calendar-activity';
-import { ProfileCollection } from '../../../profile/profile-collection';
-import { ProfileService } from '../../../profile/profile.service';
+import { ProfileCollection } from '../../../../profile/profile-collection';
+import { ProfileService } from '../../../../profile/profile.service';
 import { ActivitiesRepository } from '../../../repositories/activities/activities.repository';
 import { ActivityCalendarSnackbarService } from '../../../../common/ui/activity-calendar-snackbar/activity-calendar-snackbar.service';
 

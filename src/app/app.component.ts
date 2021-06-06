@@ -3,9 +3,9 @@ import { Reactive } from './common/cdk/reactive';
 import { AngularFireAuth } from '@angular/fire/auth';
 import firebase from 'firebase';
 import { AuthenticationService } from './services/firebase/authentication/authentication.service';
-import { ProfileService } from './services/profile/profile.service';
+import { ProfileService } from './profile/profile.service';
 import { ActivityCalendarLoadingScreenService } from './common/ui/activity-calendar-loading-screen/activity-calendar-loading-screen.service';
-import { ConnectionStatusService } from './services/connection/connection-status.service';
+import { ConnectionStatusService } from './connection/connection-status.service';
 import { filter, switchMap } from 'rxjs/operators';
 import User = firebase.User;
 

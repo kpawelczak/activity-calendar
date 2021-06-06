@@ -2,6 +2,7 @@ export class TemplateActivity {
 
 	constructor(readonly name: string,
 				readonly amount: string,
-				readonly templateUUID: string) {
+				readonly templateUUID: string,
+				readonly templateSet?: string) {
 	}
 }

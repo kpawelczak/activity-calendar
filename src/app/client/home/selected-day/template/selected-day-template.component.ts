@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, Input, ViewEncapsulation } from '@angular/core';
-import { TemplateActivity } from '../../../../common/models/template-activity';
+import { TemplateActivity } from '../../../../templates/template-activity';
 
 @Component({
 	selector: 'ac-selected-day-template',

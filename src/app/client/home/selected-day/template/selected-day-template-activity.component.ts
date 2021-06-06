@@ -8,7 +8,7 @@ import {
 	SimpleChanges,
 	ViewEncapsulation
 } from '@angular/core';
-import { TemplateActivity } from '../../../../common/models/template-activity';
+import { TemplateActivity } from '../../../../templates/template-activity';
 import { v4 as uuidv4 } from 'uuid';
 import { SelectedDayActivityService } from '../activity/selected-day-activity.service';
 import { Reactive } from '../../../../common/cdk/reactive';

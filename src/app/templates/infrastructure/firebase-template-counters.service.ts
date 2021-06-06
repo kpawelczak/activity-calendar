@@ -4,7 +4,7 @@ import { ProfileService } from '../../profile/profile.service';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
 import { take } from 'rxjs/operators';
-import { TemplateCounter } from '../../repositories/templates/counters/template-counter';
+import { TemplateCounter } from '../store/counters/template-counter';
 
 
 @Injectable()
@@ -15,23 +15,27 @@ export class FirebaseTemplateCountersService extends ProfileCollection {
 		super(profileService, angularFirestore);
 	}
 
-	updateTemplateCounters(templateCounters: TemplateCounter): void {
+	getTemplateCounters(templateSetName?: string): Observable<TemplateCounter> {
+		return this.profileCollection()
+				   .doc('templates')
+				   .collection('templates-counter')
+				   .doc(this.getTemplateCounterDocName(templateSetName))
+				   .valueChanges()
+				   .pipe(take(1));
+	}
+
+	updateTemplateCounters(templateCounters: TemplateCounter, templateSetName?: string): void {
 		this.profileCollection()
 			.doc('templates')
 			.collection('templates-counter')
-			.doc('templates-counter')
+			.doc(this.getTemplateCounterDocName(templateSetName))
 			.update({
 				...templateCounters
 			})
 			.then();
 	}
 
-	getTemplateCounters(): Observable<TemplateCounter> {
-		return this.profileCollection()
-				   .doc('templates')
-				   .collection('templates-counter')
-				   .doc('templates-counter')
-				   .valueChanges()
-				   .pipe(take(1));
+	private getTemplateCounterDocName(templateSetName: string): string {
+		return templateSetName ? templateSetName : 'templates-counter';
 	}
 }

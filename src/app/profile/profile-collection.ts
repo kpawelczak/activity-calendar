@@ -1,4 +1,4 @@
-import { Reactive } from '../../common/cdk/reactive';
+import { Reactive } from '../common/cdk/reactive';
 import { ProfileService } from './profile.service';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { AngularFirestoreCollection } from '@angular/fire/firestore/collection/collection';
@@ -12,7 +12,7 @@ export abstract class ProfileCollection extends Reactive {
 						  private readonly angularFirestore: AngularFirestore) {
 		super();
 		this.profileService
-			.onProfile()
+			.onValues()
 			.pipe(this.takeUntil())
 			.subscribe((profile: string) => {
 				this.profile = profile;

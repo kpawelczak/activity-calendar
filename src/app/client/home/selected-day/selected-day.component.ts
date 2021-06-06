@@ -4,15 +4,15 @@ import { Reactive } from '../../../common/cdk/reactive';
 import { ActivitiesRepository } from '../../../services/repositories/activities/activities.repository';
 import { distinctUntilChanged, filter, map, switchMap } from 'rxjs/operators';
 import { SelectedDayActivitiesRepository } from './activities/selected-day-activities.repository';
-import { WeekdayTemplate } from '../../../services/repositories/templates/template/weekday-template';
-import { TemplateActivity } from '../../../common/models/template-activity';
-import { FirebaseTemplatesService } from '../../../services/firebase/templates/firebase-templates.service';
-import { WeekdayTemplateRepository } from '../../../services/repositories/templates/template/weekday-template.repository';
-import { Weekday } from '../../../services/repositories/templates/weekday';
+import { TemplateActivity } from '../../../templates/template-activity';
+import { FirebaseTemplatesService } from '../../../templates/infrastructure/firebase-templates.service';
 import { MatDialog } from '@angular/material/dialog';
 import { SelectedDayActivityDialogComponent } from './activity/selected-day-activity-dialog.component';
 import { CalendarActivity } from '../../../common/models/calendar-activity';
 import { DateUtils } from '../../../common/utils/date-util/date-utils';
+import { WeekdayTemplateRepository } from '../../../templates/store/template/weekday-template.repository';
+import { Weekday } from '../../../templates/store/weekday';
+import { WeekdayTemplate } from '../../../templates/store/template/weekday-template';
 
 @Component({
 	selector: 'ac-selected-day',

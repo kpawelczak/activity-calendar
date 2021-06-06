@@ -1,12 +1,12 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { Reactive } from '../common/cdk/reactive';
-import { ProfileService } from '../services/profile/profile.service';
+import { ProfileService } from '../profile/profile.service';
 import { ActivitiesRepository } from '../services/repositories/activities/activities.repository';
-import { WeekdayTemplatesRepository } from '../services/repositories/templates/weekday-templates.repository';
-import { WeekdayTemplateCountersRepository } from '../services/repositories/templates/counters/weekday-template-counters.repository';
 import { FirebaseActivitiesService } from '../services/firebase/activities/activities/firebase-activities.service';
 import { ActiveDateService } from './home/calendar/active-date.service';
 import { ActivitiesCountRepository } from '../services/repositories/activities/count/activities-count.repository';
+import { WeekdayTemplatesRepository } from '../templates/store/weekday-templates.repository';
+import { WeekdayTemplateCountersRepository } from '../templates/store/counters/weekday-template-counters.repository';
 
 @Component({
 	template: `
@@ -38,7 +38,7 @@ export class ClientRootComponent extends Reactive implements OnInit, OnDestroy {
 
 	ngOnInit() {
 		this.profileService
-			.onProfile()
+			.onValues()
 			.pipe(this.takeUntil())
 			.subscribe((profile: string) => {
 				this.profileLoaded = !!profile;

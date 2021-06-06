@@ -3,11 +3,11 @@ import { ProfileCollection } from '../../profile/profile-collection';
 import { ProfileService } from '../../profile/profile.service';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { take } from 'rxjs/operators';
-import { WeekdayTemplatesRepository } from '../../repositories/templates/weekday-templates.repository';
-import { WeekdayTemplate } from '../../repositories/templates/template/weekday-template';
-import { TemplateActivity } from '../../../common/models/template-activity';
-import { Weekday } from '../../repositories/templates/weekday';
-import { ActivityCalendarSnackbarService } from '../../../common/ui/activity-calendar-snackbar/activity-calendar-snackbar.service';
+import { TemplateActivity } from '../template-activity';
+import { ActivityCalendarSnackbarService } from '../../common/ui/activity-calendar-snackbar/activity-calendar-snackbar.service';
+import { WeekdayTemplatesRepository } from '../store/weekday-templates.repository';
+import { Weekday } from '../store/weekday';
+import { WeekdayTemplate } from '../store/template/weekday-template';
 
 @Injectable()
 export class FirebaseTemplatesService extends ProfileCollection {
