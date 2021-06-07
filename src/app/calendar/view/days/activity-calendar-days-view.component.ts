@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, Input, Renderer2, ViewEncapsulation } from '@angular/core';
 import { CalendarPartContainer } from '../../common/calendar-part-container';
 import { ActivityCalendarCardViewService } from '../activity-calendar-card-view.service';
-import { CalendarActivity } from '../../../common/models/calendar-activity';
+import { CalendarActivity } from '../../../activities/store/activities/calendar-activity';
 
 @Component({
 	selector: 'ac-days-view',

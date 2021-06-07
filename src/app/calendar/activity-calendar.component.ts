@@ -15,11 +15,11 @@ import { ActivityCalendarViewService } from './activity-calendar-view.service';
 import { ActivityCalendarService } from './activity-calendar.service';
 import { ActivityCalendarYearsService } from './services/activity-calendar-years.service';
 import { Reactive } from '../common/cdk/reactive';
-import { ActivityCalendarView } from './common/models/activity-calendar-view';
-import { CalendarActivity } from '../common/models/calendar-activity';
+import { ActivityCalendarView } from './view/activity-calendar-view';
+import { CalendarActivity } from '../activities/store/activities/calendar-activity';
 import { pairwise, startWith } from 'rxjs/operators';
-import { ActiveMonth } from './common/models/activity-calendar-year-month';
-import { ActivitiesCount } from '../common/models/activities-count';
+import { ActiveMonth } from './active-month';
+import { ActivitiesCount } from '../activities/store/count/activities-count';
 
 
 @Component({

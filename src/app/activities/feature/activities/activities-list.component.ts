@@ -3,11 +3,11 @@ import { SelectedActivityRepository } from '../../store/selected-activity/select
 import { Reactive } from '../../../common/cdk/reactive';
 import { SelectedActivityService } from '../../store/selected-activity/selected-activity.service';
 import { MatDialog } from '@angular/material/dialog';
-import { SelectedActivityDialogComponent } from '../activity-dialog/selected-activity-dialog.component';
-import { CalendarActivity } from '../../../common/models/calendar-activity';
+import { ActivityDialogComponent } from '../activity-dialog/activity-dialog.component';
+import { CalendarActivity } from '../../store/activities/calendar-activity';
 
 @Component({
-	selector: 'ac-selected-date-activities',
+	selector: 'ac-activities-list',
 	template: `
 		<div class="ac-selected-date-activity header">
 
@@ -37,10 +37,13 @@ import { CalendarActivity } from '../../../common/models/calendar-activity';
 
 		</div>
 	`,
+	host: {
+		'[class.ac-activities-list]': 'true'
+	},
 	encapsulation: ViewEncapsulation.None,
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class SelectedDayActivitiesComponent extends Reactive implements OnInit {
+export class ActivitiesListComponent extends Reactive implements OnInit {
 
 	@Input()
 	selectedDay: Date;
@@ -63,7 +66,7 @@ export class SelectedDayActivitiesComponent extends Reactive implements OnInit {
 			.pipe(this.takeUntil())
 			.subscribe((selectedActivity: CalendarActivity) => {
 				this.matDialog
-					.open(SelectedActivityDialogComponent, {
+					.open(ActivityDialogComponent, {
 						panelClass: 'activity-calendar-dialog',
 						data: {
 							selectedDay: this.selectedDay,

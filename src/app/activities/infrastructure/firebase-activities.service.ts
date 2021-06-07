@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import firebase from 'firebase';
 import { AngularFirestore, CollectionReference } from '@angular/fire/firestore';
 import { map, take } from 'rxjs/operators';
-import { CalendarActivity } from '../../common/models/calendar-activity';
+import { CalendarActivity } from '../store/activities/calendar-activity';
 import { ProfileCollection } from '../../profile/profile-collection';
 import { ProfileService } from '../../profile/profile.service';
 import { Observable } from 'rxjs';

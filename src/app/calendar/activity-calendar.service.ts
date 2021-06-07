@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
-import { ActiveMonth } from './common/models/activity-calendar-year-month';
+import { ActiveMonth } from './active-month';
 
 @Injectable()
 export class ActivityCalendarService {

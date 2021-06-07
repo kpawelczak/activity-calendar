@@ -15,11 +15,11 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { ActivityCalendarButtonModule } from '../common/ui/activity-calendar-button/activity-calendar-button.module';
 
-import { SelectedDayComponent } from './feature/activities/selected-day.component';
-import { SelectedDayTemplateComponent } from './feature/template/selected-day-template.component';
-import { SelectedDayActivitiesComponent } from './feature/activities/selected-day-activities.component';
-import { SelectedDayTemplateActivityComponent } from './feature/template/selected-day-template-activity.component';
-import { SelectedActivityDialogComponent } from './feature/activity-dialog/selected-activity-dialog.component';
+import { SelectedDayComponent } from './feature/selected-day.component';
+import { ActivitiesTemplateComponent } from './feature/template/activities-template.component';
+import { ActivitiesListComponent } from './feature/activities/activities-list.component';
+import { ActivityTemplateComponent } from './feature/template/activity-template.component';
+import { ActivityDialogComponent } from './feature/activity-dialog/activity-dialog.component';
 
 import { FirebaseActivitiesService } from './infrastructure/firebase-activities.service';
 import { FirebaseActivitiesCountService } from './infrastructure/firebase-activities-count.service';
@@ -72,10 +72,10 @@ const ui = [
 	],
 	declarations: [
 		SelectedDayComponent,
-		SelectedActivityDialogComponent,
-		SelectedDayActivitiesComponent,
-		SelectedDayTemplateComponent,
-		SelectedDayTemplateActivityComponent
+		ActivityDialogComponent,
+		ActivitiesListComponent,
+		ActivitiesTemplateComponent,
+		ActivityTemplateComponent
 	],
 	exports: [
 		SelectedDayComponent

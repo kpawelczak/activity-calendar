@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, Input, ViewEncapsulation } from '@a
 import { TemplateActivity } from '../../../templates/template-activity';
 
 @Component({
-	selector: 'ac-selected-day-template',
+	selector: 'ac-activities-template',
 	template: `
 		<div class="ac-selected-date-activity header">
 
@@ -14,16 +14,19 @@ import { TemplateActivity } from '../../../templates/template-activity';
 
 		</div>
 
-		<ac-selected-day-template-activity *ngFor="let templateActivity of templateActivities; let i = index"
-										   [index]="i"
-										   [selectedDay]="selectedDay"
-										   [templateActivity]="templateActivity">
-		</ac-selected-day-template-activity>
+		<ac-activity-template *ngFor="let templateActivity of templateActivities; let i = index"
+							  [index]="i"
+							  [selectedDay]="selectedDay"
+							  [templateActivity]="templateActivity">
+		</ac-activity-template>
 	`,
+	host: {
+		'[class.ac-activities-template]': 'true'
+	},
 	encapsulation: ViewEncapsulation.None,
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class SelectedDayTemplateComponent {
+export class ActivitiesTemplateComponent {
 
 	@Input()
 	selectedDay: Date;

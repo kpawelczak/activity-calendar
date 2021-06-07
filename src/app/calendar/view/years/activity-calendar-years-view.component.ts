@@ -1,10 +1,10 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, Input, Renderer2, ViewEncapsulation } from '@angular/core';
 import { ActivityCalendarService } from '../../activity-calendar.service';
 import { ActivityCalendarViewService } from '../../activity-calendar-view.service';
-import { ActivityCalendarView } from '../../common/models/activity-calendar-view';
+import { ActivityCalendarView } from '../activity-calendar-view';
 import { CalendarPartContainer } from '../../common/calendar-part-container';
 import { ActivityCalendarCardViewService } from '../activity-calendar-card-view.service';
-import { ActivitiesCount } from '../../../common/models/activities-count';
+import { ActivitiesCount } from '../../../activities/store/count/activities-count';
 
 @Component({
 	selector: 'ac-calendar-years-view',

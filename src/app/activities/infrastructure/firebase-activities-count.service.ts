@@ -5,8 +5,8 @@ import { AngularFirestore } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
 import { filter, map, take } from 'rxjs/operators';
 import firebase from 'firebase';
-import { ActivitiesCount } from '../../common/models/activities-count';
-import { ActivitiesCountMonth } from '../../common/models/activities-count-month';
+import { ActivitiesCount } from '../store/count/activities-count';
+import { ActivitiesCountMonth } from '../store/count/activities-count-month';
 import DocumentData = firebase.firestore.DocumentData;
 
 @Injectable()

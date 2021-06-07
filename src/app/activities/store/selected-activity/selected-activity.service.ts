@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { ActivitiesRepository } from '../activities/activities.repository';
 import { v4 as uuidv4 } from 'uuid';
-import { CalendarActivity } from '../../../common/models/calendar-activity';
+import { CalendarActivity } from '../activities/calendar-activity';
 import { FirebaseActivityService } from '../../infrastructure/firebase-activity.service';
 import { ActivitiesCountRepository } from '../count/activities-count.repository';
 import { SelectedActivitiesService } from '../selected-activities/selected-activities.service';

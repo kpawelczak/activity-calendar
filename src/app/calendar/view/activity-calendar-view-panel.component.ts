@@ -1,12 +1,12 @@
 import { ChangeDetectionStrategy, Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
 import { ActivityCalendarViewService } from '../activity-calendar-view.service';
-import { ActivityCalendarCardView } from '../common/models/activity-calendar-card-view';
+import { ActivityCalendarCardView } from './activity-calendar-card-view';
 import { ActivityCalendarYears } from '../services/activity-calendar.years';
 import { months } from '../common/data/months';
 import { ActivityCalendarService } from '../activity-calendar.service';
 import { ActivityCalendarYearsService } from '../services/activity-calendar-years.service';
 import { Direction } from '../../common/icons/arrow-icon/direction';
-import { ActivityCalendarView } from '../common/models/activity-calendar-view';
+import { ActivityCalendarView } from './activity-calendar-view';
 import { Reactive } from '../../common/cdk/reactive';
 import { ActivityCalendarCardViewService } from './activity-calendar-card-view.service';
 import { delay } from 'rxjs/operators';

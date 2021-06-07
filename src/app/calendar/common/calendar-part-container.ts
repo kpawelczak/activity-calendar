@@ -1,6 +1,6 @@
 import { AfterViewInit, ChangeDetectorRef, Directive, ElementRef, Input, Renderer2 } from '@angular/core';
 import { ActivityCalendarCardViewService } from '../view/activity-calendar-card-view.service';
-import { ActivityCalendarCardView } from './models/activity-calendar-card-view';
+import { ActivityCalendarCardView } from '../view/activity-calendar-card-view';
 import { Reactive } from '../../common/cdk/reactive';
 import { timer } from 'rxjs';
 import { calendarAnimationTimer } from './calendar-animation-timer';

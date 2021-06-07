@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
-import { ActivityCalendarCardView } from '../common/models/activity-calendar-card-view';
+import { ActivityCalendarCardView } from './activity-calendar-card-view';
 
 @Injectable()
 export class ActivityCalendarCardViewService {

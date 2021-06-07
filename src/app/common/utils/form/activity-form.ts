@@ -1,7 +1,7 @@
 import { FormBuilder, Validators } from '@angular/forms';
 import { Directive } from '@angular/core';
 import { ActivityCalendarForm } from './activity-calendar-form';
-import { CalendarActivity } from '../../models/calendar-activity';
+import { CalendarActivity } from '../../../activities/store/activities/calendar-activity';
 import { TemplateActivity } from '../../../templates/template-activity';
 
 @Directive({ selector: 'activity-from' })

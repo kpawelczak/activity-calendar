@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, Input, ViewEncapsulation } from '@a
 
 import { daysOfTheWeek } from '../../common/data/days-of-the-week';
 import { ActiveDateService } from '../../active-date.service';
-import { CalendarActivity } from '../../../common/models/calendar-activity';
+import { CalendarActivity } from '../../../activities/store/activities/calendar-activity';
 import { DateUtils } from '../../../common/utils/date-util/date-utils';
 
 @Component({

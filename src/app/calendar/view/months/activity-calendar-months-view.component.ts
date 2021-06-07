@@ -2,11 +2,11 @@ import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, Inpu
 import { monthsPerQuarters } from '../../common/data/months-per-quearters';
 import { ActivityCalendarViewService } from '../../activity-calendar-view.service';
 import { ActivityCalendarService } from '../../activity-calendar.service';
-import { ActivityCalendarView } from '../../common/models/activity-calendar-view';
+import { ActivityCalendarView } from '../activity-calendar-view';
 import { CalendarPartContainer } from '../../common/calendar-part-container';
 import { ActivityCalendarCardViewService } from '../activity-calendar-card-view.service';
-import { ActivitiesCount } from '../../../common/models/activities-count';
-import { ActivitiesCountMonth } from '../../../common/models/activities-count-month';
+import { ActivitiesCount } from '../../../activities/store/count/activities-count';
+import { ActivitiesCountMonth } from '../../../activities/store/count/activities-count-month';
 import { DateUtils } from '../../../common/utils/date-util/date-utils';
 
 @Component({

@@ -4,11 +4,11 @@ import { SelectedActivityService } from '../../store/selected-activity/selected-
 import { SelectedActivityRepository } from '../../store/selected-activity/selected-activity.repository';
 import { ActivityForm } from '../../../common/utils/form/activity-form';
 import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
-import { SelectedActivityDialogData } from './selected-activity-dialog-data';
-import { CalendarActivity } from '../../../common/models/calendar-activity';
+import { ActivityDialogData } from './activity-dialog-data';
+import { CalendarActivity } from '../../store/activities/calendar-activity';
 
 @Component({
-	selector: 'ac-selected-activity-form',
+	selector: 'ac-activity-dialog',
 	template: `
 		<h2 class="selected-activity-form-title">{{getFormTypeText()}} activity</h2>
 
@@ -59,17 +59,20 @@ import { CalendarActivity } from '../../../common/models/calendar-activity';
 
 		</form>
 	`,
+	host: {
+		'[class.ac-activity-dialog]': 'true'
+	},
 	encapsulation: ViewEncapsulation.None,
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class SelectedActivityDialogComponent extends ActivityForm implements OnInit {
+export class ActivityDialogComponent extends ActivityForm implements OnInit {
 
 	loading: boolean = false;
 
 	constructor(private readonly selectedActivityRepository: SelectedActivityRepository,
 				private readonly selectedDayActivityService: SelectedActivityService,
 				private readonly matDialog: MatDialog,
-				@Inject(MAT_DIALOG_DATA) private readonly selectedDayDialogData: SelectedActivityDialogData,
+				@Inject(MAT_DIALOG_DATA) private readonly selectedDayDialogData: ActivityDialogData,
 				formBuilder: FormBuilder) {
 		super(formBuilder);
 	}

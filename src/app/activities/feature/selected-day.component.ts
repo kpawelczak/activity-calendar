@@ -8,20 +8,20 @@ import {
 	SimpleChanges,
 	ViewEncapsulation
 } from '@angular/core';
-import { Reactive } from '../../../common/cdk/reactive';
+import { Reactive } from '../../common/cdk/reactive';
 import { filter, map } from 'rxjs/operators';
 import { MatDialog } from '@angular/material/dialog';
-import { SelectedActivityDialogComponent } from '../activity-dialog/selected-activity-dialog.component';
-import { CalendarActivity } from '../../../common/models/calendar-activity';
-import { DateUtils } from '../../../common/utils/date-util/date-utils';
-import { Weekday } from '../../../templates/weekday';
-import { TemplateActivity } from '../../../templates/template-activity';
-import { TemplateRepository } from '../../../templates/store/template/template.repository';
-import { WeekdayTemplate } from '../../../templates/store/weekday-template';
-import { ActivitiesRepository } from '../../store/activities/activities.repository';
-import { SelectedDayTemplateActivityRepository } from '../../store/template/selected-day-template-activity.repository';
-import { SelectedActivitiesRepository } from '../../store/selected-activities/selected-activities.repository';
-import { SelectedActivitiesService } from '../../store/selected-activities/selected-activities.service';
+import { ActivityDialogComponent } from './activity-dialog/activity-dialog.component';
+import { CalendarActivity } from '../store/activities/calendar-activity';
+import { DateUtils } from '../../common/utils/date-util/date-utils';
+import { Weekday } from '../../templates/weekday';
+import { TemplateActivity } from '../../templates/template-activity';
+import { TemplateRepository } from '../../templates/store/template/template.repository';
+import { WeekdayTemplate } from '../../templates/store/weekday-template';
+import { ActivitiesRepository } from '../store/activities/activities.repository';
+import { SelectedDayTemplateActivityRepository } from '../store/template/selected-day-template-activity.repository';
+import { SelectedActivitiesRepository } from '../store/selected-activities/selected-activities.repository';
+import { SelectedActivitiesService } from '../store/selected-activities/selected-activities.service';
 
 @Component({
 	selector: 'ac-selected-day',
@@ -35,17 +35,17 @@ import { SelectedActivitiesService } from '../../store/selected-activities/selec
 			<mat-tab *ngIf="canShowActivities()"
 					 [label]="getActivitiesLabel()">
 
-				<ac-selected-date-activities [selectedDay]="selectedDay"
-											 [activities]="activities"
-											 [isSelectedDayToday]="isSelectedDayToday"></ac-selected-date-activities>
+				<ac-activities-list [selectedDay]="selectedDay"
+									[activities]="activities"
+									[isSelectedDayToday]="isSelectedDayToday"></ac-activities-list>
 
 			</mat-tab>
 
 			<mat-tab *ngIf="canShowTemplates()"
 					 [label]="'Template'">
 
-				<ac-selected-day-template [selectedDay]="selectedDay"
-										  [templateActivities]="templateActivities"></ac-selected-day-template>
+				<ac-activities-template [selectedDay]="selectedDay"
+										[templateActivities]="templateActivities"></ac-activities-template>
 
 			</mat-tab>
 
@@ -63,6 +63,9 @@ import { SelectedActivitiesService } from '../../store/selected-activities/selec
 
 		</div>
 	`,
+	host: {
+		'[class.ac-selected-day]': 'true'
+	},
 	encapsulation: ViewEncapsulation.None,
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
@@ -117,7 +120,7 @@ export class SelectedDayComponent extends Reactive implements OnChanges, OnInit 
 
 	openActivityForm(): void {
 		this.matDialog
-			.open(SelectedActivityDialogComponent, {
+			.open(ActivityDialogComponent, {
 				panelClass: 'activity-calendar-dialog',
 				data: {
 					selectedDay: this.selectedDay

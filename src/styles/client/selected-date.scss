@@ -1,6 +1,6 @@
 $mat-add-activity-size: $grid*5;
 
-ac-selected-day {
+.ac-selected-day {
 	display: block;
 	box-sizing: border-box;
 	margin: $grid*4 0 $grid*10 0;
@@ -47,7 +47,7 @@ ac-selected-day {
 	color: mat-color($ac-accent);
 }
 
-ac-selected-date-activities {
+.ac-activities-list {
 	display: block;
 	padding: $grid*3 0;
 }
@@ -86,7 +86,7 @@ ac-selected-date-activities {
 	}
 }
 
-ac-selected-activity-form {
+.ac-activity-dialog {
 
 	h2.selected-activity-form-title {
 		margin-bottom: 0;
@@ -116,28 +116,28 @@ ac-selected-activity-form {
 	}
 }
 
-ac-selected-day-template {
+.ac-activities-template {
 	display: block;
 	padding: $grid*3 0;
+}
 
-	ac-selected-day-template-activity {
+.ac-activity-template {
 
-		.ac-selected-date-activity {
+	.ac-selected-date-activity {
+
+		mat-checkbox {
+			pointer-events: none;
+
+			.mat-checkbox-frame {
+				transition: border-color 0.3s ease-in-out;
+			}
+		}
+
+		&:hover {
 
 			mat-checkbox {
-				pointer-events: none;
-
 				.mat-checkbox-frame {
-					transition: border-color 0.3s ease-in-out;
-				}
-			}
-
-			&:hover {
-
-				mat-checkbox {
-					.mat-checkbox-frame {
-						border-color: $primary;
-					}
+					border-color: $primary;
 				}
 			}
 		}

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
-import { CalendarActivity } from '../../common/models/calendar-activity';
+import { CalendarActivity } from '../store/activities/calendar-activity';
 import { ProfileCollection } from '../../profile/profile-collection';
 import { ProfileService } from '../../profile/profile.service';
 import { ActivitiesRepository } from '../store/activities/activities.repository';

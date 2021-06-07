@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { ActivitiesCount } from '../../../common/models/activities-count';
-import { ActivitiesCountMonth } from '../../../common/models/activities-count-month';
+import { ActivitiesCount } from './activities-count';
+import { ActivitiesCountMonth } from './activities-count-month';
 import { FirebaseActivitiesCountService } from '../../infrastructure/firebase-activities-count.service';
 
 @Injectable()

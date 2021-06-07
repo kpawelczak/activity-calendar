@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { ActivitiesRepository } from '../activities/activities.repository';
 import { SelectedDayTemplateActivityRepository } from '../template/selected-day-template-activity.repository';
 import { take } from 'rxjs/operators';
-import { CalendarActivity } from '../../../common/models/calendar-activity';
+import { CalendarActivity } from '../activities/calendar-activity';
 import { DateUtils } from '../../../common/utils/date-util/date-utils';
 import { SelectedActivitiesRepository } from './selected-activities.repository';
 

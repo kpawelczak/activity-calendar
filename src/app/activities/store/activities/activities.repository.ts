@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { CalendarActivity } from '../../../common/models/calendar-activity';
+import { CalendarActivity } from './calendar-activity';
 import { FirebaseActivitiesService } from '../../infrastructure/firebase-activities.service';
 import { ValuesRepository } from '../../../common/cdk/values-repository';
 

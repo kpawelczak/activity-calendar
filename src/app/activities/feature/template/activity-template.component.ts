@@ -13,11 +13,11 @@ import { v4 as uuidv4 } from 'uuid';
 import { SelectedActivityService } from '../../store/selected-activity/selected-activity.service';
 import { Reactive } from '../../../common/cdk/reactive';
 import { SelectedDayTemplateActivityRepository } from '../../store/template/selected-day-template-activity.repository';
-import { CalendarActivity } from '../../../common/models/calendar-activity';
+import { CalendarActivity } from '../../store/activities/calendar-activity';
 import { distinctUntilChanged, filter, map } from 'rxjs/operators';
 
 @Component({
-	selector: 'ac-selected-day-template-activity',
+	selector: 'ac-activity-template',
 	template: `
 		<div *ngIf="templateActivity.name"
 			 (click)="manageActivity()"
@@ -31,10 +31,13 @@ import { distinctUntilChanged, filter, map } from 'rxjs/operators';
 			<mat-checkbox [checked]="checked"></mat-checkbox>
 		</div>
 	`,
+	host: {
+		'[class.ac-activity-template]': 'true'
+	},
 	encapsulation: ViewEncapsulation.None,
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class SelectedDayTemplateActivityComponent extends Reactive implements OnChanges, OnInit {
+export class ActivityTemplateComponent extends Reactive implements OnChanges, OnInit {
 
 	@Input()
 	index: number;

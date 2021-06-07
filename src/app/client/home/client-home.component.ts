@@ -1,10 +1,10 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { Reactive } from '../../common/cdk/reactive';
-import { CalendarActivity } from '../../common/models/calendar-activity';
+import { CalendarActivity } from '../../activities/store/activities/calendar-activity';
 import { ActivitiesRepository } from '../../activities/store/activities/activities.repository';
-import { ActiveMonth } from '../../calendar/common/models/activity-calendar-year-month';
+import { ActiveMonth } from '../../calendar/active-month';
 import { switchMap } from 'rxjs/operators';
-import { ActivitiesCount } from '../../common/models/activities-count';
+import { ActivitiesCount } from '../../activities/store/count/activities-count';
 import { EMPTY } from 'rxjs';
 import { ActivitiesCountRepository } from '../../activities/store/count/activities-count.repository';
 import { FirebaseActivitiesCountService } from '../../activities/infrastructure/firebase-activities-count.service';
