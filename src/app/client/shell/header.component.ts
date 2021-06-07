@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, ViewChild, ViewEncapsulation } from '@angular/core';
-import { FirebaseAuthenticationService } from '../../services/firebase/entry/firebase-authentication.service';
+import { FirebaseAuthenticationService } from '../../authentication/infrastructure/firebase-authentication.service';
 import { RouteName } from '../../route-name';
 import { Router } from '@angular/router';
 import { activityCalendarLinks } from './activity-calendar-links';

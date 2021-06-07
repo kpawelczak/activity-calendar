@@ -3,8 +3,6 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { ClientRootComponent } from './client-root.component';
 import { RouteName } from '../route-name';
-import { TemplatesComponent } from '../templates/feature/templates.component';
-import { HomeComponent } from './home/home.component';
 
 const routes = [{
 	path: '',
@@ -12,10 +10,10 @@ const routes = [{
 	children: [
 		{
 			path: '',
-			component: HomeComponent
+			loadChildren: () => import('./home/client-home.module').then(m => m.ClientHomeModule)
 		}, {
 			path: RouteName.TEMPLATES,
-			component: TemplatesComponent
+			loadChildren: () => import('./templates/client-templates.module').then(m => m.ClientTemplatesModule)
 		}
 	]
 }];

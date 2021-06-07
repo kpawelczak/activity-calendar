@@ -1,6 +1,6 @@
 import { ExtraOptions, RouterModule, Routes } from '@angular/router';
 import { RouteName } from './route-name';
-import { AuthenticationGuard } from './services/firebase/authentication/authentication.guard';
+import { AuthenticationGuard } from './authentication/authentication.guard';
 
 const routerConfig: ExtraOptions = { relativeLinkResolution: 'legacy', scrollPositionRestoration: 'enabled' };
 

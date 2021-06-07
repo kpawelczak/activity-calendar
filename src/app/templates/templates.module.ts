@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { ModuleWithProviders, NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatSelectModule } from '@angular/material/select';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -26,6 +26,7 @@ import { TemplateRepository } from './store/template/template.repository';
 
 const store = [
 	TemplateRepository,
+	TemplateService,
 	TemplatesRepository,
 	TemplateSetsRepository,
 	ActiveTemplateSetService
@@ -59,13 +60,25 @@ const infrastructure = [
 	],
 	exports: [
 		TemplatesComponent
-	],
-	providers: [
-		...store,
-		...infrastructure,
-		TemplateService
 	]
+
 })
 export class TemplatesModule {
 
+	static forRoot(): ModuleWithProviders<TemplatesModule> {
+		return {
+			ngModule: TemplatesModule,
+			providers: [
+				...store,
+				...infrastructure
+			]
+		};
+	}
+
+	static forFeature(): ModuleWithProviders<TemplatesModule> {
+		return {
+			ngModule: TemplatesModule,
+			providers: []
+		};
+	}
 }

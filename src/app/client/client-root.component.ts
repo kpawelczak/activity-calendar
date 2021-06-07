@@ -1,10 +1,10 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { Reactive } from '../common/cdk/reactive';
 import { ProfileService } from '../profile/profile.service';
-import { ActivitiesRepository } from '../services/repositories/activities/activities.repository';
-import { FirebaseActivitiesService } from '../services/firebase/activities/activities/firebase-activities.service';
-import { ActiveDateService } from './home/calendar/active-date.service';
-import { ActivitiesCountRepository } from '../services/repositories/activities/count/activities-count.repository';
+import { ActivitiesRepository } from '../activities/store/activities/activities.repository';
+import { FirebaseActivitiesService } from '../activities/infrastructure/firebase-activities.service';
+import { ActiveDateService } from '../calendar/active-date.service';
+import { ActivitiesCountRepository } from '../activities/store/count/activities-count.repository';
 import { TemplatesRepository } from '../templates/store/templates/templates.repository';
 
 
