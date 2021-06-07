@@ -19,7 +19,6 @@ import { TemplateActivity } from '../../templates/template-activity';
 import { TemplateRepository } from '../../templates/store/template/template.repository';
 import { WeekdayTemplate } from '../../templates/store/weekday-template';
 import { ActivitiesRepository } from '../store/activities/activities.repository';
-import { SelectedDayTemplateActivityRepository } from '../store/template/selected-day-template-activity.repository';
 import { SelectedActivitiesRepository } from '../store/selected-activities/selected-activities.repository';
 import { SelectedActivitiesService } from '../store/selected-activities/selected-activities.service';
 
@@ -80,7 +79,6 @@ export class SelectedDayComponent extends Reactive implements OnChanges, OnInit 
 
 	constructor(private readonly templateRepository: TemplateRepository,
 				private readonly activitiesRepository: ActivitiesRepository,
-				private readonly selectedDayTemplateActivityRepository: SelectedDayTemplateActivityRepository,
 				private readonly selectedActivitiesRepository: SelectedActivitiesRepository,
 				private readonly selectedActivitiesService: SelectedActivitiesService,
 				private readonly matDialog: MatDialog,

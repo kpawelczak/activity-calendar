@@ -1,7 +1,6 @@
 import { ChangeDetectionStrategy, Component, Inject, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { SelectedActivityService } from '../../store/selected-activity/selected-activity.service';
-import { SelectedActivityRepository } from '../../store/selected-activity/selected-activity.repository';
 import { ActivityForm } from '../../../common/utils/form/activity-form';
 import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
 import { ActivityDialogData } from './activity-dialog-data';
@@ -69,8 +68,7 @@ export class ActivityDialogComponent extends ActivityForm implements OnInit {
 
 	loading: boolean = false;
 
-	constructor(private readonly selectedActivityRepository: SelectedActivityRepository,
-				private readonly selectedDayActivityService: SelectedActivityService,
+	constructor(private readonly selectedDayActivityService: SelectedActivityService,
 				private readonly matDialog: MatDialog,
 				@Inject(MAT_DIALOG_DATA) private readonly selectedDayDialogData: ActivityDialogData,
 				formBuilder: FormBuilder) {
