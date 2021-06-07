@@ -4,7 +4,7 @@ import { RouterModule } from '@angular/router';
 import { ClientRootComponent } from './client-root.component';
 import { RouteName } from '../route-name';
 import { TemplatesComponent } from '../templates/feature/templates.component';
-import { HomeRootComponent } from './home/home-root.component';
+import { HomeComponent } from './home/home.component';
 
 const routes = [{
 	path: '',
@@ -12,7 +12,7 @@ const routes = [{
 	children: [
 		{
 			path: '',
-			component: HomeRootComponent
+			component: HomeComponent
 		}, {
 			path: RouteName.TEMPLATES,
 			component: TemplatesComponent

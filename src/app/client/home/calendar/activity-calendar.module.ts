@@ -1,9 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { FirebaseActivitiesModule } from '../../../services/firebase/activities/activities/firebase-activities.module';
-import { FirebaseActivitiesCountModule } from '../../../services/firebase/activities/activities-count/firebase-activities-count.module';
-
 import { FabricArrowIconModule } from '../../../common/icons/arrow-icon/fabric-arrow-icon.module';
 
 import { ActivityCalendarComponent } from './activity-calendar.component';
@@ -24,9 +21,9 @@ import { ActivityCalendarYears } from './services/activity-calendar.years';
 @NgModule({
 	imports: [
 		CommonModule,
-		FabricArrowIconModule,
-		FirebaseActivitiesModule,
-		FirebaseActivitiesCountModule
+		FabricArrowIconModule
+		// FirebaseActivitiesModule,
+		// FirebaseActivitiesCountModule
 	],
 	declarations: [
 		ActivityCalendarComponent,

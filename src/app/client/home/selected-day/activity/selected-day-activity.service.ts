@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { SelectedDayActivitiesRepository } from '../activities/selected-day-activities.repository';
 import { ActivitiesRepository } from '../../../../services/repositories/activities/activities.repository';
 import { v4 as uuidv4 } from 'uuid';
 import { CalendarActivity } from '../../../../common/models/calendar-activity';
@@ -11,7 +10,6 @@ import { ActivitiesCountRepository } from '../../../../services/repositories/act
 export class SelectedDayActivityService {
 
 	constructor(private readonly firebaseActivityService: FirebaseActivityService,
-				private readonly selectedDateActivitiesService: SelectedDayActivitiesRepository,
 				private readonly activitiesCountRepository: ActivitiesCountRepository,
 				private readonly activitiesRepository: ActivitiesRepository) {
 	}

@@ -7,7 +7,7 @@ import { ValuesRepository } from '../../../common/cdk/values-repository';
 export class ActivitiesRepository extends ValuesRepository<Array<CalendarActivity>> {
 
 	constructor(private readonly firebaseActivitiesService: FirebaseActivitiesService) {
-		super([]);
+		super();
 	}
 
 	loadActivities(year: number, month: number): void {
@@ -22,15 +22,18 @@ export class ActivitiesRepository extends ValuesRepository<Array<CalendarActivit
 		const monthActivities = this.getValues() ? this.getValues() : [];
 
 		monthActivities.push(activity);
+
 		this.next(monthActivities);
 	}
 
 	updateMonthActivities(activity: CalendarActivity): void {
-
 		const updatedActivities = this.getValues()
 									  .map((calendarActivity: CalendarActivity) => {
-										  return activity.getActivityUUID() === calendarActivity.getActivityUUID() ? activity : calendarActivity;
+										  return activity.getActivityUUID() === calendarActivity.getActivityUUID()
+											  ? activity
+											  : calendarActivity;
 									  });
+
 		this.next(updatedActivities);
 	}
 

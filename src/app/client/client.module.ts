@@ -7,6 +7,8 @@ import { HomeModule } from './home/home.module';
 import { ActivitiesModule } from '../services/repositories/activities/activities.module';
 import { ActivitiesCountModule } from '../services/repositories/activities/count/activities-count.module';
 import { TemplatesModule } from '../templates/templates.module';
+import { FirebaseActivitiesCountModule } from '../services/firebase/activities/activities-count/firebase-activities-count.module';
+import { FirebaseActivitiesModule } from '../services/firebase/activities/activities/firebase-activities.module';
 
 
 @NgModule({
@@ -17,7 +19,9 @@ import { TemplatesModule } from '../templates/templates.module';
 		TemplatesModule,
 		HeaderModule,
 		ActivitiesModule,
-		ActivitiesCountModule
+		ActivitiesCountModule,
+		FirebaseActivitiesModule,
+		FirebaseActivitiesCountModule
 	],
 	declarations: [
 		ClientRootComponent

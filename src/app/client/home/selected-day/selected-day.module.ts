@@ -24,7 +24,8 @@ import { SelectedDayTemplateActivityComponent } from './template/selected-day-te
 import { SelectedDayTemplateActivityRepository } from './template/selected-day-template-activity.repository';
 import { SelectedDayActivityService } from './activity/selected-day-activity.service';
 import { SelectedActivityRepository } from './activity/selected-activity.repository';
-import { SelectedDayActivitiesRepository } from './activities/selected-day-activities.repository';
+import { SelectedActivitiesDateService } from './selected-activities-date.service';
+import { SelectedActivitiesRepository } from './selected-activities.repository';
 
 
 const materialModules = [
@@ -60,8 +61,9 @@ const materialModules = [
 	providers: [
 		SelectedActivityRepository,
 		SelectedDayActivityService,
-		SelectedDayActivitiesRepository,
-		SelectedDayTemplateActivityRepository
+		SelectedDayTemplateActivityRepository,
+		SelectedActivitiesDateService,
+		SelectedActivitiesRepository
 	]
 })
 export class SelectedDayModule {

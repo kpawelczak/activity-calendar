@@ -12,15 +12,6 @@ export class TemplatesRepository extends SmartRepository<Array<WeekdayTemplate>>
 		super();
 	}
 
-	loadTemplates(): void {
-		this.firebaseTemplatesService
-			.loadTemplates()
-			.pipe(this.takeUntil())
-			.subscribe((weekdayTemplates: Array<WeekdayTemplate>) => {
-				this.next(weekdayTemplates);
-			});
-	}
-
 	getValuesFromApi(): Observable<Array<WeekdayTemplate>> {
 		return this.firebaseTemplatesService
 				   .loadTemplates();

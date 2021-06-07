@@ -43,7 +43,7 @@ export class FirebaseActivitiesService extends ProfileCollection {
 						   });
 					   }),
 					   map((calendarActivities: Array<CalendarActivity>) => {
-						   return calendarActivities.length === 0 ? null : calendarActivities;
+						   return calendarActivities.length === 0 ? [] : calendarActivities;
 					   }),
 					   take(1)
 				   );

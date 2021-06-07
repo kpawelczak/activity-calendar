@@ -63,7 +63,7 @@ export class ActivityCalendarDaysComponent {
 	}
 
 	selectDate(date: Date): void {
-		this.datePickerService.dateSelected(date, this.monthActivities);
+		this.datePickerService.dateSelected(date);
 	}
 
 	isDate(comparedDate: Date, date: Date): boolean {

@@ -1,7 +1,5 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { ActivitiesRepository } from '../../../services/repositories/activities/activities.repository';
-import { CalendarActivity } from '../../../common/models/calendar-activity';
 import { DateUtils } from '../../../common/utils/date-util/date-utils';
 
 @Injectable()
@@ -11,18 +9,13 @@ export class ActiveDateService {
 
 	private readonly selectedDate$ = new BehaviorSubject<Date>(this.selectedDate);
 
-	constructor(private readonly activitiesRepository: ActivitiesRepository) {
-
-	}
-
 	observeSelectedDate(): Observable<Date> {
 		return this.selectedDate$.asObservable();
 	}
 
-	dateSelected(date: Date, activities: Array<CalendarActivity>): void {
+	dateSelected(date: Date): void {
 		if (!DateUtils.areDatesSame(this.selectedDate, date)) {
 			this.selectedDate = date;
-			this.activitiesRepository.next(activities);
 			this.selectedDate$.next(date);
 		}
 	}

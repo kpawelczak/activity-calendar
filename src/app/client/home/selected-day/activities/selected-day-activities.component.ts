@@ -1,7 +1,6 @@
 import { ChangeDetectionStrategy, Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
 import { SelectedActivityRepository } from '../activity/selected-activity.repository';
 import { Reactive } from '../../../../common/cdk/reactive';
-import { SelectedDayActivitiesRepository } from './selected-day-activities.repository';
 import { SelectedDayActivityService } from '../activity/selected-day-activity.service';
 import { MatDialog } from '@angular/material/dialog';
 import { SelectedDayActivityDialogComponent } from '../activity/selected-day-activity-dialog.component';
@@ -54,7 +53,6 @@ export class SelectedDayActivitiesComponent extends Reactive implements OnInit {
 
 	constructor(private readonly selectedActivityRepository: SelectedActivityRepository,
 				private readonly selectedActivityService: SelectedDayActivityService,
-				private readonly selectedActivitiesService: SelectedDayActivitiesRepository,
 				private readonly matDialog: MatDialog) {
 		super();
 	}
@@ -82,6 +80,6 @@ export class SelectedDayActivitiesComponent extends Reactive implements OnInit {
 	deleteActivity(activity: CalendarActivity): void {
 		event.preventDefault();
 		event.stopPropagation();
-		this.selectedActivityService.deleteActivity(this.selectedDay, activity).finally();
+		this.selectedActivityService.deleteActivity(this.selectedDay, activity).then();
 	}
 }

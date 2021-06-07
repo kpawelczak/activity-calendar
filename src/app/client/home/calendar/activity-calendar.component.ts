@@ -1,4 +1,13 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, ViewEncapsulation } from '@angular/core';
+import {
+	ChangeDetectionStrategy,
+	ChangeDetectorRef,
+	Component,
+	EventEmitter,
+	Input,
+	OnInit,
+	Output,
+	ViewEncapsulation
+} from '@angular/core';
 import { ActiveDateService } from './active-date.service';
 import { ActivityCalendarWeeks } from './services/activity-calendar.weeks';
 import { ActivityCalendarYears } from './services/activity-calendar.years';
@@ -7,16 +16,10 @@ import { ActivityCalendarService } from './activity-calendar.service';
 import { ActivityCalendarYearsService } from './services/activity-calendar-years.service';
 import { Reactive } from '../../../common/cdk/reactive';
 import { ActivityCalendarView } from './common/models/activity-calendar-view';
-import { FirebaseActivitiesService } from '../../../services/firebase/activities/activities/firebase-activities.service';
 import { CalendarActivity } from '../../../common/models/calendar-activity';
-import { filter, pairwise, startWith, switchMap } from 'rxjs/operators';
+import { pairwise, startWith } from 'rxjs/operators';
 import { ActiveMonth } from './common/models/activity-calendar-year-month';
-import { FirebaseActivitiesCountService } from '../../../services/firebase/activities/activities-count/firebase-activities-count.service';
-import { ActivitiesCountRepository } from '../../../services/repositories/activities/count/activities-count.repository';
-import { EMPTY } from 'rxjs';
 import { ActivitiesCount } from '../../../common/models/activities-count';
-import { ActivitiesRepository } from '../../../services/repositories/activities/activities.repository';
-import { DateUtils } from '../../../common/utils/date-util/date-utils';
 
 
 @Component({
@@ -29,6 +32,18 @@ import { DateUtils } from '../../../common/utils/date-util/date-utils';
 	encapsulation: ViewEncapsulation.None
 })
 export class ActivityCalendarComponent extends Reactive implements OnInit {
+
+	@Input()
+	monthActivities: Array<CalendarActivity>;
+
+	@Input()
+	activitiesCount: Array<ActivitiesCount>;
+
+	@Output()
+	onMonthChange = new EventEmitter();
+
+	@Output()
+	onSelectedDayActivities = new EventEmitter();
 
 	prevWeeks: Array<Array<Date>>;
 
@@ -48,20 +63,12 @@ export class ActivityCalendarComponent extends Reactive implements OnInit {
 
 	activityCalendarView: ActivityCalendarView = ActivityCalendarView.DAYS;
 
-	monthActivities: Array<CalendarActivity>;
-
-	activitiesCount: Array<ActivitiesCount>;
-
 	constructor(private readonly datePickerService: ActiveDateService,
 				private readonly datePickerWeeks: ActivityCalendarWeeks,
 				private readonly datePickerYears: ActivityCalendarYears,
 				private readonly datePickerYearsService: ActivityCalendarYearsService,
 				private readonly calendarService: ActivityCalendarService,
 				private readonly calendarViewService: ActivityCalendarViewService,
-				private readonly firebaseActivitiesService: FirebaseActivitiesService,
-				private readonly firebaseActivitiesCountService: FirebaseActivitiesCountService,
-				private readonly activitiesRepository: ActivitiesRepository,
-				private readonly activitiesCountRepository: ActivitiesCountRepository,
 				private readonly changeDetectorRef: ChangeDetectorRef) {
 		super();
 	}
@@ -81,27 +88,15 @@ export class ActivityCalendarComponent extends Reactive implements OnInit {
 				startWith(new ActiveMonth(-1, -1)),
 				pairwise(),
 				this.takeUntil())
-			.subscribe(([prevActiveMonth, activeMonth]) => {
+			.subscribe(([prevActiveMonth, activeMonth]: [ActiveMonth, ActiveMonth]) => {
 				this.activeYear = activeMonth.year;
 				this.activeMonth = activeMonth.month;
 				this.calculateDatePickerData();
 
 				if (this.didActiveMonthChange(prevActiveMonth, activeMonth)) {
-					this.activitiesRepository.loadActivities(this.activeYear, this.activeMonth);
+					this.onMonthChange.emit(activeMonth);
 				}
 
-				this.changeDetectorRef.detectChanges();
-			});
-
-		this.activitiesRepository
-			.onValues()
-			.pipe(
-				filter(() =>
-					DateUtils.isDateInChosenMonth(this.selectedDate, this.activeMonth, this.activeYear)
-				),
-				this.takeUntil())
-			.subscribe((calendarActivities: Array<CalendarActivity>) => {
-				this.monthActivities = calendarActivities;
 				this.changeDetectorRef.detectChanges();
 			});
 
@@ -134,26 +129,6 @@ export class ActivityCalendarComponent extends Reactive implements OnInit {
 				this.changeDetectorRef.detectChanges();
 			});
 
-		this.activitiesCountRepository
-			.onActivitiesCount()
-			.pipe(
-				switchMap((activitiesCount: Array<ActivitiesCount>) => {
-					const isActivitiesCountStored = !!activitiesCount;
-
-					if (isActivitiesCountStored) {
-						this.activitiesCount = activitiesCount;
-						this.changeDetectorRef.detectChanges();
-					}
-
-					return isActivitiesCountStored ? EMPTY : this.firebaseActivitiesCountService.getActivitiesCount();
-				}),
-				this.takeUntil()
-			)
-			.subscribe((activitiesCount: Array<ActivitiesCount>) => {
-				this.activitiesCount = activitiesCount;
-				this.activitiesCountRepository.next(activitiesCount);
-				this.changeDetectorRef.detectChanges();
-			});
 	}
 
 	getCalendarView(): ActivityCalendarView {
