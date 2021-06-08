@@ -1,9 +1,9 @@
 import { ChangeDetectionStrategy, Component, Input, OnChanges, SimpleChanges, ViewEncapsulation } from '@angular/core';
-import { ActivityForm } from '../../../common/utils/form/activity-form';
+import { ActivityForm } from '../../../../common/utils/form/activity-form';
 import { FormBuilder } from '@angular/forms';
-import { TemplateActivity } from '../../template-activity';
-import { TemplateService } from '../../store/template/template.service';
-import { WeekdayTemplate } from '../../store/weekday-template';
+import { TemplateActivity } from '../../../template-activity';
+import { TemplateService } from '../../../store/template/template.service';
+import { WeekdayTemplate } from '../../../store/weekday-template';
 
 @Component({
 	selector: 'ac-template-activity-form',
@@ -55,6 +55,9 @@ import { WeekdayTemplate } from '../../store/weekday-template';
 
 		</form>
 	`,
+	host: {
+		'[class.ac-template-activity-form]': 'true'
+	},
 	encapsulation: ViewEncapsulation.None,
 	changeDetection: ChangeDetectionStrategy.OnPush
 })

@@ -4,7 +4,7 @@ import { ProfileService } from '../../profile/profile.service';
 import { AngularFirestore, CollectionReference, DocumentData } from '@angular/fire/firestore';
 import firebase from 'firebase';
 import { Observable } from 'rxjs';
-import { map, switchMap } from 'rxjs/operators';
+import { map, switchMap, take } from 'rxjs/operators';
 import { TemplateActivity } from '../template-activity';
 import { WeekdayTemplate } from '../store/weekday-template';
 import { weekdayTemplates } from '../store/weekday-templates';
@@ -39,7 +39,8 @@ export class FirebaseTemplatesService extends ProfileCollection {
 					   map((data: DocumentData) => {
 						   const templates = data?.map((templateActivity: TemplateActivity) => templateActivity);
 						   return this.getWeekdayTemplates(templates);
-					   })
+					   }),
+					   take(1)
 				   );
 	}
 

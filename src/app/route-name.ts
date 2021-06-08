@@ -4,5 +4,6 @@ export enum RouteName {
 	CALENDAR = '',
 	REGISTRATION = 'registration',
 	TEMPLATES = 'templates',
+	TEMPLATES_SETTINGS = 'settings',
 	RESET = 'reset'
 }

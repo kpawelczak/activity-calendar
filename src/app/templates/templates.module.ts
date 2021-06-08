@@ -1,5 +1,7 @@
 import { ModuleWithProviders, NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { TemplatesRoutingModule } from './templates-routing.module';
+
 import { MatSelectModule } from '@angular/material/select';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -9,20 +11,23 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { ActivityCalendarButtonModule } from '../common/ui/activity-calendar-button/activity-calendar-button.module';
 
-import { TemplatesRepository } from './store/templates/templates.repository';
-import { TemplateSetsRepository } from './store/sets/template-sets.repository';
 import { FirebaseTemplateSetsService } from './infrastructure/firebase-template-sets.service';
 import { FirebaseTemplatesService } from './infrastructure/firebase-templates.service';
 import { FirebaseTemplateService } from './infrastructure/firebase-template.service';
 import { FirebaseActiveTemplateSetService } from './infrastructure/firebase-active-template-set.service';
 
-import { TemplatesComponent } from './feature/templates.component';
-import { TemplateSettingsComponent } from './feature/settings/template-settings.component';
-import { WeekdayActivityFormComponent } from './feature/weekdays/weekday-activity-form.component';
-import { WeekdayTemplateComponent } from './feature/weekdays/weekday-template.component';
+import { TemplatesRepository } from './store/templates/templates.repository';
+import { TemplateSetsRepository } from './store/sets/template-sets.repository';
 import { TemplateService } from './store/template/template.service';
 import { ActiveTemplateSetService } from './store/sets/active-template-set.service';
 import { TemplateRepository } from './store/template/template.repository';
+
+import { TemplatesComponent } from './feature/templates/templates.component';
+import { TemplateSetSelectComponent } from './feature/templates/template-set-select.component';
+import { WeekdayActivityFormComponent } from './feature/templates/weekdays/weekday-activity-form.component';
+import { WeekdayTemplateComponent } from './feature/templates/weekdays/weekday-template.component';
+import { TemplatesRootComponent } from './templates-root.component';
+import { TemplatesSettingsComponent } from './feature/settings/templates-settings.component';
 
 const store = [
 	TemplateRepository,
@@ -39,27 +44,33 @@ const infrastructure = [
 	FirebaseActiveTemplateSetService
 ];
 
+const ui = [
+	MatFormFieldModule,
+	MatInputModule,
+	MatExpansionModule,
+	ReactiveFormsModule,
+	MatIconModule,
+	MatButtonModule,
+	ActivityCalendarButtonModule,
+	MatSelectModule
+];
 
 @NgModule({
 	imports: [
 		CommonModule,
-		MatFormFieldModule,
-		MatInputModule,
-		MatExpansionModule,
-		ReactiveFormsModule,
-		MatIconModule,
-		MatButtonModule,
-		ActivityCalendarButtonModule,
-		MatSelectModule
+		TemplatesRoutingModule,
+		...ui
 	],
 	declarations: [
+		TemplatesRootComponent,
 		TemplatesComponent,
-		TemplateSettingsComponent,
+		TemplatesSettingsComponent,
+		TemplateSetSelectComponent,
 		WeekdayActivityFormComponent,
 		WeekdayTemplateComponent
 	],
 	exports: [
-		TemplatesComponent
+		TemplatesRootComponent
 	]
 
 })

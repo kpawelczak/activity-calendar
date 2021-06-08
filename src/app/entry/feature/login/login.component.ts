@@ -1,8 +1,8 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ViewEncapsulation } from '@angular/core';
 import { RouteName } from '../../../route-name';
 import { FormBuilder, Validators } from '@angular/forms';
-import { FirebaseAuthenticationService } from '../../../authentication/infrastructure/firebase-authentication.service';
 import { ActivityCalendarForm } from '../../../common/utils/form/activity-calendar-form';
+import { AuthenticationService } from '../../../authentication/authentication.service';
 
 @Component({
 	selector: 'ac-login',
@@ -80,7 +80,7 @@ export class LoginComponent extends ActivityCalendarForm {
 	loadingAnonymous: boolean;
 
 	constructor(private readonly formBuilder: FormBuilder,
-				private readonly firebaseService: FirebaseAuthenticationService,
+				private readonly authenticationService: AuthenticationService,
 				private readonly changeDetectorRef: ChangeDetectorRef) {
 		super();
 		this.form = this.formBuilder.group({
@@ -95,9 +95,9 @@ export class LoginComponent extends ActivityCalendarForm {
 			const email = this.form.controls['email'].value,
 				password = this.form.controls['password'].value;
 
-			this.firebaseService
+			this.authenticationService
 				.login({ email, password })
-				.finally(() => {
+				.then(() => {
 					this.loadingUser = false;
 					this.changeDetectorRef.detectChanges();
 				});
@@ -107,15 +107,15 @@ export class LoginComponent extends ActivityCalendarForm {
 	loginAnonymously(): void {
 		this.loadingAnonymous = true;
 
-		this.firebaseService
+		this.authenticationService
 			.loginAnonymously()
-			.finally(() => {
+			.then(() => {
 				this.loadingAnonymous = false;
 				this.changeDetectorRef.detectChanges();
 			});
 	}
 
 	logout(): void {
-		this.firebaseService.logout();
+		this.authenticationService.logout();
 	}
 }

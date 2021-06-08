@@ -7,6 +7,7 @@ import { ClientHomeModule } from './home/client-home.module';
 import { TemplatesModule } from '../templates/templates.module';
 import { ActivitiesModule } from '../activities/activities.module';
 import { ClientTemplatesModule } from './templates/client-templates.module';
+import { ClientRootGuard } from '../authentication/client-root.guard';
 
 
 @NgModule({
@@ -23,6 +24,9 @@ import { ClientTemplatesModule } from './templates/client-templates.module';
 	],
 	declarations: [
 		ClientRootComponent
+	],
+	providers: [
+		ClientRootGuard
 	]
 })
 export class ClientModule {

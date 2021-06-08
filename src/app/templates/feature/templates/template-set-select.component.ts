@@ -18,10 +18,13 @@ import { combineLatest } from 'rxjs';
 			</mat-select>
 		</mat-form-field>
 	`,
+	host: {
+		'[class.template-settings]': 'true'
+	},
 	encapsulation: ViewEncapsulation.None,
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class TemplateSettingsComponent extends Reactive implements OnInit {
+export class TemplateSetSelectComponent extends Reactive implements OnInit {
 
 	form = new FormControl();
 

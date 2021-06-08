@@ -1,10 +1,10 @@
 import { ChangeDetectionStrategy, Component, ViewChild, ViewEncapsulation } from '@angular/core';
-import { FirebaseAuthenticationService } from '../../authentication/infrastructure/firebase-authentication.service';
 import { RouteName } from '../../route-name';
 import { Router } from '@angular/router';
 import { activityCalendarLinks } from './activity-calendar-links';
 import { ActivityCalendarLink } from './activity-calendar-link';
 import { MatMenuTrigger } from '@angular/material/menu';
+import { AuthenticationService } from '../../authentication/authentication.service';
 
 @Component({
 	selector: 'ac-header',
@@ -56,12 +56,12 @@ export class HeaderComponent {
 
 	RouteNames = RouteName;
 
-	constructor(private readonly authService: FirebaseAuthenticationService,
+	constructor(private readonly authenticationService: AuthenticationService,
 				private readonly router: Router) {
 	}
 
 	logout(): void {
-		this.authService.logout();
+		this.authenticationService.logout();
 	}
 
 	navigate(acLink: ActivityCalendarLink): void {

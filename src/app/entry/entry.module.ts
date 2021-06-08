@@ -11,12 +11,14 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RegistrationComponent } from './feature/registration/registration.component';
 import { ActivityCalendarButtonModule } from '../common/ui/activity-calendar-button/activity-calendar-button.module';
 import { FirebaseRegistrationService } from './infrastructure/firebase-registration.service';
+import { AuthenticationModule } from '../authentication/authentication.module';
 
 
 @NgModule({
 	imports: [
 		CommonModule,
 		EntryRoutingModule,
+		AuthenticationModule.forFeature(),
 		FormsModule,
 		ReactiveFormsModule,
 		MatFormFieldModule,

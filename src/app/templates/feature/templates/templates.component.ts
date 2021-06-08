@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, ViewChild, ViewEncapsulation } from '@angular/core';
 import { MatAccordion } from '@angular/material/expansion';
-import { WeekdayTemplate } from '../store/weekday-template';
-import { Weekday } from '../weekday';
+import { WeekdayTemplate } from '../../store/weekday-template';
+import { Weekday } from '../../weekday';
 
 
 @Component({

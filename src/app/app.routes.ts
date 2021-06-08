@@ -1,6 +1,6 @@
 import { ExtraOptions, RouterModule, Routes } from '@angular/router';
 import { RouteName } from './route-name';
-import { AuthenticationGuard } from './authentication/authentication.guard';
+import { ClientRootGuard } from './authentication/client-root.guard';
 
 const routerConfig: ExtraOptions = { relativeLinkResolution: 'legacy', scrollPositionRestoration: 'enabled' };
 
@@ -13,7 +13,7 @@ const routes: Routes = [
 	{
 		path: RouteName.CLIENT,
 		loadChildren: () => import('./client/client.module').then(m => m.ClientModule),
-		canActivate: [AuthenticationGuard]
+		canActivate: [ClientRootGuard]
 	},
 	{ path: '**', redirectTo: RouteName.ENTRY, pathMatch: 'full' }
 ];

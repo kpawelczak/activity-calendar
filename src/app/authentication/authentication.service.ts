@@ -1,31 +1,21 @@
 import { Injectable } from '@angular/core';
 import { Observable, ReplaySubject } from 'rxjs';
 import { Reactive } from '../common/cdk/reactive';
+import { FirebaseAuthenticationService } from './infrastructure/firebase-authentication.service';
+import { Credentials } from '../entry/infrastructure/credentials';
 import { Router } from '@angular/router';
 import { RouteName } from '../route-name';
+import { ActivityCalendarSnackbarService } from '../common/ui/activity-calendar-snackbar/activity-calendar-snackbar.service';
 
 @Injectable()
 export class AuthenticationService extends Reactive {
 
 	private readonly loggedIn$ = new ReplaySubject<boolean>(1);
 
-	constructor(private readonly router: Router) {
+	constructor(private readonly firebaseAuthenticationService: FirebaseAuthenticationService,
+				private readonly acSnackbar: ActivityCalendarSnackbarService,
+				private readonly router: Router) {
 		super();
-		this.onLoggedIn()
-			.pipe(this.takeUntil())
-			.subscribe((loggedIn: boolean) => {
-				switch (loggedIn) {
-
-					case true: {
-						this.router.navigate([RouteName.CLIENT]);
-						break;
-					}
-
-					default: {
-						this.router.navigate([RouteName.ENTRY]);
-					}
-				}
-			});
 	}
 
 	onLoggedIn(): Observable<boolean> {
@@ -36,4 +26,40 @@ export class AuthenticationService extends Reactive {
 		this.loggedIn$.next(loggedIn);
 	}
 
+	login(credentials: Credentials): Promise<void> {
+		return this.firebaseAuthenticationService
+				   .login(credentials)
+				   .then(() => {
+					   this.acSnackbar.notify('Login success');
+					   this.next(true);
+					   this.router.navigate([RouteName.CLIENT]);
+				   }, (error) => {
+					   this.acSnackbar.notify(error, {
+						   warn: true
+					   });
+				   });
+	}
+
+	loginAnonymously(): Promise<void> {
+		return this.firebaseAuthenticationService
+				   .loginAnonymously()
+				   .then(() => {
+					   this.acSnackbar.notify('Login success');
+					   this.next(true);
+					   this.router.navigate([RouteName.CLIENT]);
+				   }, (error) => {
+					   this.acSnackbar.notify(error, {
+						   warn: true
+					   });
+				   });
+	}
+
+	logout(): void {
+		this.firebaseAuthenticationService
+			.logout()
+			.then(() => {
+				this.next(false);
+				this.router.navigate([RouteName.ENTRY]);
+			});
+	}
 }

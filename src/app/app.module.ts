@@ -23,7 +23,7 @@ import { ConnectionsStatusModule } from './connection/connections-status.module'
 		ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
 		AngularFireModule.initializeApp(environment.firebase),
 		AngularFirestoreModule,
-		AuthenticationModule,
+		AuthenticationModule.forRoot(),
 		ProfileModule,
 		ConnectionsStatusModule,
 		ActivityCalendarSnackbarModule,
