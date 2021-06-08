@@ -78,6 +78,7 @@ export class HeaderComponent {
 	}
 
 	private getInitialLink(): ActivityCalendarLink {
-		return this.links.filter((acLinK: ActivityCalendarLink) => acLinK.route === RouteName.CALENDAR)[0];
+		const routeName = this.router.url.includes(RouteName.TEMPLATES) ? RouteName.TEMPLATES : RouteName.CALENDAR;
+		return this.links.filter((acLinK: ActivityCalendarLink) => acLinK.route === routeName)[0];
 	}
 }

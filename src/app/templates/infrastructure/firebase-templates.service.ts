@@ -52,7 +52,15 @@ export class FirebaseTemplatesService extends ProfileCollection {
 				= newWeekdayTemplates
 				.findIndex((weekdayTemplate: WeekdayTemplate) => weekdayTemplate.getWeekday() === templateActivity.weekday);
 
-			newWeekdayTemplates[newWeekdayIndex].addTemplate(templateActivity);
+			const newTemplateActivity
+				= new TemplateActivity(
+				templateActivity.weekday,
+				templateActivity.name,
+				templateActivity.amount,
+				templateActivity.templateUUID,
+				templateActivity.templateSetName);
+
+			newWeekdayTemplates[newWeekdayIndex].addTemplate(newTemplateActivity);
 		});
 
 		return newWeekdayTemplates;
