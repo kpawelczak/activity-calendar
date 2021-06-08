@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component, ViewChild, ViewEncapsulation } from
 import { MatAccordion } from '@angular/material/expansion';
 import { WeekdayTemplate } from '../../store/weekday-template';
 import { Weekday } from '../../weekday';
+import { RouteName } from '../../../route-name';
 
 
 @Component({
@@ -11,7 +12,10 @@ import { Weekday } from '../../weekday';
 			<h2>Active templates</h2>
 		</div>
 
-		<template-settings></template-settings>
+		<div class="ac-templates-controller">
+			<template-select></template-select>
+			<mat-icon [routerLink]="RouteName.TEMPLATES_SETTINGS">settings</mat-icon>
+		</div>
 
 		<mat-accordion multi>
 
@@ -32,6 +36,8 @@ export class TemplatesComponent {
 	accordion: MatAccordion;
 
 	weekdayTemplates: Array<WeekdayTemplate>;
+
+	RouteName = RouteName;
 
 	getWeekdays(): Array<Weekday> {
 		const weekdays = Object.values(Weekday)

@@ -6,7 +6,7 @@ import { ActiveTemplateSetService } from '../../store/sets/active-template-set.s
 import { combineLatest } from 'rxjs';
 
 @Component({
-	selector: 'template-settings',
+	selector: 'template-select',
 	template: `
 		<mat-form-field appearance="fill">
 			<mat-label>Template set</mat-label>
@@ -19,7 +19,7 @@ import { combineLatest } from 'rxjs';
 		</mat-form-field>
 	`,
 	host: {
-		'[class.template-settings]': 'true'
+		'[class.template-select]': 'true'
 	},
 	encapsulation: ViewEncapsulation.None,
 	changeDetection: ChangeDetectionStrategy.OnPush

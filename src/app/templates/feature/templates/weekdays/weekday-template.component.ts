@@ -74,7 +74,6 @@ export class WeekdayTemplateComponent extends Reactive implements OnInit {
 			.pipe(this.takeUntil())
 			.subscribe((weekdayTemplate: WeekdayTemplate) => {
 				this.weekdayTemplate = weekdayTemplate;
-				console.log(weekdayTemplate);
 				this.changeDetectorRef.detectChanges();
 			});
 	}
