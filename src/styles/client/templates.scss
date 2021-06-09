@@ -98,6 +98,26 @@
 	width: 100%;
 }
 
-.templates-settings {
+.ac-templates-set-item {
+	display: flex;
+	align-items: center;
+	padding: $grid*1.5 $grid / 2;
+	border-bottom: {
+		style: solid;
+		width: 1px;
+		color: $gray;
+	};
 
+	> div {
+		width: 100%;
+	}
+
+	> div:nth-child(1),
+	> div:nth-child(3) {
+		width: 50px;
+	}
+
+	&:nth-last-child(1) {
+		border-bottom: none;
+	}
 }

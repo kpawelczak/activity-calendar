@@ -1,28 +1,40 @@
 import { Observable } from 'rxjs';
 import { ValuesRepository } from './values-repository';
-import { map } from 'rxjs/operators';
+import { take } from 'rxjs/operators';
 import { OnDestroy } from '@angular/core';
 
-export abstract class SmartRepository<T> extends ValuesRepository<T> implements OnDestroy{
+export abstract class SmartRepository<T> extends ValuesRepository<T> implements OnDestroy {
 
 	protected requested: boolean;
 
 	abstract getValuesFromApi(): Observable<T>;
 
+	protected constructor() {
+		super();
+	}
+
 	onValues(): Observable<T> {
-		const requestFromApi = !this.getValues() && !this.requested;
-		return requestFromApi ? this.getValuesFromApi()
-									.pipe(
-										map((value: T) => {
-											this.requested = true;
-											this.next(value);
-											return value;
-										})
-									) : super.onValues();
+		return this.onRequestedValues();
 	}
 
 	reset(): void {
 		super.reset();
 		this.requested = false;
+	}
+
+	private onRequestedValues(): Observable<T> {
+		const requestFromApi = !this.getValues() && !this.requested;
+
+		this.requested = true;
+
+		if (requestFromApi) {
+			this.getValuesFromApi()
+				.pipe(take(1))
+				.subscribe((value: T) => {
+					this.next(value);
+				});
+		}
+
+		return super.onValues();
 	}
 }

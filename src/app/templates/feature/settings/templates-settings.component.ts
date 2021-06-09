@@ -2,6 +2,9 @@ import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, ViewEnca
 import { Reactive } from '../../../common/cdk/reactive';
 import { TemplateSetsRepository } from '../../store/sets/template-sets.repository';
 import { ActiveTemplateSetService } from '../../store/sets/active-template-set.service';
+import { TemplateSetsService } from '../../store/sets/template-sets.service';
+import { MatDialog } from '@angular/material/dialog';
+import { TemplateSetDialogComponent } from './template-set-dialog.component';
 import { combineLatest } from 'rxjs';
 
 @Component({
@@ -15,11 +18,40 @@ import { combineLatest } from 'rxjs';
 
 		<div class="ac-templates-set-list">
 
-			<div *ngFor="let set of templateSets">
-				{{set}}
+			<div class="ac-templates-set-item">
+
+				<div>#</div>
+
+				<div>
+					Template set name
+				</div>
+
+				<div></div>
+			</div>
+
+			<div *ngFor="let set of templateSets; let i = index"
+				 class="ac-templates-set-item">
+
+				<div>{{i + 1}}</div>
+
+				<div>
+					{{set}}
+				</div>
+
+				<mat-icon *ngIf="!isTemplateDefault(set)"
+						  (click)="deleteTemplateSet(set)">
+					delete
+				</mat-icon>
 			</div>
 
 		</div>
+
+		<button mat-icon-button
+				[type]="'button'"
+				[disableRipple]="true"
+				(click)="openTemplateSetDialog()">
+			<mat-icon (click)="openTemplateSetDialog()">add_circle</mat-icon>
+		</button>
 	`,
 	host: {
 		'[class.templates-settings]': 'true'
@@ -31,10 +63,12 @@ export class TemplatesSettingsComponent extends Reactive implements OnInit {
 
 	activeTemplateSet: string;
 
-	templateSets: string[];
+	templateSets: Array<string>;
 
 	constructor(private readonly templateSetsRepository: TemplateSetsRepository,
+				private readonly templateSetsService: TemplateSetsService,
 				private readonly activeTemplateSetService: ActiveTemplateSetService,
+				private readonly matDialog: MatDialog,
 				private readonly changeDetectorRef: ChangeDetectorRef) {
 		super();
 	}
@@ -47,10 +81,27 @@ export class TemplatesSettingsComponent extends Reactive implements OnInit {
 			.pipe(
 				this.takeUntil()
 			)
-			.subscribe(([templateSets, activeTemplateSet]) => {
+			.subscribe(([templateSets, activeTemplateSet]: [Array<string>, string]) => {
 				this.templateSets = templateSets;
 				this.activeTemplateSet = activeTemplateSet;
 				this.changeDetectorRef.detectChanges();
 			});
+	}
+
+	openTemplateSetDialog(): void {
+		this.matDialog
+			.open(TemplateSetDialogComponent, {
+				panelClass: 'activity-calendar-dialog'
+			});
+	}
+
+	isTemplateDefault(templateSetName: string): boolean {
+		return templateSetName === 'default';
+	}
+
+	deleteTemplateSet(templateSetName: string): void {
+		this.templateSetsService
+			.deleteTemplate(templateSetName)
+			.subscribe();
 	}
 }

@@ -2,9 +2,10 @@ import { Injectable } from '@angular/core';
 import { ProfileCollection } from '../../profile/profile-collection';
 import { ProfileService } from '../../profile/profile.service';
 import { AngularFirestore } from '@angular/fire/firestore';
-import { Observable } from 'rxjs';
+import { from, Observable } from 'rxjs';
 import { map, take } from 'rxjs/operators';
 import firebase from 'firebase';
+import { AngularFirestoreDocument } from '@angular/fire/firestore/document/document';
 import DocumentData = firebase.firestore.DocumentData;
 
 
@@ -17,10 +18,7 @@ export class FirebaseTemplateSetsService extends ProfileCollection {
 	}
 
 	getTemplateSets(): Observable<Array<string>> {
-		return this.profileCollection()
-				   .doc('templates')
-				   .collection('template-sets')
-				   .doc('sets')
+		return this.templateSetsDocument()
 				   .valueChanges()
 				   .pipe(
 					   map((data: DocumentData) => {
@@ -32,12 +30,32 @@ export class FirebaseTemplateSetsService extends ProfileCollection {
 				   );
 	}
 
+	addTemplate(templateSetName: string): Observable<void> {
+		return from(this.templateSetsDocument()
+						.update({
+							templateSets: firebase.firestore.FieldValue.arrayUnion(templateSetName)
+						})
+		);
+	}
+
+	deleteTemplate(templateSetName: string): Observable<void> {
+		// TODO delete all templates with the templateSetName
+		return from(this.templateSetsDocument()
+						.update({
+							templateSets: firebase.firestore.FieldValue.arrayRemove(templateSetName)
+						}));
+	}
+
+	private templateSetsDocument(): AngularFirestoreDocument<DocumentData> {
+		return this.profileCollection()
+				   .doc('templates')
+				   .collection('template-sets')
+				   .doc('sets');
+	}
+
 	private setDefaultTemplateSets(templateSets: Array<string>) {
 		if (!templateSets) {
-			this.profileCollection()
-				.doc('templates')
-				.collection('template-sets')
-				.doc('sets')
+			this.templateSetsDocument()
 				.set({ templateSets: ['default'] })
 				.finally();
 		}

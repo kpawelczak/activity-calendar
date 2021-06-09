@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { SmartRepository } from '../../../common/cdk/smart-repository';
 import { Observable } from 'rxjs';
 import { FirebaseTemplateSetsService } from '../../infrastructure/firebase-template-sets.service';
+import { take } from 'rxjs/operators';
 
 
 @Injectable()
@@ -12,7 +13,8 @@ export class TemplateSetsRepository extends SmartRepository<Array<string>> {
 	}
 
 	getValuesFromApi(): Observable<Array<string>> {
-		this.requested = true;
-		return this.firebaseTemplateSets.getTemplateSets();
+		return this.firebaseTemplateSets
+				   .getTemplateSets()
+				   .pipe(take(1));
 	}
 }

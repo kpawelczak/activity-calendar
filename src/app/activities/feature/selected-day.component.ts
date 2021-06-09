@@ -25,7 +25,7 @@ import { SelectedActivitiesService } from '../store/selected-activities/selected
 @Component({
 	selector: 'ac-selected-day',
 	template: `
-		<h2 class="selected-activity-day">{{selectedDay | date:'EEEE, MMMM d, y'}}</h2>
+		<h2 class="selected-activity-day">{{selectedDay | date:'EEEE d MMMM y'}}</h2>
 
 		<mat-tab-group *ngIf="canShowActivities() || canShowTemplates()"
 					   [class.tab-group-disabled]="!isSelectedDayToday()"
@@ -57,7 +57,7 @@ import { SelectedActivitiesService } from '../store/selected-activities/selected
 					[type]="'button'"
 					[disableRipple]="true"
 					(click)="openActivityForm()">
-				<mat-icon (click)="openActivityForm()">add_circle</mat-icon>
+				<mat-icon>add_circle</mat-icon>
 			</button>
 
 		</div>

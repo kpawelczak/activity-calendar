@@ -17,10 +17,12 @@ import { FirebaseTemplateService } from './infrastructure/firebase-template.serv
 import { FirebaseActiveTemplateSetService } from './infrastructure/firebase-active-template-set.service';
 
 import { TemplatesRepository } from './store/templates/templates.repository';
+import { TemplatesService } from './store/templates/templates.service';
 import { TemplateSetsRepository } from './store/sets/template-sets.repository';
 import { TemplateService } from './store/template/template.service';
 import { ActiveTemplateSetService } from './store/sets/active-template-set.service';
 import { TemplateRepository } from './store/template/template.repository';
+import { TemplateSetsService } from './store/sets/template-sets.service';
 
 import { TemplatesComponent } from './feature/templates/templates.component';
 import { TemplateSetSelectComponent } from './feature/templates/template-set-select.component';
@@ -28,13 +30,16 @@ import { WeekdayActivityFormComponent } from './feature/templates/weekdays/weekd
 import { WeekdayTemplateComponent } from './feature/templates/weekdays/weekday-template.component';
 import { TemplatesRootComponent } from './templates-root.component';
 import { TemplatesSettingsComponent } from './feature/settings/templates-settings.component';
+import { TemplateSetDialogComponent } from './feature/settings/template-set-dialog.component';
 
 const store = [
+	ActiveTemplateSetService,
 	TemplateRepository,
 	TemplateService,
 	TemplatesRepository,
 	TemplateSetsRepository,
-	ActiveTemplateSetService
+	TemplateSetsService,
+	TemplatesService
 ];
 
 const infrastructure = [
@@ -67,7 +72,8 @@ const ui = [
 		TemplatesSettingsComponent,
 		TemplateSetSelectComponent,
 		WeekdayActivityFormComponent,
-		WeekdayTemplateComponent
+		WeekdayTemplateComponent,
+		TemplateSetDialogComponent
 	],
 	exports: [
 		TemplatesRootComponent

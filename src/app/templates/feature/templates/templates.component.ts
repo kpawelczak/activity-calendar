@@ -1,8 +1,9 @@
-import { ChangeDetectionStrategy, Component, ViewChild, ViewEncapsulation } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { MatAccordion } from '@angular/material/expansion';
 import { WeekdayTemplate } from '../../store/weekday-template';
-import { Weekday } from '../../weekday';
 import { RouteName } from '../../../route-name';
+import { TemplatesRepository } from '../../store/templates/templates.repository';
+import { Reactive } from '../../../common/cdk/reactive';
 
 
 @Component({
@@ -19,8 +20,8 @@ import { RouteName } from '../../../route-name';
 
 		<mat-accordion multi>
 
-			<ac-weekday-template *ngFor="let weekday of getWeekdays()"
-								 [weekday]="weekday"></ac-weekday-template>
+			<ac-weekday-template *ngFor="let weekdayTemplate of weekdayTemplates"
+								 [weekdayTemplate]="weekdayTemplate"></ac-weekday-template>
 
 		</mat-accordion>
 	`,
@@ -30,7 +31,7 @@ import { RouteName } from '../../../route-name';
 	encapsulation: ViewEncapsulation.None,
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class TemplatesComponent {
+export class TemplatesComponent extends Reactive implements OnInit {
 
 	@ViewChild(MatAccordion)
 	accordion: MatAccordion;
@@ -39,13 +40,18 @@ export class TemplatesComponent {
 
 	RouteName = RouteName;
 
-	getWeekdays(): Array<Weekday> {
-		const weekdays = Object.values(Weekday)
-							   .map((value: Weekday) => value)
-							   .filter(value => typeof value === 'number');
+	constructor(private readonly templatesRepository: TemplatesRepository,
+				private readonly changeDetectorRef: ChangeDetectorRef) {
+		super();
+	}
 
-		weekdays.push(weekdays.shift());
-
-		return weekdays;
+	ngOnInit() {
+		this.templatesRepository
+			.onValues()
+			.pipe(this.takeUntil())
+			.subscribe((weekdayTemplates: Array<WeekdayTemplate>) => {
+				this.weekdayTemplates = [...weekdayTemplates];
+				this.changeDetectorRef.detectChanges();
+			});
 	}
 }

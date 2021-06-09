@@ -3,15 +3,15 @@ import { FirebaseTemplateService } from '../../infrastructure/firebase-template.
 import { TemplateActivity } from '../../template-activity';
 import { Observable } from 'rxjs';
 import { map, take } from 'rxjs/operators';
-import { TemplatesRepository } from '../templates/templates.repository';
 import { WeekdayTemplate } from '../weekday-template';
+import { TemplatesService } from '../templates/templates.service';
 
 
 @Injectable()
 export class TemplateService {
 
 	constructor(private readonly firebaseTemplatesService: FirebaseTemplateService,
-				private readonly weekdayTemplatesRepository: TemplatesRepository) {
+				private readonly templatesService: TemplatesService) {
 	}
 
 	addActivityToTemplate(weekdayTemplate: WeekdayTemplate, templateActivity: TemplateActivity): void {
@@ -27,7 +27,7 @@ export class TemplateService {
 							   weekdayTemplate,
 							   templateActivity
 						   );
-						   this.weekdayTemplatesRepository.nextTemplate(newWeekdayTemplate);
+						   this.templatesService.nextTemplate(newWeekdayTemplate);
 						   return newWeekdayTemplate;
 					   }),
 					   take(1)
@@ -80,6 +80,6 @@ export class TemplateService {
 
 	private removeActivityFromRepository(weekdayTemplate: WeekdayTemplate, templateActivity: TemplateActivity): void {
 		const newWeekdayTemplate = this.createWeekdayTemplateWithDeletedActivity(weekdayTemplate, templateActivity.templateUUID);
-		this.weekdayTemplatesRepository.nextTemplate(newWeekdayTemplate);
+		this.templatesService.nextTemplate(newWeekdayTemplate);
 	}
 }

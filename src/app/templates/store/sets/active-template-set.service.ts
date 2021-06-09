@@ -19,6 +19,10 @@ export class ActiveTemplateSetService extends SmartRepository<string> {
 	}
 
 	selectTemplateSet(templateSetName: string): void {
-		this.next(templateSetName);
+		this.firebaseActiveTemplateSetService
+			.changeActiveTemplateSet(templateSetName)
+			.then(() => {
+				this.next(templateSetName);
+			});
 	}
 }

@@ -31,6 +31,14 @@ export class FirebaseActiveTemplateSetService extends ProfileCollection {
 				   );
 	}
 
+	changeActiveTemplateSet(templateName: string): Promise<void> {
+		return this.profileCollection()
+				   .doc('templates')
+				   .collection('template-sets')
+				   .doc('active')
+				   .update({ templateName });
+	}
+
 	private setDefaultTemplateSet(templateName: string) {
 		if (!templateName) {
 			this.profileCollection()

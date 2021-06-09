@@ -64,5 +64,4 @@ export class FirebaseActivityService extends ProfileCollection {
 					   this.acSnackBar.notify('Activity removed');
 				   });
 	}
-
 }
