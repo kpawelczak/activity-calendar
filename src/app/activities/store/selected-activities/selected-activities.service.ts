@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { ActivitiesRepository } from '../activities/activities.repository';
 import { SelectedDayTemplateActivityRepository } from '../template/selected-day-template-activity.repository';
-import { take } from 'rxjs/operators';
+import { filter, take } from 'rxjs/operators';
 import { CalendarActivity } from '../activities/calendar-activity';
 import { DateUtils } from '../../../common/utils/date-util/date-utils';
 import { SelectedActivitiesRepository } from './selected-activities.repository';
@@ -14,7 +14,6 @@ export class SelectedActivitiesService {
 	constructor(private readonly activitiesRepository: ActivitiesRepository,
 				private readonly selectedActivitiesRepository: SelectedActivitiesRepository,
 				private readonly selectedDayTemplateActivityRepository: SelectedDayTemplateActivityRepository) {
-
 	}
 
 	selectActivities(date: Date): void {
@@ -28,10 +27,15 @@ export class SelectedActivitiesService {
 		this.nextActivities(date);
 	}
 
+	resetSelectedDay(): void {
+		this.selectedDay = null;
+	}
+
 	private nextActivities(date: Date): void {
 		this.activitiesRepository
 			.onValues()
 			.pipe(
+				filter((activities: Array<CalendarActivity>) => !!activities),
 				take(1)
 			)
 			.subscribe((activities: Array<CalendarActivity>) => {

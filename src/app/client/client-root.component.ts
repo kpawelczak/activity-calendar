@@ -1,11 +1,6 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { Reactive } from '../common/cdk/reactive';
 import { ProfileService } from '../profile/profile.service';
-import { ActivitiesRepository } from '../activities/store/activities/activities.repository';
-import { FirebaseActivitiesService } from '../activities/infrastructure/firebase-activities.service';
-import { ActiveDateService } from '../calendar/active-date.service';
-import { ActivitiesCountRepository } from '../activities/store/count/activities-count.repository';
-import { TemplatesRepository } from '../templates/store/templates/templates.repository';
 
 
 @Component({
@@ -21,16 +16,11 @@ import { TemplatesRepository } from '../templates/store/templates/templates.repo
 	encapsulation: ViewEncapsulation.None,
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ClientRootComponent extends Reactive implements OnInit, OnDestroy {
+export class ClientRootComponent extends Reactive implements OnInit {
 
 	profileLoaded: boolean = false;
 
 	constructor(private readonly profileService: ProfileService,
-				private readonly activeDateService: ActiveDateService,
-				private readonly activitiesRepository: ActivitiesRepository,
-				private readonly weekdayTemplatesRepository: TemplatesRepository,
-				private readonly firebaseActivitiesService: FirebaseActivitiesService,
-				private readonly activitiesCountRepository: ActivitiesCountRepository,
 				private readonly changeDetectorRef: ChangeDetectorRef) {
 		super();
 	}
@@ -43,17 +33,5 @@ export class ClientRootComponent extends Reactive implements OnInit, OnDestroy {
 				this.profileLoaded = !!profile;
 				this.changeDetectorRef.detectChanges();
 			});
-	}
-
-	ngOnDestroy() {
-		super.ngOnDestroy();
-		this.onLogout();
-	}
-
-	private onLogout(): void {
-		this.activitiesRepository.reset();
-		this.weekdayTemplatesRepository.reset();
-		this.activeDateService.reset();
-		this.activitiesCountRepository.reset();
 	}
 }

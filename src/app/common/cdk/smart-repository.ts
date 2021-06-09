@@ -1,8 +1,9 @@
 import { Observable } from 'rxjs';
 import { ValuesRepository } from './values-repository';
 import { map } from 'rxjs/operators';
+import { OnDestroy } from '@angular/core';
 
-export abstract class SmartRepository<T> extends ValuesRepository<T> {
+export abstract class SmartRepository<T> extends ValuesRepository<T> implements OnDestroy{
 
 	protected requested: boolean;
 
@@ -18,5 +19,10 @@ export abstract class SmartRepository<T> extends ValuesRepository<T> {
 											return value;
 										})
 									) : super.onValues();
+	}
+
+	reset(): void {
+		super.reset();
+		this.requested = false;
 	}
 }

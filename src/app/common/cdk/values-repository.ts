@@ -1,7 +1,8 @@
 import { BehaviorSubject, Observable, ReplaySubject, Subject } from 'rxjs';
 import { Reactive } from './reactive';
+import { OnDestroy } from '@angular/core';
 
-export abstract class ValuesRepository<T> extends Reactive {
+export abstract class ValuesRepository<T> extends Reactive implements OnDestroy {
 
 	private values: T;
 

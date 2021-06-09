@@ -32,7 +32,7 @@ export class AuthenticationService extends Reactive {
 				   .then(() => {
 					   this.acSnackbar.notify('Login success');
 					   this.next(true);
-					   this.router.navigate([RouteName.CLIENT]);
+					   this.redirectBasedOnStatus(true);
 				   }, (error) => {
 					   this.acSnackbar.notify(error, {
 						   warn: true
@@ -46,7 +46,7 @@ export class AuthenticationService extends Reactive {
 				   .then(() => {
 					   this.acSnackbar.notify('Login success');
 					   this.next(true);
-					   this.router.navigate([RouteName.CLIENT]);
+					   this.redirectBasedOnStatus(true);
 				   }, (error) => {
 					   this.acSnackbar.notify(error, {
 						   warn: true
@@ -59,7 +59,12 @@ export class AuthenticationService extends Reactive {
 			.logout()
 			.then(() => {
 				this.next(false);
-				this.router.navigate([RouteName.ENTRY]);
+				this.redirectBasedOnStatus(false);
 			});
+	}
+
+	redirectBasedOnStatus(loggedIn: boolean): void {
+		const route = loggedIn ? RouteName.CLIENT : RouteName.ENTRY;
+		this.router.navigate([route]);
 	}
 }

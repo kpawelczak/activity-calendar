@@ -3,7 +3,7 @@ import { WeekdayTemplate } from '../weekday-template';
 import { Observable } from 'rxjs';
 import { TemplatesRepository } from '../templates/templates.repository';
 import { Weekday } from '../../weekday';
-import { map } from 'rxjs/operators';
+import { filter, map } from 'rxjs/operators';
 
 
 @Injectable()
@@ -20,9 +20,10 @@ export class TemplateRepository {
 					   map((weekdayTemplates: Array<WeekdayTemplate>) => {
 						   const requestedTemplateActivities
 							   = weekdayTemplates
-							   .filter((weekdayTemplate: WeekdayTemplate) => weekdayTemplate.getWeekday() === weekday);
-						   return requestedTemplateActivities[0];
-					   })
+							   ?.filter((weekdayTemplate: WeekdayTemplate) => weekdayTemplate.getWeekday() === weekday)[0];
+						   return requestedTemplateActivities;
+					   }),
+					   filter((weekdayTemplate: WeekdayTemplate) => !!weekdayTemplate)
 				   );
 	}
 }

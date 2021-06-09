@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
 import { map, switchMap, take } from 'rxjs/operators';
 import { TemplateActivity } from '../template-activity';
 import { WeekdayTemplate } from '../store/weekday-template';
-import { weekdayTemplates } from '../store/weekday-templates';
+import { WeekdayTemplates } from '../store/weekday-templates';
 import { ActiveTemplateSetService } from '../store/sets/active-template-set.service';
 import Database = firebase.database.Database;
 
@@ -45,7 +45,7 @@ export class FirebaseTemplatesService extends ProfileCollection {
 	}
 
 	private getWeekdayTemplates(templates: Array<TemplateActivity>): Array<WeekdayTemplate> {
-		const newWeekdayTemplates = [...weekdayTemplates];
+		const newWeekdayTemplates = [...WeekdayTemplates.getPristineWeekdayTemplates()];
 
 		templates.forEach((templateActivity: TemplateActivity) => {
 			const newWeekdayIndex

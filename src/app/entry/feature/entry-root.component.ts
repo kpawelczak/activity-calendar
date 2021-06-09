@@ -24,7 +24,7 @@ export class EntryRootComponent extends Reactive implements OnInit {
 				this.takeUntil())
 			.subscribe((loggedIn: boolean) => {
 				if (loggedIn) {
-					this.authenticationService.logout();
+					this.authenticationService.redirectBasedOnStatus(loggedIn);
 				}
 			});
 	}

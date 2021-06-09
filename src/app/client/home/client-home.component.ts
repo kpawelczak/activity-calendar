@@ -3,12 +3,15 @@ import { Reactive } from '../../common/cdk/reactive';
 import { CalendarActivity } from '../../activities/store/activities/calendar-activity';
 import { ActivitiesRepository } from '../../activities/store/activities/activities.repository';
 import { ActiveMonth } from '../../calendar/active-month';
-import { switchMap } from 'rxjs/operators';
+import { filter, switchMap } from 'rxjs/operators';
 import { ActivitiesCount } from '../../activities/store/count/activities-count';
-import { EMPTY } from 'rxjs';
+import { combineLatest, EMPTY } from 'rxjs';
 import { ActivitiesCountRepository } from '../../activities/store/count/activities-count.repository';
 import { FirebaseActivitiesCountService } from '../../activities/infrastructure/firebase-activities-count.service';
 import { ActiveDateService } from '../../calendar/active-date.service';
+import { AuthenticationService } from '../../authentication/authentication.service';
+import { SelectedActivitiesRepository } from '../../activities/store/selected-activities/selected-activities.repository';
+import { SelectedActivitiesService } from '../../activities/store/selected-activities/selected-activities.service';
 
 @Component({
 	selector: 'ac-home',
@@ -32,28 +35,26 @@ export class ClientHomeComponent extends Reactive implements OnInit {
 
 	selectedDay: Date;
 
-	constructor(private readonly selectedDayService: ActiveDateService,
+	constructor(private readonly activeDateService: ActiveDateService,
 				private readonly activitiesRepository: ActivitiesRepository,
 				private readonly activitiesCountRepository: ActivitiesCountRepository,
+				private readonly selectedActivitiesRepository: SelectedActivitiesRepository,
+				private readonly selectedActivitiesService: SelectedActivitiesService,
+				private readonly authenticationService: AuthenticationService,
 				private readonly firebaseActivitiesCountService: FirebaseActivitiesCountService,
 				private readonly changeDetectorRef: ChangeDetectorRef) {
 		super();
 	}
 
 	ngOnInit() {
-		this.selectedDayService
-			.observeSelectedDate()
+		combineLatest([
+			this.activitiesRepository.onValues(),
+			this.activeDateService.observeSelectedDate()
+		])
 			.pipe(this.takeUntil())
-			.subscribe((selectedDay: Date) => {
+			.subscribe(([calendarActivities, selectedDay]: [Array<CalendarActivity>, Date]) => {
+				this.monthActivities = calendarActivities;
 				this.selectedDay = selectedDay;
-				this.changeDetectorRef.detectChanges();
-			});
-
-		this.activitiesRepository
-			.onValues()
-			.pipe(this.takeUntil())
-			.subscribe((calendarActivities: Array<CalendarActivity>) => {
-				this.monthActivities = [...calendarActivities];
 				this.changeDetectorRef.detectChanges();
 			});
 
@@ -76,6 +77,22 @@ export class ClientHomeComponent extends Reactive implements OnInit {
 				this.activitiesCount = activitiesCount;
 				this.activitiesCountRepository.next(activitiesCount);
 				this.changeDetectorRef.detectChanges();
+			});
+
+		this.authenticationService
+			.onLoggedIn()
+			.pipe(
+				filter((loggedIn: boolean) => !loggedIn),
+				this.takeUntil()
+			)
+			.subscribe(() => {
+				this.activeDateService.reset();
+
+				this.selectedActivitiesRepository.reset();
+				this.selectedActivitiesService.resetSelectedDay();
+
+				this.activitiesRepository.reset();
+				this.activitiesCountRepository.reset();
 			});
 	}
 
