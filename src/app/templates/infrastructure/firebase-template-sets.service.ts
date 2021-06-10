@@ -39,7 +39,6 @@ export class FirebaseTemplateSetsService extends ProfileCollection {
 	}
 
 	deleteTemplate(templateSetName: string): Observable<void> {
-		// TODO delete all templates with the templateSetName
 		return from(this.templateSetsDocument()
 						.update({
 							templateSets: firebase.firestore.FieldValue.arrayRemove(templateSetName)
