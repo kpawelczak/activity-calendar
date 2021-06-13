@@ -6,11 +6,9 @@ import { ProfileService } from '../profile/profile.service';
 @Component({
 	template: `
 		<ng-container *ngIf="profileLoaded">
-
 			<ac-header></ac-header>
 
 			<router-outlet></router-outlet>
-
 		</ng-container>
 	`,
 	encapsulation: ViewEncapsulation.None,
@@ -18,7 +16,7 @@ import { ProfileService } from '../profile/profile.service';
 })
 export class ClientRootComponent extends Reactive implements OnInit {
 
-	profileLoaded: boolean = false;
+	profileLoaded: boolean;
 
 	constructor(private readonly profileService: ProfileService,
 				private readonly changeDetectorRef: ChangeDetectorRef) {

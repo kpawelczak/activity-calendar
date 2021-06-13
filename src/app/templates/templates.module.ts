@@ -78,7 +78,6 @@ const ui = [
 	exports: [
 		TemplatesRootComponent
 	]
-
 })
 export class TemplatesModule {
 

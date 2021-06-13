@@ -1,7 +1,8 @@
-import { Injectable } from '@angular/core';
+import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { interval, Observable, of, ReplaySubject } from 'rxjs';
 import { switchMap, takeWhile } from 'rxjs/operators';
 import { ActivityCalendarSnackbarService } from '../common/ui/activity-calendar-snackbar/activity-calendar-snackbar.service';
+import { isPlatformBrowser } from '@angular/common';
 
 @Injectable()
 export class ConnectionStatusService {
@@ -10,7 +11,8 @@ export class ConnectionStatusService {
 
 	private readonly connectionStatus$ = new ReplaySubject<boolean>(1);
 
-	constructor(private readonly snackBar: ActivityCalendarSnackbarService) {
+	constructor(@Inject(PLATFORM_ID) private platformId: any,
+				private readonly snackBar: ActivityCalendarSnackbarService) {
 		this.checkConnectionStatus();
 
 		this.periodicallyCheckConnectionStatus();
@@ -21,18 +23,20 @@ export class ConnectionStatusService {
 	}
 
 	private periodicallyCheckConnectionStatus(): void {
-		interval(10000)
-			.pipe(
-				takeWhile(() => !this.connected),
-				switchMap(() => {
-					return of(navigator.onLine);
-				})
-			)
-			.subscribe((connected: boolean) => {
-				this.connected = connected;
-				this.connectionStatus$.next(connected);
-				this.noConnectionNotification(connected);
-			});
+		if (isPlatformBrowser(this.platformId)) {
+			interval(10000)
+				.pipe(
+					takeWhile(() => !this.connected),
+					switchMap(() => {
+						return of(navigator.onLine);
+					})
+				)
+				.subscribe((connected: boolean) => {
+					this.connected = connected;
+					this.connectionStatus$.next(connected);
+					this.noConnectionNotification(connected);
+				});
+		}
 	}
 
 	private noConnectionNotification(connected: boolean): void {
@@ -42,10 +46,12 @@ export class ConnectionStatusService {
 	}
 
 	private checkConnectionStatus(): void {
-		const connected = navigator.onLine;
+		if (isPlatformBrowser(this.platformId)) {
+			const connected = navigator.onLine;
 
-		this.connected = connected;
-		this.connectionStatus$.next(connected);
-		this.noConnectionNotification(connected);
+			this.connected = connected;
+			this.connectionStatus$.next(connected);
+			this.noConnectionNotification(connected);
+		}
 	}
 }

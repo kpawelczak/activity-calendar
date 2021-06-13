@@ -17,7 +17,7 @@
 				"build": {
 					"builder": "@angular-devkit/build-angular:browser",
 					"options": {
-						"outputPath": "dist/activity-calendar",
+						"outputPath": "dist/activity-calendar/browser",
 						"index": "src/index.html",
 						"main": "src/main.ts",
 						"polyfills": "src/polyfills.ts",
@@ -89,7 +89,8 @@
 						"tsConfig": [
 							"tsconfig.app.json",
 							"tsconfig.spec.json",
-							"e2e/tsconfig.json"
+							"e2e/tsconfig.json",
+							"tsconfig.server.json"
 						],
 						"exclude": [
 							"**/node_modules/**"
@@ -106,6 +107,53 @@
 						"production": {
 							"devServerTarget": "activity-calendar:serve:production"
 						}
+					}
+				},
+				"server": {
+					"builder": "@angular-devkit/build-angular:server",
+					"options": {
+						"outputPath": "dist/activity-calendar/server",
+						"main": "server.ts",
+						"tsConfig": "tsconfig.server.json"
+					},
+					"configurations": {
+						"production": {
+							"outputHashing": "media",
+							"fileReplacements": [
+								{
+									"replace": "src/environments/environment.ts",
+									"with": "src/environments/environment.prod.ts"
+								}
+							],
+							"sourceMap": false,
+							"optimization": true
+						}
+					}
+				},
+				"serve-ssr": {
+					"builder": "@nguniversal/builders:ssr-dev-server",
+					"options": {
+						"browserTarget": "activity-calendar:build",
+						"serverTarget": "activity-calendar:server"
+					},
+					"configurations": {
+						"production": {
+							"browserTarget": "activity-calendar:build:production",
+							"serverTarget": "activity-calendar:server:production"
+						}
+					}
+				},
+				"prerender": {
+					"builder": "@nguniversal/builders:prerender",
+					"options": {
+						"browserTarget": "activity-calendar:build:production",
+						"serverTarget": "activity-calendar:server:production",
+						"routes": [
+							"/"
+						]
+					},
+					"configurations": {
+						"production": {}
 					}
 				}
 			}

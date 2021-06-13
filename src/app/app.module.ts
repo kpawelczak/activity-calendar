@@ -17,7 +17,7 @@ import { ConnectionsStatusModule } from './connection/connections-status.module'
 
 @NgModule({
 	imports: [
-		BrowserModule,
+		BrowserModule.withServerTransition({ appId: 'serverApp' }),
 		AppRoutes,
 		HammerModule,
 		ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),

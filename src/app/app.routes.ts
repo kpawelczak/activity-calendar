@@ -2,7 +2,10 @@ import { ExtraOptions, RouterModule, Routes } from '@angular/router';
 import { RouteName } from './route-name';
 import { ClientRootGuard } from './authentication/client-root.guard';
 
-const routerConfig: ExtraOptions = { relativeLinkResolution: 'legacy', scrollPositionRestoration: 'enabled' };
+const routerConfig: ExtraOptions = {
+	relativeLinkResolution: 'legacy',
+	scrollPositionRestoration: 'enabled'
+};
 
 const routes: Routes = [
 	{ path: '', redirectTo: `/${RouteName.ENTRY}`, pathMatch: 'full' },
