@@ -73,3 +73,11 @@ mat-icon {
 		color: $primary-hover;
 	}
 }
+
+.add-button-wrapper {
+	display: flex;
+	justify-content: flex-end;
+	margin: $grid*2 $grid*2 0 0;
+
+	@include addMatButton()
+}

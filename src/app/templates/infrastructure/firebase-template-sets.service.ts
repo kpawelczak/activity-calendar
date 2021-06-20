@@ -30,6 +30,11 @@ export class FirebaseTemplateSetsService extends ProfileCollection {
 				   );
 	}
 
+	editTemplate(templateSets: Array<string>): Observable<void> {
+		return from(this.templateSetsDocument()
+						.set({ templateSets }));
+	}
+
 	addTemplate(templateSetName: string): Observable<void> {
 		return from(this.templateSetsDocument()
 						.update({

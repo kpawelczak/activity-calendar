@@ -18,7 +18,7 @@ import { combineLatest } from 'rxjs';
 
 		<div class="ac-templates-set-list">
 
-			<div class="ac-templates-set-item">
+			<div class="ac-templates-set-item header">
 
 				<div>#</div>
 
@@ -30,6 +30,7 @@ import { combineLatest } from 'rxjs';
 			</div>
 
 			<div *ngFor="let set of templateSets; let i = index"
+				 (click)="openTemplateSetDialog(set)"
 				 class="ac-templates-set-item">
 
 				<div>{{i + 1}}</div>
@@ -46,12 +47,14 @@ import { combineLatest } from 'rxjs';
 
 		</div>
 
-		<button mat-icon-button
-				[type]="'button'"
-				[disableRipple]="true"
-				(click)="openTemplateSetDialog()">
-			<mat-icon (click)="openTemplateSetDialog()">add_circle</mat-icon>
-		</button>
+		<div class="add-button-wrapper">
+			<button mat-icon-button
+					[type]="'button'"
+					[disableRipple]="true"
+					(click)="openTemplateSetDialog()">
+				<mat-icon (click)="openTemplateSetDialog()">add_circle</mat-icon>
+			</button>
+		</div>
 	`,
 	host: {
 		'[class.templates-settings]': 'true'
@@ -88,10 +91,13 @@ export class TemplatesSettingsComponent extends Reactive implements OnInit {
 			});
 	}
 
-	openTemplateSetDialog(): void {
+	openTemplateSetDialog(templateSetName?: string): void {
 		this.matDialog
 			.open(TemplateSetDialogComponent, {
-				panelClass: 'activity-calendar-dialog'
+				panelClass: 'activity-calendar-dialog',
+				data: {
+					templateSetName
+				}
 			});
 	}
 

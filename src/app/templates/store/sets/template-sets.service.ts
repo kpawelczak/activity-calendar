@@ -35,6 +35,51 @@ export class TemplateSetsService {
 				   );
 	}
 
+	editTemplateSetName(newTemplateSetName: string, oldTemplateSetName: string): Observable<boolean> {
+		const templateSets = this.templateSetsRepository.getValues(),
+			oldTemplateSetNameIndex = templateSets.findIndex((templateSetName: string) => templateSetName === oldTemplateSetName);
+
+		templateSets[oldTemplateSetNameIndex] = newTemplateSetName;
+
+		return this.firebaseTemplateSetsService
+				   .editTemplate(templateSets)
+				   .pipe(
+					   map(() => {
+						   this.templateSetsRepository.next(templateSets);
+						   return !!templateSets;
+					   }),
+					   switchMap(() => {
+						   return this.templatesRepository.onValues();
+					   }),
+					   map((templates: Array<WeekdayTemplate>) => {
+						   templates.forEach((weekdayTemplate: WeekdayTemplate) => {
+							   weekdayTemplate.getTemplates()
+											  .forEach((templateActivity: TemplateActivity) => {
+												  if (templateActivity.templateSetName === oldTemplateSetName) {
+													  this.firebaseTemplateService
+														  .editActivityTemplate(templateActivity, newTemplateSetName)
+														  .subscribe();
+												  }
+											  });
+						   });
+
+						   return !!templates;
+					   }),
+					   switchMap(() => {
+						   return this.activeTemplateSetService.onValues();
+					   }),
+					   map((activeTemplateSet: string) => {
+
+						   if (activeTemplateSet === oldTemplateSetName) {
+							   this.activeTemplateSetService.selectTemplateSet(newTemplateSetName);
+							   this.templatesService.loadTemplates(newTemplateSetName); // Todo;
+						   }
+
+						   return !!activeTemplateSet;
+					   })
+				   );
+	}
+
 	deleteTemplate(templateSetName: string): Observable<boolean> {
 		return this.firebaseTemplateSetsService
 				   .deleteTemplate(templateSetName)

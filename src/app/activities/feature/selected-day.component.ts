@@ -51,7 +51,7 @@ import { SelectedActivitiesService } from '../store/selected-activities/selected
 		</mat-tab-group>
 
 		<div *ngIf="isSelectedDayToday()"
-			 class="selected-day-add-activity-button-wrapper">
+			 class="add-button-wrapper">
 
 			<button mat-icon-button
 					[type]="'button'"

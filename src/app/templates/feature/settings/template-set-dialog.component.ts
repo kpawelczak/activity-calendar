@@ -1,8 +1,9 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ViewEncapsulation } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Inject, OnInit, ViewEncapsulation } from '@angular/core';
 import { TemplateSetsService } from '../../store/sets/template-sets.service';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivityCalendarForm } from '../../../common/utils/form/activity-calendar-form';
-import { MatDialog } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
+import { TemplateSetDialogData } from './template-set-dialog-data';
 
 @Component({
 	template: `
@@ -33,8 +34,8 @@ import { MatDialog } from '@angular/material/dialog';
 
 				<ac-button [loading]="loading"
 						   [type]="'submit'"
-						   (click)="addTemplate()">
-					Add
+						   (click)="saveTemplate()">
+					{{getButtonText()}}
 				</ac-button>
 			</div>
 
@@ -46,13 +47,14 @@ import { MatDialog } from '@angular/material/dialog';
 	encapsulation: ViewEncapsulation.None,
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class TemplateSetDialogComponent extends ActivityCalendarForm {
+export class TemplateSetDialogComponent extends ActivityCalendarForm implements OnInit {
 
 	loading: boolean;
 
 	constructor(private readonly templateSetsService: TemplateSetsService,
 				private readonly matDialog: MatDialog,
 				private readonly formBuilder: FormBuilder,
+				@Inject(MAT_DIALOG_DATA) private readonly templateSetDialogData: TemplateSetDialogData,
 				private readonly changeDetectorRef: ChangeDetectorRef) {
 		super();
 		this.form = this.formBuilder.group({
@@ -60,26 +62,63 @@ export class TemplateSetDialogComponent extends ActivityCalendarForm {
 		});
 	}
 
-	addTemplate(): void {
+	ngOnInit() {
+		if (this.isEdit()) {
+			this.form.controls['name'].setValue(this.templateSetDialogData.templateSetName);
+		}
+	}
+
+	saveTemplate(): void {
 		if (this.form.valid) {
 			this.loading = true;
-			const templateName = this.form.controls['name'].value;
-			this.templateSetsService
-				.addTemplateSetName(templateName)
-				.pipe(
-					this.takeUntil()
-				)
-				.subscribe(() => {
-					this.loading = false;
-					this.closeDialog();
-				}, () => {
-					this.loading = false;
-					this.changeDetectorRef.detectChanges();
-				});
+			const templateSetName = this.form.controls['name'].value;
+			if (this.isEdit()) {
+				this.editTemplateSet(templateSetName);
+			} else {
+				this.addTemplateSet(templateSetName);
+			}
 		}
 	}
 
 	closeDialog(): void {
 		this.matDialog.closeAll();
+	}
+
+	getButtonText(): string {
+		return this.isEdit() ? 'Edit' : 'Add';
+	}
+
+	private editTemplateSet(templateSetName: string): void {
+		this.templateSetsService
+			.editTemplateSetName(templateSetName, this.templateSetDialogData.templateSetName)
+			.pipe(
+				this.takeUntil()
+			)
+			.subscribe(() => {
+				this.loading = false;
+				this.closeDialog();
+			}, () => {
+				this.loading = false;
+				this.changeDetectorRef.detectChanges();
+			});
+	}
+
+	private addTemplateSet(templateSetName: string): void {
+		this.templateSetsService
+			.addTemplateSetName(templateSetName)
+			.pipe(
+				this.takeUntil()
+			)
+			.subscribe(() => {
+				this.loading = false;
+				this.closeDialog();
+			}, () => {
+				this.loading = false;
+				this.changeDetectorRef.detectChanges();
+			});
+	}
+
+	private isEdit(): boolean {
+		return !!this.templateSetDialogData.templateSetName;
 	}
 }

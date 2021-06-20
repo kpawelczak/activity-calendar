@@ -10,3 +10,12 @@
 	border-radius: 50%;
 	z-index: -1;
 }
+
+@mixin addMatButton() {
+	button.mat-icon-button {
+
+		mat-icon {
+			font-size: $mat-add-activity-size;
+		}
+	}
+}

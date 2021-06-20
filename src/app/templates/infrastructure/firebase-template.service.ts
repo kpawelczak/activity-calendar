@@ -47,6 +47,22 @@ export class FirebaseTemplateService extends ProfileCollection {
 				   );
 	}
 
+	editActivityTemplate(templateActivity: TemplateActivity,
+						 templateSetName: string): Observable<any> {
+		return from(this.profileCollection()
+						.doc('templates')
+						.collection('templates')
+						.doc(templateActivity.templateUUID)
+						.set({
+							...templateActivity,
+							templateSetName
+						})
+						.catch((error) => {
+							this.acSnackBar.notify(error, { warn: true });
+						})
+		);
+	}
+
 	deleteTemplateActivity(templateActivityUUID: string): Promise<void> {
 		return this.profileCollection()
 				   .doc('templates')

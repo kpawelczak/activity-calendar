@@ -98,6 +98,10 @@
 	width: 100%;
 }
 
+.templates-settings {
+	@include addMatButton();
+}
+
 .ac-templates-set-item {
 	display: flex;
 	align-items: center;
@@ -119,5 +123,14 @@
 
 	&:nth-last-child(1) {
 		border-bottom: none;
+	}
+
+	&:not(&.header) {
+		cursor: pointer;
+		transition: color 0.3s ease-in-out;
+
+		&:hover {
+			color: $primary-hover;
+		}
 	}
 }
