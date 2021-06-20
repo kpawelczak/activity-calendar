@@ -128,3 +128,12 @@ h2.selected-activity-day {
 		}
 	}
 }
+
+.selected-day-active-template-select {
+	display: block;
+	width: 100%;
+
+	mat-form-field {
+		width: 100%;
+	}
+}

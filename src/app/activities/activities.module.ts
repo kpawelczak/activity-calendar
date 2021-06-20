@@ -20,6 +20,7 @@ import { ActivitiesTemplateComponent } from './feature/template/activities-templ
 import { ActivitiesListComponent } from './feature/activities/activities-list.component';
 import { ActivityTemplateComponent } from './feature/template/activity-template.component';
 import { ActivityDialogComponent } from './feature/activity-dialog/activity-dialog.component';
+import { ActiveTemplateSelectComponent } from './feature/template/active-template-select.component';
 
 import { FirebaseActivitiesService } from './infrastructure/firebase-activities.service';
 import { FirebaseActivitiesCountService } from './infrastructure/firebase-activities-count.service';
@@ -32,6 +33,7 @@ import { SelectedActivitiesRepository } from './store/selected-activities/select
 import { SelectedActivitiesService } from './store/selected-activities/selected-activities.service';
 import { SelectedDayTemplateActivityRepository } from './store/template/selected-day-template-activity.repository';
 import { SelectedActivityService } from './store/selected-activity/selected-activity.service';
+import { SelectedDayActiveTemplateSetRepository } from './store/template/selected-day-active-template-set.repository';
 
 
 const infrastructure = [
@@ -47,7 +49,8 @@ const store = [
 	SelectedActivityService,
 	SelectedDayTemplateActivityRepository,
 	SelectedActivitiesRepository,
-	SelectedActivitiesService
+	SelectedActivitiesService,
+	SelectedDayActiveTemplateSetRepository
 ];
 
 const ui = [
@@ -75,7 +78,8 @@ const ui = [
 		ActivityDialogComponent,
 		ActivitiesListComponent,
 		ActivitiesTemplateComponent,
-		ActivityTemplateComponent
+		ActivityTemplateComponent,
+		ActiveTemplateSelectComponent
 	],
 	exports: [
 		SelectedDayComponent

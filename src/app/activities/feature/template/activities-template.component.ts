@@ -1,9 +1,13 @@
 import { ChangeDetectionStrategy, Component, Input, ViewEncapsulation } from '@angular/core';
 import { TemplateActivity } from '../../../templates/template-activity';
+import { WeekdayTemplate } from '../../../templates/store/weekday-template';
 
 @Component({
 	selector: 'ac-activities-template',
 	template: `
+		<selected-day-active-template-select [activeWeekdayTemplate]="activeWeekdayTemplate"
+											 [weekdayTemplates]="weekdayTemplates"></selected-day-active-template-select>
+
 		<div class="ac-selected-date-activity header">
 
 			<span>#</span>
@@ -33,5 +37,11 @@ export class ActivitiesTemplateComponent {
 
 	@Input()
 	templateActivities: Array<TemplateActivity>;
+
+	@Input()
+	weekdayTemplates: Array<WeekdayTemplate>;
+
+	@Input()
+	activeWeekdayTemplate: number;
 
 }

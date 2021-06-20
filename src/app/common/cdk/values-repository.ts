@@ -1,6 +1,7 @@
 import { BehaviorSubject, Observable, ReplaySubject, Subject } from 'rxjs';
 import { Reactive } from './reactive';
 import { OnDestroy } from '@angular/core';
+import { isNotNullOrUndefined } from 'codelyzer/util/isNotNullOrUndefined';
 
 export abstract class ValuesRepository<T> extends Reactive implements OnDestroy {
 
@@ -10,7 +11,7 @@ export abstract class ValuesRepository<T> extends Reactive implements OnDestroy 
 
 	protected constructor(value?: T) {
 		super();
-		if (value) {
+		if (isNotNullOrUndefined(value)) {
 			this.values = value;
 			this.values$ = new BehaviorSubject<T>(value);
 		} else {
