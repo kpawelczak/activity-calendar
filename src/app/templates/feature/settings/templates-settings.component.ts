@@ -106,6 +106,8 @@ export class TemplatesSettingsComponent extends Reactive implements OnInit {
 	}
 
 	deleteTemplateSet(templateSetName: string): void {
+		event.preventDefault();
+		event.stopPropagation();
 		this.templateSetsService
 			.deleteTemplate(templateSetName)
 			.subscribe();
