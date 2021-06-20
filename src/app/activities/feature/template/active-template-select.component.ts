@@ -9,7 +9,7 @@ import { WeekdayTemplate } from '../../../templates/store/weekday-template';
 	selector: 'selected-day-active-template-select',
 	template: `
 		<mat-form-field appearance="fill">
-			<mat-label>Weekday template set</mat-label>
+			<mat-label>Weekday template</mat-label>
 			<mat-select [formControl]="form">
 				<mat-option *ngFor="let weekdayTemplate of filteredWeekdayTemplates"
 							[value]="weekdayTemplate.getWeekday()"
