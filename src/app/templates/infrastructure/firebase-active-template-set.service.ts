@@ -5,6 +5,7 @@ import { AngularFirestore } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import firebase from 'firebase';
+import { defaultTemplateSetName } from '../store/sets/default-template-set-name';
 import DocumentData = firebase.firestore.DocumentData;
 
 
@@ -26,7 +27,7 @@ export class FirebaseActiveTemplateSetService extends ProfileCollection {
 					   map((data: DocumentData) => {
 						   const templateName = data?.templateName;
 						   this.setDefaultTemplateSet(templateName);
-						   return templateName ? templateName : 'default';
+						   return templateName ? templateName : defaultTemplateSetName;
 					   })
 				   );
 	}
@@ -45,7 +46,7 @@ export class FirebaseActiveTemplateSetService extends ProfileCollection {
 				.doc('templates')
 				.collection('template-sets')
 				.doc('active')
-				.set({ templateName: 'default' })
+				.set({ templateName: defaultTemplateSetName })
 				.finally();
 		}
 	}

@@ -125,7 +125,7 @@
 		border-bottom: none;
 	}
 
-	&:not(&.header) {
+	&:not(&.no-hover) {
 		cursor: pointer;
 		transition: color 0.3s ease-in-out;
 

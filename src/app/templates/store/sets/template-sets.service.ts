@@ -9,6 +9,7 @@ import { FirebaseTemplateService } from '../../infrastructure/firebase-template.
 import { WeekdayTemplate } from '../weekday-template';
 import { TemplatesRepository } from '../templates/templates.repository';
 import { TemplateActivity } from '../../template-activity';
+import { defaultTemplateSetName } from './default-template-set-name';
 
 @Injectable()
 export class TemplateSetsService {
@@ -114,8 +115,8 @@ export class TemplateSetsService {
 					   map((activeTemplateSet: string) => {
 
 						   if (activeTemplateSet === templateSetName) {
-							   this.activeTemplateSetService.selectTemplateSet('default');
-							   this.templatesService.loadTemplates('default');
+							   this.activeTemplateSetService.selectTemplateSet(defaultTemplateSetName);
+							   this.templatesService.loadTemplates(defaultTemplateSetName);
 						   }
 
 						   return !!activeTemplateSet;

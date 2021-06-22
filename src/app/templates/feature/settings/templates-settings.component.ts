@@ -18,7 +18,7 @@ import { combineLatest } from 'rxjs';
 
 		<div class="ac-templates-set-list">
 
-			<div class="ac-templates-set-item header">
+			<div class="ac-templates-set-item no-hover">
 
 				<div>#</div>
 
@@ -30,6 +30,7 @@ import { combineLatest } from 'rxjs';
 			</div>
 
 			<div *ngFor="let set of templateSets; let i = index"
+				 [class.no-hover]="isTemplateSetDefault(set)"
 				 (click)="openTemplateSetDialog(set)"
 				 class="ac-templates-set-item">
 
@@ -39,7 +40,7 @@ import { combineLatest } from 'rxjs';
 					{{set}}
 				</div>
 
-				<mat-icon *ngIf="!isTemplateDefault(set)"
+				<mat-icon *ngIf="!isTemplateSetDefault(set)"
 						  (click)="deleteTemplateSet(set)">
 					delete
 				</mat-icon>
@@ -92,16 +93,18 @@ export class TemplatesSettingsComponent extends Reactive implements OnInit {
 	}
 
 	openTemplateSetDialog(templateSetName?: string): void {
-		this.matDialog
-			.open(TemplateSetDialogComponent, {
-				panelClass: 'activity-calendar-dialog',
-				data: {
-					templateSetName
-				}
-			});
+		if (!this.isTemplateSetDefault(templateSetName)) {
+			this.matDialog
+				.open(TemplateSetDialogComponent, {
+					panelClass: 'activity-calendar-dialog',
+					data: {
+						templateSetName
+					}
+				});
+		}
 	}
 
-	isTemplateDefault(templateSetName: string): boolean {
+	isTemplateSetDefault(templateSetName: string): boolean {
 		return templateSetName === 'default';
 	}
 
