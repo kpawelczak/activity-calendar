@@ -8,16 +8,18 @@ import { WeekdayTemplate } from '../../../templates/store/weekday-template';
 @Component({
 	selector: 'selected-day-active-template-select',
 	template: `
-		<mat-form-field appearance="fill">
-			<mat-label>Weekday template</mat-label>
-			<mat-select [formControl]="form">
-				<mat-option *ngFor="let weekdayTemplate of filteredWeekdayTemplates"
-							[value]="weekdayTemplate.getWeekday()"
-							(click)="changeWeekdayTemplate(weekdayTemplate.getWeekday())">
-					{{getWeekdayName(weekdayTemplate.getWeekday())}}
-				</mat-option>
-			</mat-select>
-		</mat-form-field>
+		<ng-container *ngIf="canShowSelect">
+			<mat-form-field appearance="fill">
+				<mat-label>Weekday template</mat-label>
+				<mat-select [formControl]="form">
+					<mat-option *ngFor="let weekdayTemplate of filteredWeekdayTemplates"
+								[value]="weekdayTemplate.getWeekday()"
+								(click)="changeWeekdayTemplate(weekdayTemplate.getWeekday())">
+						{{getWeekdayName(weekdayTemplate.getWeekday())}}
+					</mat-option>
+				</mat-select>
+			</mat-form-field>
+		</ng-container>
 	`,
 	host: {
 		'[class.selected-day-active-template-select]': 'true'
@@ -37,6 +39,8 @@ export class ActiveTemplateSelectComponent implements OnChanges {
 
 	form = new FormControl();
 
+	canShowSelect: boolean;
+
 	constructor(private readonly selectedDayActiveTemplateSetRepository: SelectedDayActiveTemplateSetRepository) {
 	}
 
@@ -46,7 +50,10 @@ export class ActiveTemplateSelectComponent implements OnChanges {
 		}
 
 		if (changes.weekdayTemplates) {
-			this.setWeekdayTemplates();
+			if (this.weekdayTemplates) {
+				this.setWeekdayTemplates();
+				this.tryToShowSelect();
+			}
 		}
 	}
 
@@ -58,12 +65,20 @@ export class ActiveTemplateSelectComponent implements OnChanges {
 		return weekdayNames[weekdayTemplate].replace(/.$/, '');
 	}
 
+	tryToShowSelect(): void {
+		this.canShowSelect = false;
+		this.filteredWeekdayTemplates
+			.forEach((weekdayTemplate: WeekdayTemplate) => {
+				if (weekdayTemplate.getTemplateCounter() > 0) {
+					this.canShowSelect = true;
+				}
+			});
+	}
+
 	private setWeekdayTemplates(): void {
-		if (this.weekdayTemplates) {
-			const weekdayTemplates = [...this.weekdayTemplates];
-			this.filteredWeekdayTemplates
-				= weekdayTemplates
-				.filter((weekdayTemplate: WeekdayTemplate) => weekdayTemplate.getTemplateCounter() > 0);
-		}
+		const weekdayTemplates = [...this.weekdayTemplates];
+		this.filteredWeekdayTemplates
+			= weekdayTemplates
+			.filter((weekdayTemplate: WeekdayTemplate) => weekdayTemplate.getTemplateCounter() > 0);
 	}
 }

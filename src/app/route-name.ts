@@ -5,5 +5,6 @@ export enum RouteName {
 	REGISTRATION = 'registration',
 	TEMPLATES = 'templates',
 	TEMPLATES_SETTINGS = 'settings',
+	ACTIVITIES_SETTINGS = 'activities-settings',
 	RESET = 'reset'
 }

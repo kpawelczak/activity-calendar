@@ -7,6 +7,7 @@ import { ClientHomeModule } from './home/client-home.module';
 import { TemplatesModule } from '../templates/templates.module';
 import { ActivitiesModule } from '../activities/activities.module';
 import { ClientTemplatesModule } from './templates/client-templates.module';
+import { ActivitiesConfigModule } from '../activities-config/activities-config.module';
 
 
 @NgModule({
@@ -18,6 +19,7 @@ import { ClientTemplatesModule } from './templates/client-templates.module';
 		ClientHomeModule,
 		ClientTemplatesModule,
 
+		ActivitiesConfigModule.forRoot(),
 		ActivitiesModule.forRoot(),
 		TemplatesModule.forRoot()
 	],

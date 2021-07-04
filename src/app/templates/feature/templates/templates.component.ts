@@ -9,7 +9,7 @@ import { Reactive } from '../../../common/cdk/reactive';
 @Component({
 	selector: 'ac-templates',
 	template: `
-		<div class="ac-templates-title">
+		<div class="ac-title">
 			<h2>Active templates</h2>
 		</div>
 

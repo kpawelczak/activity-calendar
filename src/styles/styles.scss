@@ -18,6 +18,29 @@ body {
 	}
 }
 
+.ac-card {
+	display: block;
+	padding: $container-padding;
+	color: $white-gray;
+	background: $dark-element-background;
+}
+
+.ac-title {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: 0 $grid $grid*2 0;
+
+	h2 {
+		display: flex;
+		align-items: center;
+	}
+
+	mat-icon {
+		padding-right: $grid*2;
+	}
+}
+
 h1 {
 	color: $white;
 }
@@ -32,6 +55,29 @@ h1 {
 
 		@media (max-width: 576px) {
 			width: calc(100vw - 30px);
+		}
+	}
+
+	form {
+		display: flex;
+		flex-direction: column;
+
+		mat-form-field {
+			margin: $grid*2 0;
+			width: 100%;
+		}
+
+		.ac-selected-activity-form-buttons {
+			display: flex;
+			justify-content: space-between;
+			margin: $grid*2 0 0 0;
+
+			.ac-button {
+
+				button.mat-raised-button {
+					width: 200px;
+				}
+			}
 		}
 	}
 }

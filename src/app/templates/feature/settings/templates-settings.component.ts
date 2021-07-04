@@ -9,7 +9,7 @@ import { combineLatest } from 'rxjs';
 
 @Component({
 	template: `
-		<div class="ac-templates-title">
+		<div class="ac-title">
 			<h2>
 				<mat-icon [routerLink]="'../'">west</mat-icon>
 				Templates settings
@@ -53,7 +53,7 @@ import { combineLatest } from 'rxjs';
 					[type]="'button'"
 					[disableRipple]="true"
 					(click)="openTemplateSetDialog()">
-				<mat-icon (click)="openTemplateSetDialog()">add_circle</mat-icon>
+				<mat-icon>add_circle</mat-icon>
 			</button>
 		</div>
 	`,

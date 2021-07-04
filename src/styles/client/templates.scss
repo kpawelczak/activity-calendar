@@ -61,22 +61,6 @@
 	}
 }
 
-.ac-templates-title {
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
-	padding: 0 $grid $grid*2 0;
-
-	h2 {
-		display: flex;
-		align-items: center;
-	}
-
-	mat-icon {
-		padding-right: $grid*2;
-	}
-}
-
 .ac-templates-controller {
 	display: flex;
 	align-items: center;

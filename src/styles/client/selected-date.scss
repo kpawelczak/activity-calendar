@@ -77,28 +77,6 @@ h2.selected-activity-day {
 		margin-bottom: 0;
 		text-align: center;
 	}
-
-	form {
-		display: flex;
-		flex-direction: column;
-
-		mat-form-field {
-			margin: $grid*2 0;
-		}
-
-		.ac-selected-activity-form-buttons {
-			display: flex;
-			justify-content: space-between;
-			margin: $grid*2 0 0 0;
-
-			.ac-button {
-
-				button.mat-raised-button {
-					width: 200px;
-				}
-			}
-		}
-	}
 }
 
 .ac-activities-template {

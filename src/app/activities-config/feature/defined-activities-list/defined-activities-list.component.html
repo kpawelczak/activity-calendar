@@ -1,0 +1,33 @@
+<div class="ac-templates-set-list">
+
+	<div class="ac-templates-set-item no-hover">
+
+		<div>#</div>
+
+		<div>
+			Name
+		</div>
+
+		<div>Entry units</div>
+
+		<div></div>
+	</div>
+
+	<div *ngFor="let definedActivity of definedActivities; let i = index"
+		 (click)="openDefinedActivityDialog(definedActivity)"
+		 class="ac-templates-set-item">
+
+		<div>{{i + 1}}</div>
+
+		<div>
+			{{definedActivity.name}}
+		</div>
+
+		<div>{{getEntryUnits(definedActivity)}}</div>
+
+		<mat-icon (click)="deleteDefinedActivity(definedActivity.name)">
+			delete
+		</mat-icon>
+	</div>
+
+</div>

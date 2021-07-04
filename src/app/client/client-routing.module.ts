@@ -14,6 +14,9 @@ const routes = [{
 		}, {
 			path: RouteName.TEMPLATES,
 			loadChildren: () => import('./templates/client-templates.module').then(m => m.ClientTemplatesModule)
+		}, {
+			path: RouteName.ACTIVITIES_SETTINGS,
+			loadChildren: () => import('./activities-config/client-activities-config.module').then(m => m.ClientActivitiesConfigModule)
 		}
 	]
 }];
