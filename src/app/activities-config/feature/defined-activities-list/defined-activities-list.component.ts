@@ -40,10 +40,10 @@ export class DefinedActivitiesListComponent extends Reactive implements OnInit {
 		this.onDefinedActivitySelection.emit(activityConfig);
 	}
 
-	deleteDefinedActivity(activityConfigName: string): void {
+	deleteDefinedActivity(activityConfig: ActivityConfig): void {
 		event.preventDefault();
 		event.stopPropagation();
-		this.definedActivityService.deleteActivityConfig(activityConfigName);
+		this.definedActivityService.deleteActivityConfig(activityConfig).subscribe();
 	}
 
 	getEntryUnits(getEntryUnits: ActivityConfig): string {

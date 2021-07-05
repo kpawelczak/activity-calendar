@@ -26,11 +26,11 @@ export class ActivityConfigDialogComponent extends ActivityConfigForm {
 			this.loading = true;
 
 			const entries = this.getFormEntries()?.value.map((activityEntry: ActivityEntry) => new ActivityEntry(activityEntry.entryUnit)),
-				activityConfig = new ActivityConfig(this.activityConfigForm.controls['name'].value, entries);
+				activityConfig = new ActivityConfig(this.activityConfigForm.controls['name'].value, entries, this.acConfig?.getUUID());
 
 			if (this.isEdit()) {
 				this.definedActivityService
-					.editActivityConfig(activityConfig, this.acConfig.name)
+					.editActivityConfig(activityConfig)
 					.subscribe(() => {
 						this.matDialog.closeAll();
 					}, () => {

@@ -12,6 +12,7 @@ import DocumentData = firebase.firestore.DocumentData;
 interface FirebaseDefinedActivity {
 	name: string;
 	entries: Array<string>;
+	uuid: string;
 }
 
 @Injectable()
@@ -28,11 +29,10 @@ export class FirebaseDefinedActivitiesService extends ProfileCollection {
 				   .collection('defined-activities')
 				   .valueChanges()
 				   .pipe(
-					   filter((data: DocumentData) => !!data),
 					   map((data: DocumentData) => {
 						   const definedActivities = data?.map((firebaseDefinedActivity: FirebaseDefinedActivity) => {
 							   const activityEntries = this.getActivityEntries(firebaseDefinedActivity.entries);
-							   return new ActivityConfig(firebaseDefinedActivity.name, activityEntries);
+							   return new ActivityConfig(firebaseDefinedActivity.name, activityEntries, firebaseDefinedActivity.uuid);
 						   });
 						   this.setInitialList(definedActivities);
 						   return definedActivities ? definedActivities : [];

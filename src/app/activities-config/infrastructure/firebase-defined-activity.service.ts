@@ -20,39 +20,33 @@ export class FirebaseDefinedActivityService extends ProfileCollection {
 	addDefinedActivity(activityConfig: ActivityConfig): Observable<void> {
 		return from(
 			this.definedActivitiesDocument()
-				.doc(activityConfig.name)
+				.doc(activityConfig.getUUID())
 				.set({
 						name: activityConfig.name,
-						entries: activityConfig.entries.map((activityEntry: ActivityEntry) => activityEntry.entryUnit)
+						entries: activityConfig.entries.map((activityEntry: ActivityEntry) => activityEntry.entryUnit),
+						uuid: activityConfig.getUUID()
 					}
 				)
 		);
 	}
 
-	editDefinedActivity(activityConfig: ActivityConfig, oldActivityConfigName: string): Observable<void> {
-		const isDocNameChanged = activityConfig.name !== oldActivityConfigName,
-			docName = isDocNameChanged ? activityConfig.name : oldActivityConfigName;
-
+	editDefinedActivity(activityConfig: ActivityConfig): Observable<void> {
 		return from(
 			this.definedActivitiesDocument()
-				.doc(docName)
+				.doc(activityConfig.getUUID())
 				.set({
-						name: docName,
-						entries: activityConfig.entries.map((activityEntry: ActivityEntry) => activityEntry.entryUnit)
+						name: activityConfig.name,
+						entries: activityConfig.entries.map((activityEntry: ActivityEntry) => activityEntry.entryUnit),
+						uuid: activityConfig.getUUID()
 					}
 				)
-				.then(() => {
-					if (isDocNameChanged) {
-						this.definedActivitiesDocument().doc(oldActivityConfigName).delete().finally();
-					}
-				})
 		);
 	}
 
-	deleteDefinedActivity(activityConfigName: string): Observable<void> {
+	deleteDefinedActivity(activityConfigUUID: string): Observable<void> {
 		return from(
 			this.definedActivitiesDocument()
-				.doc(activityConfigName)
+				.doc(activityConfigUUID)
 				.delete()
 		);
 	}
