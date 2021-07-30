@@ -6,19 +6,31 @@ import { ActivityConfig } from '../store/activity-config';
 @Component({
 	selector: 'ac-activities-config',
 	template: `
-		<h2 class="ac-title">Activities configuration</h2>
+		<h2 class="ac-title">Defined activities configuration</h2>
 
-		<ac-defined-activities-list (onDefinedActivitySelection)="openActivityConfigDialog($event)">
-		</ac-defined-activities-list>
+		<mat-tab-group mat-stretch-tabs dynamicHeight>
 
-		<div class="add-button-wrapper">
-			<button mat-icon-button
-					[type]="'button'"
-					[disableRipple]="true"
-					(click)="openActivityConfigDialog()">
-				<mat-icon>add_circle</mat-icon>
-			</button>
-		</div>
+			<mat-tab [label]="'Activities'">
+				<ac-defined-activities-list (onDefinedActivitySelection)="openActivityConfigDialog($event)">
+				</ac-defined-activities-list>
+
+				<div class="add-button-wrapper">
+					<button mat-icon-button
+							[type]="'button'"
+							[disableRipple]="true"
+							(click)="openActivityConfigDialog()">
+						<mat-icon>add_circle</mat-icon>
+					</button>
+				</div>
+			</mat-tab>
+
+			<mat-tab [label]="'Units'">
+				<ac-config-units></ac-config-units>
+			</mat-tab>
+
+		</mat-tab-group>
+
+
 	`,
 	host: {
 		'[class.ac-card]': 'true'

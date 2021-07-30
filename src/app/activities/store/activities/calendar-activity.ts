@@ -1,20 +1,26 @@
 export class CalendarActivity {
 
-	private assignedTemplateUUID: string;
+	private assignedTemplateUUID: string = '-1';
 
 	private activityUUID: string;
+
+	private values: Array<string>;
+
+	private units: Array<string>;
 
 	constructor(readonly day: number,
 				readonly name: string,
 				readonly amount: string,
-				activityUUID?: string,
-				assignedTemplateUUID: string = '-1') {
-		if (activityUUID) {
-			this.activityUUID = activityUUID;
+				options?: {
+					activityUUID?: string,
+					assignedTemplateUUID?: string
+				}) {
+		if (options?.activityUUID) {
+			this.activityUUID = options.activityUUID;
 		}
 
-		if (assignedTemplateUUID) {
-			this.assignedTemplateUUID = assignedTemplateUUID;
+		if (options?.assignedTemplateUUID) {
+			this.assignedTemplateUUID = options.assignedTemplateUUID;
 		}
 	}
 

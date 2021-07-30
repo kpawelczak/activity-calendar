@@ -37,8 +37,10 @@ export class FirebaseActivitiesService extends ProfileCollection {
 								   calendarActivity.day,
 								   calendarActivity.name,
 								   calendarActivity.amount,
-								   calendarActivity.activityUUID,
-								   calendarActivity.assignedTemplateUUID
+								   {
+									   activityUUID: calendarActivity.activityUUID,
+									   assignedTemplateUUID: calendarActivity.assignedTemplateUUID
+								   }
 							   );
 						   });
 					   }),

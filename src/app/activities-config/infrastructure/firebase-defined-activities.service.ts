@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { ProfileCollection } from '../../profile/profile-collection';
 import { Observable } from 'rxjs';
-import { filter, map, take } from 'rxjs/operators';
+import { map, take } from 'rxjs/operators';
 import firebase from 'firebase';
 import { ActivityConfig } from '../store/activity-config';
 import { ActivityEntry } from '../store/activity-entry';

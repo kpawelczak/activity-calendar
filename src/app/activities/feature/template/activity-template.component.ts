@@ -66,8 +66,10 @@ export class ActivityTemplateComponent extends Reactive implements OnChanges, On
 				this.selectedDay.getTime(),
 				this.templateActivity.name,
 				this.templateActivity.amount,
-				uuid,
-				this.templateActivity.templateUUID
+				{
+					activityUUID: uuid,
+					assignedTemplateUUID: this.templateActivity.templateUUID
+				}
 			);
 		}
 	}
