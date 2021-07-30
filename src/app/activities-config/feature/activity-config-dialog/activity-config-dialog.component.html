@@ -25,7 +25,13 @@
 			<mat-form-field>
 
 				<mat-label>Activity entry unit</mat-label>
-				<input matInput type="text" [formControlName]="'entryUnit'">
+
+				<mat-select [formControlName]="'entryUnit'">
+					<mat-option *ngFor="let unit of units"
+								[value]="unit">
+						{{unit}}
+					</mat-option>
+				</mat-select>
 
 				<button *ngIf="hasValue(i.toString())"
 						type="button"

@@ -22,6 +22,7 @@ import { DefinedActivitiesRepository } from './store/defined-activities/defined-
 import { MatTabsModule } from '@angular/material/tabs';
 import { UnitsRepository } from './store/units/units.repository';
 import { UnitsService } from './store/units/units.service';
+import { MatSelectModule } from '@angular/material/select';
 
 const infrastructure = [
 	FirebaseDefinedActivityService,
@@ -45,7 +46,8 @@ const store = [
 		MatIconModule,
 		ActivityCalendarButtonModule,
 		MatInputModule,
-		MatTabsModule
+		MatTabsModule,
+		MatSelectModule
 	],
 	declarations: [
 		ActivitiesConfigComponent,

@@ -1,24 +1,38 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Inject, ViewEncapsulation } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Inject, OnInit, ViewEncapsulation } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
 import { ActivityConfigForm } from './activity-config-form';
 import { ActivityConfig } from '../../store/activity-config';
 import { DefinedActivityService } from '../../store/defined-activities/defined-activity.service';
 import { ActivityEntry } from '../../store/activity-entry';
+import { UnitsRepository } from '../../store/units/units.repository';
 
 @Component({
 	templateUrl: './activity-config-dialog.component.html',
 	encapsulation: ViewEncapsulation.None,
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ActivityConfigDialogComponent extends ActivityConfigForm {
+export class ActivityConfigDialogComponent extends ActivityConfigForm implements OnInit {
 
 	loading: boolean;
 
+	units: Array<string>;
+
 	constructor(private readonly matDialog: MatDialog,
 				private readonly definedActivityService: DefinedActivityService,
+				private readonly unitsRepository: UnitsRepository,
 				private readonly changeDetectorRef: ChangeDetectorRef,
 				@Inject(MAT_DIALOG_DATA) private readonly acConfig: ActivityConfig) {
 		super(acConfig);
+	}
+
+	ngOnInit() {
+		this.unitsRepository
+			.onValues()
+			.pipe(this.takeUntil())
+			.subscribe((units: Array<string>) => {
+				this.units = units;
+				this.changeDetectorRef.detectChanges();
+			});
 	}
 
 	saveForm(): void {
