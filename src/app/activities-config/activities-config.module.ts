@@ -11,6 +11,7 @@ import { ActivitiesConfigComponent } from './feature/activities-config.component
 import { DefinedActivitiesListComponent } from './feature/defined-activities-list/defined-activities-list.component';
 import { ActivityConfigDialogComponent } from './feature/activity-config-dialog/activity-config-dialog.component';
 import { ActivitiesConfigUnitsComponent } from './feature/activities-config-units/activities-config-units.component';
+import { ActivitiesConfigUnitDialogComponent } from './feature/activities-config-units/activities-config-unit-dialog.component';
 
 import { FirebaseDefinedActivitiesService } from './infrastructure/firebase-defined-activities.service';
 import { FirebaseDefinedActivityService } from './infrastructure/firebase-defined-activity.service';
@@ -50,7 +51,8 @@ const store = [
 		ActivitiesConfigComponent,
 		ActivityConfigDialogComponent,
 		DefinedActivitiesListComponent,
-		ActivitiesConfigUnitsComponent
+		ActivitiesConfigUnitsComponent,
+		ActivitiesConfigUnitDialogComponent
 	],
 	exports: [
 		ActivitiesConfigComponent

@@ -1,1 +1,37 @@
-<p>activities-config-units works!</p>
+<div class="ac-templates-set-list">
+
+	<div class="ac-templates-set-item no-hover">
+
+		<div>#</div>
+
+		<div>
+			Name
+		</div>
+
+		<div></div>
+	</div>
+
+	<div *ngFor="let unit of units; let i = index"
+		 class="ac-templates-set-item">
+
+		<div>{{i + 1}}</div>
+
+		<div>
+			{{unit}}
+		</div>
+
+		<mat-icon (click)="deleteUnit(unit)">
+			delete
+		</mat-icon>
+	</div>
+
+</div>
+
+<div class="add-button-wrapper">
+	<button mat-icon-button
+			[type]="'button'"
+			[disableRipple]="true"
+			(click)="openUnitDialog()">
+		<mat-icon>add_circle</mat-icon>
+	</button>
+</div>

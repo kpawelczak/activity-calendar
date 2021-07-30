@@ -8,6 +8,9 @@ import { DefinedActivityService } from '../../store/defined-activities/defined-a
 @Component({
 	selector: 'ac-defined-activities-list',
 	templateUrl: './defined-activities-list.component.html',
+	host: {
+		'[class.ac-templates-set-list]': 'true'
+	},
 	encapsulation: ViewEncapsulation.None,
 	changeDetection: ChangeDetectionStrategy.OnPush
 })

@@ -5,6 +5,7 @@ import { map, take } from 'rxjs/operators';
 import firebase from 'firebase';
 import { ProfileService } from '../../profile/profile.service';
 import { AngularFirestore } from '@angular/fire/firestore';
+import { fromPromise } from 'rxjs/internal-compatibility';
 import DocumentData = firebase.firestore.DocumentData;
 
 @Injectable()
@@ -24,10 +25,20 @@ export class FirebaseUnitsService extends ProfileCollection {
 				   .pipe(
 					   map((data: DocumentData) => {
 						   this.setInitialUnits(data);
-						   return data ? data : [];
+						   return data ? data.units : [];
 					   }),
 					   take(1)
 				   );
+	}
+
+	replaceUnits(units: Array<string>): Observable<void> {
+		return fromPromise(this.profileCollection()
+							   .doc('activities')
+							   .collection('units')
+							   .doc('units')
+							   .set({
+								   units
+							   }).finally());
 	}
 
 	private setInitialUnits(units: DocumentData) {

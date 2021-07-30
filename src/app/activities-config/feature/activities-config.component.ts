@@ -29,8 +29,6 @@ import { ActivityConfig } from '../store/activity-config';
 			</mat-tab>
 
 		</mat-tab-group>
-
-
 	`,
 	host: {
 		'[class.ac-card]': 'true'
