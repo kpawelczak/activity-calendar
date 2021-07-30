@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ViewEncapsulatio
 import { MatDialog } from '@angular/material/dialog';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { UnitsService } from '../../store/units/units.service';
+import { Reactive } from '../../../common/cdk/reactive';
 
 @Component({
 	template: `
@@ -36,7 +37,7 @@ import { UnitsService } from '../../store/units/units.service';
 	encapsulation: ViewEncapsulation.None,
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ActivitiesConfigUnitDialogComponent {
+export class ActivitiesConfigUnitDialogComponent extends Reactive {
 
 	loading: boolean;
 
@@ -46,6 +47,7 @@ export class ActivitiesConfigUnitDialogComponent {
 				private readonly formBuilder: FormBuilder,
 				private readonly unitsService: UnitsService,
 				private readonly changeDetectorRef: ChangeDetectorRef) {
+		super();
 		this.form = this.formBuilder.group({
 			'unit': ['', Validators.required]
 		});
@@ -63,6 +65,7 @@ export class ActivitiesConfigUnitDialogComponent {
 
 			this.unitsService
 				.addUnit(unit)
+				.pipe(this.takeUntil())
 				.subscribe(() => {
 					this.matDialog.closeAll();
 				}, () => {

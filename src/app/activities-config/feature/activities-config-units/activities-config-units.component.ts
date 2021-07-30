@@ -25,6 +25,7 @@ export class ActivitiesConfigUnitsComponent extends Reactive implements OnInit {
 	ngOnInit(): void {
 		this.unitsRepository
 			.onValues()
+			.pipe(this.takeUntil())
 			.subscribe((units: Array<string>) => {
 				this.units = units;
 				this.changeDetectorRef.detectChanges();
