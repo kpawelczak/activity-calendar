@@ -16,20 +16,49 @@
 
 	</mat-form-field>
 
-	<mat-form-field class="example-form-field">
+	<div *ngIf="getFormEntries()"
+		 formArrayName="entries">
 
-		<mat-label>Amount</mat-label>
+		<div *ngFor="let item of getFormEntries().controls; let i = index"
+			 [formGroupName]="i">
 
-		<input matInput type="text" formControlName="amount">
+			<mat-form-field>
 
-		<button *ngIf="hasValue('amount')"
-				type="button"
-				(click)="clearFormItem('amount')"
-				mat-button matSuffix mat-icon-button aria-label="Clear">
-			<mat-icon>close</mat-icon>
-		</button>
+				<mat-label>Unit</mat-label>
 
-	</mat-form-field>
+				<mat-select [formControlName]="'unit'">
+					<mat-option *ngFor="let unit of units"
+								[value]="unit">
+						{{unit}}
+					</mat-option>
+				</mat-select>
+
+<!--				<button *ngIf="hasValue(i.toString())"-->
+<!--						type="button"-->
+<!--						(click)="clearFormItem(i.toString())"-->
+<!--						mat-button matSuffix mat-icon-button aria-label="Clear">-->
+<!--					<mat-icon>close</mat-icon>-->
+<!--				</button>-->
+
+			</mat-form-field>
+
+			<mat-form-field>
+
+				<mat-label>Value</mat-label>
+				<input matInput type="text" [formControlName]="'value'">
+
+<!--				<button *ngIf="hasValue('value')"-->
+<!--						type="button"-->
+<!--						(click)="clearFormItem('value')"-->
+<!--						mat-button matSuffix mat-icon-button aria-label="Clear">-->
+<!--					<mat-icon>close</mat-icon>-->
+<!--				</button>-->
+
+			</mat-form-field>
+
+		</div>
+
+	</div>
 
 	<div class="ac-selected-activity-form-buttons">
 		<button mat-button

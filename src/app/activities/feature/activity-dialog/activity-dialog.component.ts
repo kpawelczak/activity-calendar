@@ -1,10 +1,12 @@
-import { ChangeDetectionStrategy, Component, Inject, OnInit, ViewEncapsulation } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Inject, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { SelectedActivityService } from '../../store/selected-activity/selected-activity.service';
-import { ActivityForm } from '../../../common/utils/form/activity-form';
+import { ActivityForm } from './activity-form';
 import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
 import { ActivityDialogData } from './activity-dialog-data';
 import { CalendarActivity } from '../../store/activities/calendar-activity';
+import { UnitsRepository } from '../../../activities-config/store/units/units.repository';
+import { ActivityDimensioned } from '../../store/activities/activity-dimensioned';
 
 @Component({
 	selector: 'ac-activity-dialog',
@@ -19,17 +21,28 @@ export class ActivityDialogComponent extends ActivityForm implements OnInit {
 
 	loading: boolean = false;
 
+	units: Array<string>;
+
 	constructor(private readonly selectedDayActivityService: SelectedActivityService,
+				private readonly unitsRepository: UnitsRepository,
 				private readonly matDialog: MatDialog,
 				@Inject(MAT_DIALOG_DATA) private readonly selectedDayDialogData: ActivityDialogData,
+				private readonly changeDetectorRef: ChangeDetectorRef,
 				formBuilder: FormBuilder) {
-		super(formBuilder);
+		super(formBuilder, selectedDayDialogData.selectedActivity);
 	}
 
 	ngOnInit() {
-		if (this.selectedDayDialogData.selectedActivity) {
-			this.fillForm(this.selectedDayDialogData.selectedActivity);
-		}
+		this.unitsRepository
+			.onValues()
+			.pipe(this.takeUntil())
+			.subscribe((units: Array<string>) => {
+				this.units = units;
+				if (this.selectedDayDialogData.selectedActivity) {
+					this.fillForm(this.selectedDayDialogData.selectedActivity);
+				}
+				this.changeDetectorRef.detectChanges();
+			});
 	}
 
 	getFormTypeText(): string {
@@ -62,7 +75,7 @@ export class ActivityDialogComponent extends ActivityForm implements OnInit {
 		const calendarActivity = new CalendarActivity(
 			this.selectedDayDialogData.selectedDay.getTime(),
 			this.form.controls['name'].value,
-			this.form.controls['amount'].value
+			[new ActivityDimensioned('', '')]
 		);
 
 		this.selectedDayActivityService

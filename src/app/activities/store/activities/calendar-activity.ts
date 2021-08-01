@@ -1,16 +1,14 @@
+import { ActivityDimensioned } from './activity-dimensioned';
+
 export class CalendarActivity {
 
 	private assignedTemplateUUID: string = '-1';
 
 	private activityUUID: string;
 
-	private values: Array<string>;
-
-	private units: Array<string>;
-
 	constructor(readonly day: number,
 				readonly name: string,
-				readonly amount: string,
+				readonly dimensionedActivities: Array<ActivityDimensioned>,
 				options?: {
 					activityUUID?: string,
 					assignedTemplateUUID?: string

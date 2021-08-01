@@ -26,7 +26,7 @@ import { distinctUntilChanged, filter, map } from 'rxjs/operators';
 
 			<span>{{calendarActivity.name}}</span>
 
-			<span>{{calendarActivity.amount}}</span>
+<!--			<span>{{calendarActivity.amount}}</span>-->
 
 			<mat-checkbox [checked]="checked"></mat-checkbox>
 		</div>
@@ -62,15 +62,15 @@ export class ActivityTemplateComponent extends Reactive implements OnChanges, On
 		if (changes.templateActivity) {
 
 			const uuid = uuidv4();
-			this.calendarActivity = new CalendarActivity(
-				this.selectedDay.getTime(),
-				this.templateActivity.name,
-				this.templateActivity.amount,
-				{
-					activityUUID: uuid,
-					assignedTemplateUUID: this.templateActivity.templateUUID
-				}
-			);
+			// this.calendarActivity = new CalendarActivity(
+			// 	this.selectedDay.getTime(),
+			// 	this.templateActivity.name,
+			// 	this.templateActivity.amount,
+			// 	{
+			// 		activityUUID: uuid,
+			// 		assignedTemplateUUID: this.templateActivity.templateUUID
+			// 	}
+			// );
 		}
 	}
 

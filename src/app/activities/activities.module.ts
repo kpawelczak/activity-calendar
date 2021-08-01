@@ -34,6 +34,7 @@ import { SelectedActivitiesService } from './store/selected-activities/selected-
 import { SelectedDayTemplateActivityRepository } from './store/template/selected-day-template-activity.repository';
 import { SelectedActivityService } from './store/selected-activity/selected-activity.service';
 import { SelectedDayActiveTemplateSetRepository } from './store/template/selected-day-active-template-set.repository';
+import { ActivitiesConfigModule } from '../activities-config/activities-config.module';
 
 
 const infrastructure = [
@@ -71,6 +72,7 @@ const ui = [
 		ReactiveFormsModule,
 		FormsModule,
 		TemplatesModule.forFeature(),
+		ActivitiesConfigModule.forFeature(),
 		...ui
 	],
 	declarations: [

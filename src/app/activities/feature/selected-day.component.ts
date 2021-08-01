@@ -45,10 +45,10 @@ import { TemplatesRepository } from '../../templates/store/templates/templates.r
 			<mat-tab *ngIf="canShowTemplates()"
 					 [label]="'Template'">
 
-				<ac-activities-template [selectedDay]="selectedDay"
-										[templateActivities]="templateActivities"
-										[weekdayTemplates]="weekdayTemplates"
-										[activeWeekdayTemplate]="activeWeekdayTemplate"></ac-activities-template>
+<!--				<ac-activities-template [selectedDay]="selectedDay"-->
+<!--										[templateActivities]="templateActivities"-->
+<!--										[weekdayTemplates]="weekdayTemplates"-->
+<!--										[activeWeekdayTemplate]="activeWeekdayTemplate"></ac-activities-template>-->
 
 			</mat-tab>
 
@@ -157,10 +157,6 @@ export class SelectedDayComponent extends Reactive implements OnChanges, OnInit 
 
 	getActivitiesLabel(): string {
 		return this.isSelectedDayToday() ? 'Activities' : 'Past activities';
-	}
-
-	getWeekDay(): Weekday {
-		return new Date().getDay();
 	}
 
 	canShowActivities(): boolean {

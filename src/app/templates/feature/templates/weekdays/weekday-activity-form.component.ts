@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, Input, OnChanges, SimpleChanges, ViewEncapsulation } from '@angular/core';
-import { ActivityForm } from '../../../../common/utils/form/activity-form';
+import { ActivityForm } from '../../../../activities/feature/activity-dialog/activity-form';
 import { FormBuilder } from '@angular/forms';
 import { TemplateActivity } from '../../../template-activity';
 import { TemplateService } from '../../../store/template/template.service';
