@@ -20,8 +20,8 @@ import { Reactive } from '../../../common/cdk/reactive';
 
 		<mat-accordion multi>
 
-			<ac-weekday-template *ngFor="let weekdayTemplate of weekdayTemplates"
-								 [weekdayTemplate]="weekdayTemplate"></ac-weekday-template>
+			<ac-weekday-template-activities *ngFor="let weekdayTemplate of weekdayTemplates"
+											[weekdayTemplate]="weekdayTemplate"></ac-weekday-template-activities>
 
 		</mat-accordion>
 	`,

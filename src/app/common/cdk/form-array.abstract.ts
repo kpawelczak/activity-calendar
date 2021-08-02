@@ -4,12 +4,14 @@ import { Reactive } from './reactive';
 
 export abstract class AbstractFormArray<T> extends Reactive {
 
-	form: FormGroup;
+	private form: FormGroup;
+
+	private formArray = new FormArray([]);
 
 	protected constructor() {
 		super();
 		this.form = new FormGroup({
-			formArray: new FormArray([])
+			formArray: this.formArray
 		});
 	}
 
@@ -25,6 +27,7 @@ export abstract class AbstractFormArray<T> extends Reactive {
 	}
 
 	protected createFormArray(itemsArray: Array<T>): FormArray {
+
 		itemsArray.forEach((arrayItem: T) => {
 			this.addToFormArray(arrayItem);
 		});
@@ -44,7 +47,7 @@ export abstract class AbstractFormArray<T> extends Reactive {
 			...itemControls
 		});
 
-		this.getFormArray().push(formItem);
+		this.formArray.push(formItem);
 	}
 
 	protected clearFormArray(): void {

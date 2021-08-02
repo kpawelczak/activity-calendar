@@ -1,35 +1,35 @@
 export class ActivityDimensioned {
 
-	private value: string;
+	private activityValue: string;
 
-	private unit: string;
+	private activityUnit: string;
 
-	constructor(value: string,
-				unit: string) {
+	constructor(readonly value: string,
+				readonly unit: string) {
 
 		if (value) {
-			this.value = value;
+			this.activityValue = value;
 		}
 
 		if (unit) {
-			this.unit = unit;
+			this.activityUnit = unit;
 		}
 	}
 
 	getValue(): string {
-		return this.value;
+		return this.activityValue;
 	}
 
 	getUnit(): string {
-		return this.unit;
+		return this.activityUnit;
 	}
 
 	setValue(value: string): void {
-		this.value = value;
+		this.activityValue = value;
 	}
 
 	setUnit(value: string): void {
-		this.unit = value;
+		this.activityUnit = value;
 	}
 
 }

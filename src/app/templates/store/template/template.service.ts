@@ -14,9 +14,9 @@ export class TemplateService {
 				private readonly templatesService: TemplatesService) {
 	}
 
-	addActivityToTemplate(weekdayTemplate: WeekdayTemplate, templateActivity: TemplateActivity): void {
-		this.saveActivityToTemplate(weekdayTemplate, templateActivity).subscribe();
-	}
+	// addActivityToTemplate(weekdayTemplate: WeekdayTemplate, templateActivity: TemplateActivity): void {
+	// 	this.saveActivityToTemplate(weekdayTemplate, templateActivity).subscribe();
+	// }
 
 	saveActivityToTemplate(weekdayTemplate: WeekdayTemplate, templateActivity: TemplateActivity): Observable<WeekdayTemplate> {
 		return this.firebaseTemplatesService

@@ -1,9 +1,9 @@
 import { ChangeDetectionStrategy, Component, Input, OnChanges, SimpleChanges, ViewEncapsulation } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { Weekday } from '../../../templates/weekday';
-import { weekdayNames } from '../../../templates/feature/templates/weekdays/weekday-names';
 import { SelectedDayActiveTemplateSetRepository } from '../../store/template/selected-day-active-template-set.repository';
 import { WeekdayTemplate } from '../../../templates/store/weekday-template';
+import { weekdayNames } from '../../../templates/feature/templates/weekday-activities/weekday-names';
 
 @Component({
 	selector: 'selected-day-active-template-select',

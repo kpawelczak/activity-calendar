@@ -6,7 +6,6 @@ import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
 import { ActivityDialogData } from './activity-dialog-data';
 import { CalendarActivity } from '../../store/activities/calendar-activity';
 import { UnitsRepository } from '../../../activities-config/store/units/units.repository';
-import { ActivityDimensioned } from '../../store/activities/activity-dimensioned';
 
 @Component({
 	selector: 'ac-activity-dialog',
@@ -17,7 +16,7 @@ import { ActivityDimensioned } from '../../store/activities/activity-dimensioned
 	encapsulation: ViewEncapsulation.None,
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ActivityDialogComponent extends ActivityForm implements OnInit {
+export class ActivityDialogComponent extends ActivityForm<CalendarActivity> implements OnInit {
 
 	loading: boolean = false;
 
@@ -26,8 +25,8 @@ export class ActivityDialogComponent extends ActivityForm implements OnInit {
 	constructor(private readonly selectedDayActivityService: SelectedActivityService,
 				private readonly unitsRepository: UnitsRepository,
 				private readonly matDialog: MatDialog,
-				@Inject(MAT_DIALOG_DATA) private readonly selectedDayDialogData: ActivityDialogData,
 				private readonly changeDetectorRef: ChangeDetectorRef,
+				@Inject(MAT_DIALOG_DATA) private readonly selectedDayDialogData: ActivityDialogData,
 				formBuilder: FormBuilder) {
 		super(formBuilder, selectedDayDialogData.selectedActivity);
 	}
@@ -38,9 +37,6 @@ export class ActivityDialogComponent extends ActivityForm implements OnInit {
 			.pipe(this.takeUntil())
 			.subscribe((units: Array<string>) => {
 				this.units = units;
-				if (this.selectedDayDialogData.selectedActivity) {
-					this.fillForm(this.selectedDayDialogData.selectedActivity);
-				}
 				this.changeDetectorRef.detectChanges();
 			});
 	}
@@ -50,7 +46,7 @@ export class ActivityDialogComponent extends ActivityForm implements OnInit {
 	}
 
 	manageActivity(): void {
-		if (this.form.valid) {
+		if (this.activityForm.valid) {
 			this.loading = true;
 
 			switch (true) {
@@ -74,8 +70,8 @@ export class ActivityDialogComponent extends ActivityForm implements OnInit {
 	private addActivity(): void {
 		const calendarActivity = new CalendarActivity(
 			this.selectedDayDialogData.selectedDay.getTime(),
-			this.form.controls['name'].value,
-			[new ActivityDimensioned('', '')]
+			this.activityForm.controls['name'].value,
+			this.activityForm.controls['entries'].value
 		);
 
 		this.selectedDayActivityService
@@ -91,8 +87,8 @@ export class ActivityDialogComponent extends ActivityForm implements OnInit {
 	private updateActivity(): void {
 		const calendarActivity = new CalendarActivity(
 			this.selectedDayDialogData.selectedActivity.day,
-			this.form.controls['name'].value,
-			this.form.controls['amount'].value,
+			this.activityForm.controls['name'].value,
+			this.activityForm.controls['entries'].value,
 			{
 				activityUUID: this.selectedDayDialogData.selectedActivity.getActivityUUID()
 			}

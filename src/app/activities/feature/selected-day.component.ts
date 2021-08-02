@@ -14,7 +14,6 @@ import { MatDialog } from '@angular/material/dialog';
 import { ActivityDialogComponent } from './activity-dialog/activity-dialog.component';
 import { CalendarActivity } from '../store/activities/calendar-activity';
 import { DateUtils } from '../../common/utils/date-util/date-utils';
-import { Weekday } from '../../templates/weekday';
 import { TemplateActivity } from '../../templates/template-activity';
 import { TemplateRepository } from '../../templates/store/template/template.repository';
 import { WeekdayTemplate } from '../../templates/store/weekday-template';
@@ -45,10 +44,10 @@ import { TemplatesRepository } from '../../templates/store/templates/templates.r
 			<mat-tab *ngIf="canShowTemplates()"
 					 [label]="'Template'">
 
-<!--				<ac-activities-template [selectedDay]="selectedDay"-->
-<!--										[templateActivities]="templateActivities"-->
-<!--										[weekdayTemplates]="weekdayTemplates"-->
-<!--										[activeWeekdayTemplate]="activeWeekdayTemplate"></ac-activities-template>-->
+				<ac-activities-template [selectedDay]="selectedDay"
+										[templateActivities]="templateActivities"
+										[weekdayTemplates]="weekdayTemplates"
+										[activeWeekdayTemplate]="activeWeekdayTemplate"></ac-activities-template>
 
 			</mat-tab>
 

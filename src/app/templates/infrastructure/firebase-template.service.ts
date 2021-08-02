@@ -32,7 +32,7 @@ export class FirebaseTemplateService extends ProfileCollection {
 										   .set({
 											   weekday: templateActivity.weekday,
 											   name: templateActivity.name,
-											   amount: templateActivity.amount,
+											   dimensionedActivities: templateActivity.dimensionedActivities,
 											   templateUUID: UUID,
 											   templateSetName
 										   })

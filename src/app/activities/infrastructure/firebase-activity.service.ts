@@ -35,15 +35,14 @@ export class FirebaseActivityService extends ProfileCollection {
 	}
 
 	updateActivity(activity: CalendarActivity): Promise<void> {
-		const activitiesDimensioned = JSON.stringify(activity.dimensionedActivities);
-
 		return this.profileCollection()
 				   .doc('activities')
 				   .collection('days')
 				   .doc(activity.getActivityUUID())
-				   .update({
+				   .set({
+					   ...activity,
 					   name: activity.name,
-					   activitiesDimensioned
+					   activitiesDimensioned: activity.dimensionedActivities
 				   })
 				   .catch((error) => {
 					   this.acSnackBar.notify(error, { warn: true });

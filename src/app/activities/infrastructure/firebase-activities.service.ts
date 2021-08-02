@@ -36,7 +36,7 @@ export class FirebaseActivitiesService extends ProfileCollection {
 							   return new CalendarActivity(
 								   calendarActivity.day,
 								   calendarActivity.name,
-								   calendarActivity.amount,
+								   calendarActivity.dimensionedActivities,
 								   {
 									   activityUUID: calendarActivity.activityUUID,
 									   assignedTemplateUUID: calendarActivity.assignedTemplateUUID

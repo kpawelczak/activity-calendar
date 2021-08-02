@@ -1,6 +1,6 @@
 <h2 class="selected-activity-form-title">{{getFormTypeText()}} activity</h2>
 
-<form [formGroup]="form">
+<form [formGroup]="activityForm">
 
 	<mat-form-field class="example-form-field">
 
@@ -17,7 +17,7 @@
 	</mat-form-field>
 
 	<div *ngIf="getFormEntries()"
-		 formArrayName="entries">
+		 [formArrayName]="'entries'">
 
 		<div *ngFor="let item of getFormEntries().controls; let i = index"
 			 [formGroupName]="i">
@@ -33,12 +33,12 @@
 					</mat-option>
 				</mat-select>
 
-<!--				<button *ngIf="hasValue(i.toString())"-->
-<!--						type="button"-->
-<!--						(click)="clearFormItem(i.toString())"-->
-<!--						mat-button matSuffix mat-icon-button aria-label="Clear">-->
-<!--					<mat-icon>close</mat-icon>-->
-<!--				</button>-->
+				<!--				<button *ngIf="hasValue(i.toString())"-->
+				<!--						type="button"-->
+				<!--						(click)="clearFormItem(i.toString())"-->
+				<!--						mat-button matSuffix mat-icon-button aria-label="Clear">-->
+				<!--					<mat-icon>close</mat-icon>-->
+				<!--				</button>-->
 
 			</mat-form-field>
 
@@ -47,12 +47,12 @@
 				<mat-label>Value</mat-label>
 				<input matInput type="text" [formControlName]="'value'">
 
-<!--				<button *ngIf="hasValue('value')"-->
-<!--						type="button"-->
-<!--						(click)="clearFormItem('value')"-->
-<!--						mat-button matSuffix mat-icon-button aria-label="Clear">-->
-<!--					<mat-icon>close</mat-icon>-->
-<!--				</button>-->
+				<!--				<button *ngIf="hasValue('value')"-->
+				<!--						type="button"-->
+				<!--						(click)="clearFormItem('value')"-->
+				<!--						mat-button matSuffix mat-icon-button aria-label="Clear">-->
+				<!--					<mat-icon>close</mat-icon>-->
+				<!--				</button>-->
 
 			</mat-form-field>
 
