@@ -56,6 +56,8 @@ export class WeekdayTemplateActivityComponent {
 	}
 
 	deleteTemplateActivity(): void {
+		event.preventDefault();
+		event.stopPropagation();
 		this.weekdayTemplateService.deleteTemplateActivity(this.weekdayTemplate, this.templateActivity);
 	}
 }

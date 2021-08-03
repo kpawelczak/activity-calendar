@@ -68,15 +68,15 @@ const ui = [
 ];
 
 @NgModule({
-    imports: [
-        CommonModule,
-        ReactiveFormsModule,
-        FormsModule,
-        TemplatesModule.forFeature(),
-        ActivitiesConfigModule.forFeature(),
-        ...ui,
-        ActivityDimensionedModule
-    ],
+	imports: [
+		CommonModule,
+		ReactiveFormsModule,
+		FormsModule,
+		TemplatesModule.forFeature(),
+		ActivitiesConfigModule.forFeature(),
+		...ui,
+		ActivityDimensionedModule
+	],
 	declarations: [
 		SelectedDayComponent,
 		ActivityDialogComponent,
