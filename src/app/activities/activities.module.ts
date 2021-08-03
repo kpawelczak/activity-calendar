@@ -4,6 +4,8 @@ import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { TemplatesModule } from '../templates/templates.module';
+import { ActivitiesConfigModule } from '../activities-config/activities-config.module';
+import { ActivityDimensionedModule } from '../common/utils/activity/activity-dimensioned.module';
 
 import { MatSelectModule } from '@angular/material/select';
 import { MatTabsModule } from '@angular/material/tabs';
@@ -21,6 +23,8 @@ import { ActivitiesListComponent } from './feature/activities/activities-list.co
 import { ActivityTemplateComponent } from './feature/template/activity-template.component';
 import { ActivityDialogComponent } from './feature/activity-dialog/activity-dialog.component';
 import { ActiveTemplateSelectComponent } from './feature/template/active-template-select.component';
+import { ActivityDialogDefinedActivityComponent } from './feature/activity-dialog/defined-acivity/activity-dialog-defined-activity.component';
+import { ActivityDialogDefinedActivityFormComponent } from './feature/activity-dialog/defined-acivity/activity-dialog-defined-activity-form.component';
 
 import { FirebaseActivitiesService } from './infrastructure/firebase-activities.service';
 import { FirebaseActivitiesCountService } from './infrastructure/firebase-activities-count.service';
@@ -34,8 +38,6 @@ import { SelectedActivitiesService } from './store/selected-activities/selected-
 import { SelectedDayTemplateActivityRepository } from './store/template/selected-day-template-activity.repository';
 import { SelectedActivityService } from './store/selected-activity/selected-activity.service';
 import { SelectedDayActiveTemplateSetRepository } from './store/template/selected-day-active-template-set.repository';
-import { ActivitiesConfigModule } from '../activities-config/activities-config.module';
-import { ActivityDimensionedModule } from '../common/utils/activity/activity-dimensioned.module';
 
 
 const infrastructure = [
@@ -79,11 +81,13 @@ const ui = [
 	],
 	declarations: [
 		SelectedDayComponent,
-		ActivityDialogComponent,
 		ActivitiesListComponent,
 		ActivitiesTemplateComponent,
 		ActivityTemplateComponent,
-		ActiveTemplateSelectComponent
+		ActiveTemplateSelectComponent,
+		ActivityDialogComponent,
+		ActivityDialogDefinedActivityComponent,
+		ActivityDialogDefinedActivityFormComponent
 	],
 	exports: [
 		SelectedDayComponent

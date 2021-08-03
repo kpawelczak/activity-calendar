@@ -1,77 +1,95 @@
-<h2 class="selected-activity-form-title">{{getFormTypeText()}} activity</h2>
+<mat-tab-group mat-stretch-tabs dynamicHeight>
 
-<form [formGroup]="activityForm">
+	<mat-tab [label]="getFormTypeText() + ' activity'">
 
-	<mat-form-field class="example-form-field">
+		<form [formGroup]="activityForm">
 
-		<mat-label>Activity</mat-label>
-		<input matInput type="text" formControlName="name">
+			<mat-form-field class="example-form-field">
 
-		<button *ngIf="hasValue('name')"
-				type="button"
-				(click)="clearFormItem('name')"
-				mat-button matSuffix mat-icon-button aria-label="Clear">
-			<mat-icon>close</mat-icon>
-		</button>
+				<mat-label>Activity</mat-label>
+				<input matInput type="text" formControlName="name">
 
-	</mat-form-field>
-
-	<div *ngIf="getFormEntries()"
-		 [formArrayName]="'entries'">
-
-		<div *ngFor="let item of getFormEntries().controls; let i = index"
-			 [formGroupName]="i">
-
-			<mat-form-field>
-
-				<mat-label>Unit</mat-label>
-
-				<mat-select [formControlName]="'unit'">
-					<mat-option *ngFor="let unit of units"
-								[value]="unit">
-						{{unit}}
-					</mat-option>
-				</mat-select>
-
-				<!--				<button *ngIf="hasValue(i.toString())"-->
-				<!--						type="button"-->
-				<!--						(click)="clearFormItem(i.toString())"-->
-				<!--						mat-button matSuffix mat-icon-button aria-label="Clear">-->
-				<!--					<mat-icon>close</mat-icon>-->
-				<!--				</button>-->
+				<button *ngIf="hasValue('name')"
+						type="button"
+						(click)="clearFormItem('name')"
+						mat-button matSuffix mat-icon-button aria-label="Clear">
+					<mat-icon>close</mat-icon>
+				</button>
 
 			</mat-form-field>
 
-			<mat-form-field>
+			<div *ngIf="getFormEntries()"
+				 [formArrayName]="'entries'">
 
-				<mat-label>Value</mat-label>
-				<input matInput type="text" [formControlName]="'value'">
+				<div *ngFor="let item of getFormEntries().controls; let i = index"
+					 [formGroupName]="i">
 
-				<!--				<button *ngIf="hasValue('value')"-->
-				<!--						type="button"-->
-				<!--						(click)="clearFormItem('value')"-->
-				<!--						mat-button matSuffix mat-icon-button aria-label="Clear">-->
-				<!--					<mat-icon>close</mat-icon>-->
-				<!--				</button>-->
+					<div style="display: grid; grid-template-columns: 1fr 1fr; grid-column-gap: 16px">
 
-			</mat-form-field>
+						<mat-form-field>
 
-		</div>
+							<mat-label>Value</mat-label>
+							<input matInput type="text" [formControlName]="'value'">
 
-	</div>
+							<!--				<button *ngIf="hasValue('value')"-->
+							<!--						type="button"-->
+							<!--						(click)="clearFormItem('value')"-->
+							<!--						mat-button matSuffix mat-icon-button aria-label="Clear">-->
+							<!--					<mat-icon>close</mat-icon>-->
+							<!--				</button>-->
 
-	<div class="ac-selected-activity-form-buttons">
-		<button mat-button
-				[type]="'button'"
-				(click)="closeDialog()">
-			Cancel
-		</button>
+						</mat-form-field>
 
-		<ac-button [loading]="loading"
-				   [type]="'submit'"
-				   (click)="manageActivity()">
-			{{getFormTypeText()}}
-		</ac-button>
-	</div>
+						<mat-form-field>
 
-</form>
+							<mat-label>Unit</mat-label>
+
+							<mat-select [formControlName]="'unit'">
+								<mat-option *ngFor="let unit of units"
+											[value]="unit">
+									{{unit}}
+								</mat-option>
+							</mat-select>
+
+							<!--				<button *ngIf="hasValue(i.toString())"-->
+							<!--						type="button"-->
+							<!--						(click)="clearFormItem(i.toString())"-->
+							<!--						mat-button matSuffix mat-icon-button aria-label="Clear">-->
+							<!--					<mat-icon>close</mat-icon>-->
+							<!--				</button>-->
+
+						</mat-form-field>
+					</div>
+				</div>
+
+			</div>
+
+			<button mat-button (click)="addEntry()">
+				Add entry
+			</button>
+
+			<div class="ac-selected-activity-form-buttons">
+				<button mat-button
+						[type]="'button'"
+						(click)="closeDialog()">
+					Cancel
+				</button>
+
+				<ac-button [loading]="loading"
+						   [type]="'submit'"
+						   (click)="manageActivity()">
+					{{getFormTypeText()}}
+				</ac-button>
+			</div>
+
+		</form>
+
+	</mat-tab>
+
+	<mat-tab [label]="'Defined activity'">
+
+		<ac-dialog-defined-activity></ac-dialog-defined-activity>
+
+	</mat-tab>
+</mat-tab-group>
+

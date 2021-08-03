@@ -24,20 +24,24 @@ import { Reactive } from '../../../../common/cdk/reactive';
 					</mat-panel-description>
 				</mat-expansion-panel-header>
 
-				<div class="ac-selected-date-activity header">
+				<ng-container *ngIf="weekdayTemplate.getTemplateCounter() > 0">
 
-					<span>#</span>
+					<div class="ac-selected-date-activity header">
 
-					<span>Name</span>
+						<span>#</span>
 
-					<span>Amount</span>
+						<span>Name</span>
 
-				</div>
+						<span>Amount</span>
 
-				<ac-template-activity *ngFor="let template of weekdayTemplate?.getTemplates(); let index = index"
-									  [index]="index"
-									  [templateActivity]="template"
-									  [weekdayTemplate]="weekdayTemplate"></ac-template-activity>
+					</div>
+
+					<ac-template-activity *ngFor="let template of weekdayTemplate?.getTemplates(); let index = index"
+										  [index]="index"
+										  [templateActivity]="template"
+										  [weekdayTemplate]="weekdayTemplate"></ac-template-activity>
+
+				</ng-container>
 
 				<div class="ac-weekday-template-add-button-wrapper">
 					<button mat-icon-button
