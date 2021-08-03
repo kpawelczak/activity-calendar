@@ -10,27 +10,25 @@ import { TemplateActivityDialogComponent } from '../template-activity-dialog/tem
 	template: `
 		<div (click)="openDialog()"
 			 class="ac-selected-date-activity">
-			<span>1</span>
+			<span>{{index + 1}}</span>
 
 			<span>{{templateActivity.name}}</span>
 
 			<span>{{templateActivity.dimensionedActivities | activityDimensioned}}</span>
 
-			<button mat-icon-button (click)="deleteTemplateActivity()">
-				<mat-icon>
-					delete
-				</mat-icon>
-			</button>
+			<mat-icon (click)="deleteTemplateActivity()">
+				delete
+			</mat-icon>
 
 		</div>
 	`,
-	host: {
-		'[class.ac-template-activity-form]': 'true'
-	},
 	encapsulation: ViewEncapsulation.None,
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class WeekdayTemplateActivityComponent {
+
+	@Input()
+	index: number;
 
 	@Input()
 	templateActivity: TemplateActivity;

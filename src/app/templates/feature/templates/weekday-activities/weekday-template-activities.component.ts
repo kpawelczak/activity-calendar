@@ -34,7 +34,8 @@ import { Reactive } from '../../../../common/cdk/reactive';
 
 				</div>
 
-				<ac-template-activity *ngFor="let template of weekdayTemplate?.getTemplates()"
+				<ac-template-activity *ngFor="let template of weekdayTemplate?.getTemplates(); let index = index"
+									  [index]="index"
 									  [templateActivity]="template"
 									  [weekdayTemplate]="weekdayTemplate"></ac-template-activity>
 
