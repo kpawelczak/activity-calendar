@@ -8,14 +8,21 @@ import { TemplateActivityDialogComponent } from '../template-activity-dialog/tem
 @Component({
 	selector: 'ac-template-activity',
 	template: `
+		<div (click)="openDialog()"
+			 class="ac-selected-date-activity">
+			<span>1</span>
 
-		<div (click)="openDialog()">{{templateActivity.name}}</div>
+			<span>{{templateActivity.name}}</span>
 
-		<button mat-icon-button (click)="deleteTemplateActivity()">
-			<mat-icon>
-				delete
-			</mat-icon>
-		</button>
+			<span>{{templateActivity.dimensionedActivities | activityDimensioned}}</span>
+
+			<button mat-icon-button (click)="deleteTemplateActivity()">
+				<mat-icon>
+					delete
+				</mat-icon>
+			</button>
+
+		</div>
 	`,
 	host: {
 		'[class.ac-template-activity-form]': 'true'

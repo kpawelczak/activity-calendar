@@ -35,6 +35,7 @@ import { SelectedDayTemplateActivityRepository } from './store/template/selected
 import { SelectedActivityService } from './store/selected-activity/selected-activity.service';
 import { SelectedDayActiveTemplateSetRepository } from './store/template/selected-day-active-template-set.repository';
 import { ActivitiesConfigModule } from '../activities-config/activities-config.module';
+import { ActivityDimensionedModule } from '../common/utils/activity/activity-dimensioned.module';
 
 
 const infrastructure = [
@@ -67,14 +68,15 @@ const ui = [
 ];
 
 @NgModule({
-	imports: [
-		CommonModule,
-		ReactiveFormsModule,
-		FormsModule,
-		TemplatesModule.forFeature(),
-		ActivitiesConfigModule.forFeature(),
-		...ui
-	],
+    imports: [
+        CommonModule,
+        ReactiveFormsModule,
+        FormsModule,
+        TemplatesModule.forFeature(),
+        ActivitiesConfigModule.forFeature(),
+        ...ui,
+        ActivityDimensionedModule
+    ],
 	declarations: [
 		SelectedDayComponent,
 		ActivityDialogComponent,

@@ -10,6 +10,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { ActivityCalendarButtonModule } from '../common/ui/activity-calendar-button/activity-calendar-button.module';
+import { ActivityDimensionedModule } from '../common/utils/activity/activity-dimensioned.module';
 
 import { FirebaseTemplateSetsService } from './infrastructure/firebase-template-sets.service';
 import { FirebaseTemplatesService } from './infrastructure/firebase-templates.service';
@@ -33,6 +34,7 @@ import { TemplatesSettingsComponent } from './feature/settings/templates-setting
 import { TemplateSetDialogComponent } from './feature/settings/template-set-dialog.component';
 import { WeekdayTemplateActivitiesComponent } from './feature/templates/weekday-activities/weekday-template-activities.component';
 import { WeekdayTemplateActivityComponent } from './feature/templates/weekday-activities/weekday-template-activity.component';
+
 
 const store = [
 	ActiveTemplateSetService,
@@ -66,6 +68,7 @@ const ui = [
 	imports: [
 		CommonModule,
 		TemplatesRoutingModule,
+		ActivityDimensionedModule,
 		...ui
 	],
 	declarations: [

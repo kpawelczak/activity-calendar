@@ -26,7 +26,7 @@ import { distinctUntilChanged, filter, map } from 'rxjs/operators';
 
 			<span>{{calendarActivity.name}}</span>
 
-<!--			<span>{{calendarActivity.amount}}</span>-->
+			<span>{{calendarActivity.dimensionedActivities | activityDimensioned}}</span>
 
 			<mat-checkbox [checked]="checked"></mat-checkbox>
 		</div>

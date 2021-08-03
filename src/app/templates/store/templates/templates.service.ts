@@ -23,7 +23,7 @@ export class TemplatesService {
 	}
 
 	nextTemplate(weekdayTemplate: WeekdayTemplate): void {
-		const newTemplates = [...this.replaceWeekdayTemplate(weekdayTemplate)];
+		const newTemplates = this.replaceWeekdayTemplate(weekdayTemplate);
 		this.templatesRepository.next(newTemplates);
 	}
 

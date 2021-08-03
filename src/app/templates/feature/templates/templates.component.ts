@@ -4,6 +4,7 @@ import { WeekdayTemplate } from '../../store/weekday-template';
 import { RouteName } from '../../../route-name';
 import { TemplatesRepository } from '../../store/templates/templates.repository';
 import { Reactive } from '../../../common/cdk/reactive';
+import { take } from 'rxjs/operators';
 
 
 @Component({
@@ -21,7 +22,7 @@ import { Reactive } from '../../../common/cdk/reactive';
 		<mat-accordion multi>
 
 			<ac-weekday-template-activities *ngFor="let weekdayTemplate of weekdayTemplates"
-											[weekdayTemplate]="weekdayTemplate"></ac-weekday-template-activities>
+											[weekday]="weekdayTemplate.getWeekday()"></ac-weekday-template-activities>
 
 		</mat-accordion>
 	`,
@@ -48,9 +49,12 @@ export class TemplatesComponent extends Reactive implements OnInit {
 	ngOnInit() {
 		this.templatesRepository
 			.onValues()
-			.pipe(this.takeUntil())
+			.pipe(
+				take(1),
+				this.takeUntil()
+			)
 			.subscribe((weekdayTemplates: Array<WeekdayTemplate>) => {
-				this.weekdayTemplates = [...weekdayTemplates];
+				this.weekdayTemplates = weekdayTemplates;
 				this.changeDetectorRef.detectChanges();
 			});
 	}

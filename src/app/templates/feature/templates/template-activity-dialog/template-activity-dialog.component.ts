@@ -5,8 +5,6 @@ import { FormBuilder } from '@angular/forms';
 import { TemplateActivityForm } from './template-activity-form';
 import { TemplateActivityDialogData } from './template-activity-dialog-data';
 import { TemplateService } from '../../../store/template/template.service';
-import { TemplateActivity } from '../../../template-activity';
-import { v4 as uuidv4 } from 'uuid';
 
 @Component({
 	template: `
@@ -114,25 +112,20 @@ export class TemplateActivityDialogComponent extends TemplateActivityForm implem
 		if (this.activityForm.valid) {
 			this.loading = true;
 			const name = this.activityForm.controls['name'].value,
-				dimensionedActivities = this.activityForm.controls['entries'].value,
-				uuid = this.getTemplateUUID(),
-				weekday = this.selectedTemplateDialogData.weekdayTemplate.getWeekday(),
-				templateActivity = new TemplateActivity(weekday, name, dimensionedActivities, uuid);
+				dimensionedActivities = this.activityForm.controls['entries'].value;
 
 			this.templateService
-				.saveActivityToTemplate(this.selectedTemplateDialogData.weekdayTemplate, templateActivity)
+				.saveActivityToTemplate(this.selectedTemplateDialogData.weekdayTemplate,
+					name,
+					dimensionedActivities,
+					this.selectedTemplateDialogData.templateActivity
+				)
 				.pipe(this.takeUntil())
 				.subscribe(() => {
 					this.loading = false;
 					this.matDialog.closeAll();
 				});
 		}
-	}
-
-	private getTemplateUUID(): string {
-		return this.selectedTemplateDialogData.templateActivity?.templateUUID
-			? this.selectedTemplateDialogData.templateActivity.templateUUID
-			: uuidv4();
 	}
 
 }

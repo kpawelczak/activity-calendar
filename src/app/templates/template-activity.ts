@@ -9,4 +9,5 @@ export class TemplateActivity {
 				readonly templateUUID: string,
 				readonly templateSetName?: string) {
 	}
+
 }

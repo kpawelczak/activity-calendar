@@ -1,8 +1,11 @@
-import { ChangeDetectionStrategy, Component, Input, ViewEncapsulation } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
 import { weekdayNames } from './weekday-names';
 import { WeekdayTemplate } from '../../../store/weekday-template';
 import { MatDialog } from '@angular/material/dialog';
 import { TemplateActivityDialogComponent } from '../template-activity-dialog/template-activity-dialog.component';
+import { Weekday } from '../../../weekday';
+import { TemplateRepository } from '../../../store/template/template.repository';
+import { Reactive } from '../../../../common/cdk/reactive';
 
 
 @Component({
@@ -20,6 +23,16 @@ import { TemplateActivityDialogComponent } from '../template-activity-dialog/tem
 						{{getTemplateCounter()}}
 					</mat-panel-description>
 				</mat-expansion-panel-header>
+
+				<div class="ac-selected-date-activity header">
+
+					<span>#</span>
+
+					<span>Name</span>
+
+					<span>Amount</span>
+
+				</div>
 
 				<ac-template-activity *ngFor="let template of weekdayTemplate?.getTemplates()"
 									  [templateActivity]="template"
@@ -41,12 +54,27 @@ import { TemplateActivityDialogComponent } from '../template-activity-dialog/tem
 	encapsulation: ViewEncapsulation.None,
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class WeekdayTemplateActivitiesComponent {
+export class WeekdayTemplateActivitiesComponent extends Reactive implements OnInit {
 
 	@Input()
+	weekday: Weekday;
+
 	weekdayTemplate: WeekdayTemplate;
 
-	constructor(private readonly matDialog: MatDialog) {
+	constructor(private readonly templateRepository: TemplateRepository,
+				private readonly changeDetectorRef: ChangeDetectorRef,
+				private readonly matDialog: MatDialog) {
+		super();
+	}
+
+	ngOnInit() {
+		this.templateRepository
+			.onWeekdayTemplate(this.weekday)
+			.pipe(this.takeUntil())
+			.subscribe((weekdayTemplate: WeekdayTemplate) => {
+				this.weekdayTemplate = weekdayTemplate;
+				this.changeDetectorRef.detectChanges();
+			});
 	}
 
 	openTemplateDialog(): void {
