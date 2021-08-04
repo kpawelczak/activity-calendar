@@ -9,9 +9,8 @@ import {
 	SimpleChanges,
 	ViewEncapsulation
 } from '@angular/core';
-import { ActivityForm } from './activity-form';
-import { CalendarActivity } from '../../../store/activities/calendar-activity';
-
+import { TemplateActivityForm } from '../template-activity-form';
+import { TemplateActivity } from '../../../../template-activity';
 
 @Component({
 	selector: 'ac-dialog-custom-activity',
@@ -87,13 +86,13 @@ import { CalendarActivity } from '../../../store/activities/calendar-activity';
 	encapsulation: ViewEncapsulation.None,
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ActivityDialogCustomActivityComponent extends ActivityForm<CalendarActivity> implements OnChanges, OnInit {
+export class TemplateCustomActivityComponent extends TemplateActivityForm implements OnChanges, OnInit {
 
 	@Input()
 	units: Array<string>;
 
 	@Input()
-	calendarActivity: CalendarActivity;
+	templateActivity: TemplateActivity;
 
 	@Output()
 	onCalendarActivity = new EventEmitter();
@@ -103,8 +102,8 @@ export class ActivityDialogCustomActivityComponent extends ActivityForm<Calendar
 	}
 
 	ngOnChanges(changes: SimpleChanges) {
-		if (changes.calendarActivity) {
-			this.initForm(this.calendarActivity);
+		if (changes.templateActivity) {
+			this.initForm(this.templateActivity);
 		}
 	}
 
@@ -116,5 +115,4 @@ export class ActivityDialogCustomActivityComponent extends ActivityForm<Calendar
 				this.onCalendarActivity.emit(value);
 			});
 	}
-
 }

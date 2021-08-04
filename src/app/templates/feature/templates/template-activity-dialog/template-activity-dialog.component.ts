@@ -1,84 +1,63 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Inject, OnInit, ViewEncapsulation } from '@angular/core';
 import { UnitsRepository } from '../../../../activities-config/store/units/units.repository';
 import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
-import { TemplateActivityForm } from './template-activity-form';
 import { TemplateActivityDialogData } from './template-activity-dialog-data';
 import { TemplateService } from '../../../store/template/template.service';
+import { ActivityFormEntry } from '../../../../activities/feature/activity-dialog/activity-form-entry';
+import { TemplateActivity } from '../../../template-activity';
+import { Reactive } from '../../../../common/cdk/reactive';
 
 @Component({
 	template: `
-		<h2 class="selected-activity-form-title">{{getFormTypeText()}} activity</h2>
+		<mat-tab-group mat-stretch-tabs dynamicHeight
+					   (selectedIndexChange)="setActiveTab($event)">
 
-		<form [formGroup]="activityForm">
+			<mat-tab [label]="getFormTypeText() + ' activity'">
 
-			<mat-form-field class="example-form-field">
+				<ac-dialog-custom-activity [templateActivity]="getTemplateActivity()"
+										   [units]="units"
+										   (onCalendarActivity)="setActivity($event)">
+				</ac-dialog-custom-activity>
 
-				<mat-label>Activity</mat-label>
-				<input matInput type="text" formControlName="name">
+			</mat-tab>
 
-				<button *ngIf="hasValue('name')"
-						type="button"
-						(click)="clearFormItem('name')"
-						mat-button matSuffix mat-icon-button aria-label="Clear">
-					<mat-icon>close</mat-icon>
-				</button>
+			<mat-tab *ngIf="isDefinedActivityHidden()"
+					 [label]="'Defined activity'">
 
-			</mat-form-field>
+				<ac-template-defined-activity (onCalendarActivity)="setActivity($event)"></ac-template-defined-activity>
 
-			<div *ngIf="getFormEntries()"
-				 [formArrayName]="'entries'">
+			</mat-tab>
 
-				<div *ngFor="let item of getFormEntries().controls; let i = index"
-					 [formGroupName]="i">
+		</mat-tab-group>
 
-					<mat-form-field>
+		<div class="ac-selected-activity-form-buttons">
+			<button mat-button
+					[type]="'button'"
+					(click)="closeDialog()">
+				Cancel
+			</button>
 
-						<mat-label>Unit</mat-label>
-
-						<mat-select [formControlName]="'unit'">
-							<mat-option *ngFor="let unit of units"
-										[value]="unit">
-								{{unit}}
-							</mat-option>
-						</mat-select>
-
-					</mat-form-field>
-
-					<mat-form-field>
-
-						<mat-label>Value</mat-label>
-						<input matInput type="text" [formControlName]="'value'">
-
-					</mat-form-field>
-
-				</div>
-
-			</div>
-
-			<div class="ac-selected-activity-form-buttons">
-				<button mat-button
-						[type]="'button'"
-						(click)="closeDialog()">
-					Cancel
-				</button>
-
-				<ac-button [loading]="loading"
-						   [type]="'submit'"
-						   (click)="saveActivity()">
-					{{getFormTypeText()}}
-				</ac-button>
-			</div>
-
-		</form>
+			<ac-button [loading]="loading"
+					   [type]="'submit'"
+					   (click)="saveActivity()">
+				{{getFormTypeText()}}
+			</ac-button>
+		</div>
 	`,
 	encapsulation: ViewEncapsulation.None,
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class TemplateActivityDialogComponent extends TemplateActivityForm implements OnInit {
+export class TemplateActivityDialogComponent extends Reactive implements OnInit {
 
 	loading: boolean = false;
 
 	units: Array<string>;
+
+	activeTabIndex: number = 0;
+
+	customActivityValues: ActivityFormEntry;
+
+	definedActivityValues: ActivityFormEntry;
 
 	constructor(private readonly templateService: TemplateService,
 				private readonly unitsRepository: UnitsRepository,
@@ -89,8 +68,6 @@ export class TemplateActivityDialogComponent extends TemplateActivityForm implem
 	}
 
 	ngOnInit() {
-		this.initForm(this.selectedTemplateDialogData?.templateActivity);
-
 		this.unitsRepository
 			.onValues()
 			.pipe(this.takeUntil())
@@ -109,10 +86,10 @@ export class TemplateActivityDialogComponent extends TemplateActivityForm implem
 	}
 
 	saveActivity(): void {
-		if (this.activityForm.valid) {
+		if (this.getCurrentActivity()) {
 			this.loading = true;
-			const name = this.activityForm.controls['name'].value,
-				dimensionedActivities = this.activityForm.controls['entries'].value;
+			const name = this.getCurrentActivity().name,
+				dimensionedActivities = this.getCurrentActivity().entries;
 
 			this.templateService
 				.saveActivityToTemplate(this.selectedTemplateDialogData.weekdayTemplate,
@@ -128,4 +105,25 @@ export class TemplateActivityDialogComponent extends TemplateActivityForm implem
 		}
 	}
 
+	setActivity(activityValues: ActivityFormEntry): void {
+		this.activeTabIndex === 0
+			? this.customActivityValues = activityValues
+			: this.definedActivityValues = activityValues;
+	}
+
+	setActiveTab(tabIndex: number): void {
+		this.activeTabIndex = tabIndex;
+	}
+
+	isDefinedActivityHidden(): boolean {
+		return !this.selectedTemplateDialogData.templateActivity;
+	}
+
+	getTemplateActivity(): TemplateActivity {
+		return this.selectedTemplateDialogData?.templateActivity;
+	}
+
+	private getCurrentActivity(): ActivityFormEntry {
+		return this.activeTabIndex === 0 ? this.customActivityValues : this.definedActivityValues;
+	}
 }

@@ -11,6 +11,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { ActivityCalendarButtonModule } from '../common/ui/activity-calendar-button/activity-calendar-button.module';
 import { ActivityDimensionedModule } from '../common/utils/activity/activity-dimensioned.module';
+import { MatTabsModule } from '@angular/material/tabs';
 
 import { FirebaseTemplateSetsService } from './infrastructure/firebase-template-sets.service';
 import { FirebaseTemplatesService } from './infrastructure/firebase-templates.service';
@@ -34,6 +35,9 @@ import { TemplatesSettingsComponent } from './feature/settings/templates-setting
 import { TemplateSetDialogComponent } from './feature/settings/template-set-dialog.component';
 import { WeekdayTemplateActivitiesComponent } from './feature/templates/weekday-activities/weekday-template-activities.component';
 import { WeekdayTemplateActivityComponent } from './feature/templates/weekday-activities/weekday-template-activity.component';
+import { TemplateCustomActivityComponent } from './feature/templates/template-activity-dialog/custom-activity/template-custom-activity.component';
+import { TemplateDefinedActivityFormComponent } from './feature/templates/template-activity-dialog/defined-activity/template-defined-activity-form.component';
+import { TemplateDefinedActivityComponent } from './feature/templates/template-activity-dialog/defined-activity/template-defined-activity.component';
 
 
 const store = [
@@ -69,6 +73,7 @@ const ui = [
 		CommonModule,
 		TemplatesRoutingModule,
 		ActivityDimensionedModule,
+		MatTabsModule,
 		...ui
 	],
 	declarations: [
@@ -79,6 +84,9 @@ const ui = [
 		WeekdayTemplateActivitiesComponent,
 		WeekdayTemplateActivityComponent,
 		TemplateActivityDialogComponent,
+		TemplateCustomActivityComponent,
+		TemplateDefinedActivityComponent,
+		TemplateDefinedActivityFormComponent,
 		TemplateSetDialogComponent
 	],
 	exports: [

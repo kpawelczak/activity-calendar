@@ -60,6 +60,7 @@ const store = [
 
 const ui = [
 	ActivityCalendarButtonModule,
+	ActivityDimensionedModule,
 	MatSelectModule,
 	MatFormFieldModule,
 	MatInputModule,
@@ -78,7 +79,6 @@ const ui = [
 		TemplatesModule.forFeature(),
 		ActivitiesConfigModule.forFeature(),
 		...ui,
-		ActivityDimensionedModule
 	],
 	declarations: [
 		SelectedDayComponent,
