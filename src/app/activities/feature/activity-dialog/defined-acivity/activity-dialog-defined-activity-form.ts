@@ -28,7 +28,7 @@ export abstract class ActivityDialogDefinedActivityForm extends AbstractFormArra
 		return this.activityForm?.get('entries') as FormArray;
 	}
 
-	getUnitValue(i: number) {
+	getUnitValue(i: number): string {
 		return this.getFormEntries().controls[i].value.unit;
 	}
 

@@ -25,6 +25,7 @@ import { ActivityDialogComponent } from './feature/activity-dialog/activity-dial
 import { ActiveTemplateSelectComponent } from './feature/template/active-template-select.component';
 import { ActivityDialogDefinedActivityComponent } from './feature/activity-dialog/defined-acivity/activity-dialog-defined-activity.component';
 import { ActivityDialogDefinedActivityFormComponent } from './feature/activity-dialog/defined-acivity/activity-dialog-defined-activity-form.component';
+import { ActivityDialogCustomActivityComponent } from './feature/activity-dialog/custom-activity/activity-dialog-custom-activity.component';
 
 import { FirebaseActivitiesService } from './infrastructure/firebase-activities.service';
 import { FirebaseActivitiesCountService } from './infrastructure/firebase-activities-count.service';
@@ -86,6 +87,7 @@ const ui = [
 		ActivityTemplateComponent,
 		ActiveTemplateSelectComponent,
 		ActivityDialogComponent,
+		ActivityDialogCustomActivityComponent,
 		ActivityDialogDefinedActivityComponent,
 		ActivityDialogDefinedActivityFormComponent
 	],

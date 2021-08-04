@@ -55,4 +55,15 @@ export abstract class AbstractFormArray<T> extends Reactive {
 			this.getFormArray().clear();
 		}
 	}
+
+	// TODO move to another class
+	clearFormItem(formControlValue: string): void {
+		// this.form.controls[formControlValue].reset();
+	}
+
+	hasValue(formControlName: string): boolean {
+		return true;
+		// return !!this.form.controls[formControlName].value;
+	}
+
 }

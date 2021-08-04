@@ -1,7 +1,6 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Inject, OnInit, ViewEncapsulation } from '@angular/core';
 import { UnitsRepository } from '../../../../activities-config/store/units/units.repository';
 import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
-import { FormBuilder } from '@angular/forms';
 import { TemplateActivityForm } from './template-activity-form';
 import { TemplateActivityDialogData } from './template-activity-dialog-data';
 import { TemplateService } from '../../../store/template/template.service';
@@ -85,12 +84,13 @@ export class TemplateActivityDialogComponent extends TemplateActivityForm implem
 				private readonly unitsRepository: UnitsRepository,
 				private readonly matDialog: MatDialog,
 				@Inject(MAT_DIALOG_DATA) private readonly selectedTemplateDialogData: TemplateActivityDialogData,
-				private readonly changeDetectorRef: ChangeDetectorRef,
-				formBuilder: FormBuilder) {
-		super(formBuilder, selectedTemplateDialogData?.templateActivity);
+				private readonly changeDetectorRef: ChangeDetectorRef) {
+		super();
 	}
 
 	ngOnInit() {
+		this.initForm(this.selectedTemplateDialogData?.templateActivity);
+
 		this.unitsRepository
 			.onValues()
 			.pipe(this.takeUntil())

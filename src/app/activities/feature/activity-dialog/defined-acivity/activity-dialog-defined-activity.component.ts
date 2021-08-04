@@ -22,16 +22,20 @@ import { FormBuilder } from '@angular/forms';
 		</mat-form-field>
 
 		<ac-dialog-defined-activity-form *ngIf="selectedActivityConfig"
-										 [activityConfig]="selectedActivityConfig">
+										 [activityConfig]="selectedActivityConfig"
+										 (onCalendarActivity)="onCalendarActivity.emit($event)">
 		</ac-dialog-defined-activity-form>
 	`,
+	host: {
+		'[class.ac-dialog-defined-activity]': 'true'
+	},
 	encapsulation: ViewEncapsulation.None,
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ActivityDialogDefinedActivityComponent extends Reactive implements OnInit {
 
 	@Output()
-	onSelectedActivity = new EventEmitter();
+	onCalendarActivity = new EventEmitter();
 
 	definedActivities: Array<ActivityConfig>;
 

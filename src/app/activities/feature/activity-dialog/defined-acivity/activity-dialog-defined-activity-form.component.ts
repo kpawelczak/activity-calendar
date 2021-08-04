@@ -1,4 +1,14 @@
-import { ChangeDetectionStrategy, Component, Input, OnChanges, SimpleChanges, ViewEncapsulation } from '@angular/core';
+import {
+	ChangeDetectionStrategy,
+	Component,
+	EventEmitter,
+	Input,
+	OnChanges,
+	OnInit,
+	Output,
+	SimpleChanges,
+	ViewEncapsulation
+} from '@angular/core';
 import { ActivityDialogDefinedActivityForm } from './activity-dialog-defined-activity-form';
 import { ActivityConfig } from '../../../../activities-config/store/activity-config';
 
@@ -29,10 +39,13 @@ import { ActivityConfig } from '../../../../activities-config/store/activity-con
 	encapsulation: ViewEncapsulation.None,
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ActivityDialogDefinedActivityFormComponent extends ActivityDialogDefinedActivityForm implements OnChanges {
+export class ActivityDialogDefinedActivityFormComponent extends ActivityDialogDefinedActivityForm implements OnChanges, OnInit {
 
 	@Input()
 	activityConfig: ActivityConfig;
+
+	@Output()
+	onCalendarActivity = new EventEmitter();
 
 	constructor() {
 		super();
@@ -42,5 +55,14 @@ export class ActivityDialogDefinedActivityFormComponent extends ActivityDialogDe
 		if (changes.activityConfig) {
 			this.initForm(this.activityConfig);
 		}
+	}
+
+	ngOnInit() {
+		this.activityForm
+			.valueChanges
+			.pipe(this.takeUntil())
+			.subscribe((value: any) => {
+				this.onCalendarActivity.emit(value);
+			});
 	}
 }

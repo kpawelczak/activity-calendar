@@ -66,17 +66,17 @@ h1 {
 			margin: $grid*2 0;
 			width: 100%;
 		}
+	}
 
-		.ac-selected-activity-form-buttons {
-			display: flex;
-			justify-content: space-between;
-			margin: $grid*2 0 0 0;
+	.ac-selected-activity-form-buttons {
+		display: flex;
+		justify-content: space-between;
+		margin: $grid*2 0 0 0;
 
-			.ac-button {
+		.ac-button {
 
-				button.mat-raised-button {
-					width: 200px;
-				}
+			button.mat-raised-button {
+				width: 200px;
 			}
 		}
 	}
