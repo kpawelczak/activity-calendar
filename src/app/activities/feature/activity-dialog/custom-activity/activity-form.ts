@@ -1,4 +1,4 @@
-import { FormArray, FormControl, FormGroup } from '@angular/forms';
+import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Type } from '@angular/core';
 import { AbstractFormArray } from '../../../../common/cdk/form-array.abstract';
 import { ActivityDimensioned } from '../../../store/activities/activity-dimensioned';
@@ -32,6 +32,8 @@ export abstract class ActivityForm<T extends ActivityFormAttributes> extends Abs
 				entries: this.createFormArray([new ActivityDimensioned('', '')])
 			});
 		}
+		this.activityForm.controls['name'].setValidators(Validators.required);
+		this.activityForm.controls['entries'].setValidators(Validators.required);
 	}
 
 	getFormEntries(): FormArray {

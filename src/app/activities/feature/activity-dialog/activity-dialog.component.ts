@@ -54,6 +54,7 @@ export class ActivityDialogComponent extends Reactive implements OnInit {
 		return this.selectedDayDialogData?.selectedActivity;
 	}
 
+	// TODO service
 	manageActivity(): void {
 		if (this.getCurrentActivity()) {
 			this.loading = true;

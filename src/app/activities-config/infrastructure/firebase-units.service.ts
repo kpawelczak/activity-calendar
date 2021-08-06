@@ -42,7 +42,7 @@ export class FirebaseUnitsService extends ProfileCollection {
 	}
 
 	private setInitialUnits(units: DocumentData) {
-		if (units?.length === 0) {
+		if (units?.length === 0 || !units) {
 			// todo boolean in db that it was already created
 			this.profileCollection()
 				.doc('activities')

@@ -93,10 +93,6 @@ const ui = [
 	],
 	exports: [
 		SelectedDayComponent
-	],
-	providers: [
-		...store,
-		...infrastructure
 	]
 })
 export class ActivitiesModule {
