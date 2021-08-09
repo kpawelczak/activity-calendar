@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable, ReplaySubject } from 'rxjs';
 import { Reactive } from '../common/cdk/reactive';
 import { FirebaseAuthenticationService } from './infrastructure/firebase-authentication.service';
-import { Credentials } from '../entry/infrastructure/credentials';
+import { Credentials } from '../routes/entry/infrastructure/credentials';
 import { Router } from '@angular/router';
 import { RouteName } from '../route-name';
 import { ActivityCalendarSnackbarService } from '../common/ui/activity-calendar-snackbar/activity-calendar-snackbar.service';

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
-import { Credentials } from '../../entry/infrastructure/credentials';
+import { Credentials } from '../../routes/entry/infrastructure/credentials';
 
 @Injectable()
 export class FirebaseAuthenticationService {

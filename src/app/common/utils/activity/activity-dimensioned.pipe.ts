@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { ActivityDimensioned } from '../../../activities/store/activities/activity-dimensioned';
+import { ActivityDimensioned } from '../../../core/activities/store/activities/activity-dimensioned';
 
 @Pipe({ name: 'activityDimensioned' })
 export class ActivityDimensionedPipe implements PipeTransform {

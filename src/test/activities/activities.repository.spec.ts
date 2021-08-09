@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
-import { ActivitiesRepository } from '../../app/activities/store/activities/activities.repository';
-import { ActivitiesModule } from '../../app/activities/activities.module';
-import { CalendarActivity } from '../../app/activities/store/activities/calendar-activity';
+import { ActivitiesRepository } from '../../app/core/activities/store/activities/activities.repository';
+import { ActivitiesModule } from '../../app/core/activities/activities.module';
+import { CalendarActivity } from '../../app/core/activities/store/activities/calendar-activity';
 import { ProfileModule } from '../../app/profile/profile.module';
 import { AngularFireModule } from '@angular/fire';
 import { environment } from '../../environments/environment';

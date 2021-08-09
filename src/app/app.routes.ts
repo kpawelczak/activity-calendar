@@ -11,11 +11,11 @@ const routes: Routes = [
 	{ path: '', redirectTo: `/${RouteName.ENTRY}`, pathMatch: 'full' },
 	{
 		path: RouteName.ENTRY,
-		loadChildren: () => import('./entry/entry.module').then(m => m.EntryModule)
+		loadChildren: () => import('./routes/entry/entry.module').then(m => m.EntryModule)
 	},
 	{
 		path: RouteName.CLIENT,
-		loadChildren: () => import('./client/client.module').then(m => m.ClientModule),
+		loadChildren: () => import('./routes/client/client.module').then(m => m.ClientModule),
 		canActivate: [ClientRootGuard]
 	},
 	{ path: '**', redirectTo: RouteName.ENTRY, pathMatch: 'full' }
