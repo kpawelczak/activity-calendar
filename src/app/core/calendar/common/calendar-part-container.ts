@@ -30,10 +30,12 @@ export abstract class CalendarPartContainer extends Reactive implements AfterVie
 	}
 
 	ngAfterViewInit() {
+		// TODO platformId
 		timer(500)
 			.pipe(this.takeUntil())
 			.subscribe(() => {
 				this.calendarPartWidth = this.elementRef.nativeElement.offsetWidth;
+				this.detectChanges();
 			});
 	}
 

@@ -33,7 +33,7 @@ import { TemplateActivity } from '../../../../template-activity';
 
 			<div *ngIf="getFormEntries()"
 				 [formArrayName]="'entries'">
-
+				<!--TODO getFormEntries not needed ?-->
 				<div *ngFor="let item of getFormEntries().controls; let i = index"
 					 [formGroupName]="i">
 

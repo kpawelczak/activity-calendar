@@ -71,13 +71,17 @@ const ui = [
 	MatDialogModule
 ];
 
+const dependencies = [
+	TemplatesModule.forFeature(),
+	ActivitiesConfigModule.forFeature(),
+];
+
 @NgModule({
 	imports: [
 		CommonModule,
 		ReactiveFormsModule,
 		FormsModule,
-		TemplatesModule.forFeature(),
-		ActivitiesConfigModule.forFeature(),
+		...dependencies,
 		...ui,
 	],
 	declarations: [
