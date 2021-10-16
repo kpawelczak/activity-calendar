@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { Reactive } from '../../common/cdk/reactive';
-import { ProfileService } from '../../profile/profile.service';
+import { ProfileService } from '../../core/domain/profile/profile.service';
 
 
 @Component({

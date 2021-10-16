@@ -1,7 +1,7 @@
 import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { interval, Observable, of, ReplaySubject } from 'rxjs';
 import { switchMap, takeWhile } from 'rxjs/operators';
-import { ActivityCalendarSnackbarService } from '../common/ui/activity-calendar-snackbar/activity-calendar-snackbar.service';
+import { ActivityCalendarSnackbarService } from '../../../common/ui/activity-calendar-snackbar/activity-calendar-snackbar.service';
 import { isPlatformBrowser } from '@angular/common';
 
 @Injectable()

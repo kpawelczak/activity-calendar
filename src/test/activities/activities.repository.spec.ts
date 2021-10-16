@@ -2,7 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { ActivitiesRepository } from '../../app/core/activities/store/activities/activities.repository';
 import { ActivitiesModule } from '../../app/core/activities/activities.module';
 import { CalendarActivity } from '../../app/core/activities/store/activities/calendar-activity';
-import { ProfileModule } from '../../app/profile/profile.module';
+import { ProfileModule } from '../../app/core/domain/profile/profile.module';
 import { AngularFireModule } from '@angular/fire';
 import { environment } from '../../environments/environment';
 import { AngularFirestoreModule } from '@angular/fire/firestore';

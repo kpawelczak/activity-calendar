@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
-import { ProfileCollection } from '../../../profile/profile-collection';
+import { ProfileCollection } from '../../domain/profile/profile-collection';
 import { Observable } from 'rxjs';
 import { map, take } from 'rxjs/operators';
 import firebase from 'firebase';
 import { ActivityConfig } from '../store/activity-config';
 import { ActivityEntry } from '../store/activity-entry';
-import { ProfileService } from '../../../profile/profile.service';
+import { ProfileService } from '../../domain/profile/profile.service';
 import { AngularFirestore } from '@angular/fire/firestore';
 import DocumentData = firebase.firestore.DocumentData;
 

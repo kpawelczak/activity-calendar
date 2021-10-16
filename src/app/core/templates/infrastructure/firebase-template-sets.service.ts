@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { ProfileCollection } from '../../../profile/profile-collection';
-import { ProfileService } from '../../../profile/profile.service';
+import { ProfileCollection } from '../../domain/profile/profile-collection';
+import { ProfileService } from '../../domain/profile/profile.service';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { from, Observable } from 'rxjs';
 import { map, take } from 'rxjs/operators';
