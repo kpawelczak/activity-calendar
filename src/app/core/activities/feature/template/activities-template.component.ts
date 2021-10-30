@@ -8,7 +8,8 @@ import { WeekdayTemplate } from '../../../templates/store/weekday-template';
 		<selected-day-active-template-select [activeWeekdayTemplate]="activeWeekdayTemplate"
 											 [weekdayTemplates]="weekdayTemplates"></selected-day-active-template-select>
 
-		<div class="ac-selected-date-activity header">
+		<div *ngIf="canShowHeader()"
+			 class="ac-selected-date-activity header">
 
 			<span>#</span>
 
@@ -44,4 +45,7 @@ export class ActivitiesTemplateComponent {
 	@Input()
 	activeWeekdayTemplate: number;
 
+	canShowHeader(): boolean {
+		return this.templateActivities?.length > 0;
+	}
 }
