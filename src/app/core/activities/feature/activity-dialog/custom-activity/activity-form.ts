@@ -5,7 +5,7 @@ import { QuantifiedActivity } from '../../../../../common/ui/quantified-activity
 
 interface ActivityFormAttributes {
 	name: string;
-	quantifiedActivity: Array<QuantifiedActivity>;
+	quantifiedActivities: Array<QuantifiedActivity>;
 }
 
 export abstract class ActivityForm<T extends ActivityFormAttributes> extends AbstractFormArray<QuantifiedActivity> {
@@ -24,7 +24,7 @@ export abstract class ActivityForm<T extends ActivityFormAttributes> extends Abs
 		if (activity) {
 			this.activityForm = new FormGroup({
 				name: new FormControl(activity.name),
-				entries: this.createFormArray(activity.quantifiedActivity)
+				entries: this.createFormArray(activity.quantifiedActivities)
 			});
 		} else {
 			this.activityForm = new FormGroup({

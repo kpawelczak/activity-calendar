@@ -8,7 +8,7 @@ export class CalendarActivity {
 
 	constructor(readonly day: number,
 				readonly name: string,
-				readonly quantifiedActivity: Array<QuantifiedActivity>,
+				readonly quantifiedActivities: Array<QuantifiedActivity>,
 				options?: {
 					activityUUID?: string,
 					assignedTemplateUUID?: string

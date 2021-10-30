@@ -42,7 +42,7 @@ export class FirebaseActivityService extends ProfileCollection {
 				   .set({
 					   ...activity,
 					   name: activity.name,
-					   quantifiedActivity: activity.quantifiedActivity
+					   quantifiedActivities: activity.quantifiedActivities
 				   })
 				   .catch((error) => {
 					   this.acSnackBar.notify(error, { warn: true });

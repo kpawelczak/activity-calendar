@@ -5,7 +5,7 @@ export class TemplateActivity {
 
 	constructor(readonly weekday: Weekday,
 				readonly name: string,
-				readonly quantifiedActivity: Array<QuantifiedActivity>,
+				readonly quantifiedActivities: Array<QuantifiedActivity>,
 				readonly templateUUID: string,
 				readonly templateSetName?: string) {
 	}
