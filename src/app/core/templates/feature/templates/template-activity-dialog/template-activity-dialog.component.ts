@@ -30,7 +30,7 @@ import { Reactive } from '../../../../../common/cdk/reactive';
 
 		</mat-tab-group>
 
-		<div class="ac-selected-activity-form-buttons">
+		<div class="ac-form-buttons">
 			<button mat-button
 					[type]="'button'"
 					(click)="closeDialog()">

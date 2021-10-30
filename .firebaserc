@@ -1,5 +1,14 @@
 {
   "projects": {
     "default": "gui-activity-calendar"
+  },
+  "targets": {
+    "gui-activity-calendar": {
+      "hosting": {
+        "activity-calendar": [
+          "gui-activity-calendar"
+        ]
+      }
+    }
   }
 }
