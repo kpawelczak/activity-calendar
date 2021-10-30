@@ -1,14 +1,14 @@
 import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Type } from '@angular/core';
 import { AbstractFormArray } from '../../../../../common/cdk/form-array.abstract';
-import { ActivityDimensioned } from '../../../store/activities/activity-dimensioned';
+import { QuantifiedActivity } from '../../../../../common/ui/quantified-activity/quantified-activity';
 
 interface ActivityFormAttributes {
 	name: string;
-	dimensionedActivities: Array<ActivityDimensioned>;
+	quantifiedActivity: Array<QuantifiedActivity>;
 }
 
-export abstract class ActivityForm<T extends ActivityFormAttributes> extends AbstractFormArray<ActivityDimensioned> {
+export abstract class ActivityForm<T extends ActivityFormAttributes> extends AbstractFormArray<QuantifiedActivity> {
 
 	activityForm: FormGroup;
 
@@ -16,20 +16,20 @@ export abstract class ActivityForm<T extends ActivityFormAttributes> extends Abs
 		super();
 	}
 
-	getType(): Type<ActivityDimensioned> {
-		return ActivityDimensioned;
+	getType(): Type<QuantifiedActivity> {
+		return QuantifiedActivity;
 	}
 
 	initForm(activity: T): void {
 		if (activity) {
 			this.activityForm = new FormGroup({
 				name: new FormControl(activity.name),
-				entries: this.createFormArray(activity.dimensionedActivities)
+				entries: this.createFormArray(activity.quantifiedActivity)
 			});
 		} else {
 			this.activityForm = new FormGroup({
 				name: new FormControl(),
-				entries: this.createFormArray([new ActivityDimensioned('', '')])
+				entries: this.createFormArray([new QuantifiedActivity('', '')])
 			});
 		}
 		this.activityForm.controls['name'].setValidators(Validators.required);
@@ -41,6 +41,6 @@ export abstract class ActivityForm<T extends ActivityFormAttributes> extends Abs
 	}
 
 	addEntry(): void {
-		this.addToFormArray(new ActivityDimensioned('', ''));
+		this.addToFormArray(new QuantifiedActivity('', ''));
 	}
 }

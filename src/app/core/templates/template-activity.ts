@@ -1,13 +1,12 @@
 import { Weekday } from './weekday';
-import { ActivityDimensioned } from '../activities/store/activities/activity-dimensioned';
+import { QuantifiedActivity } from '../../common/ui/quantified-activity/quantified-activity';
 
 export class TemplateActivity {
 
 	constructor(readonly weekday: Weekday,
 				readonly name: string,
-				readonly dimensionedActivities: Array<ActivityDimensioned>,
+				readonly quantifiedActivity: Array<QuantifiedActivity>,
 				readonly templateUUID: string,
 				readonly templateSetName?: string) {
 	}
-
 }

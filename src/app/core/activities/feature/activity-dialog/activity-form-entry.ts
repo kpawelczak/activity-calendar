@@ -1,6 +1,6 @@
-import { ActivityDimensioned } from '../../store/activities/activity-dimensioned';
+import { QuantifiedActivity } from '../../../../common/ui/quantified-activity/quantified-activity';
 
 export interface ActivityFormEntry {
 	name: string;
-	entries: Array<ActivityDimensioned>;
+	entries: Array<QuantifiedActivity>;
 }

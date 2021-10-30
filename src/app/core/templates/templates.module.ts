@@ -10,7 +10,6 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { ActivityCalendarButtonModule } from '../../common/ui/activity-calendar-button/activity-calendar-button.module';
-import { ActivityDimensionedModule } from '../../common/utils/activity/activity-dimensioned.module';
 import { MatTabsModule } from '@angular/material/tabs';
 
 import { FirebaseTemplateSetsService } from './infrastructure/firebase-template-sets.service';
@@ -38,6 +37,7 @@ import { WeekdayTemplateActivityComponent } from './feature/templates/weekday-ac
 import { TemplateCustomActivityComponent } from './feature/templates/template-activity-dialog/custom-activity/template-custom-activity.component';
 import { TemplateDefinedActivityFormComponent } from './feature/templates/template-activity-dialog/defined-activity/template-defined-activity-form.component';
 import { TemplateDefinedActivityComponent } from './feature/templates/template-activity-dialog/defined-activity/template-defined-activity.component';
+import { QuantifiedActivityModule } from '../../common/ui/quantified-activity/quantified-activity.module';
 
 
 const store = [
@@ -68,13 +68,17 @@ const ui = [
 	MatSelectModule
 ];
 
+const dependencies = [
+	QuantifiedActivityModule
+];
+
 @NgModule({
 	imports: [
 		CommonModule,
 		TemplatesRoutingModule,
-		ActivityDimensionedModule,
 		MatTabsModule,
-		...ui
+		...ui,
+		...dependencies
 	],
 	declarations: [
 		TemplatesRootComponent,

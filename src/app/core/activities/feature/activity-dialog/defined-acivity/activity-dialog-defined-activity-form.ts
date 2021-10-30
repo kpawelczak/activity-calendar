@@ -3,14 +3,14 @@ import { ActivityEntry } from '../../../../activities-config/store/activity-entr
 import { FormArray, FormControl, FormGroup } from '@angular/forms';
 import { Type } from '@angular/core';
 import { ActivityConfig } from '../../../../activities-config/store/activity-config';
-import { ActivityDimensioned } from '../../../store/activities/activity-dimensioned';
+import { QuantifiedActivity } from '../../../../../common/ui/quantified-activity/quantified-activity';
 
-export abstract class ActivityDialogDefinedActivityForm extends AbstractFormArray<ActivityDimensioned> {
+export abstract class ActivityDialogDefinedActivityForm extends AbstractFormArray<QuantifiedActivity> {
 
 	activityForm: FormGroup;
 
-	getType(): Type<ActivityDimensioned> {
-		return ActivityDimensioned;
+	getType(): Type<QuantifiedActivity> {
+		return QuantifiedActivity;
 	}
 
 	initForm(activityConfig: ActivityConfig): void {
@@ -32,7 +32,7 @@ export abstract class ActivityDialogDefinedActivityForm extends AbstractFormArra
 		return this.getFormEntries().controls[i].value.unit;
 	}
 
-	private createActivityDimensionedArray(units: Array<ActivityEntry>): Array<ActivityDimensioned> {
-		return units.map((activityEntry: ActivityEntry) => new ActivityDimensioned('', activityEntry.entryUnit));
+	private createActivityDimensionedArray(units: Array<ActivityEntry>): Array<QuantifiedActivity> {
+		return units.map((activityEntry: ActivityEntry) => new QuantifiedActivity('', activityEntry.entryUnit));
 	}
 }

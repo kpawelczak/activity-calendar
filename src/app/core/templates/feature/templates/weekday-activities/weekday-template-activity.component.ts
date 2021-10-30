@@ -14,7 +14,7 @@ import { TemplateActivityDialogComponent } from '../template-activity-dialog/tem
 
 			<span>{{templateActivity.name}}</span>
 
-			<span>{{templateActivity.dimensionedActivities | activityDimensioned}}</span>
+			<span>{{templateActivity.quantifiedActivity | quantifiedActivity}}</span>
 
 			<mat-icon (click)="deleteTemplateActivity()">
 				delete

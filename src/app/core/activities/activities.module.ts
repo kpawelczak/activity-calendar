@@ -5,7 +5,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { TemplatesModule } from '../templates/templates.module';
 import { ActivitiesConfigModule } from '../activities-config/activities-config.module';
-import { ActivityDimensionedModule } from '../../common/utils/activity/activity-dimensioned.module';
 
 import { MatSelectModule } from '@angular/material/select';
 import { MatTabsModule } from '@angular/material/tabs';
@@ -39,6 +38,7 @@ import { SelectedActivitiesService } from './store/selected-activities/selected-
 import { SelectedDayTemplateActivityRepository } from './store/template/selected-day-template-activity.repository';
 import { SelectedActivityService } from './store/selected-activity/selected-activity.service';
 import { SelectedDayActiveTemplateSetRepository } from './store/template/selected-day-active-template-set.repository';
+import { QuantifiedActivityModule } from '../../common/ui/quantified-activity/quantified-activity.module';
 
 
 const infrastructure = [
@@ -60,7 +60,6 @@ const store = [
 
 const ui = [
 	ActivityCalendarButtonModule,
-	ActivityDimensionedModule,
 	MatSelectModule,
 	MatFormFieldModule,
 	MatInputModule,
@@ -71,9 +70,21 @@ const ui = [
 	MatDialogModule
 ];
 
+const features = [
+	ActivitiesListComponent,
+	ActivitiesTemplateComponent,
+	ActivityTemplateComponent,
+	ActiveTemplateSelectComponent,
+	ActivityDialogComponent,
+	ActivityDialogCustomActivityComponent,
+	ActivityDialogDefinedActivityComponent,
+	ActivityDialogDefinedActivityFormComponent
+];
+
 const dependencies = [
 	TemplatesModule.forFeature(),
 	ActivitiesConfigModule.forFeature(),
+	QuantifiedActivityModule
 ];
 
 @NgModule({
@@ -82,18 +93,11 @@ const dependencies = [
 		ReactiveFormsModule,
 		FormsModule,
 		...dependencies,
-		...ui,
+		...ui
 	],
 	declarations: [
 		SelectedDayComponent,
-		ActivitiesListComponent,
-		ActivitiesTemplateComponent,
-		ActivityTemplateComponent,
-		ActiveTemplateSelectComponent,
-		ActivityDialogComponent,
-		ActivityDialogCustomActivityComponent,
-		ActivityDialogDefinedActivityComponent,
-		ActivityDialogDefinedActivityFormComponent
+		...features
 	],
 	exports: [
 		SelectedDayComponent

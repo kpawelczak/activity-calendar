@@ -1,4 +1,4 @@
-export class ActivityDimensioned {
+export class QuantifiedActivity {
 
 	private activityValue: string;
 

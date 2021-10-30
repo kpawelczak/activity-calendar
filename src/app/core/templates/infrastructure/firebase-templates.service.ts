@@ -49,7 +49,7 @@ export class FirebaseTemplatesService extends ProfileCollection {
 				= new TemplateActivity(
 				templateActivity.weekday,
 				templateActivity.name,
-				templateActivity.dimensionedActivities,
+				templateActivity.quantifiedActivity,
 				templateActivity.templateUUID,
 				templateActivity.templateSetName);
 

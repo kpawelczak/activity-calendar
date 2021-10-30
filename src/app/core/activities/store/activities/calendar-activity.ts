@@ -1,4 +1,4 @@
-import { ActivityDimensioned } from './activity-dimensioned';
+import { QuantifiedActivity } from '../../../../common/ui/quantified-activity/quantified-activity';
 
 export class CalendarActivity {
 
@@ -8,7 +8,7 @@ export class CalendarActivity {
 
 	constructor(readonly day: number,
 				readonly name: string,
-				readonly dimensionedActivities: Array<ActivityDimensioned>,
+				readonly quantifiedActivity: Array<QuantifiedActivity>,
 				options?: {
 					activityUUID?: string,
 					assignedTemplateUUID?: string

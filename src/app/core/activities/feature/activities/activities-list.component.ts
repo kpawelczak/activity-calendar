@@ -28,7 +28,7 @@ import { CalendarActivity } from '../../store/activities/calendar-activity';
 
 			<span>{{activity.name}}</span>
 
-			<span>{{activity.dimensionedActivities | activityDimensioned}}</span>
+			<span>{{activity.quantifiedActivity | quantifiedActivity}}</span>
 
 			<mat-icon *ngIf="isSelectedDayToday()"
 					  (click)="deleteActivity(activity)">

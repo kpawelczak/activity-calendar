@@ -5,7 +5,8 @@ import { Observable } from 'rxjs';
 import { map, take } from 'rxjs/operators';
 import { WeekdayTemplate } from '../weekday-template';
 import { TemplatesService } from '../templates/templates.service';
-import { ActivityDimensioned } from '../../../activities/store/activities/activity-dimensioned';
+import { QuantifiedActivity } from '../../../../common/ui/quantified-activity/quantified-activity';
+
 import { v4 as uuidv4 } from 'uuid';
 
 
@@ -18,13 +19,13 @@ export class TemplateService {
 
 	saveActivityToTemplate(weekdayTemplate: WeekdayTemplate,
 						   name: string,
-						   dimensionedActivities: Array<ActivityDimensioned>,
+						   quantifiedActivities: Array<QuantifiedActivity>,
 						   templateActivity?: TemplateActivity): Observable<WeekdayTemplate> {
 		const changedTemplateActivity
 			= new TemplateActivity(
 			weekdayTemplate.getWeekday(),
 			name,
-			dimensionedActivities,
+			quantifiedActivities,
 			this.getTemplateUUID(templateActivity),
 			templateActivity?.templateSetName);
 
