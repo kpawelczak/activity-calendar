@@ -1,5 +1,6 @@
 import { QuantifiedActivity } from '../../../../common/ui/quantified-activity/quantified-activity';
 
+// TODO name
 export class CalendarActivity {
 
 	private assignedTemplateUUID: string = '-1';

@@ -29,6 +29,7 @@ import { ActivityDialogCustomActivityComponent } from './feature/activity-dialog
 import { FirebaseActivitiesService } from './infrastructure/firebase-activities.service';
 import { FirebaseActivitiesCountService } from './infrastructure/firebase-activities-count.service';
 import { FirebaseActivityService } from './infrastructure/firebase-activity.service';
+import { FirebaseActivitiesChangesService } from './infrastructure/firebase-activities-changes.service';
 
 import { ActivitiesRepository } from './store/activities/activities.repository';
 import { ActivitiesCountRepository } from './store/count/activities-count.repository';
@@ -38,13 +39,18 @@ import { SelectedActivitiesService } from './store/selected-activities/selected-
 import { SelectedDayTemplateActivityRepository } from './store/template/selected-day-template-activity.repository';
 import { SelectedActivityService } from './store/selected-activity/selected-activity.service';
 import { SelectedDayActiveTemplateSetRepository } from './store/template/selected-day-active-template-set.repository';
+
+import { ActivitiesStorage } from './storage/activities.storage';
+import { ActivitiesConverter } from './storage/activities.converter';
+
 import { QuantifiedActivityModule } from '../../common/ui/quantified-activity/quantified-activity.module';
 
 
 const infrastructure = [
 	FirebaseActivitiesService,
 	FirebaseActivitiesCountService,
-	FirebaseActivityService
+	FirebaseActivityService,
+	FirebaseActivitiesChangesService
 ];
 
 const store = [
@@ -56,6 +62,11 @@ const store = [
 	SelectedActivitiesRepository,
 	SelectedActivitiesService,
 	SelectedDayActiveTemplateSetRepository
+];
+
+const storage = [
+	ActivitiesStorage,
+	ActivitiesConverter
 ];
 
 const ui = [
@@ -110,7 +121,8 @@ export class ActivitiesModule {
 			ngModule: ActivitiesModule,
 			providers: [
 				...store,
-				...infrastructure
+				...infrastructure,
+				...storage,
 			]
 		};
 	}

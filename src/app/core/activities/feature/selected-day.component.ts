@@ -28,7 +28,7 @@ import { TemplatesRepository } from '../../templates/store/templates/templates.r
 	template: `
 		<h2 class="selected-activity-day">{{selectedDay | date:'EEEE d MMMM y'}}</h2>
 
-		<mat-tab-group *ngIf="canShowActivities() || canShowTemplates"
+		<mat-tab-group *ngIf="canShowActivities() || canShowTemplates()"
 					   [class.tab-group-disabled]="!isSelectedDayToday()"
 					   mat-stretch-tabs dynamicHeight>
 
@@ -41,7 +41,7 @@ import { TemplatesRepository } from '../../templates/store/templates/templates.r
 
 			</mat-tab>
 
-			<mat-tab *ngIf="canShowTemplates"
+			<mat-tab *ngIf="canShowTemplates()"
 					 [label]="'Template'">
 
 				<ac-activities-template [selectedDay]="selectedDay"
@@ -84,7 +84,7 @@ export class SelectedDayComponent extends Reactive implements OnChanges, OnInit 
 
 	activeWeekdayTemplate: number;
 
-	canShowTemplates: boolean = false;
+	hasTemplates: boolean = false;
 
 	constructor(private readonly templateRepository: TemplateRepository,
 				private readonly templatesRepository: TemplatesRepository,
@@ -165,10 +165,15 @@ export class SelectedDayComponent extends Reactive implements OnChanges, OnInit 
 		return this.activities?.length > 0;
 	}
 
+	canShowTemplates(): boolean {
+		return this.isSelectedDayToday() && this.hasTemplates;
+	}
+
 	checkWeekdayTemplates(weekdayTemplates: Array<WeekdayTemplate>): void {
+		this.hasTemplates = false;
 		for (let i = 0; i <= weekdayTemplates.length; i++) {
 			if (!!weekdayTemplates[i]?.getTemplates().length) {
-				this.canShowTemplates = true;
+				this.hasTemplates = true;
 				break;
 			}
 		}

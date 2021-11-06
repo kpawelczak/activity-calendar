@@ -10,7 +10,7 @@ export abstract class StorageArchive<T> {
 		const value = localStorage.getItem(`${this.getStorageKey()}${this.getExtendedKey(extendKey)}`);
 
 		if (value) {
-			return JSON.parse(value);
+			return JSON.parse(value) as T;
 		}
 	}
 

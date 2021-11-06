@@ -8,7 +8,7 @@ import { WeekdayTemplate } from '../../../templates/store/weekday-template';
 		<selected-day-active-template-select [activeWeekdayTemplate]="activeWeekdayTemplate"
 											 [weekdayTemplates]="weekdayTemplates"></selected-day-active-template-select>
 
-		<div *ngIf="canShowHeader()"
+		<div *ngIf="canShowHeader() else emptyTemplate"
 			 class="ac-selected-date-activity header">
 
 			<span>#</span>
@@ -18,6 +18,14 @@ import { WeekdayTemplate } from '../../../templates/store/weekday-template';
 			<span>Amount</span>
 
 		</div>
+
+		<ng-template #emptyTemplate>
+
+			<p style="padding: 0 0.75rem">
+				Not activities for current weekday, you can still select different weekday template.
+			</p>
+
+		</ng-template>
 
 		<ac-activity-template *ngFor="let templateActivity of templateActivities; let i = index"
 							  [index]="i"

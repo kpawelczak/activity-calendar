@@ -3,13 +3,14 @@ import { AngularFirestore } from '@angular/fire/firestore';
 import { CalendarActivity } from '../store/activities/calendar-activity';
 import { ProfileCollection } from '../../domain/profile/profile-collection';
 import { ProfileService } from '../../domain/profile/profile.service';
-import { ActivitiesRepository } from '../store/activities/activities.repository';
+// import { ActivitiesRepository } from '../store/activities/activities.repository';
 import { ActivityCalendarSnackbarService } from '../../../common/ui/activity-calendar-snackbar/activity-calendar-snackbar.service';
 
 @Injectable()
 export class FirebaseActivityService extends ProfileCollection {
 
-	constructor(private readonly monthActivitiesRepository: ActivitiesRepository,
+	constructor(
+		// private readonly monthActivitiesRepository: ActivitiesRepository,
 				private readonly acSnackBar: ActivityCalendarSnackbarService,
 				firestore: AngularFirestore,
 				firebaseProfileService: ProfileService) {

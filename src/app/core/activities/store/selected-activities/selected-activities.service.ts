@@ -5,15 +5,17 @@ import { filter, take } from 'rxjs/operators';
 import { CalendarActivity } from '../activities/calendar-activity';
 import { DateUtils } from '../../../../common/utils/date-util/date-utils';
 import { SelectedActivitiesRepository } from './selected-activities.repository';
+import { Reactive } from '../../../../common/cdk/reactive';
 
 @Injectable()
-export class SelectedActivitiesService {
+export class SelectedActivitiesService extends Reactive {
 
 	private selectedDay: Date;
 
 	constructor(private readonly activitiesRepository: ActivitiesRepository,
 				private readonly selectedActivitiesRepository: SelectedActivitiesRepository,
 				private readonly selectedDayTemplateActivityRepository: SelectedDayTemplateActivityRepository) {
+		super();
 	}
 
 	selectActivities(date: Date): void {
@@ -36,7 +38,8 @@ export class SelectedActivitiesService {
 			.onValues()
 			.pipe(
 				filter((activities: Array<CalendarActivity>) => !!activities),
-				take(1)
+				take(1),
+				this.takeUntil()
 			)
 			.subscribe((activities: Array<CalendarActivity>) => {
 				const selectedActivities = this.getSelectedActivities(activities, date);
