@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { StorageArchive } from '../../../common/cdk/storage-archive';
 import { CalendarActivity } from '../store/activities/calendar-activity';
 import { LocalActivities } from './local-activities';
-import { LocalActivity } from './local-activity';
 import { LocalActivityByMonth } from './local-activity-by-month';
 import { ActivitiesConverter } from './activities.converter';
 
@@ -22,7 +21,7 @@ export class ActivitiesStorage extends StorageArchive<LocalActivities> {
 		return 'ac-activities';
 	}
 
-	getStoredChangesId(year: number, month: number): string {
+	getStoredChangesId(): string {
 		return !!this.getStoredValue(this.getActivitiesExtendedKey(true))?.changesId
 			? this.getStoredValue(this.getActivitiesExtendedKey(true)).changesId
 			: '-1';
@@ -34,33 +33,47 @@ export class ActivitiesStorage extends StorageArchive<LocalActivities> {
 			: [];
 	}
 
-	storeActivities(year: number,
-					month: number,
-					calendarActivities: Array<CalendarActivity>,
-					loggedIn?: boolean
+	storeMonthActivities(calendarActivities: Array<CalendarActivity>,
+						 loggedIn: boolean,
+						 options?: {
+							 year: number,
+							 month: number
+						 }
 	) {
-		const key = this.getActivitiesExtendedKey(loggedIn);
+		const key = this.getActivitiesExtendedKey(loggedIn),
+			month = this.getLocalMonthKey(options);
 
 		// TODO name
 		const newValue = {
-			month: `${year}-${month}`,
+			month,
 			calendarActivities
 		};
 
 		const localActivities: LocalActivities = {
-			activities: [newValue]
+			activitiesByMonths: [newValue as any]
 		};
 
-		const storedActivities = this.getStoredValue(key)?.activities ? this.getStoredValue(key) : localActivities;
+		let storedActivities = this.getStoredValue(key)?.activitiesByMonths ? this.getStoredValue(key) : localActivities;
 
-		storedActivities.activities.push(newValue);
+		storedActivities = {
+			...storedActivities,
+			activitiesByMonths: storedActivities.activitiesByMonths.map((localActivityByMonth: LocalActivityByMonth) => {
+				const shouldReplace = localActivityByMonth.month === month;
 
+				return shouldReplace
+					? {
+						month,
+						calendarActivities: calendarActivities as any
+					}
+					: localActivityByMonth;
+			})
+		};
 		this.store(storedActivities, key);
 	}
 
 	getLocalActivities(year: number, month: number, loggedIn: boolean): LocalActivityByMonth | null {
 		const monthActivities = this.getActivities(loggedIn)?.find((localActivity: LocalActivityByMonth) => {
-			return localActivity.month === `${year}-${month}`;
+			return localActivity.month === this.getLocalMonthKey({ year, month });
 		});
 
 		return !!monthActivities
@@ -73,12 +86,20 @@ export class ActivitiesStorage extends StorageArchive<LocalActivities> {
 	}
 
 	private getActivities(loggedIn: boolean): Array<LocalActivityByMonth> {
-		return !!this.getStoredValue(this.getActivitiesExtendedKey(loggedIn))?.activities
-			? this.getStoredValue(this.getActivitiesExtendedKey(loggedIn))?.activities
+		return !!this.getStoredValue(this.getActivitiesExtendedKey(loggedIn))?.activitiesByMonths
+			? this.getStoredValue(this.getActivitiesExtendedKey(loggedIn))?.activitiesByMonths
 			: [];
 	}
 
 	private getActivitiesExtendedKey(loggedIn: boolean): string {
 		return loggedIn ? ActivitiesStorage.USER : ActivitiesStorage.LOCAL;
+	}
+
+	// separate file
+	private getLocalMonthKey(options?: { year: number, month: number }): string {
+		const year = options?.year ? options.year : new Date().getFullYear(),
+			month = options?.month ? options.month : new Date().getMonth();
+
+		return `${year}-${month}`;
 	}
 }

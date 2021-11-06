@@ -32,6 +32,7 @@ import { FirebaseActivityService } from './infrastructure/firebase-activity.serv
 import { FirebaseActivitiesChangesService } from './infrastructure/firebase-activities-changes.service';
 
 import { ActivitiesRepository } from './store/activities/activities.repository';
+import { ActivitiesService } from './store/activities/activities.service';
 import { ActivitiesCountRepository } from './store/count/activities-count.repository';
 import { SelectedActivityRepository } from './store/selected-activity/selected-activity.repository';
 import { SelectedActivitiesRepository } from './store/selected-activities/selected-activities.repository';
@@ -55,6 +56,7 @@ const infrastructure = [
 
 const store = [
 	ActivitiesRepository,
+	ActivitiesService,
 	ActivitiesCountRepository,
 	SelectedActivityRepository,
 	SelectedActivityService,

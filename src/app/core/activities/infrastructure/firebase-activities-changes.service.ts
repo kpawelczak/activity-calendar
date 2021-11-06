@@ -29,7 +29,7 @@ export class FirebaseActivitiesChangesService extends ProfileCollection {
 				   );
 	}
 
-	registerNewChanges(doc: string, collection: string, changesId:string): void {
+	registerNewChanges(doc: string, collection: string, changesId: string): void {
 		this.profileCollection()
 			.doc(doc)
 			.collection(collection)

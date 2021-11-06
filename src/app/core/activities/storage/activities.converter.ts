@@ -14,11 +14,15 @@ export class ActivitiesConverter {
 				localActivity.name,
 				this.parseQuantifiedActivities(localActivity.quantifiedActivities),
 				{
-					activityUUID: localActivity.options?.activityUUID,
-					assignedTemplateUUID: localActivity.options?.assignedTemplateUUID
+					activityUUID: localActivity?.activityUUID,
+					assignedTemplateUUID: localActivity?.assignedTemplateUUID
 				}
 			);
 		});
+	}
+
+	convertToLocalActivities() {
+
 	}
 
 	private parseQuantifiedActivities(quantifiedActivities: Array<QuantifiedActivity>): Array<QuantifiedActivity> {

@@ -2,6 +2,6 @@ import { LocalActivityByMonth } from './local-activity-by-month';
 
 export interface LocalActivities {
 	changesId?: string;
-	activities?: Array<LocalActivityByMonth>;
+	activitiesByMonths?: Array<LocalActivityByMonth>;
 	count?: any;
 }

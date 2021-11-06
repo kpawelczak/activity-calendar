@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
-import { ActivitiesRepository } from '../activities/activities.repository';
 import { v4 as uuidv4 } from 'uuid';
 import { CalendarActivity } from '../activities/calendar-activity';
 import { FirebaseActivityService } from '../../infrastructure/firebase-activity.service';
 import { ActivitiesCountRepository } from '../count/activities-count.repository';
 import { SelectedActivitiesService } from '../selected-activities/selected-activities.service';
+import { ActivitiesService } from '../activities/activities.service';
 
 
 @Injectable()
@@ -13,7 +13,7 @@ export class SelectedActivityService {
 	constructor(private readonly firebaseActivityService: FirebaseActivityService,
 				private readonly selectedActivitiesService: SelectedActivitiesService,
 				private readonly activitiesCountRepository: ActivitiesCountRepository,
-				private readonly activitiesRepository: ActivitiesRepository) {
+				private readonly activitiesService: ActivitiesService) {
 	}
 
 	addActivity(selectedDate: Date, calendarActivity: CalendarActivity): Promise<void> {
@@ -24,7 +24,7 @@ export class SelectedActivityService {
 				   .addActivity(calendarActivity)
 				   .then(() => {
 					   this.activitiesCountRepository.updateCount(selectedDate, true);
-					   this.activitiesRepository.addMonthActivity(calendarActivity);
+					   this.activitiesService.addMonthActivity(calendarActivity);
 					   this.selectedActivitiesService.updateActivities(selectedDate);
 				   });
 	}
@@ -33,7 +33,7 @@ export class SelectedActivityService {
 		return this.firebaseActivityService
 				   .updateActivity(activity)
 				   .then(() => {
-					   this.activitiesRepository.updateMonthActivities(activity);
+					   this.activitiesService.updateMonthActivities(activity);
 					   this.selectedActivitiesService.updateActivities(selectedDate);
 				   });
 	}
@@ -43,7 +43,7 @@ export class SelectedActivityService {
 				   .deleteActivity(activity)
 				   .then(() => {
 					   this.activitiesCountRepository.updateCount(selectedDate);
-					   this.activitiesRepository.deleteActivity(activity);
+					   this.activitiesService.deleteActivity(activity);
 					   this.selectedActivitiesService.updateActivities(selectedDate);
 				   });
 	}

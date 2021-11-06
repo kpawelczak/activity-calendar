@@ -4,8 +4,6 @@ export interface LocalActivity {
 	day: number;
 	name: string;
 	quantifiedActivities: Array<QuantifiedActivity>;
-	options?: {
-		activityUUID?: string,
-		assignedTemplateUUID?: string
-	};
+	activityUUID?: string;
+	assignedTemplateUUID?: string;
 }

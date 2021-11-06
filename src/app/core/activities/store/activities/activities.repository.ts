@@ -8,7 +8,7 @@ import { map, switchMap, take } from 'rxjs/operators';
 import { FirebaseActivitiesChangesService } from '../../infrastructure/firebase-activities-changes.service';
 import { Observable, of } from 'rxjs';
 
-
+// TODO name ActivitiesByMonth
 @Injectable()
 export class ActivitiesRepository extends ValuesRepository<Array<CalendarActivity>> {
 
@@ -36,40 +36,12 @@ export class ActivitiesRepository extends ValuesRepository<Array<CalendarActivit
 			});
 	}
 
-	addMonthActivity(activity: CalendarActivity): void {
-		const monthActivities = this.getValues() ? this.getValues() : [];
-
-		monthActivities.push(activity);
-
-		this.next(monthActivities);
-	}
-
-	updateMonthActivities(activity: CalendarActivity): void {
-		const updatedActivities = this.getValues()
-									  .map((calendarActivity: CalendarActivity) => {
-										  return activity.getActivityUUID() === calendarActivity.getActivityUUID()
-											  ? activity
-											  : calendarActivity;
-									  });
-
-		this.next(updatedActivities);
-	}
-
-	deleteActivity(activity: CalendarActivity): void {
-		const updatedActivities = this.getValues()
-									  .filter((calendarActivity: CalendarActivity) => {
-										  return calendarActivity.getActivityUUID() !== activity.getActivityUUID();
-									  });
-
-		this.next(updatedActivities);
-	}
-
 	private onActivitiesWithLoggedInUser(year: number,
 										 month: number): Observable<any> {
 		// 1# is Current Month && check storage
 		// 2# check storage first
 
-		return this.onActivitiesChanges(year, month)
+		return this.onActivitiesChanges()
 				   .pipe(
 					   switchMap((checkStorage: boolean) => {
 						   return this.onActivitiesFromStorage(year, month, checkStorage);
@@ -91,28 +63,20 @@ export class ActivitiesRepository extends ValuesRepository<Array<CalendarActivit
 					  map((calendarActivities: Array<CalendarActivity>) => {
 						  console.log('from firebase');
 						  // ?
-						  this.activitiesStorage.storeActivities(year, month, calendarActivities, true);
+						  this.activitiesStorage.storeMonthActivities(calendarActivities, true, { year, month });
 						  return calendarActivities;
 					  })
 				  );
 	}
 
 // TODO name
-	private onActivitiesChanges(year: number,
-								month: number): Observable<boolean> {
+	private onActivitiesChanges(): Observable<boolean> {
 		return this.firebaseActivitiesChangesService
 				   .onChangesId('activities', 'days')
 				   .pipe(
 					   map((changesId: string) => {
-						   return changesId === this.activitiesStorage.getStoredChangesId(year, month);
+						   return changesId === this.activitiesStorage.getStoredChangesId();
 					   })
 				   );
-
 	}
-
-	// private isInCurrentMonth(year: number, month: number): boolean {
-	// 	const today = new Date();
-	// 	return today.getMonth() === month &&
-	// 		today.getFullYear() === year;
-	// }
 }
