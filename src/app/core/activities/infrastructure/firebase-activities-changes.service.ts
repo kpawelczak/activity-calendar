@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { from, Observable } from 'rxjs';
 import { map, take } from 'rxjs/operators';
 import { ProfileCollection } from '../../domain/profile/profile-collection';
 import firebase from 'firebase';
 import { ProfileService } from '../../domain/profile/profile.service';
 import { AngularFirestore } from '@angular/fire/firestore';
+import { v4 as uuidv4 } from 'uuid';
 import DocumentData = firebase.firestore.DocumentData;
 
 @Injectable()
@@ -29,13 +30,18 @@ export class FirebaseActivitiesChangesService extends ProfileCollection {
 				   );
 	}
 
-	registerNewChanges(doc: string, collection: string, changesId: string): void {
-		this.profileCollection()
-			.doc(doc)
-			.collection(collection)
-			.doc('changesId')
-			.set({ changesId })
-			.finally();
+	registerNewChanges(doc: string, collection: string): Observable<string> {
+		const changesId = uuidv4();
+
+		return from(
+			this.profileCollection()
+				.doc(doc)
+				.collection(collection)
+				.doc('changesId')
+				.set({ changesId }))
+			.pipe(
+				map(() => changesId)
+			);
 	}
 
 }

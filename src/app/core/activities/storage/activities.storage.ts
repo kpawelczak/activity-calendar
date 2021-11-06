@@ -81,6 +81,13 @@ export class ActivitiesStorage extends StorageArchive<LocalActivities> {
 			: null;
 	}
 
+	updateChangesId(changesId: string): void {
+		const key = this.getActivitiesExtendedKey(true),
+			storedActivities = this.getStoredValue(key),
+			newStoredActivities = { ...storedActivities, changesId };
+		this.store(newStoredActivities, key);
+	}
+
 	private transformActivities(localActivities: LocalActivityByMonth): Array<CalendarActivity> {
 		return this.activitiesConverter.convert(localActivities.calendarActivities);
 	}

@@ -3,13 +3,16 @@ import { CalendarActivity } from './calendar-activity';
 import { ActivitiesRepository } from './activities.repository';
 import { ActivitiesStorage } from '../../storage/activities.storage';
 import { AuthenticationService } from '../../../../authentication/authentication.service';
-import { take } from 'rxjs/operators';
+import { switchMap, take } from 'rxjs/operators';
 import { Reactive } from '../../../../common/cdk/reactive';
+import { FirebaseActivitiesChangesService } from '../../infrastructure/firebase-activities-changes.service';
+
 
 @Injectable()
 export class ActivitiesService extends Reactive {
 
 	constructor(private readonly activitiesRepository: ActivitiesRepository,
+				private readonly firebaseActivitiesChangesService: FirebaseActivitiesChangesService,
 				private readonly authService: AuthenticationService,
 				private readonly activitiesStorage: ActivitiesStorage) {
 		super();
@@ -45,19 +48,23 @@ export class ActivitiesService extends Reactive {
 	private next(activities: Array<CalendarActivity>): void {
 		this.activitiesRepository.next(activities);
 		this.updateLocalMonthActivities(activities);
-
-		// TODO CHANGES ID UPDATE
 	}
 
 	private updateLocalMonthActivities(activities: Array<CalendarActivity>): void {
 		this.authService
 			.onLoggedIn()
 			.pipe(
+				switchMap((loggedIn: boolean) => {
+					this.activitiesStorage.storeMonthActivities(activities, loggedIn);
+
+					return this.firebaseActivitiesChangesService
+							   .registerNewChanges('activities', 'days');
+				}),
 				take(1),
 				this.takeUntil()
 			)
-			.subscribe((loggedIn: boolean) => {
-				this.activitiesStorage.storeMonthActivities(activities, loggedIn);
+			.subscribe((changesUUID: string) => {
+				this.activitiesStorage.updateChangesId(changesUUID);
 			});
 	}
 
