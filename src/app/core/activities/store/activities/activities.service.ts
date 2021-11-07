@@ -5,14 +5,15 @@ import { ActivitiesStorage } from '../../storage/activities.storage';
 import { AuthenticationService } from '../../../../authentication/authentication.service';
 import { switchMap, take } from 'rxjs/operators';
 import { Reactive } from '../../../../common/cdk/reactive';
-import { FirebaseActivitiesChangesService } from '../../infrastructure/firebase-activities-changes.service';
+import { DomainChangesService } from '../../../domain/changes/store/domain-changes.service';
+import { DomainChangesType } from '../../../domain/changes/domain-changes.type';
 
 
 @Injectable()
 export class ActivitiesService extends Reactive {
 
 	constructor(private readonly activitiesRepository: ActivitiesRepository,
-				private readonly firebaseActivitiesChangesService: FirebaseActivitiesChangesService,
+				private readonly domainChangesService: DomainChangesService,
 				private readonly authService: AuthenticationService,
 				private readonly activitiesStorage: ActivitiesStorage) {
 		super();
@@ -57,8 +58,9 @@ export class ActivitiesService extends Reactive {
 				switchMap((loggedIn: boolean) => {
 					this.activitiesStorage.storeMonthActivities(activities, loggedIn);
 
-					return this.firebaseActivitiesChangesService
-							   .registerNewChanges('activities', 'days');
+					return loggedIn
+						? this.domainChangesService.registerNewChange(DomainChangesType.ACTIVITIES)
+						: null;
 				}),
 				take(1),
 				this.takeUntil()

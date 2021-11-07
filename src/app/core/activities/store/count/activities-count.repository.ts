@@ -3,16 +3,19 @@ import { ActivitiesCount } from './activities-count';
 import { FirebaseActivitiesCountService } from '../../infrastructure/firebase-activities-count.service';
 import { SmartRepository } from '../../../../common/cdk/smart-repository';
 import { Observable, of } from 'rxjs';
-import { FirebaseActivitiesChangesService } from '../../infrastructure/firebase-activities-changes.service';
+
 import { map, switchMap, take } from 'rxjs/operators';
 import { ActivitiesStorage } from '../../storage/activities.storage';
 import { AuthenticationService } from '../../../../authentication/authentication.service';
+import { DomainChangesRepository } from '../../../domain/changes/store/domain-changes.repository';
+import { DomainChanges } from '../../../domain/changes/domain-changes';
+
 
 @Injectable()
 export class ActivitiesCountRepository extends SmartRepository<Array<ActivitiesCount>> {
 
 	constructor(private readonly firebaseActivitiesCountService: FirebaseActivitiesCountService,
-				private readonly firebaseActivitiesChangesService: FirebaseActivitiesChangesService,
+				private readonly domainChangesRepository: DomainChangesRepository,
 				private readonly authService: AuthenticationService,
 				private readonly activitiesStorage: ActivitiesStorage) {
 		super();
@@ -37,11 +40,11 @@ export class ActivitiesCountRepository extends SmartRepository<Array<ActivitiesC
 
 	private onActivitiesCountWithLoggedInUser(storedActivitiesCount: Array<ActivitiesCount>,
 											  loggedIn: boolean): Observable<Array<ActivitiesCount>> {
-		return this.firebaseActivitiesChangesService
-				   .onChangesId('activities', 'days')
+		return this.domainChangesRepository
+				   .onValues()
 				   .pipe(
-					   map((changesId: string) => {
-						   return changesId === this.activitiesStorage.getStoredChangesId();
+					   map((domainChanges: DomainChanges) => {
+						   return domainChanges.getActivitiesId() === this.activitiesStorage.getStoredChangesId();
 					   }),
 					   switchMap((checkStorage: boolean) => {
 						   return checkStorage && !!storedActivitiesCount

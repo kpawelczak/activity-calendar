@@ -29,7 +29,6 @@ import { ActivityDialogCustomActivityComponent } from './feature/activity-dialog
 import { FirebaseActivitiesService } from './infrastructure/firebase-activities.service';
 import { FirebaseActivitiesCountService } from './infrastructure/firebase-activities-count.service';
 import { FirebaseActivityService } from './infrastructure/firebase-activity.service';
-import { FirebaseActivitiesChangesService } from './infrastructure/firebase-activities-changes.service';
 
 import { ActivitiesRepository } from './store/activities/activities.repository';
 import { ActivitiesService } from './store/activities/activities.service';
@@ -46,13 +45,13 @@ import { ActivitiesStorage } from './storage/activities.storage';
 import { ActivitiesConverter } from './storage/activities.converter';
 
 import { QuantifiedActivityModule } from '../../common/ui/quantified-activity/quantified-activity.module';
+import { DomainChangesModule } from '../domain/changes/domain-changes.module';
 
 
 const infrastructure = [
 	FirebaseActivitiesService,
 	FirebaseActivitiesCountService,
-	FirebaseActivityService,
-	FirebaseActivitiesChangesService
+	FirebaseActivityService
 ];
 
 const store = [
@@ -99,6 +98,7 @@ const features = [
 const dependencies = [
 	TemplatesModule.forFeature(),
 	ActivitiesConfigModule.forFeature(),
+	DomainChangesModule.forFeature(),
 	QuantifiedActivityModule
 	// auth / profile
 ];
@@ -127,7 +127,7 @@ export class ActivitiesModule {
 			providers: [
 				...store,
 				...infrastructure,
-				...storage,
+				...storage
 			]
 		};
 	}

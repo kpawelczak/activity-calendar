@@ -5,16 +5,16 @@ import { ValuesRepository } from '../../../../common/cdk/values-repository';
 import { ActivitiesStorage } from '../../storage/activities.storage';
 import { AuthenticationService } from '../../../../authentication/authentication.service';
 import { map, switchMap, take } from 'rxjs/operators';
-import { FirebaseActivitiesChangesService } from '../../infrastructure/firebase-activities-changes.service';
 import { Observable, of } from 'rxjs';
-import { ActivitiesCount } from '../count/activities-count';
+import { DomainChangesRepository } from '../../../domain/changes/store/domain-changes.repository';
+import { DomainChanges } from '../../../domain/changes/domain-changes';
 
 // TODO name ActivitiesByMonth
 @Injectable()
 export class ActivitiesRepository extends ValuesRepository<Array<CalendarActivity>> {
 
 	constructor(private readonly firebaseActivitiesService: FirebaseActivitiesService,
-				private readonly firebaseActivitiesChangesService: FirebaseActivitiesChangesService,
+				private readonly domainChangesRepository: DomainChangesRepository,
 				private readonly authService: AuthenticationService,
 				private readonly activitiesStorage: ActivitiesStorage) {
 		super();
@@ -42,18 +42,17 @@ export class ActivitiesRepository extends ValuesRepository<Array<CalendarActivit
 
 	private onActivitiesWithLoggedInUser(year: number,
 										 month: number): Observable<Array<CalendarActivity>> {
-		return this.onActivitiesChanges()
+		return this.onDomainChanges()
 				   .pipe(
 					   switchMap((checkStorage: boolean) => {
-						   return this.onActivitiesFromStorage(year, month, checkStorage);
+						   return this.onValuesFromStorage(year, month, checkStorage);
 					   })
 				   );
 	}
 
-	// TODO name
-	private onActivitiesFromStorage(year: number,
-									month: number,
-									checkStorage: boolean): Observable<Array<CalendarActivity>> {
+	private onValuesFromStorage(year: number,
+								month: number,
+								checkStorage: boolean): Observable<Array<CalendarActivity>> {
 
 		const storedMonthActivities = this.activitiesStorage.getLocalActivities(year, month, true);
 		return checkStorage && !!storedMonthActivities && storedMonthActivities.month
@@ -68,13 +67,12 @@ export class ActivitiesRepository extends ValuesRepository<Array<CalendarActivit
 				  );
 	}
 
-// TODO name
-	private onActivitiesChanges(): Observable<boolean> {
-		return this.firebaseActivitiesChangesService
-				   .onChangesId('activities', 'days')
+	private onDomainChanges(): Observable<boolean> {
+		return this.domainChangesRepository
+				   .onValues()
 				   .pipe(
-					   map((changesId: string) => {
-						   return changesId === this.activitiesStorage.getStoredChangesId();
+					   map((domainChanges: DomainChanges) => {
+						   return domainChanges.getActivitiesId() === this.activitiesStorage.getStoredChangesId();
 					   })
 				   );
 	}
