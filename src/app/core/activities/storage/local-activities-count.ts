@@ -5,5 +5,5 @@ export interface LocalActivitiesCountByMonth {
 
 export interface LocalActivitiesCount {
 	year: number;
-	activitiesCountByMonth: Array<LocalActivitiesCountByMonth>;
+	months: Array<LocalActivitiesCountByMonth>;
 }

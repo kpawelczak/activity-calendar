@@ -9,8 +9,8 @@ export abstract class SmartRepository<T> extends ValuesRepository<T> implements 
 
 	abstract getValuesFromApi(): Observable<T>;
 
-	protected constructor() {
-		super();
+	protected constructor(value?: T) {
+		super(value);
 	}
 
 	onValues(): Observable<T> {

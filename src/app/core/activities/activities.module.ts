@@ -34,6 +34,7 @@ import { FirebaseActivitiesChangesService } from './infrastructure/firebase-acti
 import { ActivitiesRepository } from './store/activities/activities.repository';
 import { ActivitiesService } from './store/activities/activities.service';
 import { ActivitiesCountRepository } from './store/count/activities-count.repository';
+import { ActivitiesCountService } from './store/count/activities-count.service';
 import { SelectedActivityRepository } from './store/selected-activity/selected-activity.repository';
 import { SelectedActivitiesRepository } from './store/selected-activities/selected-activities.repository';
 import { SelectedActivitiesService } from './store/selected-activities/selected-activities.service';
@@ -58,6 +59,7 @@ const store = [
 	ActivitiesRepository,
 	ActivitiesService,
 	ActivitiesCountRepository,
+	ActivitiesCountService,
 	SelectedActivityRepository,
 	SelectedActivityService,
 	SelectedDayTemplateActivityRepository,

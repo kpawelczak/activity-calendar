@@ -4,6 +4,8 @@ import { CalendarActivity } from '../store/activities/calendar-activity';
 import { LocalActivities } from './local-activities';
 import { LocalActivityByMonth } from './local-activity-by-month';
 import { ActivitiesConverter } from './activities.converter';
+import { ActivitiesCount } from '../store/count/activities-count';
+import { LocalActivitiesCount } from './local-activities-count';
 
 
 @Injectable()
@@ -25,6 +27,12 @@ export class ActivitiesStorage extends StorageArchive<LocalActivities> {
 		return !!this.getStoredValue(this.getActivitiesExtendedKey(true))?.changesId
 			? this.getStoredValue(this.getActivitiesExtendedKey(true)).changesId
 			: '-1';
+	}
+
+	getStoredActivitiesCount(loggedIn: boolean): Array<ActivitiesCount> | null {
+		return !!this.getStoredValue(this.getActivitiesExtendedKey(loggedIn))?.count
+			? this.transformActivitiesCount(this.getStoredValue(this.getActivitiesExtendedKey(loggedIn)).count)
+			: null;
 	}
 
 	getLocalMonthActivities(year: number, month: number, loggedIn: boolean): Array<CalendarActivity> {
@@ -54,9 +62,18 @@ export class ActivitiesStorage extends StorageArchive<LocalActivities> {
 			activitiesByMonths: [newValue as any]
 		};
 
-		let storedActivities = this.getStoredValue(key)?.activitiesByMonths ? this.getStoredValue(key) : localActivities;
+		let storedActivities
+			= this.getStoredValue(key)?.activitiesByMonths
+			? this.getStoredValue(key)
+			: {
+				...this.getStoredValue(key),
+				...localActivities
+			}; // ?
 
-		const isMonth = storedActivities.activitiesByMonths.find((localActivityByMonth: LocalActivityByMonth) => localActivityByMonth.month === month);
+		const isMonth
+			= storedActivities
+			.activitiesByMonths
+			.find((localActivityByMonth: LocalActivityByMonth) => localActivityByMonth.month === month);
 
 		if (isMonth) {
 			storedActivities = {
@@ -79,6 +96,16 @@ export class ActivitiesStorage extends StorageArchive<LocalActivities> {
 		this.store(storedActivities, key);
 	}
 
+	storeActivitiesCount(activitiesCount: Array<ActivitiesCount>, loggedIn: boolean): void {
+		const key = this.getActivitiesExtendedKey(loggedIn),
+			newStoredActivitiesCount = {
+				...this.getStoredValue(key),
+				count: activitiesCount as any
+			}; // ?
+
+		this.store(newStoredActivitiesCount, key);
+	}
+
 	getLocalActivities(year: number, month: number, loggedIn: boolean): LocalActivityByMonth | null {
 		const monthActivities = this.getActivities(loggedIn)?.find((localActivity: LocalActivityByMonth) => {
 			return localActivity.month === this.getLocalMonthKey({ year, month });
@@ -95,7 +122,11 @@ export class ActivitiesStorage extends StorageArchive<LocalActivities> {
 	}
 
 	private transformActivities(localActivities: LocalActivityByMonth): Array<CalendarActivity> {
-		return this.activitiesConverter.convert(localActivities.calendarActivities);
+		return this.activitiesConverter.convertToActivities(localActivities.calendarActivities);
+	}
+
+	private transformActivitiesCount(localActivitiesCount: Array<LocalActivitiesCount>): Array<ActivitiesCount> {
+		return this.activitiesConverter.convertToActivitiesCount(localActivitiesCount);
 	}
 
 	private getActivities(loggedIn: boolean): Array<LocalActivityByMonth> {

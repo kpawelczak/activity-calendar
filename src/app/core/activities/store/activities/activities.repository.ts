@@ -7,6 +7,7 @@ import { AuthenticationService } from '../../../../authentication/authentication
 import { map, switchMap, take } from 'rxjs/operators';
 import { FirebaseActivitiesChangesService } from '../../infrastructure/firebase-activities-changes.service';
 import { Observable, of } from 'rxjs';
+import { ActivitiesCount } from '../count/activities-count';
 
 // TODO name ActivitiesByMonth
 @Injectable()
@@ -29,6 +30,9 @@ export class ActivitiesRepository extends ValuesRepository<Array<CalendarActivit
 						? this.onActivitiesWithLoggedInUser(year, month)
 						: of(storedMonthActivities);
 				}),
+				map((calendarActivities: Array<CalendarActivity>) => {
+					return !!calendarActivities?.length ? calendarActivities : [];
+				}),
 				take(1),
 				this.takeUntil())
 			.subscribe((calendarActivities: Array<CalendarActivity>) => {
@@ -37,10 +41,7 @@ export class ActivitiesRepository extends ValuesRepository<Array<CalendarActivit
 	}
 
 	private onActivitiesWithLoggedInUser(year: number,
-										 month: number): Observable<any> {
-		// 1# is Current Month && check storage
-		// 2# check storage first
-
+										 month: number): Observable<Array<CalendarActivity>> {
 		return this.onActivitiesChanges()
 				   .pipe(
 					   switchMap((checkStorage: boolean) => {
@@ -61,8 +62,6 @@ export class ActivitiesRepository extends ValuesRepository<Array<CalendarActivit
 				  .getMonthActivities(year, month)
 				  .pipe(
 					  map((calendarActivities: Array<CalendarActivity>) => {
-						  console.log('from firebase');
-						  // ?
 						  this.activitiesStorage.storeMonthActivities(calendarActivities, true, { year, month });
 						  return calendarActivities;
 					  })

@@ -1,75 +1,60 @@
 import { Injectable } from '@angular/core';
 import { ActivitiesCount } from './activities-count';
-import { ActivitiesCountMonth } from './activities-count-month';
 import { FirebaseActivitiesCountService } from '../../infrastructure/firebase-activities-count.service';
 import { SmartRepository } from '../../../../common/cdk/smart-repository';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
+import { FirebaseActivitiesChangesService } from '../../infrastructure/firebase-activities-changes.service';
+import { map, switchMap, take } from 'rxjs/operators';
+import { ActivitiesStorage } from '../../storage/activities.storage';
+import { AuthenticationService } from '../../../../authentication/authentication.service';
 
 @Injectable()
 export class ActivitiesCountRepository extends SmartRepository<Array<ActivitiesCount>> {
 
-	constructor(private readonly firebaseActivitiesCountService: FirebaseActivitiesCountService) {
+	constructor(private readonly firebaseActivitiesCountService: FirebaseActivitiesCountService,
+				private readonly firebaseActivitiesChangesService: FirebaseActivitiesChangesService,
+				private readonly authService: AuthenticationService,
+				private readonly activitiesStorage: ActivitiesStorage) {
 		super();
 	}
 
 	getValuesFromApi(): Observable<Array<ActivitiesCount>> {
-		return this.firebaseActivitiesCountService.getActivitiesCount();
+		return this.authService
+				   .onLoggedIn()
+				   .pipe(
+					   switchMap((loggedIn: boolean) => {
+						   const storedActivitiesCount = this.activitiesStorage.getStoredActivitiesCount(loggedIn);
+						   return loggedIn
+							   ? this.onActivitiesCountWithLoggedInUser(storedActivitiesCount, loggedIn)
+							   : of(storedActivitiesCount);
+					   }),
+					   map((activitiesCount: Array<ActivitiesCount>) => {
+						   return !!activitiesCount?.length ? activitiesCount : [];
+					   }),
+					   take(1)
+				   );
 	}
 
-	updateCount(day: Date, increment?: boolean): void {
-		let activitiesCount = this.getValues();
-
-		if (!activitiesCount) {
-			activitiesCount = [];
-		}
-
-		const year = day.getFullYear(),
-			month = day.getMonth();
-
-		let activitiesCountUpdatedMonth: ActivitiesCountMonth;
-
-		let updatedMonths;
-
-		let activitiesCountByYear: ActivitiesCount = activitiesCount
-														 .find((_activitiesCount: ActivitiesCount) => {
-															 return _activitiesCount.year === year;
-														 });
-
-		if (!activitiesCountByYear) {
-			updatedMonths = [new ActivitiesCountMonth(month, 1)];
-
-			activitiesCountByYear = new ActivitiesCount(year, updatedMonths);
-
-			activitiesCount.push(activitiesCountByYear);
-		} else {
-
-			activitiesCountUpdatedMonth = activitiesCountByYear
-				.months
-				.find((activitiesCountMonth: ActivitiesCountMonth) => {
-					return activitiesCountMonth.month === month;
-				});
-
-			if (!activitiesCountUpdatedMonth) {
-				activitiesCountUpdatedMonth = new ActivitiesCountMonth(month, 0);
-				activitiesCountByYear.months.push(activitiesCountUpdatedMonth);
-			}
-
-			if (increment) {
-				activitiesCountUpdatedMonth.incrementCount();
-			} else {
-				activitiesCountUpdatedMonth.decrementCount();
-			}
-
-			updatedMonths = activitiesCountByYear
-				.months
-				.map((activitiesCountMonth: ActivitiesCountMonth) => {
-					return new ActivitiesCountMonth(activitiesCountMonth.month, activitiesCountMonth.getCount());
-				});
-			activitiesCountByYear = new ActivitiesCount(year, updatedMonths);
-		}
-
-		this.firebaseActivitiesCountService.updateActivitiesCount(activitiesCountByYear);
-
-		this.next(activitiesCount);
+	private onActivitiesCountWithLoggedInUser(storedActivitiesCount: Array<ActivitiesCount>,
+											  loggedIn: boolean): Observable<Array<ActivitiesCount>> {
+		return this.firebaseActivitiesChangesService
+				   .onChangesId('activities', 'days')
+				   .pipe(
+					   map((changesId: string) => {
+						   return changesId === this.activitiesStorage.getStoredChangesId();
+					   }),
+					   switchMap((checkStorage: boolean) => {
+						   return checkStorage && !!storedActivitiesCount
+							   ? of(storedActivitiesCount)
+							   : this.firebaseActivitiesCountService
+									 .getActivitiesCount()
+									 .pipe(
+										 map((activitiesCount: Array<ActivitiesCount>) => {
+											 this.activitiesStorage.storeActivitiesCount(activitiesCount, loggedIn);
+											 return activitiesCount;
+										 })
+									 );
+					   })
+				   );
 	}
 }
