@@ -8,10 +8,13 @@ export class DomainChanges {
 
 	private templates: string;
 
+	private templateSets: string;
+
 	constructor(activities?: string,
 				definedActivities?: string,
 				units?: string,
-				templates?: string) {
+				templates?: string,
+				templateSets?: string) {
 		if (activities) {
 			this.activities = activities;
 		}
@@ -26,6 +29,10 @@ export class DomainChanges {
 
 		if (templates) {
 			this.templates = templates;
+		}
+
+		if (templateSets) {
+			this.templateSets = templateSets;
 		}
 	}
 
@@ -45,6 +52,10 @@ export class DomainChanges {
 		return this.templates ? this.templates : '-1';
 	}
 
+	getTemplateSetsId(): string {
+		return this.templateSets ? this.templateSets : '-1';
+	}
+
 	setUnitsId(changesId: string): void {
 		this.units = changesId;
 	}
@@ -59,5 +70,9 @@ export class DomainChanges {
 
 	setTemplatesId(changesId: string): void {
 		this.templates = changesId;
+	}
+
+	setTemplateSetsId(changesId: string): void {
+		this.templateSets = changesId;
 	}
 }

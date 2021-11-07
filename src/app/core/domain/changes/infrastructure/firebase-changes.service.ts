@@ -28,7 +28,8 @@ export class FirebaseChangesService extends ProfileCollection {
 							   documentData?.activities,
 							   documentData?.definedActivities,
 							   documentData?.units,
-							   documentData?.templates
+							   documentData?.templates,
+							   documentData?.templateSets
 						   );
 					   }),
 					   take(1)

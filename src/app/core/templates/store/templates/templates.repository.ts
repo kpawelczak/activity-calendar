@@ -62,7 +62,8 @@ export class TemplatesRepository extends SmartRepository<Array<WeekdayTemplate>>
 				   .onValues()
 				   .pipe(
 					   map((domainChanges: DomainChanges) => {
-						   return domainChanges.getTemplatesId() === this.templatesStorage.getStoredChangesId();
+						   const storedChangesId = this.templatesStorage.getStoredChangesIds()?.templatesId ?? '-1';
+						   return domainChanges.getTemplatesId() === storedChangesId;
 					   }),
 					   switchMap((checkStorage: boolean) => {
 						   return checkStorage && !!storedTemplates

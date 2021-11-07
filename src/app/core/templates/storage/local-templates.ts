@@ -21,9 +21,15 @@ export interface LocalQuantifiedActivity {
 	unit: string;
 }
 
+export interface LocalTemplateChanges {
+	templatesId?: string;
+	templateSetsId?: string;
+	activeTemplateId?: string;
+}
+
 export interface LocalTemplates {
-	changesId?: string;
+	changes?: LocalTemplateChanges;
 	templatesBySetName?: Array<LocalTemplatesBySetName>;
-	templateSets?: any;
-	activeTemplate?: any;
+	templateSets?: Array<string>;
+	activeTemplate?: string;
 }

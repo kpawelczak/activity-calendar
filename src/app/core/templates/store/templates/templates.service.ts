@@ -9,6 +9,7 @@ import { TemplatesStorage } from '../../storage/templates.storage';
 import { DomainChangesService } from '../../../domain/changes/store/domain-changes.service';
 import { AuthenticationService } from '../../../../authentication/authentication.service';
 import { DomainChangesType } from '../../../domain/changes/domain-changes.type';
+import { LocalTemplateChangesType } from '../../storage/local-template-changes-type';
 
 @Injectable()
 export class TemplatesService {
@@ -47,7 +48,7 @@ export class TemplatesService {
 						: of(null);
 				}),
 				map((changesId: string) => {
-					this.templatesStorage.updateChangesId(changesId);
+					this.templatesStorage.updateChangesId(changesId, LocalTemplateChangesType.TEMPLATES);
 					return;
 				}),
 				take(1)

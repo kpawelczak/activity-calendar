@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import { StorageArchive } from '../../../common/cdk/storage-archive';
-import { LocalTemplates, LocalTemplatesBySetName, LocalWeekdayTemplate } from './local-templates';
+import { LocalTemplateChanges, LocalTemplates, LocalTemplatesBySetName, LocalWeekdayTemplate } from './local-templates';
 import { TemplatesConverter } from './templates.converter';
 import { WeekdayTemplate } from '../store/weekday-template';
+import { LocalTemplateChangesType } from './local-template-changes-type';
 
 @Injectable()
 export class TemplatesStorage extends StorageArchive<LocalTemplates> {
@@ -19,10 +20,10 @@ export class TemplatesStorage extends StorageArchive<LocalTemplates> {
 		super();
 	}
 
-	getStoredChangesId(): string {
-		return !!this.getStoredValue(this.getActivitiesExtendedKey(true))?.changesId
-			? this.getStoredValue(this.getActivitiesExtendedKey(true)).changesId
-			: '-1';
+	getStoredChangesIds(): LocalTemplateChanges | null {
+		return !!this.getStoredValue(this.getActivitiesExtendedKey(true))?.changes
+			? this.getStoredValue(this.getActivitiesExtendedKey(true)).changes
+			: null;
 	}
 
 	getStoredTemplates(templateSetName: string, loggedIn: boolean): Array<WeekdayTemplate> | null {
@@ -58,10 +59,56 @@ export class TemplatesStorage extends StorageArchive<LocalTemplates> {
 		this.store(newStoredValues, key);
 	}
 
-	updateChangesId(changesId: string): void {
-		const key = this.getActivitiesExtendedKey(true),
-			newStoredValues = { ...this.getStoredValue(key), changesId };
+	getStoredTemplateSets(loggedIn: boolean): Array<string> | null {
+		return !!this.getStoredValue(this.getActivitiesExtendedKey(loggedIn))?.templateSets
+			? this.getStoredValue(this.getActivitiesExtendedKey(loggedIn))?.templateSets
+			: null;
+	}
+
+	storeTemplateSet(loggedIn: boolean, templateSets: Array<string>): void {
+		const key = this.getActivitiesExtendedKey(loggedIn),
+			newStoredValues: LocalTemplates = {
+				...this.getStoredValue(key),
+				templateSets: templateSets
+			};
 		this.store(newStoredValues, key);
+	}
+
+	updateChangesId(changesId: string, type: LocalTemplateChangesType): void {
+		const key = this.getActivitiesExtendedKey(true),
+			newStoredValues = {
+				...this.getStoredValue(key),
+				changes: {
+					...this.getChangesIds(changesId, type)
+				}
+			};
+		this.store(newStoredValues, key);
+	}
+
+	private getChangesIds(changesId: string, type: LocalTemplateChangesType): LocalTemplateChanges {
+		let newChange;
+
+		switch (type) {
+			case LocalTemplateChangesType.ACTIVE_TEMPLATE: {
+				newChange = { activeTemplateId: changesId };
+				break;
+			}
+
+			case LocalTemplateChangesType.TEMPLATES: {
+				newChange = { templatesId: changesId };
+				break;
+			}
+
+			case LocalTemplateChangesType.TEMPLATES_SET: {
+				newChange = { templateSetsId: changesId };
+				break;
+			}
+		}
+
+		return {
+			...this.getStoredChangesIds(),
+			...newChange
+		};
 	}
 
 	private getActivitiesExtendedKey(loggedIn: boolean): string {
