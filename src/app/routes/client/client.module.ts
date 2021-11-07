@@ -8,6 +8,7 @@ import { TemplatesModule } from '../../core/templates/templates.module';
 import { ActivitiesModule } from '../../core/activities/activities.module';
 import { ClientTemplatesModule } from './templates/client-templates.module';
 import { ActivitiesConfigModule } from '../../core/activities-config/activities-config.module';
+import { DomainChangesModule } from '../../core/domain/changes/domain-changes.module';
 
 import { ClientRootComponent } from './client-root.component';
 
@@ -23,7 +24,8 @@ import { ClientRootComponent } from './client-root.component';
 
 		ActivitiesConfigModule.forRoot(),
 		ActivitiesModule.forRoot(),
-		TemplatesModule.forRoot()
+		TemplatesModule.forRoot(),
+		DomainChangesModule.forRoot()
 	],
 	declarations: [
 		ClientRootComponent

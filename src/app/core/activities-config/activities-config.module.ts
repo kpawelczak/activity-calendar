@@ -5,6 +5,8 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
+import { MatTabsModule } from '@angular/material/tabs';
+import { MatSelectModule } from '@angular/material/select';
 import { ActivityCalendarButtonModule } from '../../common/ui/activity-calendar-button/activity-calendar-button.module';
 
 import { ActivitiesConfigComponent } from './feature/activities-config.component';
@@ -19,10 +21,13 @@ import { FirebaseUnitsService } from './infrastructure/firebase-units.service';
 
 import { DefinedActivityService } from './store/defined-activities/defined-activity.service';
 import { DefinedActivitiesRepository } from './store/defined-activities/defined-activities.repository';
-import { MatTabsModule } from '@angular/material/tabs';
 import { UnitsRepository } from './store/units/units.repository';
 import { UnitsService } from './store/units/units.service';
-import { MatSelectModule } from '@angular/material/select';
+
+import { ActivitiesConfigStorage } from './storage/activities-config.storage';
+import { ActivitiesConfigConverter } from './storage/activities-config.converter';
+import { DomainChangesModule } from '../domain/changes/domain-changes.module';
+
 
 const infrastructure = [
 	FirebaseDefinedActivityService,
@@ -37,17 +42,32 @@ const store = [
 	UnitsService
 ];
 
+const storage = [
+	ActivitiesConfigStorage,
+	ActivitiesConfigConverter
+];
+
+const ui = [
+	MatFormFieldModule,
+	MatButtonModule,
+	MatIconModule,
+	ActivityCalendarButtonModule,
+	MatInputModule,
+	MatTabsModule,
+	MatSelectModule,
+];
+
+const dependencies = [
+	DomainChangesModule.forFeature()
+];
+
+
 @NgModule({
 	imports: [
 		CommonModule,
 		ReactiveFormsModule,
-		MatFormFieldModule,
-		MatButtonModule,
-		MatIconModule,
-		ActivityCalendarButtonModule,
-		MatInputModule,
-		MatTabsModule,
-		MatSelectModule
+		...ui,
+		...dependencies
 	],
 	declarations: [
 		ActivitiesConfigComponent,
@@ -67,7 +87,8 @@ export class ActivitiesConfigModule {
 			ngModule: ActivitiesConfigModule,
 			providers: [
 				...store,
-				...infrastructure
+				...infrastructure,
+				...storage
 			]
 		};
 	}

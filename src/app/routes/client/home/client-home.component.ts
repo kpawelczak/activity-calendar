@@ -3,15 +3,15 @@ import { Reactive } from '../../../common/cdk/reactive';
 import { CalendarActivity } from '../../../core/activities/store/activities/calendar-activity';
 import { ActivitiesRepository } from '../../../core/activities/store/activities/activities.repository';
 import { ActiveMonth } from '../../../core/calendar/active-month';
-import { filter, switchMap } from 'rxjs/operators';
+import { filter } from 'rxjs/operators';
 import { ActivitiesCount } from '../../../core/activities/store/count/activities-count';
-import { combineLatest, EMPTY } from 'rxjs';
+import { combineLatest } from 'rxjs';
 import { ActivitiesCountRepository } from '../../../core/activities/store/count/activities-count.repository';
-import { FirebaseActivitiesCountService } from '../../../core/activities/infrastructure/firebase-activities-count.service';
 import { ActiveDateService } from '../../../core/calendar/active-date.service';
 import { AuthenticationService } from '../../../authentication/authentication.service';
 import { SelectedActivitiesRepository } from '../../../core/activities/store/selected-activities/selected-activities.repository';
 import { SelectedActivitiesService } from '../../../core/activities/store/selected-activities/selected-activities.service';
+import { DomainChangesService } from '../../../core/domain/changes/store/domain-changes.service';
 
 @Component({
 	selector: 'ac-home',
@@ -41,7 +41,7 @@ export class ClientHomeComponent extends Reactive implements OnInit {
 				private readonly selectedActivitiesRepository: SelectedActivitiesRepository,
 				private readonly selectedActivitiesService: SelectedActivitiesService,
 				private readonly authenticationService: AuthenticationService,
-				private readonly firebaseActivitiesCountService: FirebaseActivitiesCountService,
+				private readonly changesService: DomainChangesService,
 				private readonly changeDetectorRef: ChangeDetectorRef) {
 		super();
 	}
@@ -82,6 +82,8 @@ export class ClientHomeComponent extends Reactive implements OnInit {
 
 				this.activitiesRepository.reset();
 				this.activitiesCountRepository.reset();
+
+				this.changesService.reset();
 			});
 	}
 
