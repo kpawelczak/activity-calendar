@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { ActivityConfig } from '../activity-config';
 import { FirebaseDefinedActivityService } from '../../infrastructure/firebase-defined-activity.service';
-import { EMPTY, Observable, of } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { DefinedActivitiesRepository } from './defined-activities.repository';
 import { map, switchMap, take } from 'rxjs/operators';
 import { ActivitiesConfigStorage } from '../../storage/activities-config.storage';
@@ -89,7 +89,7 @@ export class DefinedActivityService extends Reactive {
 						   this.activitiesConfigStorage.storeDefinedActivities(definedActivities, loggedIn);
 						   return loggedIn
 							   ? this.domainChangesService.registerNewChange(DomainChangesType.DEFINED_ACTIVITIES)
-							   :  of(null);
+							   : of(null);
 					   }),
 					   map((changesId: string) => {
 						   this.activitiesConfigStorage.updateChangesId(changesId);

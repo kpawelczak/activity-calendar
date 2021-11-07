@@ -11,5 +11,5 @@ import { ProfileService } from './profile.service';
 	]
 })
 export class ProfileModule {
-		// forRoot
+	// forRoot
 }

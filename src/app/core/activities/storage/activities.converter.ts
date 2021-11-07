@@ -31,9 +31,9 @@ export class ActivitiesConverter {
 	convertToActivitiesCount(localActivitiesCount: Array<LocalActivitiesCount>): Array<ActivitiesCount> {
 		return localActivitiesCount.map((_localActivitiesCount: LocalActivitiesCount) => {
 			const activitiesByMonths = _localActivitiesCount.months
-														   .map((localActivitiesCountByMonth: LocalActivitiesCountByMonth) => {
-															   return new ActivitiesCountMonth(localActivitiesCountByMonth.month, localActivitiesCountByMonth?.count);
-														   });
+															.map((localActivitiesCountByMonth: LocalActivitiesCountByMonth) => {
+																return new ActivitiesCountMonth(localActivitiesCountByMonth.month, localActivitiesCountByMonth?.count);
+															});
 			return new ActivitiesCount(_localActivitiesCount.year, activitiesByMonths);
 		});
 	}

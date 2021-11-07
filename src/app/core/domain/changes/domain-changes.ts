@@ -6,9 +6,12 @@ export class DomainChanges {
 
 	private units: string;
 
+	private templates: string;
+
 	constructor(activities?: string,
 				definedActivities?: string,
-				units?: string) {
+				units?: string,
+				templates?: string) {
 		if (activities) {
 			this.activities = activities;
 		}
@@ -19,6 +22,10 @@ export class DomainChanges {
 
 		if (units) {
 			this.units = units;
+		}
+
+		if (templates) {
+			this.templates = templates;
 		}
 	}
 
@@ -34,6 +41,10 @@ export class DomainChanges {
 		return this.units ? this.units : '-1';
 	}
 
+	getTemplatesId(): string {
+		return this.templates ? this.templates : '-1';
+	}
+
 	setUnitsId(changesId: string): void {
 		this.units = changesId;
 	}
@@ -44,5 +55,9 @@ export class DomainChanges {
 
 	setDefinedActivitiesId(changesId: string): void {
 		this.definedActivities = changesId;
+	}
+
+	setTemplatesId(changesId: string): void {
+		this.templates = changesId;
 	}
 }

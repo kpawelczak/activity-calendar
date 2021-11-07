@@ -37,7 +37,7 @@ export class DefinedActivitiesRepository extends SmartRepository<Array<ActivityC
 	}
 
 	private onValuesWithLoggedInUser(storedDefinedActivities: Array<ActivityConfig>,
-											  loggedIn: boolean): Observable<Array<ActivityConfig>> {
+									 loggedIn: boolean): Observable<Array<ActivityConfig>> {
 		return this.domainChangesRepository
 				   .onValues()
 				   .pipe(

@@ -11,6 +11,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { ActivityCalendarButtonModule } from '../../common/ui/activity-calendar-button/activity-calendar-button.module';
 import { MatTabsModule } from '@angular/material/tabs';
+import { QuantifiedActivityModule } from '../../common/ui/quantified-activity/quantified-activity.module';
+import { DomainChangesModule } from '../domain/changes/domain-changes.module';
 
 import { FirebaseTemplateSetsService } from './infrastructure/firebase-template-sets.service';
 import { FirebaseTemplatesService } from './infrastructure/firebase-templates.service';
@@ -25,6 +27,9 @@ import { ActiveTemplateSetService } from './store/sets/active-template-set.servi
 import { TemplateRepository } from './store/template/template.repository';
 import { TemplateSetsService } from './store/sets/template-sets.service';
 
+import { TemplatesStorage } from './storage/templates.storage';
+import { TemplatesConverter } from './storage/templates.converter';
+
 import { TemplatesComponent } from './feature/templates/templates.component';
 import { TemplateSetSelectComponent } from './feature/templates/template-set-select.component';
 
@@ -37,8 +42,6 @@ import { WeekdayTemplateActivityComponent } from './feature/templates/weekday-ac
 import { TemplateCustomActivityComponent } from './feature/templates/template-activity-dialog/custom-activity/template-custom-activity.component';
 import { TemplateDefinedActivityFormComponent } from './feature/templates/template-activity-dialog/defined-activity/template-defined-activity-form.component';
 import { TemplateDefinedActivityComponent } from './feature/templates/template-activity-dialog/defined-activity/template-defined-activity.component';
-import { QuantifiedActivityModule } from '../../common/ui/quantified-activity/quantified-activity.module';
-
 
 const store = [
 	ActiveTemplateSetService,
@@ -48,6 +51,11 @@ const store = [
 	TemplateSetsRepository,
 	TemplateSetsService,
 	TemplatesService
+];
+
+const storage = [
+	TemplatesStorage,
+	TemplatesConverter
 ];
 
 const infrastructure = [
@@ -69,7 +77,8 @@ const ui = [
 ];
 
 const dependencies = [
-	QuantifiedActivityModule
+	QuantifiedActivityModule,
+	DomainChangesModule.forFeature()
 ];
 
 @NgModule({
@@ -104,7 +113,8 @@ export class TemplatesModule {
 			ngModule: TemplatesModule,
 			providers: [
 				...store,
-				...infrastructure
+				...infrastructure,
+				...storage
 			]
 		};
 	}

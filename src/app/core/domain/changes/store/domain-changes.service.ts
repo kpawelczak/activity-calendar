@@ -3,7 +3,7 @@ import { DomainChangesRepository } from './domain-changes.repository';
 import { DomainChangesType } from '../domain-changes.type';
 import { FirebaseChangesService } from '../infrastructure/firebase-changes.service';
 import { map, take } from 'rxjs/operators';
-import { EMPTY, Observable, of } from 'rxjs';
+import { Observable, of } from 'rxjs';
 
 @Injectable()
 export class DomainChangesService {
@@ -52,6 +52,11 @@ export class DomainChangesService {
 
 			case DomainChangesType.UNITS: {
 				currentChanges.setUnitsId(changesId);
+				break;
+			}
+
+			case DomainChangesType.TEMPLATES: {
+				currentChanges.setTemplatesId(changesId);
 				break;
 			}
 		}

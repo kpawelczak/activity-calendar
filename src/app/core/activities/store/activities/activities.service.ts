@@ -7,6 +7,7 @@ import { switchMap, take } from 'rxjs/operators';
 import { Reactive } from '../../../../common/cdk/reactive';
 import { DomainChangesService } from '../../../domain/changes/store/domain-changes.service';
 import { DomainChangesType } from '../../../domain/changes/domain-changes.type';
+import { of } from 'rxjs';
 
 
 @Injectable()
@@ -60,7 +61,7 @@ export class ActivitiesService extends Reactive {
 
 					return loggedIn
 						? this.domainChangesService.registerNewChange(DomainChangesType.ACTIVITIES)
-						: null;
+						: of(null);
 				}),
 				take(1),
 				this.takeUntil()

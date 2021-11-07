@@ -27,7 +27,8 @@ export class FirebaseChangesService extends ProfileCollection {
 						   return new DomainChanges(
 							   documentData?.activities,
 							   documentData?.definedActivities,
-							   documentData?.units
+							   documentData?.units,
+							   documentData?.templates
 						   );
 					   }),
 					   take(1)

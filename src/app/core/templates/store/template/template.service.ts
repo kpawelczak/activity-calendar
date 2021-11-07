@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { FirebaseTemplateService } from '../../infrastructure/firebase-template.service';
 import { TemplateActivity } from '../../template-activity';
 import { Observable } from 'rxjs';
-import { map, take } from 'rxjs/operators';
+import { switchMap, take } from 'rxjs/operators';
 import { WeekdayTemplate } from '../weekday-template';
 import { TemplatesService } from '../templates/templates.service';
 import { QuantifiedActivity } from '../../../../common/ui/quantified-activity/quantified-activity';
@@ -20,7 +20,7 @@ export class TemplateService {
 	saveActivityToTemplate(weekdayTemplate: WeekdayTemplate,
 						   name: string,
 						   quantifiedActivities: Array<QuantifiedActivity>,
-						   templateActivity?: TemplateActivity): Observable<WeekdayTemplate> {
+						   templateActivity?: TemplateActivity): Observable<void> {
 		const changedTemplateActivity
 			= new TemplateActivity(
 			weekdayTemplate.getWeekday(),
@@ -32,7 +32,7 @@ export class TemplateService {
 		return this.firebaseTemplatesService
 				   .saveActivityToTemplate(changedTemplateActivity)
 				   .pipe(
-					   map(() => {
+					   switchMap(() => {
 						   let newWeekdayTemplate;
 
 						   if (!templateActivity) {
@@ -45,8 +45,7 @@ export class TemplateService {
 							   );
 						   }
 
-						   this.templatesService.nextTemplate(newWeekdayTemplate);
-						   return newWeekdayTemplate;
+						   return this.templatesService.onNewTemplate(newWeekdayTemplate);
 					   }),
 					   take(1)
 				   );
@@ -98,7 +97,10 @@ export class TemplateService {
 
 	private removeActivityFromRepository(weekdayTemplate: WeekdayTemplate, templateActivity: TemplateActivity): void {
 		const newWeekdayTemplate = this.createWeekdayTemplateWithDeletedActivity(weekdayTemplate, templateActivity.templateUUID);
-		this.templatesService.nextTemplate(newWeekdayTemplate);
+
+		this.templatesService
+			.onNewTemplate(newWeekdayTemplate)
+			.subscribe();
 	}
 
 	private getTemplateUUID(templateActivity: TemplateActivity): string {

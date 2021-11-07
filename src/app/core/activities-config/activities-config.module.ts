@@ -54,7 +54,7 @@ const ui = [
 	ActivityCalendarButtonModule,
 	MatInputModule,
 	MatTabsModule,
-	MatSelectModule,
+	MatSelectModule
 ];
 
 const dependencies = [
