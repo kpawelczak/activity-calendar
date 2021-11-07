@@ -59,23 +59,12 @@ export class ClientHomeComponent extends Reactive implements OnInit {
 			});
 
 		this.activitiesCountRepository
-			.onActivitiesCount()
+			.onValues()
 			.pipe(
-				switchMap((activitiesCount: Array<ActivitiesCount>) => {
-					const isActivitiesCountStored = !!activitiesCount;
-
-					if (isActivitiesCountStored) {
-						this.activitiesCount = activitiesCount;
-						this.changeDetectorRef.detectChanges();
-					}
-
-					return isActivitiesCountStored ? EMPTY : this.firebaseActivitiesCountService.getActivitiesCount();
-				}),
 				this.takeUntil()
 			)
 			.subscribe((activitiesCount: Array<ActivitiesCount>) => {
 				this.activitiesCount = activitiesCount;
-				this.activitiesCountRepository.next(activitiesCount);
 				this.changeDetectorRef.detectChanges();
 			});
 

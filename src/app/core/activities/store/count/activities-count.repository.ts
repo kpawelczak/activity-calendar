@@ -1,32 +1,26 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
 import { ActivitiesCount } from './activities-count';
 import { ActivitiesCountMonth } from './activities-count-month';
 import { FirebaseActivitiesCountService } from '../../infrastructure/firebase-activities-count.service';
+import { SmartRepository } from '../../../../common/cdk/smart-repository';
+import { Observable } from 'rxjs';
 
 @Injectable()
-export class ActivitiesCountRepository {
-
-	private activitiesCount: Array<ActivitiesCount> = null;
-
-	private readonly activitiesCount$ = new BehaviorSubject<Array<ActivitiesCount>>(this.activitiesCount);
+export class ActivitiesCountRepository extends SmartRepository<Array<ActivitiesCount>> {
 
 	constructor(private readonly firebaseActivitiesCountService: FirebaseActivitiesCountService) {
+		super();
 	}
 
-	onActivitiesCount(): Observable<Array<ActivitiesCount>> {
-		return this.activitiesCount$.asObservable();
-	}
-
-	next(activitiesCount: Array<ActivitiesCount>): void {
-		this.activitiesCount = activitiesCount;
-		this.activitiesCount$.next(activitiesCount);
+	getValuesFromApi(): Observable<Array<ActivitiesCount>> {
+		return this.firebaseActivitiesCountService.getActivitiesCount();
 	}
 
 	updateCount(day: Date, increment?: boolean): void {
+		let activitiesCount = this.getValues();
 
-		if (!this.activitiesCount) {
-			this.activitiesCount = [];
+		if (!activitiesCount) {
+			activitiesCount = [];
 		}
 
 		const year = day.getFullYear(),
@@ -36,9 +30,9 @@ export class ActivitiesCountRepository {
 
 		let updatedMonths;
 
-		let activitiesCountByYear: ActivitiesCount = this.activitiesCount
-														 .find((activitiesCount: ActivitiesCount) => {
-															 return activitiesCount.year === year;
+		let activitiesCountByYear: ActivitiesCount = activitiesCount
+														 .find((_activitiesCount: ActivitiesCount) => {
+															 return _activitiesCount.year === year;
 														 });
 
 		if (!activitiesCountByYear) {
@@ -46,7 +40,7 @@ export class ActivitiesCountRepository {
 
 			activitiesCountByYear = new ActivitiesCount(year, updatedMonths);
 
-			this.activitiesCount.push(activitiesCountByYear);
+			activitiesCount.push(activitiesCountByYear);
 		} else {
 
 			activitiesCountUpdatedMonth = activitiesCountByYear
@@ -76,11 +70,6 @@ export class ActivitiesCountRepository {
 
 		this.firebaseActivitiesCountService.updateActivitiesCount(activitiesCountByYear);
 
-		this.activitiesCount$.next(this.activitiesCount);
-	}
-
-	reset(): void {
-		this.activitiesCount = null;
-		this.activitiesCount$.next(null);
+		this.next(activitiesCount);
 	}
 }
