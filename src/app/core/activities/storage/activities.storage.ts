@@ -33,6 +33,7 @@ export class ActivitiesStorage extends StorageArchive<LocalActivities> {
 			: [];
 	}
 
+	// TODO Cleanup
 	storeMonthActivities(calendarActivities: Array<CalendarActivity>,
 						 loggedIn: boolean,
 						 options?: {
@@ -44,9 +45,9 @@ export class ActivitiesStorage extends StorageArchive<LocalActivities> {
 			month = this.getLocalMonthKey(options);
 
 		// TODO name
-		const newValue = {
+		const newValue: LocalActivityByMonth = {
 			month,
-			calendarActivities
+			calendarActivities: calendarActivities as any
 		};
 
 		const localActivities: LocalActivities = {
@@ -55,19 +56,26 @@ export class ActivitiesStorage extends StorageArchive<LocalActivities> {
 
 		let storedActivities = this.getStoredValue(key)?.activitiesByMonths ? this.getStoredValue(key) : localActivities;
 
-		storedActivities = {
-			...storedActivities,
-			activitiesByMonths: storedActivities.activitiesByMonths.map((localActivityByMonth: LocalActivityByMonth) => {
-				const shouldReplace = localActivityByMonth.month === month;
+		const isMonth = storedActivities.activitiesByMonths.find((localActivityByMonth: LocalActivityByMonth) => localActivityByMonth.month === month);
 
-				return shouldReplace
-					? {
-						month,
-						calendarActivities: calendarActivities as any
-					}
-					: localActivityByMonth;
-			})
-		};
+		if (isMonth) {
+			storedActivities = {
+				...storedActivities,
+				activitiesByMonths: storedActivities.activitiesByMonths.map((localActivityByMonth: LocalActivityByMonth) => {
+					const shouldReplace = localActivityByMonth.month === month;
+
+					return shouldReplace
+						? {
+							month,
+							calendarActivities: calendarActivities as any
+						}
+						: localActivityByMonth;
+				})
+			};
+		} else {
+			storedActivities.activitiesByMonths.push(newValue);
+		}
+
 		this.store(storedActivities, key);
 	}
 
@@ -76,9 +84,7 @@ export class ActivitiesStorage extends StorageArchive<LocalActivities> {
 			return localActivity.month === this.getLocalMonthKey({ year, month });
 		});
 
-		return !!monthActivities
-			? monthActivities
-			: null;
+		return !!monthActivities ? monthActivities : null;
 	}
 
 	updateChangesId(changesId: string): void {
@@ -102,7 +108,6 @@ export class ActivitiesStorage extends StorageArchive<LocalActivities> {
 		return loggedIn ? ActivitiesStorage.USER : ActivitiesStorage.LOCAL;
 	}
 
-	// separate file
 	private getLocalMonthKey(options?: { year: number, month: number }): string {
 		const year = options?.year ? options.year : new Date().getFullYear(),
 			month = options?.month ? options.month : new Date().getMonth();

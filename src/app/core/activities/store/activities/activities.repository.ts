@@ -49,7 +49,7 @@ export class ActivitiesRepository extends ValuesRepository<Array<CalendarActivit
 				   );
 	}
 
-// TODO name
+	// TODO name
 	private onActivitiesFromStorage(year: number,
 									month: number,
 									checkStorage: boolean): Observable<Array<CalendarActivity>> {

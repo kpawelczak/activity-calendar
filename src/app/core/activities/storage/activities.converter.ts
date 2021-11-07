@@ -22,7 +22,7 @@ export class ActivitiesConverter {
 	}
 
 	convertToLocalActivities() {
-
+		// TBD
 	}
 
 	private parseQuantifiedActivities(quantifiedActivities: Array<QuantifiedActivity>): Array<QuantifiedActivity> {

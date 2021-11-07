@@ -98,6 +98,7 @@ const dependencies = [
 	TemplatesModule.forFeature(),
 	ActivitiesConfigModule.forFeature(),
 	QuantifiedActivityModule
+	// auth / profile
 ];
 
 @NgModule({
