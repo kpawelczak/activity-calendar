@@ -10,6 +10,7 @@ import { DomainChangesService } from '../../../domain/changes/store/domain-chang
 import { AuthenticationService } from '../../../../authentication/authentication.service';
 import { DomainChangesType } from '../../../domain/changes/domain-changes.type';
 import { LocalTemplateChangesType } from '../../storage/local-template-changes-type';
+import { TemplateSet } from '../sets/template-set';
 
 @Injectable()
 export class TemplatesService {
@@ -22,9 +23,9 @@ export class TemplatesService {
 				private readonly templatesRepository: TemplatesRepository) {
 	}
 
-	loadTemplates(templateSetName: string): void {
+	loadTemplates(templateSet: TemplateSet): void {
 		this.templatesRepository
-			.onLoadTemplates(templateSetName)
+			.onLoadTemplates(templateSet)
 			.pipe(take(1))
 			.subscribe((weekdayTemplates: Array<WeekdayTemplate>) => {
 				this.templatesRepository.next([...weekdayTemplates]);
@@ -41,8 +42,8 @@ export class TemplatesService {
 			this.activeTemplateSetService.onValues()
 		])
 			.pipe(
-				switchMap(([loggedIn, templateSetName]: [boolean, string]) => {
-					this.templatesStorage.storeTemplates(templateSetName, newTemplates, loggedIn);
+				switchMap(([loggedIn, templateSet]: [boolean, TemplateSet]) => {
+					this.templatesStorage.storeTemplates(templateSet, newTemplates, loggedIn);
 					return loggedIn
 						? this.domainChangesService.registerNewChange(DomainChangesType.TEMPLATES)
 						: of(null);

@@ -7,10 +7,11 @@ import { TemplatesStorage } from '../../storage/templates.storage';
 import { AuthenticationService } from '../../../../authentication/authentication.service';
 import { DomainChanges } from '../../../domain/changes/domain-changes';
 import { DomainChangesRepository } from '../../../domain/changes/store/domain-changes.repository';
+import { TemplateSet } from './template-set';
 
 
 @Injectable()
-export class TemplateSetsRepository extends SmartRepository<Array<string>> {
+export class TemplateSetsRepository extends SmartRepository<Array<TemplateSet>> {
 
 	constructor(private readonly firebaseTemplateSets: FirebaseTemplateSetsService,
 				private readonly domainChangesRepository: DomainChangesRepository,
@@ -19,7 +20,7 @@ export class TemplateSetsRepository extends SmartRepository<Array<string>> {
 		super();
 	}
 
-	getValuesFromApi(): Observable<Array<string>> {
+	getValuesFromApi(): Observable<Array<TemplateSet>> {
 		return this.authService
 				   .onLoggedIn()
 				   .pipe(
@@ -29,15 +30,15 @@ export class TemplateSetsRepository extends SmartRepository<Array<string>> {
 							   ? this.onValuesWithLoggedInUser(storedTemplateSets, loggedIn)
 							   : of(storedTemplateSets);
 					   }),
-					   map((templateSets: Array<string>) => {
+					   map((templateSets: Array<TemplateSet>) => {
 						   return !!templateSets?.length ? templateSets : [];
 					   }),
 					   take(1)
 				   );
 	}
 
-	private onValuesWithLoggedInUser(storedTemplateSets: Array<string>,
-									 loggedIn: boolean): Observable<Array<string>> {
+	private onValuesWithLoggedInUser(storedTemplateSets: Array<TemplateSet>,
+									 loggedIn: boolean): Observable<Array<TemplateSet>> {
 		return this.domainChangesRepository
 				   .onValues()
 				   .pipe(
@@ -50,7 +51,7 @@ export class TemplateSetsRepository extends SmartRepository<Array<string>> {
 							   ? of(storedTemplateSets)
 							   : this.firebaseTemplateSets.getTemplateSets()
 									 .pipe(
-										 map((templateSets: Array<string>) => {
+										 map((templateSets: Array<TemplateSet>) => {
 											 this.templatesStorage.storeTemplateSet(loggedIn, templateSets);
 											 return templateSets;
 										 })

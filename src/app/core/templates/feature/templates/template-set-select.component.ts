@@ -5,6 +5,7 @@ import { Reactive } from '../../../../common/cdk/reactive';
 import { ActiveTemplateSetService } from '../../store/sets/active-template-set.service';
 import { distinctUntilChanged } from 'rxjs/operators';
 import { TemplatesService } from '../../store/templates/templates.service';
+import { TemplateSet } from '../../store/sets/template-set';
 
 
 @Component({
@@ -13,10 +14,10 @@ import { TemplatesService } from '../../store/templates/templates.service';
 		<mat-form-field appearance="fill">
 			<mat-label>Template set</mat-label>
 			<mat-select [formControl]="form">
-				<mat-option *ngFor="let templateSetName of templateSets"
-							[value]="templateSetName"
-							(click)="selectTemplateSet(templateSetName)">
-					{{templateSetName}}
+				<mat-option *ngFor="let templateSet of templateSets"
+							[value]="templateSet.name"
+							(click)="selectTemplateSet(templateSet)">
+					{{templateSet.name}}
 				</mat-option>
 			</mat-select>
 		</mat-form-field>
@@ -31,7 +32,7 @@ export class TemplateSetSelectComponent extends Reactive implements OnInit {
 
 	form = new FormControl();
 
-	templateSets: string[];
+	templateSets: Array<TemplateSet>;
 
 	constructor(private readonly templateSetsRepository: TemplateSetsRepository,
 				private readonly templatesService: TemplatesService,
@@ -44,7 +45,7 @@ export class TemplateSetSelectComponent extends Reactive implements OnInit {
 		this.templateSetsRepository
 			.onValues()
 			.pipe(this.takeUntil())
-			.subscribe((templateSets: Array<string>) => {
+			.subscribe((templateSets: Array<TemplateSet>) => {
 				this.templateSets = templateSets;
 				this.changeDetectorRef.detectChanges();
 			});
@@ -54,15 +55,15 @@ export class TemplateSetSelectComponent extends Reactive implements OnInit {
 			.pipe(
 				distinctUntilChanged(),
 				this.takeUntil())
-			.subscribe((activeTemplateName: string) => {
-				this.form.setValue(activeTemplateName);
+			.subscribe((templateSet: TemplateSet) => {
+				this.form.setValue(templateSet.name);
 				this.changeDetectorRef.detectChanges();
 			});
 	}
 
-	selectTemplateSet(templateSetName: string): void {
-		this.activeTemplateSetService.selectTemplateSet(templateSetName);
-		this.templatesService.loadTemplates(templateSetName);
+	selectTemplateSet(templateSet: TemplateSet): void {
+		this.activeTemplateSetService.selectTemplateSet(templateSet);
+		this.templatesService.loadTemplates(templateSet);
 	}
 
 }

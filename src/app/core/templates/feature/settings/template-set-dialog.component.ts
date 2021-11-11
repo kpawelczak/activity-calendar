@@ -64,7 +64,7 @@ export class TemplateSetDialogComponent extends ActivityCalendarForm implements 
 
 	ngOnInit() {
 		if (this.isEdit()) {
-			this.form.controls['name'].setValue(this.templateSetDialogData.templateSetName);
+			this.form.controls['name'].setValue(this.templateSetDialogData.templateSet.name);
 		}
 	}
 
@@ -90,7 +90,7 @@ export class TemplateSetDialogComponent extends ActivityCalendarForm implements 
 
 	private editTemplateSet(templateSetName: string): void {
 		this.templateSetsService
-			.editTemplateSetName(templateSetName, this.templateSetDialogData.templateSetName)
+			.editTemplateSetName(templateSetName, this.templateSetDialogData.templateSet)
 			.pipe(
 				this.takeUntil()
 			)
@@ -119,6 +119,6 @@ export class TemplateSetDialogComponent extends ActivityCalendarForm implements 
 	}
 
 	private isEdit(): boolean {
-		return !!this.templateSetDialogData.templateSetName;
+		return !!this.templateSetDialogData.templateSet;
 	}
 }

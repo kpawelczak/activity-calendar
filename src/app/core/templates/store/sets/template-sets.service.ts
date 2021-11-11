@@ -6,29 +6,28 @@ import { Observable } from 'rxjs';
 import { ActiveTemplateSetService } from './active-template-set.service';
 import { TemplatesService } from '../templates/templates.service';
 import { FirebaseTemplateService } from '../../infrastructure/firebase-template.service';
-import { WeekdayTemplate } from '../weekday-template';
-import { TemplatesRepository } from '../templates/templates.repository';
-import { TemplateActivity } from '../../template-activity';
-import { defaultTemplateSetName } from './default-template-set-name';
+import { Reactive } from '../../../../common/cdk/reactive';
+import { TemplateSet } from './template-set';
+import { defaultTemplateSet } from './default-template-set-name';
 
 @Injectable()
-export class TemplateSetsService {
+export class TemplateSetsService extends Reactive {
 
 	constructor(private readonly firebaseTemplateSetsService: FirebaseTemplateSetsService,
 				private readonly firebaseTemplateService: FirebaseTemplateService,
 				private readonly activeTemplateSetService: ActiveTemplateSetService,
 				private readonly templateSetsRepository: TemplateSetsRepository,
-				private readonly templatesService: TemplatesService,
-				private readonly templatesRepository: TemplatesRepository) {
+				private readonly templatesService: TemplatesService) {
+		super();
 	}
 
 	addTemplateSetName(templateSetName: string): Observable<boolean> {
 		return this.firebaseTemplateSetsService
 				   .addTemplate(templateSetName)
 				   .pipe(
-					   map(() => {
+					   map((templateSet: TemplateSet) => {
 						   const currentTemplateSets = [...this.templateSetsRepository.getValues()],
-							   newTemplateSets = currentTemplateSets.concat(templateSetName);
+							   newTemplateSets = currentTemplateSets.concat(templateSet);
 						   this.templateSetsRepository.next(newTemplateSets);
 						   return !!newTemplateSets;
 					   }),
@@ -36,11 +35,15 @@ export class TemplateSetsService {
 				   );
 	}
 
-	editTemplateSetName(newTemplateSetName: string, oldTemplateSetName: string): Observable<boolean> {
+	editTemplateSetName(newTemplateSetName: string, oldTemplateSet: TemplateSet): Observable<boolean> {
 		const templateSets = this.templateSetsRepository.getValues(),
-			oldTemplateSetNameIndex = templateSets.findIndex((templateSetName: string) => templateSetName === oldTemplateSetName);
+			oldTemplateSetNameIndex = templateSets.findIndex((templateSet: TemplateSet) => templateSet.uuid === oldTemplateSet.uuid),
+			updatedTemplateSet = {
+				...oldTemplateSet,
+				name: newTemplateSetName
+			};
 
-		templateSets[oldTemplateSetNameIndex] = newTemplateSetName;
+		templateSets[oldTemplateSetNameIndex] = updatedTemplateSet;
 
 		return this.firebaseTemplateSetsService
 				   .editTemplate(templateSets)
@@ -50,30 +53,13 @@ export class TemplateSetsService {
 						   return !!templateSets;
 					   }),
 					   switchMap(() => {
-						   return this.templatesRepository.onValues();
-					   }),
-					   map((templates: Array<WeekdayTemplate>) => {
-						   templates.forEach((weekdayTemplate: WeekdayTemplate) => {
-							   weekdayTemplate.getTemplates()
-											  .forEach((templateActivity: TemplateActivity) => {
-												  if (templateActivity.templateSetName === oldTemplateSetName) {
-													  this.firebaseTemplateService
-														  .editActivityTemplate(templateActivity, newTemplateSetName)
-														  .subscribe();
-												  }
-											  });
-						   });
-
-						   return !!templates;
-					   }),
-					   switchMap(() => {
 						   return this.activeTemplateSetService.onValues();
 					   }),
-					   map((activeTemplateSet: string) => {
+					   map((activeTemplateSet: TemplateSet) => {
 
-						   if (activeTemplateSet === oldTemplateSetName) {
-							   this.activeTemplateSetService.selectTemplateSet(newTemplateSetName);
-							   this.templatesService.loadTemplates(newTemplateSetName); // Todo;
+						   if (activeTemplateSet.uuid === oldTemplateSet.uuid) {
+							   this.activeTemplateSetService.selectTemplateSet(updatedTemplateSet);
+							   this.templatesService.loadTemplates(updatedTemplateSet);
 						   }
 
 						   return !!activeTemplateSet;
@@ -81,42 +67,26 @@ export class TemplateSetsService {
 				   );
 	}
 
-	deleteTemplate(templateSetName: string): Observable<boolean> {
+	deleteTemplate(templateSet: TemplateSet): Observable<boolean> {
 		return this.firebaseTemplateSetsService
-				   .deleteTemplate(templateSetName)
+				   .deleteTemplate(templateSet)
 				   .pipe(
 					   map(() => {
 						   const currentTemplateSets = [...this.templateSetsRepository.getValues()],
-							   newTemplateSets = this.getTemplateSetsWithRemovedItem(templateSetName, currentTemplateSets);
+							   newTemplateSets = this.getTemplateSetsWithRemovedItem(templateSet, currentTemplateSets);
 
 						   this.templateSetsRepository.next(newTemplateSets);
 
 						   return !!newTemplateSets;
 					   }),
 					   switchMap(() => {
-						   return this.templatesRepository.onValues();
-					   }),
-					   map((templates: Array<WeekdayTemplate>) => {
-
-						   templates.forEach((weekdayTemplate: WeekdayTemplate) => {
-							   weekdayTemplate.getTemplates()
-											  .forEach((templateActivity: TemplateActivity) => {
-												  this.firebaseTemplateService
-													  .deleteTemplateActivity(templateActivity.templateUUID)
-													  .then();
-											  });
-						   });
-
-						   return !!templates;
-					   }),
-					   switchMap(() => {
 						   return this.activeTemplateSetService.onValues();
 					   }),
-					   map((activeTemplateSet: string) => {
+					   map((activeTemplateSet: TemplateSet) => {
 
-						   if (activeTemplateSet === templateSetName) {
-							   this.activeTemplateSetService.selectTemplateSet(defaultTemplateSetName);
-							   this.templatesService.loadTemplates(defaultTemplateSetName);
+						   if (activeTemplateSet.uuid === templateSet.uuid) {
+							   this.activeTemplateSetService.selectTemplateSet(defaultTemplateSet);
+							   this.templatesService.loadTemplates(templateSet);
 						   }
 
 						   return !!activeTemplateSet;
@@ -125,7 +95,7 @@ export class TemplateSetsService {
 				   );
 	}
 
-	private getTemplateSetsWithRemovedItem(deletedTemplateSetName: string, templateSetNames: Array<string>): Array<string> {
-		return templateSetNames.filter((templateSetName) => templateSetName !== deletedTemplateSetName);
+	private getTemplateSetsWithRemovedItem(deletedTemplateSetName: TemplateSet, templateSets: Array<TemplateSet>): Array<TemplateSet> {
+		return templateSets.filter((templateSetName: TemplateSet) => templateSetName.uuid !== deletedTemplateSetName.uuid);
 	}
 }

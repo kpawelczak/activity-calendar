@@ -8,7 +8,7 @@ import { map, take } from 'rxjs/operators';
 import { TemplateActivity } from '../template-activity';
 import { WeekdayTemplate } from '../store/weekday-template';
 import { WeekdayTemplates } from '../store/weekday-templates';
-import { defaultTemplateSetName } from '../store/sets/default-template-set-name';
+import { defaultTemplateSet } from '../store/sets/default-template-set-name';
 import Database = firebase.database.Database;
 
 
@@ -20,12 +20,13 @@ export class FirebaseTemplatesService extends ProfileCollection {
 		super(profileService, angularFirestore);
 	}
 
-	loadTemplates(templateSetName: string): Observable<Array<WeekdayTemplate>> {
+	loadTemplates(templateSetUUID: string): Observable<Array<WeekdayTemplate>> {
 		return this.profileCollection()
 				   .doc('templates')
 				   .collection('templates', (ref: CollectionReference<Database>) => {
-					   const setName = templateSetName ? templateSetName : defaultTemplateSetName;
-					   return ref.where('templateSetName', '==', setName);
+					   const setUUID = templateSetUUID ? templateSetUUID : defaultTemplateSet.uuid;
+					   // TODO templateSetName => templateSetUUID
+					   return ref.where('templateSetName', '==', setUUID);
 				   })
 				   .valueChanges()
 				   .pipe(

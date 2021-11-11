@@ -6,7 +6,10 @@ import { from, Observable } from 'rxjs';
 import { map, take } from 'rxjs/operators';
 import firebase from 'firebase';
 import { AngularFirestoreDocument } from '@angular/fire/firestore/document/document';
+import { TemplateSet } from '../store/sets/template-set';
+import { v4 as uuidv4 } from 'uuid';
 import DocumentData = firebase.firestore.DocumentData;
+import { defaultTemplateSet } from '../store/sets/default-template-set-name';
 
 
 @Injectable()
@@ -17,36 +20,41 @@ export class FirebaseTemplateSetsService extends ProfileCollection {
 		super(profileService, angularFirestore);
 	}
 
-	getTemplateSets(): Observable<Array<string>> {
+	getTemplateSets(): Observable<Array<TemplateSet>> {
 		return this.templateSetsDocument()
 				   .valueChanges()
 				   .pipe(
 					   map((data: DocumentData) => {
 						   const templateSets = data?.templateSets;
 						   this.setDefaultTemplateSets(templateSets);
-						   return templateSets ? templateSets : ['default'];
+						   return templateSets ? templateSets : [defaultTemplateSet];
 					   }),
 					   take(1)
 				   );
 	}
 
-	editTemplate(templateSets: Array<string>): Observable<void> {
+	editTemplate(templateSets: Array<TemplateSet>): Observable<void> {
 		return from(this.templateSetsDocument()
 						.set({ templateSets }));
 	}
 
-	addTemplate(templateSetName: string): Observable<void> {
+	addTemplate(name: string): Observable<TemplateSet> {
+		const uuid = uuidv4(),
+			templateSet = { name, uuid };
 		return from(this.templateSetsDocument()
 						.update({
-							templateSets: firebase.firestore.FieldValue.arrayUnion(templateSetName)
+							templateSets: firebase.firestore.FieldValue.arrayUnion(templateSet)
 						})
-		);
+		)
+			.pipe(
+				map(() => templateSet)
+			);
 	}
 
-	deleteTemplate(templateSetName: string): Observable<void> {
+	deleteTemplate(templateSet: TemplateSet): Observable<void> {
 		return from(this.templateSetsDocument()
 						.update({
-							templateSets: firebase.firestore.FieldValue.arrayRemove(templateSetName)
+							templateSets: firebase.firestore.FieldValue.arrayRemove(templateSet)
 						}));
 	}
 
@@ -57,7 +65,7 @@ export class FirebaseTemplateSetsService extends ProfileCollection {
 				   .doc('sets');
 	}
 
-	private setDefaultTemplateSets(templateSets: Array<string>) {
+	private setDefaultTemplateSets(templateSets: Array<TemplateSet>) {
 		if (!templateSets) {
 			this.templateSetsDocument()
 				.set({ templateSets: ['default'] })

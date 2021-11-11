@@ -6,6 +6,7 @@ import { TemplateSetsService } from '../../store/sets/template-sets.service';
 import { MatDialog } from '@angular/material/dialog';
 import { TemplateSetDialogComponent } from './template-set-dialog.component';
 import { combineLatest } from 'rxjs';
+import { TemplateSet } from '../../store/sets/template-set';
 
 @Component({
 	template: `
@@ -37,7 +38,7 @@ import { combineLatest } from 'rxjs';
 				<div>{{i + 1}}</div>
 
 				<div>
-					{{set}}
+					{{set.name}}
 				</div>
 
 				<mat-icon *ngIf="!isTemplateSetDefault(set)"
@@ -67,7 +68,7 @@ export class TemplatesSettingsComponent extends Reactive implements OnInit {
 
 	activeTemplateSet: string;
 
-	templateSets: Array<string>;
+	templateSets: Array<TemplateSet>;
 
 	constructor(private readonly templateSetsRepository: TemplateSetsRepository,
 				private readonly templateSetsService: TemplateSetsService,
@@ -85,34 +86,34 @@ export class TemplatesSettingsComponent extends Reactive implements OnInit {
 			.pipe(
 				this.takeUntil()
 			)
-			.subscribe(([templateSets, activeTemplateSet]: [Array<string>, string]) => {
+			.subscribe(([templateSets, activeTemplateSet]: [Array<TemplateSet>, string]) => {
 				this.templateSets = templateSets;
 				this.activeTemplateSet = activeTemplateSet;
 				this.changeDetectorRef.detectChanges();
 			});
 	}
 
-	openTemplateSetDialog(templateSetName?: string): void {
-		if (!this.isTemplateSetDefault(templateSetName)) {
+	openTemplateSetDialog(templateSet?: TemplateSet): void {
+		if (!this.isTemplateSetDefault(templateSet)) {
 			this.matDialog
 				.open(TemplateSetDialogComponent, {
 					panelClass: 'activity-calendar-dialog',
 					data: {
-						templateSetName
+						templateSet
 					}
 				});
 		}
 	}
 
-	isTemplateSetDefault(templateSetName: string): boolean {
-		return templateSetName === 'default';
+	isTemplateSetDefault(templateSet: TemplateSet): boolean {
+		return templateSet?.uuid === 'default';
 	}
 
-	deleteTemplateSet(templateSetName: string): void {
+	deleteTemplateSet(templateSet: TemplateSet): void {
 		event.preventDefault();
 		event.stopPropagation();
 		this.templateSetsService
-			.deleteTemplate(templateSetName)
+			.deleteTemplate(templateSet)
 			.subscribe();
 	}
 }

@@ -5,7 +5,8 @@ import { AngularFirestore } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import firebase from 'firebase';
-import { defaultTemplateSetName } from '../store/sets/default-template-set-name';
+import { defaultTemplateSet } from '../store/sets/default-template-set-name';
+import { TemplateSet } from '../store/sets/template-set';
 import DocumentData = firebase.firestore.DocumentData;
 
 
@@ -17,7 +18,7 @@ export class FirebaseActiveTemplateSetService extends ProfileCollection {
 		super(profileService, angularFirestore);
 	}
 
-	getActiveTemplateSet(): Observable<string> {
+	getActiveTemplateSet(): Observable<TemplateSet> {
 		return this.profileCollection()
 				   .doc('templates')
 				   .collection('template-sets')
@@ -25,28 +26,28 @@ export class FirebaseActiveTemplateSetService extends ProfileCollection {
 				   .valueChanges()
 				   .pipe(
 					   map((data: DocumentData) => {
-						   const templateName = data?.templateName;
-						   this.setDefaultTemplateSet(templateName);
-						   return templateName ? templateName : defaultTemplateSetName;
+						   const templateSet = data?.templateSet;
+						   this.setDefaultTemplateSet(templateSet);
+						   return templateSet ? templateSet : defaultTemplateSet;
 					   })
 				   );
 	}
 
-	changeActiveTemplateSet(templateName: string): Promise<void> {
+	changeActiveTemplateSet(templateSet: TemplateSet): Promise<void> {
 		return this.profileCollection()
 				   .doc('templates')
 				   .collection('template-sets')
 				   .doc('active')
-				   .update({ templateName });
+				   .update({ templateSet });
 	}
 
-	private setDefaultTemplateSet(templateName: string) {
-		if (!templateName) {
+	private setDefaultTemplateSet(templateSet: string) {
+		if (!templateSet) {
 			this.profileCollection()
 				.doc('templates')
 				.collection('template-sets')
 				.doc('active')
-				.set({ templateName: defaultTemplateSetName })
+				.set({ templateSet: defaultTemplateSet })
 				.finally();
 		}
 	}

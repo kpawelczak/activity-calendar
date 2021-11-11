@@ -4,6 +4,7 @@ import { LocalTemplateChanges, LocalTemplates, LocalTemplatesBySetName, LocalWee
 import { TemplatesConverter } from './templates.converter';
 import { WeekdayTemplate } from '../store/weekday-template';
 import { LocalTemplateChangesType } from './local-template-changes-type';
+import { TemplateSet } from '../store/sets/template-set';
 
 @Injectable()
 export class TemplatesStorage extends StorageArchive<LocalTemplates> {
@@ -26,7 +27,7 @@ export class TemplatesStorage extends StorageArchive<LocalTemplates> {
 			: null;
 	}
 
-	getStoredTemplates(templateSetName: string, loggedIn: boolean): Array<WeekdayTemplate> | null {
+	getStoredTemplates(templateSetName: TemplateSet, loggedIn: boolean): Array<WeekdayTemplate> | null {
 		return !!this.getStoredValue(this.getActivitiesExtendedKey(loggedIn))?.templatesBySetName
 			? this.getTemplateBySetName(
 				templateSetName,
@@ -35,21 +36,21 @@ export class TemplatesStorage extends StorageArchive<LocalTemplates> {
 			: null;
 	}
 
-	storeTemplates(templateSetName: string, templates: Array<WeekdayTemplate>, loggedIn: boolean): void {
+	storeTemplates(templateSet: TemplateSet, templates: Array<WeekdayTemplate>, loggedIn: boolean): void {
 		const key = this.getActivitiesExtendedKey(loggedIn);
 
 		let templatesBySetName = this.getStoredValue(key)?.templatesBySetName ? this.getStoredValue(key)?.templatesBySetName : [];
 
-		const templateBySetName = templatesBySetName.find((_templateBySetName) => _templateBySetName.templateSetName === templateSetName);
+		const templateBySetName = templatesBySetName.find((_templateBySetName) => _templateBySetName.templateSetUUID === templateSet.uuid);
 
 		if (templateBySetName) {
 			templatesBySetName = templatesBySetName.map((_templateBySetName: LocalTemplatesBySetName) => {
-				return _templateBySetName.templateSetName === templateSetName
-					? { templateSetName, templates } as any
+				return _templateBySetName.templateSetUUID === templateSet.uuid
+					? { templateSetUUID: templateSet.uuid, templates } as any
 					: _templateBySetName;
 			});
 		} else {
-			templatesBySetName.push({ templateSetName, templates } as any);
+			templatesBySetName.push({ templateSetUUID: templateSet.uuid, templates } as any);
 		}
 
 		const newStoredValues: LocalTemplates = {
@@ -59,13 +60,13 @@ export class TemplatesStorage extends StorageArchive<LocalTemplates> {
 		this.store(newStoredValues, key);
 	}
 
-	getStoredTemplateSets(loggedIn: boolean): Array<string> | null {
+	getStoredTemplateSets(loggedIn: boolean): Array<TemplateSet> | null {
 		return !!this.getStoredValue(this.getActivitiesExtendedKey(loggedIn))?.templateSets
 			? this.getStoredValue(this.getActivitiesExtendedKey(loggedIn))?.templateSets
 			: null;
 	}
 
-	storeTemplateSet(loggedIn: boolean, templateSets: Array<string>): void {
+	storeTemplateSet(loggedIn: boolean, templateSets: Array<TemplateSet>): void {
 		const key = this.getActivitiesExtendedKey(loggedIn),
 			newStoredValues: LocalTemplates = {
 				...this.getStoredValue(key),
@@ -119,12 +120,12 @@ export class TemplatesStorage extends StorageArchive<LocalTemplates> {
 		return this.templatesConverter.convertTemplates(localActivityConfigs);
 	}
 
-	private getTemplateBySetName(templateSetName: string,
+	private getTemplateBySetName(templateSet: TemplateSet,
 								 localTemplatesBySetName: Array<LocalTemplatesBySetName>): Array<WeekdayTemplate> {
 		const templatesBySetName
 			= localTemplatesBySetName
 			.find((templateBySetName: LocalTemplatesBySetName) => {
-				return templateBySetName.templateSetName === templateSetName;
+				return templateBySetName.templateSetUUID === templateSet.uuid;
 			});
 
 		return templatesBySetName

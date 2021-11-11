@@ -7,6 +7,7 @@ import { ActivityCalendarSnackbarService } from '../../../common/ui/activity-cal
 import { ActiveTemplateSetService } from '../store/sets/active-template-set.service';
 import { switchMap } from 'rxjs/operators';
 import { from, Observable } from 'rxjs';
+import { TemplateSet } from '../store/sets/template-set';
 
 
 @Injectable()
@@ -24,7 +25,7 @@ export class FirebaseTemplateService extends ProfileCollection {
 		return this.activeTemplateSetService
 				   .onValues()
 				   .pipe(
-					   switchMap((templateSetName: string) => {
+					   switchMap((templateSet: TemplateSet) => {
 						   return from(this.profileCollection()
 										   .doc('templates')
 										   .collection('templates')
@@ -34,7 +35,7 @@ export class FirebaseTemplateService extends ProfileCollection {
 											   name: templateActivity.name,
 											   quantifiedActivities: templateActivity.quantifiedActivities,
 											   templateUUID: UUID,
-											   templateSetName
+											   templateSetName: templateSet.uuid
 										   })
 										   .catch((error) => {
 											   this.acSnackBar.notify(error, { warn: true });
@@ -48,14 +49,14 @@ export class FirebaseTemplateService extends ProfileCollection {
 	}
 
 	editActivityTemplate(templateActivity: TemplateActivity,
-						 templateSetName: string): Observable<any> {
+						 templateSet: TemplateSet): Observable<any> {
 		return from(this.profileCollection()
 						.doc('templates')
 						.collection('templates')
 						.doc(templateActivity.templateUUID)
 						.set({
 							...templateActivity,
-							templateSetName
+							templateSetName: templateSet.uuid
 						})
 						.catch((error) => {
 							this.acSnackBar.notify(error, { warn: true });

@@ -1,5 +1,7 @@
+import { TemplateSet } from '../store/sets/template-set';
+
 export interface LocalTemplatesBySetName {
-	templateSetName: string;
+	templateSetUUID: string;
 	templates: Array<LocalWeekdayTemplate>;
 }
 
@@ -30,6 +32,6 @@ export interface LocalTemplateChanges {
 export interface LocalTemplates {
 	changes?: LocalTemplateChanges;
 	templatesBySetName?: Array<LocalTemplatesBySetName>;
-	templateSets?: Array<string>;
+	templateSets?: Array<TemplateSet>;
 	activeTemplate?: string;
 }

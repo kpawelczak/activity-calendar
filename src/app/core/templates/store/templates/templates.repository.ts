@@ -9,6 +9,7 @@ import { AuthenticationService } from '../../../../authentication/authentication
 import { DomainChanges } from '../../../domain/changes/domain-changes';
 import { TemplatesStorage } from '../../storage/templates.storage';
 import { map, switchMap, take } from 'rxjs/operators';
+import { TemplateSet } from '../sets/template-set';
 
 
 @Injectable()
@@ -28,10 +29,10 @@ export class TemplatesRepository extends SmartRepository<Array<WeekdayTemplate>>
 			this.activeTemplateSetService.onValues()
 		])
 			.pipe(
-				switchMap(([loggedIn, templateSetName]: [boolean, string]) => {
-					const storedTemplates = this.templatesStorage.getStoredTemplates(templateSetName, loggedIn);
+				switchMap(([loggedIn, templateSet]: [boolean, TemplateSet]) => {
+					const storedTemplates = this.templatesStorage.getStoredTemplates(templateSet, loggedIn);
 					return loggedIn
-						? this.onValuesWithLoggedInUser(templateSetName, storedTemplates, loggedIn)
+						? this.onValuesWithLoggedInUser(templateSet, storedTemplates, loggedIn)
 						: of(storedTemplates);
 				}),
 				map((weekdayTemplates: Array<WeekdayTemplate>) => {
@@ -41,7 +42,7 @@ export class TemplatesRepository extends SmartRepository<Array<WeekdayTemplate>>
 			);
 	}
 
-	onLoadTemplates(templateSetName: string): Observable<Array<WeekdayTemplate>> {
+	onLoadTemplates(templateSetName: TemplateSet): Observable<Array<WeekdayTemplate>> {
 		return this.authService
 				   .onLoggedIn()
 				   .pipe(
@@ -55,7 +56,7 @@ export class TemplatesRepository extends SmartRepository<Array<WeekdayTemplate>>
 				   );
 	}
 
-	private onValuesWithLoggedInUser(templateSetName: string,
+	private onValuesWithLoggedInUser(templateSet: TemplateSet,
 									 storedTemplates: Array<WeekdayTemplate>,
 									 loggedIn: boolean): Observable<Array<WeekdayTemplate>> {
 		return this.domainChangesRepository
@@ -68,17 +69,17 @@ export class TemplatesRepository extends SmartRepository<Array<WeekdayTemplate>>
 					   switchMap((checkStorage: boolean) => {
 						   return checkStorage && !!storedTemplates
 							   ? of(storedTemplates)
-							   : this.loadTemplatesFromFirebase(templateSetName, loggedIn);
+							   : this.loadTemplatesFromFirebase(templateSet, loggedIn);
 					   })
 				   );
 	}
 
-	private loadTemplatesFromFirebase(templateSetName: string, loggedIn: boolean): Observable<Array<WeekdayTemplate>> {
+	private loadTemplatesFromFirebase(templateSet: TemplateSet, loggedIn: boolean): Observable<Array<WeekdayTemplate>> {
 		return this.firebaseTemplatesService
-				   .loadTemplates(templateSetName)
+				   .loadTemplates(templateSet.uuid)
 				   .pipe(
 					   map((templates: Array<WeekdayTemplate>) => {
-						   this.templatesStorage.storeTemplates(templateSetName, templates, loggedIn);
+						   this.templatesStorage.storeTemplates(templateSet, templates, loggedIn);
 						   return templates;
 					   })
 				   );
