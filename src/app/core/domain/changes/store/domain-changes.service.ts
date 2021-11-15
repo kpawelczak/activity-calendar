@@ -64,6 +64,11 @@ export class DomainChangesService {
 				currentChanges.setTemplateSetsId(changesId);
 				break;
 			}
+
+			case DomainChangesType.ACTIVE_TEMPLATE: {
+				currentChanges.setActiveTemplateId(changesId);
+				break;
+			}
 		}
 
 		this.changesRepository.next(currentChanges);

@@ -10,11 +10,14 @@ export class DomainChanges {
 
 	private templateSets: string;
 
+	private activeTemplate: string;
+
 	constructor(activities?: string,
 				definedActivities?: string,
 				units?: string,
 				templates?: string,
-				templateSets?: string) {
+				templateSets?: string,
+				activeTemplate?: string) {
 		if (activities) {
 			this.activities = activities;
 		}
@@ -33,6 +36,10 @@ export class DomainChanges {
 
 		if (templateSets) {
 			this.templateSets = templateSets;
+		}
+
+		if (activeTemplate) {
+			this.activeTemplate = activeTemplate;
 		}
 	}
 
@@ -54,6 +61,14 @@ export class DomainChanges {
 
 	getTemplateSetsId(): string {
 		return this.templateSets ? this.templateSets : '-1';
+	}
+
+	getActiveTemplateId(): string {
+		return this.activeTemplate ? this.activeTemplate : '-1';
+	}
+
+	setActiveTemplateId(changesId: string): void {
+		this.activeTemplate = changesId;
 	}
 
 	setUnitsId(changesId: string): void {

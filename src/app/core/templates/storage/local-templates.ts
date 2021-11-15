@@ -33,5 +33,5 @@ export interface LocalTemplates {
 	changes?: LocalTemplateChanges;
 	templatesBySetName?: Array<LocalTemplatesBySetName>;
 	templateSets?: Array<TemplateSet>;
-	activeTemplate?: string;
+	activeTemplate?: TemplateSet;
 }

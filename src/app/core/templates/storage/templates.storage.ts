@@ -36,6 +36,18 @@ export class TemplatesStorage extends StorageArchive<LocalTemplates> {
 			: null;
 	}
 
+	getStoredTemplateSets(loggedIn: boolean): Array<TemplateSet> | null {
+		return !!this.getStoredValue(this.getActivitiesExtendedKey(loggedIn))?.templateSets
+			? this.getStoredValue(this.getActivitiesExtendedKey(loggedIn))?.templateSets
+			: null;
+	}
+
+	getStoredActiveTemplate(loggedIn: boolean): TemplateSet | null {
+		return !!this.getStoredValue(this.getActivitiesExtendedKey(loggedIn))?.activeTemplate
+			? this.getStoredValue(this.getActivitiesExtendedKey(loggedIn))?.activeTemplate
+			: null;
+	}
+
 	storeTemplates(templateSet: TemplateSet, templates: Array<WeekdayTemplate>, loggedIn: boolean): void {
 		const key = this.getActivitiesExtendedKey(loggedIn);
 
@@ -60,12 +72,6 @@ export class TemplatesStorage extends StorageArchive<LocalTemplates> {
 		this.store(newStoredValues, key);
 	}
 
-	getStoredTemplateSets(loggedIn: boolean): Array<TemplateSet> | null {
-		return !!this.getStoredValue(this.getActivitiesExtendedKey(loggedIn))?.templateSets
-			? this.getStoredValue(this.getActivitiesExtendedKey(loggedIn))?.templateSets
-			: null;
-	}
-
 	storeTemplateSet(loggedIn: boolean, templateSets: Array<TemplateSet>): void {
 		const key = this.getActivitiesExtendedKey(loggedIn),
 			newStoredValues: LocalTemplates = {
@@ -75,15 +81,26 @@ export class TemplatesStorage extends StorageArchive<LocalTemplates> {
 		this.store(newStoredValues, key);
 	}
 
-	updateChangesId(changesId: string, type: LocalTemplateChangesType): void {
-		const key = this.getActivitiesExtendedKey(true),
-			newStoredValues = {
+	storeActiveTemplateSet(loggedIn: boolean, templateSet: TemplateSet): void {
+		const key = this.getActivitiesExtendedKey(loggedIn),
+			newStoredValues: LocalTemplates = {
 				...this.getStoredValue(key),
-				changes: {
-					...this.getChangesIds(changesId, type)
-				}
+				activeTemplate: templateSet
 			};
 		this.store(newStoredValues, key);
+	}
+
+	updateChangesId(changesId: string, type: LocalTemplateChangesType): void {
+		if (changesId) {
+			const key = this.getActivitiesExtendedKey(true),
+				newStoredValues = {
+					...this.getStoredValue(key),
+					changes: {
+						...this.getChangesIds(changesId, type)
+					}
+				};
+			this.store(newStoredValues, key);
+		}
 	}
 
 	private getChangesIds(changesId: string, type: LocalTemplateChangesType): LocalTemplateChanges {
