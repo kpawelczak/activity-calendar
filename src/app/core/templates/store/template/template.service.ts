@@ -27,7 +27,7 @@ export class TemplateService {
 			name,
 			quantifiedActivities,
 			this.getTemplateUUID(templateActivity),
-			templateActivity?.templateSetName);
+			templateActivity?.templateSetUUID);
 
 		return this.firebaseTemplatesService
 				   .saveActivityToTemplate(changedTemplateActivity)

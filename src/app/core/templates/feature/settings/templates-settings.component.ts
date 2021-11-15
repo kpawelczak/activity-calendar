@@ -7,6 +7,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { TemplateSetDialogComponent } from './template-set-dialog.component';
 import { combineLatest } from 'rxjs';
 import { TemplateSet } from '../../store/sets/template-set';
+import { tap } from 'rxjs/operators';
 
 @Component({
 	template: `
@@ -114,6 +115,7 @@ export class TemplatesSettingsComponent extends Reactive implements OnInit {
 		event.stopPropagation();
 		this.templateSetsService
 			.deleteTemplate(templateSet)
+			.pipe(tap(console.log))
 			.subscribe();
 	}
 }

@@ -7,6 +7,6 @@ export class TemplateActivity {
 				readonly name: string,
 				readonly quantifiedActivities: Array<QuantifiedActivity>,
 				readonly templateUUID: string,
-				readonly templateSetName?: string) {
+				readonly templateSetUUID?: string) {
 	}
 }

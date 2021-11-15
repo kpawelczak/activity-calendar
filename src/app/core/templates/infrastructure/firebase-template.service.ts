@@ -35,7 +35,7 @@ export class FirebaseTemplateService extends ProfileCollection {
 											   name: templateActivity.name,
 											   quantifiedActivities: templateActivity.quantifiedActivities,
 											   templateUUID: UUID,
-											   templateSetName: templateSet.uuid
+											   templateSetUUID: templateSet.uuid
 										   })
 										   .catch((error) => {
 											   this.acSnackBar.notify(error, { warn: true });
@@ -56,7 +56,7 @@ export class FirebaseTemplateService extends ProfileCollection {
 						.doc(templateActivity.templateUUID)
 						.set({
 							...templateActivity,
-							templateSetName: templateSet.uuid
+							templateSetUUID: templateSet.uuid
 						})
 						.catch((error) => {
 							this.acSnackBar.notify(error, { warn: true });

@@ -18,6 +18,7 @@ export class FirebaseTemplatesService extends ProfileCollection {
 	constructor(profileService: ProfileService,
 				angularFirestore: AngularFirestore) {
 		super(profileService, angularFirestore);
+
 	}
 
 	loadTemplates(templateSetUUID: string): Observable<Array<WeekdayTemplate>> {
@@ -25,8 +26,7 @@ export class FirebaseTemplatesService extends ProfileCollection {
 				   .doc('templates')
 				   .collection('templates', (ref: CollectionReference<Database>) => {
 					   const setUUID = templateSetUUID ? templateSetUUID : defaultTemplateSet.uuid;
-					   // TODO templateSetName => templateSetUUID
-					   return ref.where('templateSetName', '==', setUUID);
+					   return ref.where('templateSetUUID', '==', setUUID);
 				   })
 				   .valueChanges()
 				   .pipe(
@@ -52,7 +52,7 @@ export class FirebaseTemplatesService extends ProfileCollection {
 				templateActivity.name,
 				templateActivity.quantifiedActivities,
 				templateActivity.templateUUID,
-				templateActivity.templateSetName);
+				templateActivity.templateSetUUID);
 
 			newWeekdayTemplates[newWeekdayIndex].addTemplate(newTemplateActivity);
 		});

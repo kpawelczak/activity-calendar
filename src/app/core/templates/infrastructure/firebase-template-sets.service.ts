@@ -7,9 +7,8 @@ import { map, take } from 'rxjs/operators';
 import firebase from 'firebase';
 import { AngularFirestoreDocument } from '@angular/fire/firestore/document/document';
 import { TemplateSet } from '../store/sets/template-set';
-import { v4 as uuidv4 } from 'uuid';
-import DocumentData = firebase.firestore.DocumentData;
 import { defaultTemplateSet } from '../store/sets/default-template-set-name';
+import DocumentData = firebase.firestore.DocumentData;
 
 
 @Injectable()
@@ -18,6 +17,7 @@ export class FirebaseTemplateSetsService extends ProfileCollection {
 	constructor(profileService: ProfileService,
 				angularFirestore: AngularFirestore) {
 		super(profileService, angularFirestore);
+
 	}
 
 	getTemplateSets(): Observable<Array<TemplateSet>> {
@@ -38,17 +38,12 @@ export class FirebaseTemplateSetsService extends ProfileCollection {
 						.set({ templateSets }));
 	}
 
-	addTemplate(name: string): Observable<TemplateSet> {
-		const uuid = uuidv4(),
-			templateSet = { name, uuid };
+	addTemplate(templateSet: TemplateSet): Observable<void> {
 		return from(this.templateSetsDocument()
 						.update({
 							templateSets: firebase.firestore.FieldValue.arrayUnion(templateSet)
 						})
-		)
-			.pipe(
-				map(() => templateSet)
-			);
+		);
 	}
 
 	deleteTemplate(templateSet: TemplateSet): Observable<void> {
@@ -68,7 +63,7 @@ export class FirebaseTemplateSetsService extends ProfileCollection {
 	private setDefaultTemplateSets(templateSets: Array<TemplateSet>) {
 		if (!templateSets) {
 			this.templateSetsDocument()
-				.set({ templateSets: ['default'] })
+				.set({ templateSets: [defaultTemplateSet] })
 				.finally();
 		}
 	}
