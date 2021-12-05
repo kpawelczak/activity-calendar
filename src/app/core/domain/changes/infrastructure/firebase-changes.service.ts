@@ -24,6 +24,7 @@ export class FirebaseChangesService extends ProfileCollection {
 				   .valueChanges()
 				   .pipe(
 					   map((documentData: DocumentData) => {
+						   this.setDefaultChanges(documentData);
 						   return new DomainChanges(
 							   documentData?.activities,
 							   documentData?.definedActivities,
@@ -46,5 +47,21 @@ export class FirebaseChangesService extends ProfileCollection {
 			.pipe(
 				map(() => changesId)
 			);
+	}
+
+	private setDefaultChanges(documentData: DocumentData): void {
+		if (!documentData) {
+			this.profileCollection()
+				.doc('changes')
+				.set({
+					activeTemplate: '-1',
+					activities: '-1',
+					definedActivities: '-1',
+					templateSets: '-1',
+					templates: '-1',
+					units: '-1'
+				})
+				.finally();
+		}
 	}
 }

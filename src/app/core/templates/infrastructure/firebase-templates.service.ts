@@ -9,6 +9,7 @@ import { TemplateActivity } from '../template-activity';
 import { WeekdayTemplate } from '../store/weekday-template';
 import { WeekdayTemplates } from '../store/weekday-templates';
 import { defaultTemplateSet } from '../store/sets/default-template-set-name';
+import { QuantifiedActivity } from '../../../common/ui/quantified-activity/quantified-activity';
 import Database = firebase.database.Database;
 
 
@@ -50,7 +51,7 @@ export class FirebaseTemplatesService extends ProfileCollection {
 				= new TemplateActivity(
 				templateActivity.weekday,
 				templateActivity.name,
-				templateActivity.quantifiedActivities,
+				this.getQuantifiedActivities(templateActivity.quantifiedActivities),
 				templateActivity.templateUUID,
 				templateActivity.templateSetUUID);
 
@@ -58,5 +59,9 @@ export class FirebaseTemplatesService extends ProfileCollection {
 		});
 
 		return newWeekdayTemplates;
+	}
+
+	private getQuantifiedActivities(quantifiedActivities: Array<{ unit: string, value: string }>): Array<QuantifiedActivity> {
+		return quantifiedActivities.map((x: { unit: string, value: string }) => new QuantifiedActivity(x.value, x.unit));
 	}
 }

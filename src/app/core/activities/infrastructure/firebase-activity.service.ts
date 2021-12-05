@@ -4,6 +4,12 @@ import { CalendarActivity } from '../store/activities/calendar-activity';
 import { ProfileCollection } from '../../domain/profile/profile-collection';
 import { ProfileService } from '../../domain/profile/profile.service';
 import { ActivityCalendarSnackbarService } from '../../../common/ui/activity-calendar-snackbar/activity-calendar-snackbar.service';
+import { QuantifiedActivity } from '../../../common/ui/quantified-activity/quantified-activity';
+
+interface FirebaseQuantifiedActivity {
+	unit: string;
+	value: string;
+}
 
 @Injectable()
 export class FirebaseActivityService extends ProfileCollection {
@@ -21,6 +27,7 @@ export class FirebaseActivityService extends ProfileCollection {
 				   .doc(activity.getActivityUUID())
 				   .set({
 					   ...activity,
+					   quantifiedActivities: this.convertQuantifiedActivities(activity.quantifiedActivities),
 					   activityUUID: activity.getActivityUUID(),
 					   assignedTemplateUUID: activity.getAssignedTemplateUUID()
 				   })
@@ -40,7 +47,7 @@ export class FirebaseActivityService extends ProfileCollection {
 				   .set({
 					   ...activity,
 					   name: activity.name,
-					   quantifiedActivities: activity.quantifiedActivities
+					   quantifiedActivities: this.convertQuantifiedActivities(activity.quantifiedActivities)
 				   })
 				   .catch((error) => {
 					   this.acSnackBar.notify(error, { warn: true });
@@ -62,5 +69,12 @@ export class FirebaseActivityService extends ProfileCollection {
 				   .then(() => {
 					   this.acSnackBar.notify('Activity removed');
 				   });
+	}
+
+	private convertQuantifiedActivities(quantifiedActivities: Array<QuantifiedActivity>): Array<FirebaseQuantifiedActivity> {
+		return quantifiedActivities
+			.map((quantifiedActivity: QuantifiedActivity) => {
+				return { unit: quantifiedActivity.getUnit(), value: quantifiedActivity.getValue() };
+			});
 	}
 }

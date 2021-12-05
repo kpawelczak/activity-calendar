@@ -87,7 +87,6 @@
 }
 
 .ac-templates-set-item {
-	display: flex;
 	align-items: center;
 	padding: $grid*1.5 $grid / 2;
 	border-bottom: {
@@ -95,6 +94,8 @@
 		width: 1px;
 		color: $gray;
 	};
+	display: grid;
+	grid-template-columns: 50px 1fr 1fr 50px;
 
 	> div {
 		width: 100%;
