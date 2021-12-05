@@ -18,6 +18,10 @@ const routes: Routes = [
 		loadChildren: () => import('./routes/client/client.module').then(m => m.ClientModule),
 		canActivate: [ClientRootGuard]
 	},
+	{
+		path: RouteName.HOME,
+		loadChildren: () => import('./routes/home/home.module').then(m => m.HomeModule)
+	},
 	{ path: '**', redirectTo: RouteName.ENTRY, pathMatch: 'full' }
 ];
 
