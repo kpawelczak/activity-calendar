@@ -87,6 +87,7 @@
 }
 
 .ac-templates-set-item {
+	display: grid;
 	align-items: center;
 	padding: $grid*1.5 $grid / 2;
 	border-bottom: {
@@ -94,17 +95,7 @@
 		width: 1px;
 		color: $gray;
 	};
-	display: grid;
 	grid-template-columns: 50px 1fr 1fr 50px;
-
-	> div {
-		width: 100%;
-	}
-
-	> div:nth-child(1),
-	> div:nth-child(3) {
-		width: 50px;
-	}
 
 	&:nth-last-child(1) {
 		border-bottom: none;
