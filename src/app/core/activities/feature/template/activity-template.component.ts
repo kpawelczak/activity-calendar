@@ -100,7 +100,11 @@ export class ActivityTemplateComponent extends Reactive implements OnChanges, On
 	manageActivity(): void {
 		this.checked = !this.checked;
 		if (this.checked) {
-			this.selectedDayActivityService.addActivity(this.selectedDay, this.calendarActivity);
+			this.selectedDayActivityService.addActivity({
+				selectedDate: this.selectedDay,
+				name: this.calendarActivity.name,
+				entries: this.calendarActivity.quantifiedActivities
+			});
 		} else {
 			this.selectedDayActivityService.deleteActivity(this.selectedDay, this.calendarActivity);
 		}

@@ -8,6 +8,13 @@ import { ProfileService } from '../../domain/profile/profile.service';
 import { Observable } from 'rxjs';
 import Database = firebase.database.Database;
 import DocumentData = firebase.firestore.DocumentData;
+import { QuantifiedActivity } from '../../../common/ui/quantified-activity/quantified-activity';
+
+
+interface FirebaseQuantifiedActivity {
+	unit: string;
+	value: string;
+}
 
 @Injectable()
 export class FirebaseActivitiesService extends ProfileCollection {
@@ -36,7 +43,8 @@ export class FirebaseActivitiesService extends ProfileCollection {
 							   return new CalendarActivity(
 								   calendarActivity.day,
 								   calendarActivity.name,
-								   calendarActivity.quantifiedActivities,
+								   this.convertToQuantifiedActivities(calendarActivity.quantifiedActivities),
+								   // calendarActivity.quantifiedActivities,
 								   {
 									   activityUUID: calendarActivity.activityUUID,
 									   assignedTemplateUUID: calendarActivity.assignedTemplateUUID
@@ -53,5 +61,13 @@ export class FirebaseActivitiesService extends ProfileCollection {
 
 	private getStartOfTheMonth(year: number, month: number): number {
 		return new Date(year, month, 1).getTime();
+	}
+
+	private convertToQuantifiedActivities(quantifiedActivities: Array<FirebaseQuantifiedActivity>): Array<QuantifiedActivity> {
+		return quantifiedActivities ? quantifiedActivities
+			.map((quantifiedActivity: QuantifiedActivity) => {
+				return new QuantifiedActivity(quantifiedActivity.value, quantifiedActivity.unit);
+			})
+			: []
 	}
 }

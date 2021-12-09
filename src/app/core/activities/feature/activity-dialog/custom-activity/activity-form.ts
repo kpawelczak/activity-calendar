@@ -3,7 +3,7 @@ import { Type } from '@angular/core';
 import { AbstractFormArray } from '../../../../../common/cdk/form-array.abstract';
 import { QuantifiedActivity } from '../../../../../common/ui/quantified-activity/quantified-activity';
 
-interface ActivityFormAttributes {
+export interface ActivityFormAttributes {
 	name: string;
 	quantifiedActivities: Array<QuantifiedActivity>;
 }

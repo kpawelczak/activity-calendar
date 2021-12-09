@@ -92,38 +92,30 @@ export class ActivityDialogComponent extends Reactive implements OnInit {
 	}
 
 	private addActivity(): void {
-		const calendarActivity = new CalendarActivity(
-			this.selectedDayDialogData.selectedDay.getTime(),
-			this.getCurrentActivity().name,
-			this.getCurrentActivity().entries
-		);
-
 		this.selectedDayActivityService
-			.addActivity(
-				this.selectedDayDialogData.selectedDay,
-				calendarActivity
-			)
+			.addActivity({
+				selectedDate: this.selectedDayDialogData.selectedDay,
+				name: this.getCurrentActivity().name,
+				entries: this.getCurrentActivity().entries
+			})
 			.finally(() => {
 				this.onResponse();
 			});
 	}
 
 	private updateActivity(): void {
-		const calendarActivity = new CalendarActivity(
-			this.selectedDayDialogData.selectedActivity.day,
-			this.getCurrentActivity().name,
-			this.getCurrentActivity().entries,
-			{
-				activityUUID: this.selectedDayDialogData.selectedActivity.getActivityUUID()
-			}
-		);
-
-		if (this.selectedDayDialogData.selectedActivity.getAssignedTemplateUUID()) {
-			calendarActivity.setTemplateUUID(this.selectedDayDialogData.selectedActivity.getAssignedTemplateUUID());
-		}
+		const templateUUID = this.selectedDayDialogData.selectedActivity.getAssignedTemplateUUID(),
+			activityUUID = this.selectedDayDialogData.selectedActivity.getActivityUUID();
 
 		this.selectedDayActivityService
-			.updateActivity(this.selectedDayDialogData.selectedDay, calendarActivity)
+			.updateActivity({
+				selectedDate: this.selectedDayDialogData.selectedDay,
+				name: this.getCurrentActivity().name,
+				entries: this.getCurrentActivity().entries,
+				activityUUID,
+				selectedActivityDay: this.selectedDayDialogData.selectedActivity.day,
+				templateUUID
+			})
 			.finally(() => {
 				this.onResponse();
 			});

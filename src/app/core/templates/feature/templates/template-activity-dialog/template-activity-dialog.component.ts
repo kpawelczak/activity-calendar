@@ -3,9 +3,10 @@ import { UnitsRepository } from '../../../../activities-config/store/units/units
 import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
 import { TemplateActivityDialogData } from './template-activity-dialog-data';
 import { TemplateService } from '../../../store/template/template.service';
-import { ActivityFormEntry } from '../../../../activities/feature/activity-dialog/activity-form-entry';
+import { ActivityFormEntry, QuantifiedActivityFormEntry } from '../../../../activities/feature/activity-dialog/activity-form-entry';
 import { TemplateActivity } from '../../../template-activity';
 import { Reactive } from '../../../../../common/cdk/reactive';
+import { QuantifiedActivity } from '../../../../../common/ui/quantified-activity/quantified-activity';
 
 @Component({
 	template: `
@@ -89,7 +90,16 @@ export class TemplateActivityDialogComponent extends Reactive implements OnInit 
 		if (this.getCurrentActivity()) {
 			this.loading = true;
 			const name = this.getCurrentActivity().name,
-				dimensionedActivities = this.getCurrentActivity().entries;
+				// TODO
+				dimensionedActivities
+					= this.getCurrentActivity()
+						  .entries
+						  .map((quantifiedActivityFormEntry: QuantifiedActivityFormEntry) => {
+							  return new QuantifiedActivity(
+								  quantifiedActivityFormEntry.value,
+								  quantifiedActivityFormEntry.unit
+							  );
+						  });
 
 			this.templateService
 				.saveActivityToTemplate(this.selectedTemplateDialogData.weekdayTemplate,

@@ -1,6 +1,9 @@
-import { QuantifiedActivity } from '../../../../common/ui/quantified-activity/quantified-activity';
+export interface QuantifiedActivityFormEntry {
+	value: string;
+	unit: string;
+}
 
 export interface ActivityFormEntry {
 	name: string;
-	entries: Array<QuantifiedActivity>;
+	entries: Array<QuantifiedActivityFormEntry>;
 }

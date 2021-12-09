@@ -5,7 +5,7 @@ export class CalendarActivity {
 
 	private assignedTemplateUUID: string = '-1';
 
-	private activityUUID: string;
+	private activityUUID: string = '-1';
 
 	constructor(readonly day: number,
 				readonly name: string,
