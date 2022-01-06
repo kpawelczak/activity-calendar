@@ -6,9 +6,9 @@ import { CalendarActivity } from '../store/activities/calendar-activity';
 import { ProfileCollection } from '../../domain/profile/profile-collection';
 import { ProfileService } from '../../domain/profile/profile.service';
 import { Observable } from 'rxjs';
+import { QuantifiedActivity } from '../../../common/ui/quantified-activity/quantified-activity';
 import Database = firebase.database.Database;
 import DocumentData = firebase.firestore.DocumentData;
-import { QuantifiedActivity } from '../../../common/ui/quantified-activity/quantified-activity';
 
 
 interface FirebaseQuantifiedActivity {
@@ -68,6 +68,6 @@ export class FirebaseActivitiesService extends ProfileCollection {
 			.map((quantifiedActivity: QuantifiedActivity) => {
 				return new QuantifiedActivity(quantifiedActivity.value, quantifiedActivity.unit);
 			})
-			: []
+			: [];
 	}
 }

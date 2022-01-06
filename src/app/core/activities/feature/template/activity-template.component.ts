@@ -103,7 +103,9 @@ export class ActivityTemplateComponent extends Reactive implements OnChanges, On
 			this.selectedDayActivityService.addActivity({
 				selectedDate: this.selectedDay,
 				name: this.calendarActivity.name,
-				entries: this.calendarActivity.quantifiedActivities
+				entries: this.calendarActivity.quantifiedActivities,
+				activityUUID: this.calendarActivity.getActivityUUID(),
+				templateUUID: this.calendarActivity.getAssignedTemplateUUID()
 			});
 		} else {
 			this.selectedDayActivityService.deleteActivity(this.selectedDay, this.calendarActivity);
