@@ -8,6 +8,7 @@ import { ActiveTemplateSetService } from '../store/sets/active-template-set.serv
 import { switchMap } from 'rxjs/operators';
 import { from, Observable } from 'rxjs';
 import { TemplateSet } from '../store/sets/template-set';
+import { QuantifiedActivity } from '../../../common/ui/quantified-activity/quantified-activity';
 
 
 @Injectable()
@@ -33,7 +34,7 @@ export class FirebaseTemplateService extends ProfileCollection {
 										   .set({
 											   weekday: templateActivity.weekday,
 											   name: templateActivity.name,
-											   quantifiedActivities: templateActivity.quantifiedActivities,
+											   quantifiedActivities: this.convertQuantifiedActivities(templateActivity.quantifiedActivities),
 											   templateUUID: UUID,
 											   templateSetUUID: templateSet.uuid
 										   })
@@ -78,4 +79,13 @@ export class FirebaseTemplateService extends ProfileCollection {
 				   });
 	}
 
+	// todo separate class
+	private convertQuantifiedActivities(quantifiedActivities: Array<QuantifiedActivity>) {
+		return quantifiedActivities.map((quantifiedActivity: QuantifiedActivity) => {
+			return {
+				value: quantifiedActivity.value,
+				unit: quantifiedActivity.unit
+			};
+		});
+	}
 }
